@@ -1,0 +1,4 @@
+var structzb__zcl__device__management__set__event__cfg__payload__s_1_1zb__zcl__device__management__s4389955bf8c6aff7951b305eed023612 =
+[
+    [ "log_id", "structzb__zcl__device__management__set__event__cfg__payload__s_1_1zb__zcl__device__management__s4389955bf8c6aff7951b305eed023612.html#a804dd1c05ca85c4c98f2d2a67acb904a", null ]
+];

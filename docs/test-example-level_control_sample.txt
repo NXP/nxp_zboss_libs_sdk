@@ -1,0 +1,177 @@
+Test Scripts - SDK Samples
+=============================
+ Objective:
+   Test and test scripts under SDK Samples context, performs high-level/functionality checks.
+
+ Devices:
+   1. ZC - level_control_zc
+   2. ZED_ZCL_LEGACY_MODE - level_control_zed_legacy_mode
+   3. ZED_ZCL_AUTO_MODE - level_control_zed_auto_mode
+   4. ZED_ZCL_COMPATIBILITY_MODE - level_control_zed_compatibility_mode
+
+ Initial conditions:
+   1. All devices are factory new and powered off until used.
+
+ Test procedure:
+   Item 1. Turn ZC on.
+   Item 2. Turn ZED on
+
+ Expected outcome:
+
+    ZC against ZED_ZCL_LEGACY_MODE
+    For 'Test procedure' item 1:
+      1.1. ZC -> Broadcast: Beacon Request
+    For 'Test procedure' item 2:
+      2.1. ZC -> Broadcast: Beacon
+      2.2. ZED -> ZC: Association
+      2.3. ZED -> ZC: BDB commissioning
+      2.4. ZED -> ZC: Simple Descriptor Request
+      2.5. ZC -> ZED: Simple Descriptor Response
+      2.6. ZED-> ZC: Read Attributes
+      2.7. ZC-> ZED: Read Attributes Response
+      2.8. ZED-> ZC: Move To Level ZCL command (pre-ZCL8 format)
+      2.9. ZC-> ZED: Default Response
+      2.10. ZED-> ZC: Read Attributes
+      2.11. ZC-> ZED: Read Attributes Response
+      2.12. ZED-> ZC: Move ZCL command (pre-ZCL8 format)
+      2.13. ZC-> ZED: Default Response
+      2.14. ZED-> ZC: Read Attributes
+      2.15. ZC-> ZED: Read Attributes Response
+      2.16. ZED-> ZC: Stop ZCL command (pre-ZCL8 format)
+      2.17. ZC-> ZED: Default Response
+      2.18. ZED-> ZC: Read Attributes
+      2.19. ZC-> ZED: Read Attributes Response
+      2.20. ZED-> ZC: Step ZCL command (pre-ZCL8 format)
+      2.21. ZC-> ZED: Default Response
+      2.22. ZED-> ZC: Read Attributes
+      2.23. ZC-> ZED: Read Attributes Response
+      2.24. ZED-> ZC: Step ZCL command (pre-ZCL8 format)
+      2.25. ZC-> ZED: Default Response
+      2.26. ZED-> ZC: Read Attributes
+      2.27. ZC-> ZED: Read Attributes Response
+      2.28. ZED-> ZC: Move To Level ZCL command (ZCL8 format)
+      2.29. ZC-> ZED: Default Response
+      2.30. ZED-> ZC: Read Attributes
+      2.31. ZC-> ZED: Read Attributes Response
+      2.32. ZED-> ZC: Move ZCL command (ZCL8 format)
+      2.33. ZC-> ZED: Default Response
+      2.34. ZED-> ZC: Read Attributes
+      2.35. ZC-> ZED: Read Attributes Response
+      2.36. ZED-> ZC: Stop ZCL command (ZCL8 format)
+      2.37. ZC-> ZED: Default Response
+      2.38. ZED-> ZC: Read Attributes
+      2.39. ZC-> ZED: Read Attributes Response
+      2.40. ZED-> ZC: Step ZCL command (ZCL8 format)
+      2.41. ZC-> ZED: Default Response
+      2.42. ZED-> ZC: Read Attributes
+      2.43. ZC-> ZED: Read Attributes Response
+      2.44. ZED-> ZC: Step ZCL command (ZCL8 format)
+      2.45. ZC-> ZED: Default Response
+      2.46. ZED-> ZC: Read Attributes
+      2.47. ZC-> ZED: Read Attributes Response
+
+    ZC against ZED_ZCL_AUTO_MODE
+    For 'Test procedure' item 1:
+      1.1. ZC -> Broadcast: Beacon Request
+    For 'Test procedure' item 2:
+      2.1. ZC -> Broadcast: Beacon
+      2.2. ZED -> ZC: Association
+      2.3. ZED -> ZC: BDB commissioning
+      2.4. ZED -> ZC: Simple Descriptor Request
+      2.5. ZC -> ZED: Simple Descriptor Response
+      2.6. ZED-> ZC: Read Attributes
+      2.7. ZC-> ZED: Read Attributes Response
+      2.8. ZED-> ZC: Move To Level ZCL command (ZCL8 format)
+      2.9. ZC-> ZED: Default Response
+      2.10. ZED-> ZC: Read Attributes
+      2.11. ZC-> ZED: Read Attributes Response
+      2.12. ZED-> ZC: Move ZCL command (ZCL8 format)
+      2.13. ZC-> ZED: Default Response
+      2.14. ZED-> ZC: Read Attributes
+      2.15. ZC-> ZED: Read Attributes Response
+      2.16. ZED-> ZC: Stop ZCL command (ZCL8 format)
+      2.17. ZC-> ZED: Default Response
+      2.18. ZED-> ZC: Read Attributes
+      2.19. ZC-> ZED: Read Attributes Response
+      2.20. ZED-> ZC: Step ZCL command (ZCL8 format)
+      2.21. ZC-> ZED: Default Response
+      2.22. ZED-> ZC: Read Attributes
+      2.23. ZC-> ZED: Read Attributes Response
+      2.24. ZED-> ZC: Step ZCL command (ZCL8 format)
+      2.25. ZC-> ZED: Default Response
+      2.26. ZED-> ZC: Read Attributes
+      2.27. ZC-> ZED: Read Attributes Response
+      2.28. ZED-> ZC: Move To Level ZCL command (ZCL8 format)
+      2.29. ZC-> ZED: Default Response
+      2.30. ZED-> ZC: Read Attributes
+      2.31. ZC-> ZED: Read Attributes Response
+      2.32. ZED-> ZC: Move ZCL command (ZCL8 format)
+      2.33. ZC-> ZED: Default Response
+      2.34. ZED-> ZC: Read Attributes
+      2.35. ZC-> ZED: Read Attributes Response
+      2.36. ZED-> ZC: Stop ZCL command (ZCL8 format)
+      2.37. ZC-> ZED: Default Response
+      2.38. ZED-> ZC: Read Attributes
+      2.39. ZC-> ZED: Read Attributes Response
+      2.40. ZED-> ZC: Step ZCL command (ZCL8 format)
+      2.41. ZC-> ZED: Default Response
+      2.42. ZED-> ZC: Read Attributes
+      2.43. ZC-> ZED: Read Attributes Response
+      2.44. ZED-> ZC: Step ZCL command (ZCL8 format)
+      2.45. ZC-> ZED: Default Response
+      2.46. ZED-> ZC: Read Attributes
+      2.47. ZC-> ZED: Read Attributes Response
+      
+ZC against ZED_ZCL_COMPATIBILITY_MODE
+    For 'Test procedure' item 1:
+      1.1. ZC -> Broadcast: Beacon Request
+    For 'Test procedure' item 2:
+      2.1. ZC -> Broadcast: Beacon
+      2.2. ZED -> ZC: Association
+      2.3. ZED -> ZC: BDB commissioning
+      2.4. ZED -> ZC: Simple Descriptor Request
+      2.5. ZC -> ZED: Simple Descriptor Response
+      2.6. ZED-> ZC: Read Attributes
+      2.7. ZC-> ZED: Read Attributes Response
+      2.8. ZED-> ZC: Read Attributes
+      2.9. ZC-> ZED: Read Attributes Response
+      2.10. ZED-> ZC: Move To Level ZCL command (ZCL8 format)
+      2.11. ZC-> ZED: Default Response
+      2.12. ZED-> ZC: Read Attributes
+      2.13. ZC-> ZED: Read Attributes Response
+      2.14. ZED-> ZC: Move ZCL command (ZCL8 format)
+      2.15. ZC-> ZED: Default Response
+      2.16. ZED-> ZC: Read Attributes
+      2.17. ZC-> ZED: Read Attributes Response
+      2.18. ZED-> ZC: Stop ZCL command (ZCL8 format)
+      2.19. ZC-> ZED: Default Response
+      2.20. ZED-> ZC: Read Attributes
+      2.21. ZC-> ZED: Read Attributes Response
+      2.22. ZED-> ZC: Step ZCL command (ZCL8 format)
+      2.23. ZC-> ZED: Default Response
+      2.24. ZED-> ZC: Read Attributes
+      2.25. ZC-> ZED: Read Attributes Response
+      2.26. ZED-> ZC: Step ZCL command (ZCL8 format)
+      2.27. ZC-> ZED: Default Response
+      2.28. ZED-> ZC: Read Attributes
+      2.29. ZC-> ZED: Read Attributes Response
+      2.30. ZED-> ZC: Move To Level ZCL command (ZCL8 format)
+      2.31. ZC-> ZED: Default Response
+      2.32. ZED-> ZC: Read Attributes
+      2.33. ZC-> ZED: Read Attributes Response
+      2.34. ZED-> ZC: Move ZCL command (ZCL8 format)
+      2.35. ZC-> ZED: Default Response
+      2.36. ZED-> ZC: Read Attributes
+      2.37. ZC-> ZED: Read Attributes Response
+      2.38. ZED-> ZC: Stop ZCL command (ZCL8 format)
+      2.39. ZC-> ZED: Default Response
+      2.40. ZED-> ZC: Read Attributes
+      2.41. ZC-> ZED: Read Attributes Response
+      2.42. ZED-> ZC: Step ZCL command (ZCL8 format)
+      2.43. ZC-> ZED: Default Response
+      2.44. ZED-> ZC: Read Attributes
+      2.45. ZC-> ZED: Read Attributes Response
+      2.46. ZED-> ZC: Step ZCL command (ZCL8 format)
+      2.47. ZC-> ZED: Default Response
+      2.48. ZED-> ZC: Read Attributes
+      2.49. ZC-> ZED: Read Attributes Response

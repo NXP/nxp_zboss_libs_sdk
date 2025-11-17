@@ -1,0 +1,112 @@
+#/* ZBOSS Zigbee software protocol stack
+# *
+# * Copyright (c) 2012-2020 DSR Corporation, Denver CO, USA.
+# * www.dsr-zboss.com
+# * www.dsr-corporation.com
+# * All rights reserved.
+# *
+# * Copyright 2023-2024 NXP
+# *
+# * This is unpublished proprietary source code of DSR Corporation
+# * The copyright notice does not evidence any actual or intended
+# * publication of such source code.
+# *
+# * ZBOSS is a registered trademark of Data Storage Research LLC d/b/a DSR
+# * Corporation
+# *
+# * Commercial Usage
+# * Licensees holding valid DSR Commercial licenses may use
+# * this file in accordance with the DSR Commercial License
+# * Agreement provided with the Software or, alternatively, in accordance
+# * with the terms contained in a written agreement between you and
+# * DSR.
+#
+
+ROOT_DIR ?= ..
+INC_DIR=$(ROOT_DIR)/include
+LIB_DIR=$(ROOT_DIR)/libs
+
+CC    ?=  arm-linux-gnueabihf-gcc
+CXX   ?=  arm-linux-gnueabihf-g++
+LD    ?=  arm-linux-gnueabihf-ld
+AR    ?=  arm-linux-gnueabihf-ar
+RM   ?=  rm -f
+MAKE ?=  make -e
+
+include $(LIB_DIR)/build_type
+BUILD_TYPE=$(KERNEL_BUILD_TYPE)
+
+# Note: libzgp.gppb is for Zigbee Green Power / Green Power Proxy Basic, not for end devices, already included in libzboss.a
+
+LIBS_ZC = $(LIB_DIR)/libzboss.a
+
+LIBS_ZR = $(LIB_DIR)/libzboss.a
+
+LIBS_ZED = $(LIB_DIR)/libzboss.ed.a
+
+DFLAGS = -MT $@ -MMD -MP -MF $*.d
+CFLAGS = -fPIC -I$(LIB_DIR) -I$(INC_DIR) -I$(INC_DIR)/platform -I$(INC_DIR)/platform/osif
+#LDLIBS = -lpthread
+LFLAGS = $(LDLIBS) -Wl,--gc-sections -fPIC -Xlinker -Map=$@.map
+
+ifeq ($(BUILD_TYPE),release)
+CFLAGS += -O3
+LFLAGS += -s
+else
+# let's use debug settings by default
+CFLAGS += -g3 -O0 -DDEBUG -DUSE_ASSERT
+LFLAGS += -g
+endif
+
+%d: %.o
+
+%.o: %.c Makefile $(ROOT_DIR)/template/Options
+	$(CC) $(DFLAGS) $(CFLAGS) -c $< -o $@
+
+ifeq ($(SEPARATE_ZC_ZR),y)
+%.zc.o: %.c Makefile $(ROOT_DIR)/template/Options
+	$(CC) $(DFLAGS) $(CFLAGS) -DZB_COORDINATOR_ROLE -DZB_ROUTER_ROLE -c $< -o $@
+
+%.zr.o: %.c Makefile $(ROOT_DIR)/template/Options
+	$(CC) $(DFLAGS) $(CFLAGS) -DZB_ROUTER_ROLE -DZB_ROUTER_NO_ED -c $< -o $@
+endif
+
+%.ed.o: %.c Makefile $(ROOT_DIR)/template/Options
+	$(CC) $(DFLAGS) $(CFLAGS) -DZB_ED_ROLE -c $< -o $@
+
+
+#----------  help me ----------
+
+help:
+	@echo "all:    compiles $(BINS)"
+	@echo "clean:  removes objects, deps & $(BINS)"
+	@echo "deploy: transfers to imx (addr: IMX_IPADDR) the files:"
+	@echo "        ~/zboss-dual-pan:          zb_mux imx-dualpan.sh"
+	@echo "        ~/zboss-dual-pan/compiled: $(BINS)"
+	@echo "        => IMX_IPADDR=$(IMX_IPADDR) make deploy"
+	@echo "help:   this help"
+
+
+#----------  deploy on imx ----------
+
+deploy:
+	# test_ip_addr:
+	@echo "IMX addr IMX_IPADDR: ${IMX_IPADDR}"
+	ping -c 1 $(IMX_IPADDR)
+	# clean_previous:
+	@ssh root@$(IMX_IPADDR) 'rm -rf ~/zboss-dual-pan/zb_mux ~/zboss-dual-pan/imx-dualpan.sh ~/zboss-dual-pan/prebuild'
+	# deploy_prebuild:
+	@echo "\nCopy on IMX the mux & run script"
+	@scp $(ROOT_DIR)/bin/zb_mux                root@$(IMX_IPADDR):~/zboss-dual-pan/.
+	@scp $(ROOT_DIR)/scripts/*                 root@$(IMX_IPADDR):~/zboss-dual-pan/.
+	@echo "\nCreate on IMX the folder ~/zboss-dual-pan/prebuild"
+	@ssh root@$(IMX_IPADDR) 'mkdir -p ~/zboss-dual-pan/prebuild'
+	@echo "\nCopy on IMX the prebuild binaries"
+	@scp $(ROOT_DIR)/bin/examples/*            root@$(IMX_IPADDR):~/zboss-dual-pan/prebuild/.
+	# deploy_compiled:
+	@echo "\nCreate on IMX the folder ~/zboss-dual-pan/compiled"
+	@ssh root@$(IMX_IPADDR) 'mkdir -p ~/zboss-dual-pan/compiled'
+	@echo "\nCopy on IMX the compiled binaries"
+	@scp $(BINS)    root@$(IMX_IPADDR):~/zboss-dual-pan/compiled/.
+	@[ -n "$(MISC)" ] && scp $(MISC)    root@$(IMX_IPADDR):~/zboss-dual-pan/. || true
+

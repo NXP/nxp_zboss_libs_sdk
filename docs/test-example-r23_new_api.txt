@@ -1,0 +1,32 @@
+## R23 new API sample
+
+### Expected outcome
+
+1. R23 ZC forms a centralized network.
+1. R22 ZR joins to the R23 ZC's network (Joining and Using Key Assignment).
+1. R23 ZR joins to the R23 ZC's network (Dynamic Key negotiation before joining).
+1. R23 ZED joins to the R23 ZC's network (Dynamic Key negotiation before joining).
+   1. R23 ZC starts Device Interview with R23 ZED.
+   2. R23 ZC sends ZDO Node Descriptor Request to R23 ZED (NWK Addr of interest = ZED short address) and receives a response (response status is Success).
+   3. R23 ZC finishes Device Interview.
+1. R23 ZC sends ZDO Set Configuration Request to R23 ZED and receives a response (response status is Success).
+1. R23 ZC sends ZDO Mgmt Beacon Survey Request to R23 ZED and receives a response (response status is Success).
+1. R23 ZC sends Decommission Request to R23 ZR.
+   1. R23 ZC sends Bind req to R23 ZR.
+   2. R23 ZR sends Bind Response with status = Success
+   3. R23 ZC sends Mgmt Bind req to R23 ZR.
+   4. R23 ZR sends Binding Table response with status = Success and one record in the table.
+   5. R23 ZC sends Decommission req to R23 ZR.
+   6. R23 ZR sends Decommission response to R23 ZC (response status is Success).
+   7. R23 ZC sends Mgmt Bind req to R23 ZR.
+   8. R23 ZR sends Binding Table response with status = Success and zero records in the table.
+1. R23 ZC updates tclk for R23 ZR.
+   1. R23 ZC sends Security Start Key Update Request and receives a response (response status is Success).
+   2. R23 ZR sends Security Start Key Negotiation Request and receives a response (response status is Success).
+   3. R23 ZR sends Verify Key and R23 ZC responds with Confirm key.
+1. R23 ZC prepares network to the channel change.
+   1. R23 ZC sends ZDO Set Configuration Request to all devices and receives responses (response status is Success).
+   2. R23 ZC sends Network Update Request and changes active channel to current active channel + 1. If current channel is channel 26, then the new channel is 11.
+1. R23 ZC prepares network to the PAN ID change.
+   1. R23 ZC sends ZDO Set Configuration Request to all devices and receives responses (response status is Success).
+   2. R23 ZC sends Network Update Request and changes PAN ID.

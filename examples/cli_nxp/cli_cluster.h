@@ -1,0 +1,61 @@
+/*
+ * Copyright 2024-2025 NXP
+ *
+ * NXP Proprietary.
+ * This software is owned or controlled by NXP and may only be used strictly
+ * in accordance with the applicable license terms. By expressly accepting
+ * such terms or by downloading, installing, activating and/or otherwise using
+ * the software, you are agreeing that you have read, and that you agree to
+ * comply with and are bound by, such license terms. If you do not agree to be
+ * bound by the applicable license terms, then you may not retain, install,
+ * activate or otherwise use the software.
+ *
+ */
+
+#ifndef CLI_NXP_CLUSTER_H
+#define CLI_NXP_CLUSTER_H 1
+
+#include "zboss_api.h"
+
+
+/* if it returns false, the command will be manage by the stack
+ * if it returns true, the command will be ignore by the stack */
+typedef zb_uint8_t (*commands_handler_t)(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
+
+
+typedef struct {
+  zb_zcl_attr_t         *attr_desc_list;
+  zb_uint16_t            attr_count;
+  zb_zcl_cluster_init_t  init_server;
+  zb_zcl_cluster_init_t  init_client;
+  commands_handler_t     commands_handler;
+} zb_cluster_def;
+
+typedef struct {
+  zb_uint16_t     id;
+  char           *domain;
+  char           *name;
+  char           *initials;
+  char           *align;
+  zb_cluster_def *definition;
+} zb_cluster_entry;
+
+
+extern zb_cluster_entry table_clusters[];
+
+extern cli_menu_cmd menu_cluster[];
+
+void help_clusters(void);
+
+void cluster_init(uint8_t ep_id);
+
+void cluster_attributes_cb(zb_uint8_t param);
+
+zb_uint8_t cluster_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
+
+int wcs_snprintf_attr_val(char *str, size_t size, zb_uint8_t type, zb_uint8_t *value);
+int wcs_snprintf_attr_raw(char *str, size_t size, zb_uint8_t type, zb_uint8_t *value);
+
+
+#endif /* CLI_NXP_CLUSTER_H */
+

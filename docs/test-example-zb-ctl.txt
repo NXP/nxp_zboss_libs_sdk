@@ -1,0 +1,40 @@
+ Copyright 2025 NXP
+
+ NXP Proprietary.
+ This software is owned or controlled by NXP and may only be used strictly
+ in accordance with the applicable license terms. By expressly accepting
+ such terms or by downloading, installing, activating and/or otherwise using
+ the software, you are agreeing that you have read, and that you agree to
+ comply with and are bound by, such license terms. If you do not agree to be
+ bound by the applicable license terms, then you may not retain, install,
+ activate or otherwise use the software.
+
+
+./imx-dualpan.sh --zb zb_daemon_zczr --ot ot-daemon [--fw <IW612-firmware>]
+
+From another console:
+
+ot-ctl fwversion
+zb-ctl config get_version host
+...
+You can now run any ot commands, refer to openthread manuals
+You can now run any zb commands, refer to test-example-cli_nxp.txt
+
+Remark:
+By using zb-ctl to send a single command, the zb-ctl will close the connection to
+zb_daemon after receiving the command response (Ok or error) BUT it will not display
+the callback message from the stack to application.
+
+Example:
+
+$ zb-ctl zdo get_lqi 0x780B 0
+command: zdo get_lqi 0x780B 0
+get_lqi(0x780b) trans. seq num 5
+Ok
+$ (exited from zb-ctl)
+=> We have lost the callback message:
+" get_lqi_cb(0x780b, 5) Success, index 0, nb 1, total 1\n"
+" 	 LQI[0]: dest 0x0000, lqa 9 (diag_data: lqi: 8, rssi: -78)"
+In this case, it will be logged by zb_daemon_zczr:
+[13:27:42.540] zb_daemon_zczr: lost: get_lqi_cb(0x780b, 5) Success, index 0, nb 1, total 1
+[13:27:42.540] zb_daemon_zczr: lost: 	LQI[0]: dest 0x0000, lqa 9 (diag_data: lqi: 8, rssi: -78)

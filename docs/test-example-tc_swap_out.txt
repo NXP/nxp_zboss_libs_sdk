@@ -1,0 +1,11 @@
+## TC swap out sample
+
+### Expected outcome
+
+1. ZC forms a centralized network.
+2. ZED joins to the ZC's network.
+3. ZC does a swap out
+    1. ZC stores TC DB in NVRAM (only for demonstrate, in production TC DB must be backed up elsewhere).
+    2. Reboot ZC.
+    3. ZC simulates TCSO procedure: ZC restores DB, changes the ieee address, PAN ID (not an extended pan id!) and network key.
+4. ZED rejoins to the network using hashed TCLK as a Provisional key.

@@ -1,13 +1,16 @@
 NXP Software Content Register
-Release Date: November 2025
+Release Date:     Fri, 05 Dec 2025 12:36:10 +0000
 Outgoing License: LA_OPT_Online Code Hosting NXP_Software_License - v1.4 May 2025
-License in File: LICENSE
+License in File:  LICENSE
 
 --------------------------------------------
-Package:                   bin, docs, examples, include, libs, template
-Version:                   zoi_release-4.2.2.0
-Outgoing License:          DSR Proprietary License
+
+Package:                   include, libs, samples, zboss-api-user-guide
+Version:                   019.2601.007-zoi_release-4.2.2.0
+Outgoing License:          LA_OPT_Online Code Hosting NXP_Software_License - v1.4 May 2025
 Type of content:           Binary, Source Code, Scripts and Documentation
 Description and comments:  Zigbee Host Stack librairies and examples apps, Scripts and Documentation
 Origin:                    NXP (proprietary)
-                           Zboss (DSR Commercial license) - https://www.dsr-zboss.com/						   
+                           NXP (BSD-3)
+                           Zboss (proprietary)
+

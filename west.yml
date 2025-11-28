@@ -1,0 +1,47 @@
+# The west manifest file (west.yml) for the NXP Zephyr Zboss SDK
+#
+# The per-installation west configuration file, .west/config, sets the
+# path to the project containing this file in the [manifest] section's
+# "path" variable.
+#
+# You are free to create your own manifest files and put them in any
+# repository you want, to create your own custom Zephyr installations.
+# For example, you could create a manifest file in your own out of
+# tree application directory, which would pull this zephyr repository
+# in as an ordinary project.
+#
+# You can pass your manifest repositories to west init when creating a
+# new Zephyr installation. See the west documentation for more
+# information.
+#
+#     [manifest]
+#     path = modules/zboss
+#
+manifest:
+  version: "1.0"
+
+  # "remotes" is a list of locations where git repositories are cloned
+  # and fetched from.
+  remotes:
+    - name: zephyrproject
+      url-base: https://github.com/zephyrproject-rtos
+
+  # "projects" is a list of git repositories to populate NXP Zephyr Zboss SDK
+  # workspace.
+  projects:
+
+    - name: zephyr
+      remote: zephyrproject
+      repo-path: zephyr
+      revision: 2baee8af6d9f26a3c1b121725a488d4608ccc970
+      path: zephyr
+      west-commands: scripts/west-commands.yml
+      import:
+        name-allowlist:
+          - cmsis_6
+          - hal_nxp
+          - littlefs
+
+  self:
+      path: modules/zboss
+

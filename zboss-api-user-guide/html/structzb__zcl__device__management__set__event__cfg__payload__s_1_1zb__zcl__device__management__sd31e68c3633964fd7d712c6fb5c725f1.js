@@ -1,0 +1,5 @@
+var structzb__zcl__device__management__set__event__cfg__payload__s_1_1zb__zcl__device__management__sd31e68c3633964fd7d712c6fb5c725f1 =
+[
+    [ "event_id", "structzb__zcl__device__management__set__event__cfg__payload__s_1_1zb__zcl__device__management__sd31e68c3633964fd7d712c6fb5c725f1.html#aeed25d76c920e936e37c9bc31fbc9503", null ],
+    [ "event_num", "structzb__zcl__device__management__set__event__cfg__payload__s_1_1zb__zcl__device__management__sd31e68c3633964fd7d712c6fb5c725f1.html#afbcf12f3681bf9a4b1a9e63e3ee4c264", null ]
+];

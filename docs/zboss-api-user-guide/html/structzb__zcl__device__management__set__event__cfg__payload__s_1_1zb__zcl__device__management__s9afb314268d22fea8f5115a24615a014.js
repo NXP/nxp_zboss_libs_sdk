@@ -1,4 +1,0 @@
-var structzb__zcl__device__management__set__event__cfg__payload__s_1_1zb__zcl__device__management__s9afb314268d22fea8f5115a24615a014 =
-[
-    [ "event_group", "structzb__zcl__device__management__set__event__cfg__payload__s_1_1zb__zcl__device__management__s9afb314268d22fea8f5115a24615a014.html#a4dfbb930d15a83846613bed4c31c4d1a", null ]
-];

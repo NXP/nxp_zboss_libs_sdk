@@ -8,7 +8,7 @@
     ],
     "licenseListVersion": "3.20"
   },
-  "name": "nxp_zboss_libs_sdk-019.2601.007",
+  "name": "nxp_zboss_libs_sdk-019.2601.009",
   "dataLicense": "CC0-1.0",
   "hasExtractedLicensingInfos": [
     {
@@ -27,7 +27,7 @@
     {
       "SPDXID": "SPDXRef-package-1bf732e9-ee0e-45f4-8406-6ecec9abdf0f",
       "name": "nxp_zboss_libs_sdk",
-      "versionInfo": "019.2601.007",
+      "versionInfo": "019.2601.009",
       "licenseConcluded": "(LicenseRef-babf777f-042b-42df-a5bf-638993427038)",
       "licenseDeclared": "(LicenseRef-babf777f-042b-42df-a5bf-638993427038)",
       "downloadLocation": "NOASSERTION",

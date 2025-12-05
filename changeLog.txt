@@ -6,9 +6,11 @@
 2026-Q1:
 --------
 
-Zboss host: v019.2601.007
+Zboss host: v019.2601.009
 Zboss libs: 4.2.2.0
 
+- Add mcxw71 zephyr support for cli_nxp_zed (EAR2)
+- Add mcxw71 zephyr persistante storage (nvram) support on littlefs
 - Add mcxw71 zephyr support for onoff_switch_zed (EAR1)
 - Update imx-dualpan.sh script to make it independent of dtb version
 

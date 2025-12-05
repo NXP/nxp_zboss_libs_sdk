@@ -19,9 +19,9 @@
 Versioning:
 ===========
 
-Date:    Fri, 05 Dec 2025 12:36:10 +0000
-Version: 019.2601.007
-Sha1:    b92db0b
+Date:    Fri, 05 Dec 2025 14:44:14 +0000
+Version: 019.2601.009
+Sha1:    ab66422
 Zboss:   zoi_release-4.2.2.0
 
 
@@ -44,7 +44,11 @@ modules/zboss/
 │   │   ├── Kconfig                  => Zephyr Kconfig
 │   │   ├── prj.conf                 => Zephyr project config
 │   │   └── src
-│   │       └── *.c
+│   │       └── *.c/*.h
+│   ├── cli_nxp_zed                  => Sample of Command Line Interface
+│   │   ├── ...                      => Zephyr Application project
+│   │   └── src
+│   │       └── *.c/*.h              => Zboss Application Command Line Interface End Device
 │   └── on_off_switch_zed            => Sample of OnOff cluster
 │       ├── ...                      => Zephyr Application project
 │       └── src
@@ -148,8 +152,8 @@ Update hal_nxp blobs (for libieee & nbu firmware):
     west blobs fetch hal_nxp
 
 Compile sample application:
-    west build -b frdm_mcxw71               modules/zboss/samples/on_off_switch_zed -d _build/frdm_mcxw71/on_off_switch_zed -p
-    west build -b frdm_mcxw72/mcxw727c/cpu0 modules/zboss/samples/on_off_switch_zed -d _build/frdm_mcxw72/on_off_switch_zed -p
+    west build -b frdm_mcxw71               modules/zboss/samples/<app_name> -d _build/frdm_mcxw71/<app_name> -p
+    west build -b frdm_mcxw72/mcxw727c/cpu0 modules/zboss/samples/<app_name> -d _build/frdm_mcxw72/<app_name> -p
 
 
 Deployment & execution:

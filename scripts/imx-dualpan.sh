@@ -1,16 +1,8 @@
 #!/bin/bash
 #
 #
+# SPDX-License-Identifier: BSD-3-Clause
 # Copyright 2023-2025 NXP
-#
-# NXP Proprietary.
-# This software is owned or controlled by NXP and may only be used strictly
-# in accordance with the applicable license terms. By expressly accepting
-# such terms or by downloading, installing, activating and/or otherwise using
-# the software, you are agreeing that you have read, and that you agree to
-# comply with and are bound by, such license terms. If you do not agree to be
-# bound by the applicable license terms, then you may not retain, install,
-# activate or otherwise use the software.
 #
 #
 
@@ -44,8 +36,10 @@ coredump=0
 # cleanup all previous execution of zigbee (removes *.log, *.nvram, *.prod, *.dump, *.trace files)
 zbclean=0
 
-# Skip Script Interaction Questions
-skip_questions=0
+# firmware dump monitoring
+fw_dump_monitor=1
+fw_dump_dir="$(pwd)/fw_dumps"
+fw_dump_script="./fw-dump-monitor.sh"
 
 function usage()
 {
@@ -61,7 +55,6 @@ function usage()
 	echo "  --zb <zb appli>            Zigbee application"
 	echo "  --fw <firmware>            Firmware file to download (optional)"
 	echo "  --chip <IW612|IW610>       Define which chipset is used (default IW612)"
-	echo "  --sk                       Skip Script Interaction Questions"
 	echo
 	echo "At least one appli is mandatory, either zigbee or thread"
 	echo
@@ -90,17 +83,20 @@ function usage()
 	echo "  --zberr                    Track zb_mux & zb appli errors in zboss log file"
 	echo "  --dbgspi <0~3>             zb_mux debug SPI frames, bit field: 0: no log, 1: dump SPI header, 2: dump SPI data, 3: both raw & interpreted"
 	echo "  --dbgspinel <0~7>          zb_mux debug SPINEL frames, bit field: 0: no log, 1: dump SPINEL Raw data, 2: dump SPINEL interpreted data, 3: both raw & interpreted, 4: dump last SPINEL on app disconnect (enabled by default)"
+	echo "  --dbghci <0~1>             HCI Dump: 0: no log, 1: dump HCI Raw data (default)"
 	echo "  --otlog <0~6>              Openthread application log level (verbose forced)"
 	echo "  --dbgtty <0~3>             zb_app debug TTY frames, bit field: 0: dump TTY Raw data, 2: dump SPINEL in TTY-HDLC interpreted data, 3: both raw & interpreted"
 	echo "  --muxout <0~3>             zb_mux output bit field: 0: no log (wcs) on console, 1: log (wcs) on console (default), 2: log (wcs) on file zb_mux.console, 3: both"
 	echo "  --zbout <0~3>              zb_app output bit field: 0: no log (wcs) on console, 1: log (wcs) on console (default), 2: log (wcs) on file zb_app.console, 3: both"
-	echo "  --zblog <debug|release>    Zigbee Zboss log level (on file ${zb_app}.log)"
+	echo "  --zblog <debug|release>    Zigbee Zboss log level (on file ${zb_app}.log), release or debug or custom hexa value starting by 0x"
 	echo "  --gdbmux <port>            gdb debugging zb_mux on port specified"
 	echo "  --gdbapp <port>            gdb debugging zb_app on port specified"
 	echo "  --core                     generate coredump in ./coredumps in case of crash of the app (useful for debug build only)"
 	echo "  --zbclean                  cleanup all previous execution of zigbee (removes *.log, *.nvram, *.prod, *.dump, *.trace files)"
 	echo "  --logsh <postlogrotatesh>  script to be called by zb_mux/zb_app after a log file is rotated (every 50MB, keep only 3 last logs)"
 	echo "  --rw                       i.MX8 Mini rework for direct SPI_INT"
+	echo "  --fwdump <dir>             Monitor and save firmware dumps to specified directory (default: ./fw_dumps)"
+	echo "  --nofwdump                 Disable firmware dump monitoring"
 	echo
 	echo "spi_speed:   ${spi_speed}"
 	echo "mux_trace:   ${mux_trace}"
@@ -109,7 +105,6 @@ function usage()
 	echo "DUMP_SPI:    ${DUMP_SPI}"
 	echo "DUMP_SPINEL: ${DUMP_SPINEL}"
 	echo "DUMP_TTY:    ${DUMP_TTY}"
-	echo "DUMP_HCI:    ${DUMP_HCI}"
 	echo
 }
 
@@ -221,6 +216,7 @@ ot_prefix="fd11:22::/64"
 ot_region=""
 
 imx8_reworked=0
+btnxpuart_state_file="/run/udev/data/btnxpuart:serial0-0.state"
 
 # for zb_mux
 # Bit field: 0: no log (wcs) on console, 1: log (wcs) on console, 2: log (wcs) on file zb_mux.console, 3: both
@@ -235,9 +231,6 @@ export DUMP_SPINEL=4
 export ZB_APP_OUT=1
 # Bit field: 0: no log, 1: dump TTY Raw data, 2: dump SPINEL in TTY-HDLC interpreted data, 3: both
 export DUMP_TTY=0
-
-# Bit field: 0: no log, 1: dump HCI Raw data
-export DUMP_HCI=1
 
 while [ "$#" -gt 0 ]; do
 	case $1 in
@@ -268,14 +261,14 @@ while [ "$#" -gt 0 ]; do
 	--dbgspi)    shift; export DUMP_SPI=$1                    ;;
 	--dbgspinel) shift; export DUMP_SPINEL=$1                 ;;
 	--dbgtty)    shift; export DUMP_TTY=$1                    ;;
-	--dbghci)    shift; export DUMP_HCI=$1                    ;;
 	--gdbmux)    shift; gdb_mux=$1                            ;;
 	--gdbapp)    shift; gdb_app=$1                            ;;
 	--core)      coredump=1                                   ;;
 	--zbclean)   zbclean=1                                    ;;
 	--logsh)     shift; export ZB_LOGFILE_POST_ROTATE_SH=$1   ;;
-    --sk)        shift; skip_questions="1"                    ;;
 	--rw)        imx8_reworked=1; validate_imx8_reworked      ;;
+	--fwdump)    fw_dump_monitor=1; shift; fw_dump_dir=$1     ;;
+	--nofwdump)  fw_dump_monitor=0                            ;;
 	*)           echo "Unknown option $1"; echo "usage: ${me} --help"; exit 1 ;;
 	esac
 	shift
@@ -326,7 +319,7 @@ else
 fi
 
 echo "me:       ${me} ${me_5sum}"
-echo "version:  release 019.2503.022"
+echo "version:  release 019.2504.019"
 echo "channel:  ${channel}"
 echo "first:    ${first}"
 echo "second:   ${second}"
@@ -361,12 +354,13 @@ if [ "${run_level}" = "release" ]; then
 	export ZB_TRACE_MASK=0x00000800
 elif [ "${run_level}" = "debug" ]; then
 	echo "run_level in ${run_level} mode"
+	#Full logs but remove TRANSPORT and MACLL. TRANSPORT logs are already present in dbgspinel logs.
 	export ZB_TRACE_LEVEL=4
-	export ZB_TRACE_MASK=0xffffffff
+	export ZB_TRACE_MASK=0xffeeffff
 else
-	echo "run_level in unknown mode"
-	export ZB_TRACE_LEVEL=0
-	export ZB_TRACE_MASK=0x00000000
+	echo "run_level in custom mode"
+	export ZB_TRACE_LEVEL=4
+	export ZB_TRACE_MASK=${run_level}
 fi
 if [ -n "${ieee_addr}" ]; then
 	# Optional, extra config disabled by default, keep value configured by zb_set_long_address() in ${zb_app}:MAIN()
@@ -737,11 +731,7 @@ function cleanup_previous_zb_app()
 
 	# Check if user wants to keep NVRAM files
 	echo ""
-	if [ ${skip_questions} -eq 0 ]; then
-        read -p "Factory reset for ${this_app} [y/n] ([y] or [Enter]) ? " factory_reset
-    else
-        factory_reset="N"
-    fi
+	read -p "Factory reset for ${this_app} [y/n] ([y] or [Enter]) ? " factory_reset
 	case $factory_reset in
 		[Nn]*)
 			echo "Keep settings in ${this_app}.nvram"
@@ -772,11 +762,7 @@ function cleanup_previous_zb_app()
 	# Specific apps
 	if [ ${this_app} == "ota_client_zr" ]; then
 		echo ""
-		if [ ${skip_questions} -eq 0 ]; then
-            read -p "Purge previous OTA files [y/n] ([y] or [Enter]) ? " purge_ota
-        else
-            purge_ota="Y"
-        fi
+		read -p "Purge previous OTA files [y/n] ([y] or [Enter]) ? " purge_ota
 		case $factory_reset in
 			[Yy]*|*)
 				echo "OTA-FILE-* are removed"
@@ -795,13 +781,9 @@ function reset_device()
 				echo "CAUTION: WiFi is running"
 				echo "CAUTION: in case WiFi has downloaded a combo (sduart_xxx) firmware, no need to use option [--fw <IW612-firmware>]] here..."
 				echo "CAUTION: in any cases, do not push Reset button, it would kill the WiFi"
-            if [ ${skip_questions} -eq 0 ]; then
 				read -p "Continue [enter] ?" dummy
-            fi
 			else
-                if [ ${skip_questions} -eq 0 ]; then
-                    read -p "Push Reset button of device [enter] ? " dummy
-                fi
+				read -p "Push Reset button of device [enter] ? " dummy
 			fi
 			;;
 		gpio)
@@ -840,11 +822,7 @@ function reset_device()
 			fi
 			;;
 		none)
-            if [ ${skip_questions} -eq 0 ]; then
-                read -p "Cannot reset the device, would you like to reboot  [y/n] ([n] or [Enter]) ? " do_reboot
-            else
-                do_reboot="N"
-            fi
+			read -p "Cannot reset the device, would you like to reboot  [y/n] ([n] or [Enter]) ? " do_reboot
 			case ${do_reboot} in
 				[Yy]*) reboot ;;
 				[Nn]*|*) ;;
@@ -855,6 +833,71 @@ function reset_device()
 			exit 1
 			;;
 	esac
+}
+
+function check_btnxpuart_events()
+{
+	if [ -f ${btnxpuart_state_file} ]; then
+		btnxpuart_state=`cat ${btnxpuart_state_file}`
+		echo "btnxpuart state file detected, current state: ${btnxpuart_state}"
+		return
+	fi
+
+	if [ ! -f /etc/udev/rules.d/98-btnxpuart.rules ]; then
+		echo "Create /etc/udev/rules.d/98-btnxpuart.rules"
+		echo "ACTION==\"change\", ENV{BTNXPUART_DEV}==\"*\", ENV{BTNXPUART_STATE}==\"*\", RUN+=\"/etc/udev/scripts/btnxpuart.sh \$env{BTNXPUART_DEV} \$env{BTNXPUART_STATE}\"" > /etc/udev/rules.d/98-btnxpuart.rules
+	fi
+
+	if [ ! -f /etc/udev/scripts/btnxpuart.sh ]; then
+		echo "Create /etc/udev/scripts/btnxpuart.sh"
+		echo "#!/bin/bash"                                                        > /etc/udev/scripts/btnxpuart.sh
+		echo ""                                                                  >> /etc/udev/scripts/btnxpuart.sh
+		echo "BASE_DIR=\"/run/udev/data/btnxpuart\""                             >> /etc/udev/scripts/btnxpuart.sh
+		echo "DEVICE_NAME=\"\$1\""                                               >> /etc/udev/scripts/btnxpuart.sh
+		echo "EVENT_VALUE=\"\$2\""                                               >> /etc/udev/scripts/btnxpuart.sh
+		echo ""                                                                  >> /etc/udev/scripts/btnxpuart.sh
+		echo "if [[ -z \"\$DEVICE_NAME\" || -z \"\$EVENT_VALUE\" ]]; then"       >> /etc/udev/scripts/btnxpuart.sh
+		echo "    echo \"Error: Missing environment variables\" >&2"             >> /etc/udev/scripts/btnxpuart.sh
+		echo "    exit 1"                                                        >> /etc/udev/scripts/btnxpuart.sh
+		echo "fi"                                                                >> /etc/udev/scripts/btnxpuart.sh
+		echo ""                                                                  >> /etc/udev/scripts/btnxpuart.sh
+		echo "chattr -i ${BASE_DIR}:${DEVICE_NAME}.state"                        >> /etc/udev/scripts/btnxpuart.sh
+		echo "# Write the event value to the \"state\" file"                     >> /etc/udev/scripts/btnxpuart.sh
+		echo "echo \"\$EVENT_VALUE\" > \"\${BASE_DIR}:\${DEVICE_NAME}.state\""   >> /etc/udev/scripts/btnxpuart.sh
+		echo "chattr +i ${BASE_DIR}:${DEVICE_NAME}.state"                        >> /etc/udev/scripts/btnxpuart.sh
+		echo "exit 0"                                                            >> /etc/udev/scripts/btnxpuart.sh
+		chmod +x /etc/udev/scripts/btnxpuart.sh
+	fi
+}
+
+function start_fw_dump_monitor()
+{
+	if [ ${fw_dump_monitor} -eq 0 ]; then
+		return
+	fi
+
+	if [ -f "${fw_dump_script}" ]; then
+		echo "Starting firmware dump monitor..."
+		"${fw_dump_script}" --dir "${fw_dump_dir}" start
+		echo "Dumps will be saved to: ${fw_dump_dir}"
+		echo "HCI captures will be saved to: ${fw_dump_dir}/hci_dumps.pcap"
+	else
+		echo "WARNING: Firmware dump monitor script not found: ${fw_dump_script}"
+	fi
+}
+
+function stop_fw_dump_monitor()
+{
+	check_and_kill btmon
+    # Try to stop service first
+    if systemctl is-active --quiet fw-dump-monitor.service; then
+        echo "Stopping firmware dump monitor service..."
+        systemctl stop fw-dump-monitor.service
+    fi
+    # Also try script stop (in case service wasn't used)
+    if [ -f "${fw_dump_script}" ]; then
+        "${fw_dump_script}" stop
+    fi
 }
 
 function flash_firmware()
@@ -883,6 +926,8 @@ function flash_firmware()
 		hciattach ${fw_dld_dev} any -s 115200 115200 flow dtron
 		sleep 1
 	else
+		check_btnxpuart_events
+
 		if [ -n  "${firmware}" ]; then
 			case ${chip_name} in
 				IW612) firmware_name="uartspi_n61x_v1.bin.se" ;;
@@ -952,10 +997,8 @@ function flash_firmware()
 	sleep 1
 	echo "bring up hci0"
 	hciconfig hci0 up
-	# Enable HCI dump
-	if [ ${DUMP_HCI} -ne 0 ]; then
-		btmon -w hci_dumps.pcap > /dev/null &
-	fi
+	# Start firmware dump monitoring
+	start_fw_dump_monitor
 }
 
 apps_running=0
@@ -969,9 +1012,7 @@ function start_mux()
 	rm -rf tmp zb_mux.log zb_mux.console
 	echo ""
 	if [ -n "${gdb_mux}" ]; then
-        if [ ${skip_questions} -eq 0 ]; then
-            read -p "Start zb_mux on gdb port ${gdb_mux} [enter] ? " dummy
-        fi
+		read -p "Start zb_mux on gdb port ${gdb_mux} [enter] ? " dummy
 		gdbserver :${gdb_mux} ./zb_mux -i ${spi_dev} -o 0:/tmp/ttyOpenThread -o 2:/tmp/ttyZigbee -s -S ${spi_speed} -m 0 -c ${spi_cs_delay} -I ${gpio_int} -R ${gpio_reset} -M ${reset_15_4_config} -t ${mux_trace} &
 	else
 		echo "Start zb_mux"
@@ -998,9 +1039,7 @@ function start_zb_app()
 
 	echo ""
 	if [ -n "${gdb_app}" ]; then
-        if [ ${skip_questions} -eq 0 ]; then
-            read -p "Start Zigbee ${zb_app} on gdb port ${gdb_app} [enter] ? " dummy
-        fi
+		read -p "Start Zigbee ${zb_app} on gdb port ${gdb_app} [enter] ? " dummy
 		if [ "$second" = "ot_app" ]; then
 			# if we have thread app is running in second, we must run in background
 			gdbserver :${gdb_app} ./${zb_app} &
@@ -1008,9 +1047,7 @@ function start_zb_app()
 			gdbserver :${gdb_app} ./${zb_app}
 		fi
 	else
-		if [ ${skip_questions} -eq 0 ]; then
-            read -p "Start Zigbee ${zb_app} [enter] ? " dummy
-        fi
+		read -p "Start Zigbee ${zb_app} [enter] ? " dummy
 		if [ "$second" = "ot_app" ]; then
 			# if we have thread app is running in second, we must run in background
 			./${zb_app} &
@@ -1027,11 +1064,7 @@ function start_zb_app()
 					stty echo
 					stty sane
 				fi
-                if [ ${skip_questions} -eq 0 ]; then
-                    read -p "Restart Zigbee ${zb_app} [y/n] ([y] or [Enter]) ? " restart
-                else
-                    restart="N"
-                fi
+				read -p "Restart Zigbee ${zb_app} [y/n] ([y] or [Enter]) ? " restart
 				case $restart in
 					[Nn]*)
 						break
@@ -1234,9 +1267,7 @@ function config_thread()
 			fi
 
 			if [ -n "${otbr_ping}" ]; then
-            if [ ${skip_questions} -eq 0 ]; then
-                read -p "Ping 1K on wpan0 ${otbr_ping} [enter] ? " dummy
-            fi
+				read -p "Ping 1K on wpan0 ${otbr_ping} [enter] ? " dummy
 				if [ "${second}" = "zb_app" ]; then
 					# Need to run it in background in case we still have to start_zb_app
 					ping -I wpan0 -6 ${otbr_ping} -s 1024 &
@@ -1262,15 +1293,11 @@ function start_ot_app()
 	echo ""
 	case ${otbr} in
 		yes)
-			if [ ${skip_questions} -eq 0 ]; then
-                read -p "Start OpenThread BorderRouter ${ot_app} ${ot_cfg}${region_msg}, backbone ${otbr_backbone} [enter] ? " dummy
-            fi
+			read -p "Start OpenThread BorderRouter ${ot_app} ${ot_cfg}${region_msg}, backbone ${otbr_backbone} [enter] ? " dummy
 			./${ot_app} -d ${thread_log} -I wpan0 -B ${otbr_backbone} 'spinel+hdlc+uart://'${OT_TTY} trel://${otbr_backbone} &
 			;;
 		no|*)
-			if [ ${skip_questions} -eq 0 ]; then
-                read -p "Start OpenThread ${ot_app} ${ot_cfg}${region_msg} [enter] ? " dummy
-            fi
+			read -p "Start OpenThread ${ot_app} ${ot_cfg}${region_msg} [enter] ? " dummy
 			./${ot_app} 'spinel+hdlc+uart://'${OT_TTY} -d ${thread_log}  &
 			;;
 	esac
@@ -1304,11 +1331,9 @@ function stop_all()
 	[ -n "${second}" ] && stop_${second} || true
 	stop_${first}
 	stop_mux
+	stop_fw_dump_monitor
 	#  Get rid of colors (end)
 	sed 's/\x06//g' -i *.console &> /dev/null
-	if [ ${DUMP_HCI} -ne 0 ]; then
-		check_and_kill btmon
-	fi
 }
 
 function ctrl_c()

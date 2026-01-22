@@ -83,6 +83,7 @@ typedef struct {
   zb_uint8_t      permit_join_duration;
   zb_uint8_t      dbgtty;
   zb_uint16_t     manufacturer_code;
+  zb_bool_t       frag;
 } zb_config_t;
 
 zb_config_t config;
@@ -395,6 +396,7 @@ void config_got_signal(zb_zdo_app_signal_type_t signal, zb_zdo_app_signal_hdr_t 
   switch(signal) {
 #ifdef ZB_MACSPLIT
     case ZB_MACSPLIT_DEVICE_BOOT:          /* result of message DEV_BOOT from firmware, not yet configured */
+      menu_printf("\nzbcli: firmware has started\n");
       break;
 #endif
 
@@ -435,7 +437,8 @@ void config_got_signal(zb_zdo_app_signal_type_t signal, zb_zdo_app_signal_hdr_t 
         zb_zdo_signal_device_annce_params_t *dev_annce_params = ZB_ZDO_SIGNAL_GET_PARAMS(signal_hdr, zb_zdo_signal_device_annce_params_t);
 
         /* Request Node Descriptor to get max transfer size for fragmentation */
-        config_get_node_desc(dev_annce_params->device_short_addr);
+        if(config.frag)
+          config_get_node_desc(dev_annce_params->device_short_addr);
       }
       break;
 
@@ -1865,7 +1868,12 @@ static zb_ret_t config_frag_on_msc(int argc, char *argv[])
   if(config.state < STATE_RUN)
     return RET_UNAUTHORIZED;
 
-   return zb_zcl_register_custom_msc(new_ms_cluster, new_index, ZB_TRUE);
+  ret = zb_zcl_register_custom_msc(new_ms_cluster, new_index, ZB_TRUE);
+
+  if(ret == RET_OK)
+    config.frag = ZB_TRUE;
+
+  return ret;
 }
 static zb_ret_t help_frag_on_msc(void)
 {

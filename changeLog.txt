@@ -3,11 +3,27 @@
                   +---------------------------------+
 
 
+2025-Q4:
+--------
+
+Zboss host: 019.2504.019
+Zboss libs: zoi_release-4.2.2.0
+
+- Add BSP 6.12.49 support (toolchain)
+- Improve broadcast handling and route request optimization
+- Update license and header of imx-dualpan.sh file
+- Create a service to monitor btnxpuart driver logs in case of fw crash (fw-dump-monitor.service)
+- Fix and stabilise large network configuration
+- zb_mux update for seamless BTNXPUART based autorecovery mechanism
+- Errata (2025-Q3 release):
+  - Add ZB_CONFIGURABLE_RETRIES in zb_vendor.h in replacement of ZB_SLEEPY_ACK_WAIT_DURATION_INCREASE
+
+
 2025-Q3:
 --------
 
-Zboss host: 019.2503.022
-Zboss libs: zoi_release-4.2.2.0
+Zboss host: v019.2503.022
+Zboss libs: 4.2.2.0
 
 - Fix and stabilise large network configuration
 - Use a custom memory management config file (zb_mem_config_iw61x.h)

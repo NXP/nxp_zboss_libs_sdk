@@ -1,9 +1,9 @@
 +-----------------------------------------------------------------------------+
-|                        ZBOSS IW612 delivery package                         |
+|                        ZBOSS IW61x delivery package                         |
 +-----------------------------------------------------------------------------+
 
 
- Copyright 2023-2024 NXP
+ Copyright 2023-2025 NXP
 
  NXP Proprietary.
  This software is owned or controlled by NXP and may only be used strictly
@@ -19,9 +19,9 @@
 Versioning:
 ===========
 
-Date:    Wed, 17 Sep 2025 14:54:33 +0000
-Version: 019.2503.022
-Sha1:    4cc104b
+Date:    Fri, 21 Nov 2025 09:44:13 +0000
+Version: 019.2504.019
+Sha1:    4195e27
 Zboss:   zoi_release-4.2.2.0-
 
 
@@ -78,11 +78,13 @@ output
 │   │      └── systemd
 │   │          └── system
 │   │              ├── zb_app.service
+│   │              ├── fw-dump-monitor.service
 │   │              ├── zb_config.service
 │   │              └── zb_mux.service
 │   └── usr
 │       └── sbin
 │           ├── zb_app.sh
+│           ├── fw-dump-monitor.sh
 │           ├── zb_config.sh
 │           └── zb_mux.sh
 └── template
@@ -261,6 +263,13 @@ Its setting configure:
  - debug information (console log file,  debug TTY data, if configured)
 
 
+fw-dump-monitor.service:
+------------------------
+
+This service will monitor dmesg logs to check if FW crashed and it will collect logs.
+Logs will be saved in /var/log/fw_dumps
+
+
 run & check services:
 --------------------
 
@@ -268,24 +277,28 @@ in case a service bas changed:
   systemctl daemon-reload
 
 manual start:
+  systemctl start fw-dump-monitor.service
   systemctl start zb_config.service
   systemctl start zb_mux.service
   systemctl start zb_app.service
   systemctl start otbr-agent.service
 
 manual stop:
+  systemctl stop fw-dump-monitor.service
   systemctl stop otbr-agent.service
   systemctl stop zb_app.service
   systemctl stop zb_mux.service
   systemctl stop zb_config.service
 
 auto start:
+  systemctl enable fw-dump-monitor.service
   systemctl enable zb_config.service
   systemctl enable zb_mux.service
   systemctl enable zb_app.service
   systemctl enable otbr-agent.service
 
 auto stop:
+  systemctl disable fw-dump-monitor.service
   systemctl disable otbr-agent.service
   systemctl disable zb_app.service
   systemctl disable zb_mux.service
@@ -300,12 +313,14 @@ auto stop:
 
 
 check status:
+  systemctl status fw-dump-monitor.service
   systemctl status zb_config.service
   systemctl status zb_mux.service
   systemctl status zb_app.service
   systemctl status otbr-agent.service
 
 check journal:
+  journalctl -xeu fw-dump-monitor.service
   journalctl -xeu zb_config.service
   journalctl -xeu zb_mux.service
   journalctl -xeu zb_app.service
@@ -371,6 +386,39 @@ Notes:
   - log level of others applications read env variables ZB_TRACE_LEVEL & ZB_TRACE_MASK.
     by default, release build uses ZB_TRACE_LEVEL=4 ZB_TRACE_MASK=0x00000800
     by default, debug   build uses ZB_TRACE_LEVEL=4 ZB_TRACE_MASK=0xffffffff
+    details:
+    COMMON      0x00000001U  /**< Common subsystem. */
+    MEM         0x00000002U  /**< MEM subsystem (buffers pool). */
+    MAC         0x00000004U  /**< MAC subsystem. */
+    NWK         0x00000008U  /**< NWK subsystem. */
+    APS         0x00000010U  /**< APS subsystem. */
+    ZSE         0x00000020U  /**< ZSE subsystem. */
+    ZDO         0x00000040U  /**< ZDO subsystem. */
+    SECUR       0x00000080U  /**< Security subsystem. */
+    ZCL         0x00000100U  /**< ZCL subsystem. */
+    ZLL         0x00000200U  /**< ZLL/Touchlink subsystem. */
+    SSL         0x00000400U  /**< SSL subsystem - not really used */
+    APP         0x00000800U  /**< User Application */
+    LWIP        0x00001000U  /**< LWIP is used, else free */
+    ALIEN       0x00002000U  /**< Some special debug */
+    MAC_API     0x00008000U  /**< MAC API subsystem */
+    MACLL       0x00010000U  /**< MAC LL subsystem */
+    SPECIAL1    0x00020000U  /**< Special subsystem */
+    BATTERY     0x00040000U  /**< Battery subsystem */
+    OTA         0x00080000U  /**< OTA subsystem */
+    TRANSPORT   0x00100000U  /**< Transport subsystem */
+    USB         0x00200000U  /**< USB subsystem */
+    SPI         0x00400000U  /**< SPI subsystem */
+    UART        0x00800000U  /**< UART subsystem */
+    PTA         0x01000000U  /**< PTA subsystem */
+    JSON        0x01000000U  /**< JSON subsystem */
+    HTTP        0x02000000U  /**< HTTP subsystem */
+    CLOUD       0x04000000U  /**< Interface to the Cloud */
+    ZBDIRECT    0x08000000U  /**< Zigbee Direct subsystem */
+    DIAGNOSTIC  0x10000000U  /**< Diagnostic subsystem */
+    NS          0x20000000U  /**< Network simulator subsystem */
+    TEST        0x40000000U  /**< Subsystem for tests and CI */
+    ADDR        0x80000000U  /**< to trace address lock / unlock operations */
   - these settings can be customized in imx-dual-pan.sh script
 
   ieee address:
@@ -852,27 +900,25 @@ If one is registered, then there is 2 possiblities:
 CAUTION: In case TRUE is returned, any allocated buffer used to process and to handle commands must be freed after used, if not, it leads to buf memory leak.
 
 
-Auto-recovery on fail script:
------------------------------
+Firmware crash & recovery:
+--------------------------
 
-4 shell scripts are to be used for Recovery. 3 are called by master script imx-dualpan-failsafe.sh.
-All of them need to be in the same folder on i.MX
+In case of a firmware crash, it is managed by btnxpuart.ko on Linux host (who manages the firmware download):
+- btnxpuart Linux driver will detect the crash of the firmware
+- btnxpuart Linux driver will perform a firmware dump:
+	Kernel traces: Bluetooth: hci0: ==== Start FW dump ===
+- btnxpuart Linux driver will re-download the firmware:
+	Kernel traces: Bluetooth: hci0: FW Download Complete: <xxx> bytes
 
-- imx-dualpan-failsafe.sh:    The Recovery Process Master script
-  It is to be called in place of imx-dualpan.sh with same parameters. Example: ./imx-dualpan-failsafe.sh  --ch 17 --ot ot-daemon --zb simple_gw
+The state of the firmware is available in the file /run/udev/data/btnxpuart:serial0-0.state (FW_READY, ...).
 
-- imx-dualpan.sh: Legacy Script, but DO NOT CALL IT ANYMORE for this kind of testing
-  It is called by imx-dualpan-failsafe.sh
+The Linux host zb_mux monitors this state and will block SPI transaction if the state is not FW_READY.
 
-- ot_zb_dualpan-monitor.sh Monitor both Zigbee and ot-daemon. It is called by imx-dualpan-failsafe.sh
+The zboss stack will detect it by the absence of mac-split ack and will raise an error (trace on application's console):
+	error Major -2562: MACSPLIT RADIO_HANG_NO_ACK
+	/!\ RESET: restart application
+And the application auto-restarts.
 
-- stop_dualpan-failsafe.sh   To stop imx-dualpan-failsafe.sh process. Example: ./stop_dualpan-failsafe.sh simple_gw
+This can be simulated by doing:
+echo 1 > /sys/class/bluetooth/hci0/device/coredump
 
-How to detect Recovery Process with patterns messages:
--	Pattern  when imx-dualpan.sh will be restarted:
-./imx-dualpan-failsafe.sh: "!!! RECOVERY IN PROGRESS for imx-dualpan.sh !!!"
-
--	Pattern when both Zigbee and ot-daemon are running:
-./ot_zb_dualpan-monitor.sh: "simple_gw still alive..."
-./ot_zb_dualpan-monitor.sh: "ot-daemon still alive..."
-./ot_zb_dualpan-monitor.sh: "Both simple_gw and ot-daemon are still running..."

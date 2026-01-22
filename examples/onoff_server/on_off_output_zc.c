@@ -271,7 +271,7 @@ static zb_bool_t error_ind_handler(zb_uint8_t severity,
 
 #if 0 // Keep the stack manage the error: this code is an example how the application decide to manager the error
 #ifdef ZB_MACSPLIT_HOST
-  if (error_code == ERROR_CODE(ERROR_CATEGORY_MACSPLIT, ZB_ERROR_MACSPLIT_RADIO_HANG) ||
+  if (error_code == ERROR_CODE(ERROR_CATEGORY_MACSPLIT, ZB_ERROR_MACSPLIT_RADIO_HANG_NO_ACK) ||
       error_code == ERROR_CODE(ERROR_CATEGORY_MACSPLIT, ZB_ERROR_MACSPLIT_RADIO_REBOOT))
   {
     TRACE_MSG(TRACE_APP1, "MAC-Split error", (FMT__0));
@@ -282,7 +282,7 @@ static zb_bool_t error_ind_handler(zb_uint8_t severity,
       {
         /* return TRUE to prevent default error handling by the stack */
         ret = ZB_TRUE;
-        if (error_code == ERROR_CODE(ERROR_CATEGORY_MACSPLIT, ZB_ERROR_MACSPLIT_RADIO_HANG))
+        if (error_code == ERROR_CODE(ERROR_CATEGORY_MACSPLIT, ZB_ERROR_MACSPLIT_RADIO_HANG_NO_ACK))
         {
           TRACE_MSG(TRACE_APP1, "Fatal MAC-Split error", (FMT__0));
           zboss_shut_with_host_reset(param);

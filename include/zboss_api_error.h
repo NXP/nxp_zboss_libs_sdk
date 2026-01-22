@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2024-2025 NXP
+ * Copyright 2024 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -103,9 +103,8 @@ ZB_NORETURN void zb_verify(zb_uint16_t file_id, zb_int_t line_number, zb_ret_t e
 #define ZB_ERROR_MACSPLIT_RADIO_HANG_NO_ACK     2u /* no ACK received after retries */
 #define ZB_ERROR_MACSPLIT_RADIO_REBOOT          3u /* unexpected SoC reboot */
 #define ZB_ERROR_MACSPLIT_RADIO_CONFIRM_TIMEOUT 4u /* did not receive confirm frame */
-#define ZB_ERROR_MACSPLIT_RADIO_ASSERT          5u /* did not receive confirm frame */
-#define ZB_ERROR_MACSPLIT_NO_MEM_FOR_BOOT_IND    6u /* there is no buf for boot indication processing on host side */
-#define ZB_ERROR_MACSPLIT_NO_BOOT_IND   7u /* there is no boot indication  */
+#define ZB_ERROR_MACSPLIT_NO_MEM_FOR_BOOT_IND    5u /* there is no buf for boot indication processing on host side */
+#define ZB_ERROR_MACSPLIT_NO_BOOT_IND   6u /* there is no boot indication  */
 
 /* ERROR_CATEGORY_SYSTEM */
 #define ZB_ERROR_ZBBUF_INVALID_PTR 1u

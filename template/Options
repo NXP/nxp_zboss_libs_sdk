@@ -97,8 +97,9 @@ deploy:
 	@ssh root@$(IMX_IPADDR) 'rm -rf ~/zboss-dual-pan/zb_mux ~/zboss-dual-pan/imx-dualpan.sh ~/zboss-dual-pan/prebuild'
 	# deploy_prebuild:
 	@echo "\nCopy on IMX the mux & run script"
-	@scp $(ROOT_DIR)/bin/zb_mux                root@$(IMX_IPADDR):~/zboss-dual-pan/.
-	@scp $(ROOT_DIR)/scripts/*                 root@$(IMX_IPADDR):~/zboss-dual-pan/.
+	@scp $(ROOT_DIR)/bin/zb_mux                                 root@$(IMX_IPADDR):~/zboss-dual-pan/.
+	@scp $(ROOT_DIR)/scripts/*                                  root@$(IMX_IPADDR):~/zboss-dual-pan/.
+	@scp $(ROOT_DIR)/services/usr/sbin/fw-dump-monitor.sh       root@$(IMX_IPADDR):~/zboss-dual-pan/.
 	@echo "\nCreate on IMX the folder ~/zboss-dual-pan/prebuild"
 	@ssh root@$(IMX_IPADDR) 'mkdir -p ~/zboss-dual-pan/prebuild'
 	@echo "\nCopy on IMX the prebuild binaries"

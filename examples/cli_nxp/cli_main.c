@@ -37,6 +37,7 @@ zb_ieee_addr_t g_zr_addr = {0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00};
 
 static void *cli_main(void *arg)
 {
+  menu_printf("\nzbcli: application has started\n");
   menu_run();
 
   return arg;

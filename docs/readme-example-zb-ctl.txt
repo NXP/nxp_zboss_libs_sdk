@@ -21,15 +21,30 @@ When a command is executed, a status is returned:
 Ok
 Error: <ERROR CODE>
 
-A post command message can occur, like
-network opened
-left network
+A post command message can occur (if the command returned Ok), like
+network_open_cb() OK
+network_leave_cb() OK
+It is a response to a request.
+Note that the same cannot be run twice, we need to wait for the response to a request before re-doing the same command.
 
 Top & down arrows can be used to recall previous commands
 Multilines are supported by the console.
 Menus can be different on zrzc or zed.
 
 Commands starting by '#' are ignored
+
+
+Run information:
+----------------
+
+When the cli starts, it sends to the user: "zbcli: application has started"
+When the cli starts the stack and detects the firmware has booted, it sends to the user: "zbcli: firmware has started"
+
+In case of a firmare crash & recovery (refer to README.txt §Firmware crash & recovery) the cli is auto-restarted.
+It can be detected by monitoring "zbcli: application has started"
+AND THE CONFIGURATION NEEDS TO BE RE-APPLIED.
+To re-<open|join> an existing network, don't erase the nvram:
+nvram erase_at_start 0
 
 
 Basic commands:

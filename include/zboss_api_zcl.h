@@ -1863,6 +1863,18 @@ typedef enum zb_zcl_device_callback_id_e
    */
   ZB_ZCL_DIRECT_CONFIGURATION_CONFIGURE_INTERFACE_CB_ID,
   /** @endcond */ /* DOXYGEN_DIRECT_FEATURE */
+  /** @b Server. Inform user about device can clear cluster attributes during leave command.
+   *
+   * User's application callback is initialized by RET_ERROR status of device
+   * callback parameters.
+   *
+   * One of the following statuses must be returned:
+   * @return RET_OK - successfully handle command. It is mean that the user callback derived
+   *                  clusters attributes value after leave.
+   * @return RET_ERROR - command is handled with errors. In this case application sets clusters
+   *                  attributes by calls ZCL_CTX().set_default_attr_cb() if last exist.
+   */
+  ZB_ZCL_CLEAR_AFTER_LEAVE_CB_ID,
 } zb_zcl_device_callback_id_t;
 
 /** @cond internals_doc */

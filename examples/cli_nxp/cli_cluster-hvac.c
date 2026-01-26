@@ -25,6 +25,10 @@
  *                                  CLUSTER Thermostat
  *
  * ----------------------------------------------------------------------------------- */
+#ifndef CLI_HAS_CLUSTER_THERMOSTAT
+#define pCluster_0201 NULL
+#else
+#define pCluster_0201 &cluster_0201
 
 static zb_uint8_t thermostat_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
 
@@ -129,6 +133,7 @@ static zb_ret_t help_thermo_cmds_detailed(char *subcommand)
   }
   return RET_OK;
 }
+
 
 /* Static command cluster
  * command thermostat_cmd
@@ -256,6 +261,8 @@ static zb_uint8_t thermostat_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_
 {
   return (cmd_info->cmd_direction == ZB_ZCL_FRAME_DIRECTION_TO_CLI)?(thermostat_client_commands_handler(cmd_info, param)):(thermostat_server_commands_handler(cmd_info, param));
 }
+#endif /* CLI_HAS_CLUSTER_THERMOSTAT */
+
 
 /* -----------------------------------------------------------------------------------
  *

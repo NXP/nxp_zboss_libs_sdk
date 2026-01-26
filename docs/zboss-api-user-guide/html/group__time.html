@@ -102,11 +102,11 @@ Macros</h2></td></tr>
 <tr class="separator:ga3d15212ace17320ab05b3e8ea7898d82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0b55ee2d596a314bb6e985149c17cdad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#ga0b55ee2d596a314bb6e985149c17cdad">ZB_TIME_ONE_SECOND</a>&#160;&#160;&#160;<a class="el" href="group__time.html#gafb4445aba67a2058edd704b6e1e06e64">ZB_MILLISECONDS_TO_BEACON_INTERVAL</a>(1000U)</td></tr>
 <tr class="separator:ga0b55ee2d596a314bb6e985149c17cdad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga70a7a695371648cfd4a1e7e8bcbbf16d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#ga70a7a695371648cfd4a1e7e8bcbbf16d">ZB_MILLISECONDS_TO_BEACON_INTERVAL_CEIL</a>(ms)&#160;&#160;&#160;(((<a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a>)(ms) * 1000U + (<a class="el" href="group__time.html#ga7234e2b2c70b305ff32c9ecb401dc0ea">ZB_BEACON_INTERVAL_USEC</a> - 1U)) / <a class="el" href="group__time.html#ga7234e2b2c70b305ff32c9ecb401dc0ea">ZB_BEACON_INTERVAL_USEC</a>)</td></tr>
+<tr class="memitem:ga70a7a695371648cfd4a1e7e8bcbbf16d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#ga70a7a695371648cfd4a1e7e8bcbbf16d">ZB_MILLISECONDS_TO_BEACON_INTERVAL_CEIL</a>(ms)&#160;&#160;&#160;((<a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a>)(((zb_uint64_t)(ms) * 1000U + (<a class="el" href="group__time.html#ga7234e2b2c70b305ff32c9ecb401dc0ea">ZB_BEACON_INTERVAL_USEC</a> - 1U)) / <a class="el" href="group__time.html#ga7234e2b2c70b305ff32c9ecb401dc0ea">ZB_BEACON_INTERVAL_USEC</a>))</td></tr>
 <tr class="separator:ga70a7a695371648cfd4a1e7e8bcbbf16d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gabb0f759b4f8fbcb97262104880dab2f2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#gabb0f759b4f8fbcb97262104880dab2f2">ZB_MICROSECONDS_TO_BEACON_INTERVAL_CEIL</a>(us)&#160;&#160;&#160;(((<a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a>)(us) + (<a class="el" href="group__time.html#ga7234e2b2c70b305ff32c9ecb401dc0ea">ZB_BEACON_INTERVAL_USEC</a> - 1U)) / <a class="el" href="group__time.html#ga7234e2b2c70b305ff32c9ecb401dc0ea">ZB_BEACON_INTERVAL_USEC</a>)</td></tr>
 <tr class="separator:gabb0f759b4f8fbcb97262104880dab2f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad5c6c8a00ebc67ba646bcf37a6b91ca2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#gad5c6c8a00ebc67ba646bcf37a6b91ca2">ZB_MILLISECONDS_TO_BEACON_INTERVAL_FLOOR</a>(ms)&#160;&#160;&#160;((<a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a>)(ms) * 1000U / <a class="el" href="group__time.html#ga7234e2b2c70b305ff32c9ecb401dc0ea">ZB_BEACON_INTERVAL_USEC</a>)</td></tr>
+<tr class="memitem:gad5c6c8a00ebc67ba646bcf37a6b91ca2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#gad5c6c8a00ebc67ba646bcf37a6b91ca2">ZB_MILLISECONDS_TO_BEACON_INTERVAL_FLOOR</a>(ms)&#160;&#160;&#160;((<a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a>)((zb_uint64_t)(ms) * 1000U / <a class="el" href="group__time.html#ga7234e2b2c70b305ff32c9ecb401dc0ea">ZB_BEACON_INTERVAL_USEC</a>))</td></tr>
 <tr class="separator:gad5c6c8a00ebc67ba646bcf37a6b91ca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3f7272873c0a1098ca12ed8e32cb7e7a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#ga3f7272873c0a1098ca12ed8e32cb7e7a">ZB_MICROSECONDS_TO_BEACON_INTERVAL_FLOOR</a>(us)&#160;&#160;&#160;((<a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a>)(us) / <a class="el" href="group__time.html#ga7234e2b2c70b305ff32c9ecb401dc0ea">ZB_BEACON_INTERVAL_USEC</a>)</td></tr>
 <tr class="separator:ga3f7272873c0a1098ca12ed8e32cb7e7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -259,11 +259,11 @@ Typedefs</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">ms</td><td>)</td>
-          <td>&#160;&#160;&#160;(((<a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a>)(ms) * 1000U + (<a class="el" href="group__time.html#ga7234e2b2c70b305ff32c9ecb401dc0ea">ZB_BEACON_INTERVAL_USEC</a> - 1U)) / <a class="el" href="group__time.html#ga7234e2b2c70b305ff32c9ecb401dc0ea">ZB_BEACON_INTERVAL_USEC</a>)</td>
+          <td>&#160;&#160;&#160;((<a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a>)(((zb_uint64_t)(ms) * 1000U + (<a class="el" href="group__time.html#ga7234e2b2c70b305ff32c9ecb401dc0ea">ZB_BEACON_INTERVAL_USEC</a> - 1U)) / <a class="el" href="group__time.html#ga7234e2b2c70b305ff32c9ecb401dc0ea">ZB_BEACON_INTERVAL_USEC</a>))</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Convert time from milliseconds to beacon intervals (32-bit platforms). Round the result up. </p>
+<p>Convert time from milliseconds to beacon intervals (32-bit platforms). Round the result up. It does short-term conversion to 64-bit value to prevent overflow. Note that result will be valid for all possible ms values (as 1 BI equal to 15.36 ms). </p>
 
 </div>
 </div>
@@ -278,11 +278,11 @@ Typedefs</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">ms</td><td>)</td>
-          <td>&#160;&#160;&#160;((<a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a>)(ms) * 1000U / <a class="el" href="group__time.html#ga7234e2b2c70b305ff32c9ecb401dc0ea">ZB_BEACON_INTERVAL_USEC</a>)</td>
+          <td>&#160;&#160;&#160;((<a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a>)((zb_uint64_t)(ms) * 1000U / <a class="el" href="group__time.html#ga7234e2b2c70b305ff32c9ecb401dc0ea">ZB_BEACON_INTERVAL_USEC</a>))</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Convert time from milliseconds to beacon intervals (32-bit platforms). Round the result down. </p>
+<p>Convert time from milliseconds to beacon intervals (32-bit platforms). Round the result down. It does short-term conversion to 64-bit value to prevent overflow. Note that result will be valid for all possible ms values (as 1 BI equal to 15.36 ms). </p>
 
 </div>
 </div>
@@ -669,6 +669,6 @@ Typedefs</h2></td></tr>
     <a href="http://www.dsr-corporation.com">http://www.dsr-corporation.com</a>
   </div>
 </div>
-<div>ZBOSS documentation. Mon Nov 24 2025.</div>
+<div>ZBOSS documentation. Tue Feb 17 2026.</div>
 </body>
 </html>

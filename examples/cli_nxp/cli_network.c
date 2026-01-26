@@ -12,7 +12,7 @@
  *
  */
 
-#define ZB_TRACE_FILE_ID 33618
+#define ZB_TRACE_FILE_ID 60038
 #include "zboss_api.h"
 #include "cli_network.h"
 #include "cli_menu.h"
@@ -138,7 +138,7 @@ static zb_ret_t network_open(int argc, char *argv[])
     bdb_start_top_level_commissioning(ZB_BDB_NETWORK_STEERING);
     /* Wait for signal ZB_BDB_SIGNAL_STEERING which is preceeded by a PERMIT_JOIN_STATUS */
     while(!config_is_steering_received())
-      usleep(100);
+      osif_usleep(100);
     if(config_get_permit_join_duration() == duration)
       return RET_OK;
   }

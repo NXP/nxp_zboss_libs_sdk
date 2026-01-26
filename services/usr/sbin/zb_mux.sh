@@ -25,6 +25,12 @@ if [ "${iw_model}" = "toConfigure" ]; then
 	sed 's/iw_model=toConfigure/iw_model='${iw_model}'/g' -i /etc/default/zb_mux.env
 fi
 
+# Restart otbr-agent service if it is active
+if systemctl is-active --quiet otbr-agent; then
+    echo "Restart otbr-agent service"
+    systemctl restart otbr-agent
+fi
+
 #Detect kernel version
 kernel_version=`uname -r | awk -F"-g" '{print $1}' | awk -F"-" '{print $1}'`
 kernel_maj=`echo ${kernel_version} | awk -F"." '{print $1}'`
@@ -46,7 +52,12 @@ case ${soc_id} in
 		esac
 		;;
 	i.MX93|i.MX91) # default config
-		spi_dev="/dev/spidev0.0"
+		if [[ "$soc_id" == "i.MX93" &&
+			  ( ( kernel_maj -eq 6 && kernel_min -ge 18 ) || kernel_maj -gt 6 ) ]]; then
+			spi_dev="/dev/spidev2.0"
+		else
+			spi_dev="/dev/spidev0.0"
+		fi
 		int_dev="/dev/gpiochip5"
 		int_line=10
 		if [[ ${kernel_maj} -eq 6  && ${kernel_min} -ge 12 ]] || [ ${kernel_maj} -gt 6 ]; then

@@ -5,7 +5,7 @@
 # * www.dsr-corporation.com
 # * All rights reserved.
 # *
-# * Copyright 2023-2024 NXP
+# * Copyright 2023-2025 NXP
 # *
 # * This is unpublished proprietary source code of DSR Corporation
 # * The copyright notice does not evidence any actual or intended
@@ -83,7 +83,7 @@ help:
 	@echo "deploy: transfers to imx (addr: IMX_IPADDR) the files:"
 	@echo "        ~/zboss-dual-pan:          zb_mux imx-dualpan.sh"
 	@echo "        ~/zboss-dual-pan/compiled: $(BINS)"
-	@echo "        => IMX_IPADDR=$(IMX_IPADDR) make deploy"
+	@echo "        => IMX_IPADDR=$(IMX_IPADDR) make imx/deploy"
 	@echo "help:   this help"
 
 
@@ -99,7 +99,6 @@ deploy:
 	@echo "\nCopy on IMX the mux & run script"
 	@scp $(ROOT_DIR)/bin/zb_mux                                 root@$(IMX_IPADDR):~/zboss-dual-pan/.
 	@scp $(ROOT_DIR)/scripts/*                                  root@$(IMX_IPADDR):~/zboss-dual-pan/.
-	@scp $(ROOT_DIR)/services/usr/sbin/fw-dump-monitor.sh       root@$(IMX_IPADDR):~/zboss-dual-pan/.
 	@echo "\nCreate on IMX the folder ~/zboss-dual-pan/prebuild"
 	@ssh root@$(IMX_IPADDR) 'mkdir -p ~/zboss-dual-pan/prebuild'
 	@echo "\nCopy on IMX the prebuild binaries"

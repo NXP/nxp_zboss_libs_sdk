@@ -22,7 +22,7 @@ zb_ret_t menu_init(void)
 
 void menu_run(void)
 {
-  while(!osif_is_term_sig_received())
+  while(!ZB_OSIF_IS_EXIT())
   {
     char *line;
 
@@ -55,10 +55,11 @@ void menu_shutdown(void)
   /* Nothing to do */
 }
 
+char gMsgStr[1024];
 void menu_printf(const char *format , ...)
 {
   va_list args;
-  char msgStr[1024];
+  char *msgStr = gMsgStr;
 
   va_start (args, format);
   vsnprintf(msgStr, 1024, format, args);

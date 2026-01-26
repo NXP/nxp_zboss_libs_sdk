@@ -12,7 +12,7 @@
  *
  */
 
-#define ZB_TRACE_FILE_ID 33620
+#define ZB_TRACE_FILE_ID 60031
 #include "zboss_api.h"
 #include "cli_tools.h"
 #include "cli_endpoint.h"
@@ -305,7 +305,7 @@ zb_ret_t tools_arg_get_nwk_key(char *argv[], int argnb, zb_uint8_t val[ZB_CCM_KE
 zb_ret_t tools_arg_get_profile(char *argv[], int argnb, zb_uint16_t *val, zb_arg_format_t format)
 {
   zb_ret_t ret;
-  zb_uint16_t my_profile_id;
+  zb_uint16_t my_profile_id = 0xFFFF;
 
   ZVUNUSED(format);
 
@@ -313,7 +313,7 @@ zb_ret_t tools_arg_get_profile(char *argv[], int argnb, zb_uint16_t *val, zb_arg
   if(ret != RET_OK)
   {
     /* Not an hexa, look for initials */
-    for(int i=0; table_profiles[i].name != NULL; i++)
+    for(int i=0; table_profiles[i].initials != NULL; i++)
       if(!strcasecmp(argv[argnb], table_profiles[i].initials))
       {
         my_profile_id = table_profiles[i].id;

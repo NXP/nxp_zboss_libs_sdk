@@ -898,6 +898,8 @@ zb_uint16_t zb_stack_profiler_usage(void);
 
 
 #ifdef ZB_USE_SLEEP
+/* zb_osif_usleep / zb_osif_sleep defined in the platform */
+zb_uint32_t zb_osif_usleep(zb_uint32_t sleep_tmo);
 zb_uint32_t zb_osif_sleep(zb_uint32_t sleep_tmo);
 void zb_osif_wake_up(void);
 #endif

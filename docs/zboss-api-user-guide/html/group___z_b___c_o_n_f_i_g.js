@@ -66,7 +66,6 @@ var group___z_b___c_o_n_f_i_g =
     [ "ZB_SECURITY_LEVEL", "group___z_b___c_o_n_f_i_g.html#ga3a0ad4766e6975f3546cc503d08a6e33", null ],
     [ "ZB_STANDARD_ECDHE_KEY", "group___z_b___c_o_n_f_i_g.html#ga308c1cef58fa2a98dca336656c69b202", null ],
     [ "ZB_STANDARD_TC_KEY", "group___z_b___c_o_n_f_i_g.html#gac9d126623df0289c7205f9172590ed05", null ],
-    [ "ZB_TEST_PROFILE", "group___z_b___c_o_n_f_i_g.html#ga4282c50c4f98b10e67dc5bdd7c4592b3", null ],
     [ "ZB_WATCHDOG_SCHED_QUANT", "group___z_b___c_o_n_f_i_g.html#ga546960205450e02a7621b9f7e96bd96a", null ],
     [ "ZB_ZDO_KEY_NEGOTIATIONS_NUM", "group___z_b___c_o_n_f_i_g.html#gaf4213bb8e02ecbe27ee1b58c577ba817", null ],
     [ "ZB_ZDO_NWK_SCAN_ATTEMPTS", "group___z_b___c_o_n_f_i_g.html#ga7afdf40890fd12314b7158665ac77f58", null ],

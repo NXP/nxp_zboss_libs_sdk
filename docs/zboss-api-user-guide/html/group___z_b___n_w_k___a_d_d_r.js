@@ -1,5 +1,7 @@
 var group___z_b___n_w_k___a_d_d_r =
 [
+    [ "ZB_ADDRESS_IEEE_REF_FIRST", "group___z_b___n_w_k___a_d_d_r.html#gaa685c84783b1246901c40ba16f372286", null ],
+    [ "ZB_ADDRESS_IEEE_REF_NONE", "group___z_b___n_w_k___a_d_d_r.html#ga37b88c866933a2d2dd74855f98904041", null ],
     [ "zb_address_lock", "group___z_b___n_w_k___a_d_d_r.html#ga8281b722309d53171879661761029d38", null ],
     [ "zb_address_unlock", "group___z_b___n_w_k___a_d_d_r.html#ga02e1c8c2291d9d305e48e168ccaf353f", null ],
     [ "zb_address_ieee_ref_t", "group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33", null ],

@@ -157,6 +157,7 @@ var group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n =
       [ "ZB_ZCL_CONTROL4_NETWORK_ZAP_INFO_CB_ID", "group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#gga35caa2e3a9ef37535b1f75e0fe919266a48ef6304bcd31a530c4be657d6292ef3", null ],
       [ "ZB_ZCL_WWAH_DEBUG_REPORT_QUERY_CB_ID", "group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#gga35caa2e3a9ef37535b1f75e0fe919266afaf91f471885c9e0b5ee52270474eb62", null ],
       [ "ZB_ZCL_WWAH_SET_IAS_ZONE_ENROLLMENT_METHOD_CB_ID", "group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#gga35caa2e3a9ef37535b1f75e0fe919266a43798d10efde09a30d0def57b64fa37e", null ],
-      [ "ZB_ZCL_DIRECT_CONFIGURATION_CONFIGURE_INTERFACE_CB_ID", "group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#gga35caa2e3a9ef37535b1f75e0fe919266a084c637043d915ec0e30f8f4800148e1", null ]
+      [ "ZB_ZCL_DIRECT_CONFIGURATION_CONFIGURE_INTERFACE_CB_ID", "group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#gga35caa2e3a9ef37535b1f75e0fe919266a084c637043d915ec0e30f8f4800148e1", null ],
+      [ "ZB_ZCL_CLEAR_AFTER_LEAVE_CB_ID", "group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#gga35caa2e3a9ef37535b1f75e0fe919266ae13d8ee173e29c182b67160dd0e4ca6b", null ]
     ] ]
 ];

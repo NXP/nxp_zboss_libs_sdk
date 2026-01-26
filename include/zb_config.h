@@ -1589,7 +1589,15 @@ exponent.
 #if (ZB_STACK_SPEC_VERSION < 23U)
 #define ZB_TRAFFIC_DUMP_V3
 #endif
+#endif /* ZB_PLATFORM_LINUX */
+
+#ifdef ZB_PLATFORM_ZEPHYR
+#define ZB_THREADS
+#ifndef ZB_INIT_HAS_ARGS
+#define ZB_INIT_HAS_ARGS
 #endif
+#endif /* ZB_PLATFORM_ZEPHYR */
+
 
 #ifndef ZB_MEMTRACE_BUF_SIZE
 #define ZB_MEMTRACE_BUF_SIZE 4080U

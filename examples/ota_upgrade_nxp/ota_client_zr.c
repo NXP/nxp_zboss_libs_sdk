@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2024 NXP
+ * Copyright 2024-2025 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -24,7 +24,7 @@
 /* PURPOSE: OTA upgrade client application
 */
 
-#define ZB_TRACE_FILE_ID 63256
+#define ZB_TRACE_FILE_ID 60003
 #include "zboss_api.h"
 
 #include "ota_client.h"
@@ -131,7 +131,7 @@ void create_ota_file_name(zb_zcl_ota_file_t *ota_file)
   struct timespec ts = {0};
   struct tm rtm = {0};
 
-  clock_gettime(CLOCK_REALTIME, &ts);
+  osif_get_clock_realtime(&ts);
   localtime_r(&ts.tv_sec, &rtm);
 
   snprintf(ota_file->filename, sizeof(ota_file->filename),"OTA-FILE-%02d%02d%02d-%02d%02d-%s",
@@ -265,7 +265,7 @@ void test_device_cb(zb_uint8_t param)
               zb_int8_t rssi = ZB_MAC_RSSI_UNDEFINED;
 
               zb_zdo_get_diag_data(server_addr, &lqi, &rssi);
-              clock_gettime(CLOCK_BOOTTIME, &now);
+              osif_get_clock_realtime(&now);
               elapsed.tv_sec = now.tv_sec - ota_rx_file.start.tv_sec;
               elapsed.tv_nsec = now.tv_nsec - ota_rx_file.start.tv_nsec;
               if(elapsed.tv_nsec < 0)
@@ -292,7 +292,7 @@ void test_device_cb(zb_uint8_t param)
           if(written_size)
           {
             if(file_offset == 0)
-              clock_gettime(CLOCK_BOOTTIME, &ota_rx_file.start);
+              osif_get_clock_realtime(&ota_rx_file.start);
 
             if(file_offset != ota_rx_file.written)
             {

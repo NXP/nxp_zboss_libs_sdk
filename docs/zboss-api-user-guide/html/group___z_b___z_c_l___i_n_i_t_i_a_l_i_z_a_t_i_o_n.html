@@ -319,7 +319,9 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#gga35caa2e3a9ef37535b1f75e0fe919266a48ef6304bcd31a530c4be657d6292ef3">ZB_ZCL_CONTROL4_NETWORK_ZAP_INFO_CB_ID</a>, 
 <a class="el" href="group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#gga35caa2e3a9ef37535b1f75e0fe919266afaf91f471885c9e0b5ee52270474eb62">ZB_ZCL_WWAH_DEBUG_REPORT_QUERY_CB_ID</a>, 
 <a class="el" href="group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#gga35caa2e3a9ef37535b1f75e0fe919266a43798d10efde09a30d0def57b64fa37e">ZB_ZCL_WWAH_SET_IAS_ZONE_ENROLLMENT_METHOD_CB_ID</a>, 
-<a class="el" href="group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#gga35caa2e3a9ef37535b1f75e0fe919266a084c637043d915ec0e30f8f4800148e1">ZB_ZCL_DIRECT_CONFIGURATION_CONFIGURE_INTERFACE_CB_ID</a>
+<a class="el" href="group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#gga35caa2e3a9ef37535b1f75e0fe919266a084c637043d915ec0e30f8f4800148e1">ZB_ZCL_DIRECT_CONFIGURATION_CONFIGURE_INTERFACE_CB_ID</a>, 
+<br />
+&#160;&#160;<a class="el" href="group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#gga35caa2e3a9ef37535b1f75e0fe919266ae13d8ee173e29c182b67160dd0e4ca6b">ZB_ZCL_CLEAR_AFTER_LEAVE_CB_ID</a>
 <br />
  }</td></tr>
 <tr class="separator:ga35caa2e3a9ef37535b1f75e0fe919266"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1956,6 +1958,12 @@ RET_ERROR - command is handled with errors. Default Response will be send. </dd>
 <dd>
 RET_ERROR - command is handled with errors. </dd></dl>
 </td></tr>
+<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266ae13d8ee173e29c182b67160dd0e4ca6b"></a>ZB_ZCL_CLEAR_AFTER_LEAVE_CB_ID&#160;</td><td class="fielddoc"><p><b>Server</b>. Inform user about device can clear cluster attributes during leave command.</p>
+<p>User's application callback is initialized by RET_ERROR status of device callback parameters.</p>
+<p>One of the following statuses must be returned: </p><dl class="section return"><dt>Returns</dt><dd>RET_OK - successfully handle command. It is mean that the user callback derived clusters attributes value after leave. </dd>
+<dd>
+RET_ERROR - command is handled with errors. In this case application sets clusters attributes by calls <a class="el" href="group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#gab0f20bfb5e308fec4dc5d9f35d98d8ff">ZCL_CTX()</a>.set_default_attr_cb() if last exist. </dd></dl>
+</td></tr>
 </table>
 
 </div>
@@ -1976,6 +1984,6 @@ RET_ERROR - command is handled with errors. </dd></dl>
     <a href="http://www.dsr-corporation.com">http://www.dsr-corporation.com</a>
   </div>
 </div>
-<div>ZBOSS documentation. Mon Nov 24 2025.</div>
+<div>ZBOSS documentation. Tue Feb 17 2026.</div>
 </body>
 </html>

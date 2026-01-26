@@ -75,12 +75,14 @@ void wcs_print_error(zb_uint8_t severity, zb_ret_t error_code, void *additional_
 void wcs_print_zdo_data(zb_bool_t tx, char *msg, zb_uint16_t clusterid);
 
 #ifdef ZB_MACSPLIT_HOST
+void wcs_dump_macsplit_msg(zb_bool_t tx, zb_uint16_t call_type, zb_uint8_t bufid);
 void wcs_fill_macsplit_buf(char *line_buf, int line_size, zb_bool_t tx, void *packet);
 #endif
 
 char *get_cmd_id_str(zb_bool_t common_command, zb_uint16_t cluster_id, zb_uint8_t cmd_id);
 char *get_endpoint_profile_id_str(zb_uint16_t profile_id);
 char *get_endpoint_device_id_str(zb_uint16_t device_id);
+char *get_nvram_dataset_str(zb_uint16_t dataset_id);
 char *get_cluster_id_str(zb_uint16_t cluster_id);
 char *get_cluster_attr_id_str(zb_uint16_t cluster_id, zb_uint16_t attr_id);
 char *get_attr_type_str(zb_uint8_t type);

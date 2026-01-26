@@ -56,7 +56,7 @@ zb_ret_t menu_init(void)
 
 void menu_run(void)
 {
-  while(!osif_is_term_sig_received())
+  while(!ZB_OSIF_IS_EXIT())
   {
     char *line;
 
@@ -65,7 +65,7 @@ void menu_run(void)
       sock_client = accept(sock_server, NULL, NULL);
       if(sock_client == -1)
       {
-        usleep(100*1000);
+        osif_usleep(100*1000);
         continue;
       }
       else
@@ -232,9 +232,9 @@ static char *read_socket_client(int socket)
         return NULL;
       }
     }
-  } while(!osif_is_term_sig_received());
+  } while(!ZB_OSIF_IS_EXIT());
 
-  if(osif_is_term_sig_received())
+  if(ZB_OSIF_IS_EXIT())
   {
     menu_printf("signal SIGTERM received, exiting...");
     shutdown(socket, SHUT_RDWR);

@@ -1,5 +1,11 @@
 var NAVTREEINDEX29 =
 {
+"group__zdo__bind.html#gadc3d68bc365cddbfefb0472fb726f39d":[2,0,3,3,37],
+"group__zdo__bind.html#gae37dba93c9f75660eb9c2c184b503c29":[2,0,3,3,35],
+"group__zdo__disc.html":[2,0,3,2],
+"group__zdo__disc.html#ga09895189104b35a047d4fc1de0587683":[2,0,3,2,21],
+"group__zdo__disc.html#ga0b5c9e417d29f287995177ced2bff903":[2,0,3,2,41],
+"group__zdo__disc.html#ga0d31f0e0c17f783f700af04c74b7fee2":[2,0,3,2,42],
 "group__zdo__disc.html#ga0e99a220c91e3d69582924cdda643c82":[2,0,3,2,29],
 "group__zdo__disc.html#ga107e5776f0a5d8550140c08ef9d3cc8f":[2,0,3,2,34],
 "group__zdo__disc.html#ga1d4b7ea09b93cf0141ddb44735772cbf":[2,0,3,2,37],
@@ -243,11 +249,5 @@ var NAVTREEINDEX29 =
 "r23_new_features.html#r23_beacon_surv":[0,6,4,2,3],
 "r23_new_features.html#r23_brief":[0,6,2],
 "r23_new_features.html#r23_brief_secur":[0,6,2,0],
-"r23_new_features.html#r23_certification":[0,6,1],
-"r23_new_features.html#r23_clearallbind":[0,6,4,2,1],
-"r23_new_features.html#r23_codebase_features":[0,6,0],
-"r23_new_features.html#r23_decommis":[0,6,4,2,0],
-"r23_new_features.html#r23_details":[0,6,3],
-"r23_new_features.html#r23_dev_interview":[0,6,3,1],
-"r23_new_features.html#r23_dev_interview_joiner":[0,6,3,1,1]
+"r23_new_features.html#r23_certification":[0,6,1]
 };

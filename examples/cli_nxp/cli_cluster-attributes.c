@@ -23,6 +23,7 @@ static void menu_print_cluster_attributes(zb_zcl_device_callback_param_t *device
 
 }
 
+#if defined(CLI_HAS_CLUSTER_OTA_UPGRADE) || defined(CLI_HAS_CLUSTER_OTA_UPGRADE)
 static zb_bool_t is_cluster_created(zb_af_endpoint_desc_t *this_ep, zb_uint16_t cluster_id, zb_uint8_t role)
 {
   if(!this_ep)
@@ -35,6 +36,7 @@ static zb_bool_t is_cluster_created(zb_af_endpoint_desc_t *this_ep, zb_uint16_t 
 
   return ZB_FALSE;
 }
+#endif
 
 void cluster_attributes_cb(zb_uint8_t param)
 {
@@ -44,6 +46,7 @@ void cluster_attributes_cb(zb_uint8_t param)
   device_cb_params->status = RET_NOT_IMPLEMENTED; //Will return ZCL status ZB_ZCL_STATUS_UNSUP_CMD
   switch(device_cb_params->device_cb_id)
   {
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
   case ZB_ZCL_OTA_UPGRADE_VALUE_CB_ID:
     // done inside the handler... menu_print_cluster_attributes(device_cb_params, this_ep);
     /* Make sure we have created the ota cluster on client side */
@@ -70,12 +73,14 @@ void cluster_attributes_cb(zb_uint8_t param)
       device_cb_params->status = RET_INVALID_PARAMETER;
     }
     break;
+#endif /* CLI_HAS_CLUSTER_OTA_UPGRADE */
 
   case ZB_ZCL_SET_ATTR_VALUE_CB_ID:
     /* This case has been added to avoid going into the default case which returns an error code, when we have a set attribute command. */
     device_cb_params->status = RET_OK;
     break;
 
+#ifdef CLI_HAS_CLUSTER_SCENES
   case ZB_ZCL_SCENES_ADD_SCENE_CB_ID:
   case ZB_ZCL_SCENES_STORE_SCENE_CB_ID:
   case ZB_ZCL_SCENES_VIEW_SCENE_CB_ID:
@@ -99,6 +104,7 @@ void cluster_attributes_cb(zb_uint8_t param)
       device_cb_params->status = RET_NOT_IMPLEMENTED;
     }
     break;
+
   case ZB_ZCL_SCENES_INTERNAL_REMOVE_ALL_SCENES_ALL_ENDPOINTS_ALL_GROUPS_CB_ID:
   case ZB_ZCL_SCENES_INTERNAL_REMOVE_ALL_SCENES_ALL_ENDPOINTS_CB_ID:
     {
@@ -120,6 +126,7 @@ void cluster_attributes_cb(zb_uint8_t param)
       device_cb_params->status = RET_OK;
     }
     break;
+#endif /* CLI_HAS_CLUSTER_SCENES */
 
   default:
     menu_print_cluster_attributes(device_cb_params, this_ep);

@@ -23,6 +23,17 @@
 /* Define this if you need to debug your command arg parsing */
 #undef CLI_DEBUG_ARG
 
+#ifndef ZB_TRACE_TO_FILE
+#undef TRACE_FORMAT_64
+#undef TRACE_FORMAT_128
+#undef TRACE_ARG_64
+#undef TRACE_ARG_128
+#define TRACE_FORMAT_64 "%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx"
+#define TRACE_FORMAT_128 "%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx"
+#define TRACE_ARG_64(a) (zb_uint8_t)((a)[7]),(zb_uint8_t)((a)[6]),(zb_uint8_t)((a)[5]),(zb_uint8_t)((a)[4]),(zb_uint8_t)((a)[3]),(zb_uint8_t)((a)[2]),(zb_uint8_t)((a)[1]),(zb_uint8_t)((a)[0])
+#define TRACE_ARG_128(a) (zb_uint8_t)((a)[0]),(zb_uint8_t)((a)[1]),(zb_uint8_t)((a)[2]),(zb_uint8_t)((a)[3]),(zb_uint8_t)((a)[4]),(zb_uint8_t)((a)[5]),(zb_uint8_t)((a)[6]),(zb_uint8_t)((a)[7]),(zb_uint8_t)((a)[8]),(zb_uint8_t)((a)[9]),(zb_uint8_t)((a)[10]),(zb_uint8_t)((a)[11]),(zb_uint8_t)((a)[12]),(zb_uint8_t)((a)[13]),(zb_uint8_t)((a)[14]),(zb_uint8_t)((a)[15])
+#endif
+
 typedef enum {
   ARG_DEC=0x01,
   ARG_HEX=0x02,

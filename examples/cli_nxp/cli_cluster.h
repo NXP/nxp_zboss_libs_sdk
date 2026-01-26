@@ -18,6 +18,48 @@
 #include "zboss_api.h"
 
 
+#define CLI_HAS_CLUSTER_BASIC         1
+#define CLI_HAS_CLUSTER_IDENTITY      1 /* has commands */
+#define CLI_HAS_CLUSTER_GROUPS        1 /* has commands */
+#define CLI_HAS_CLUSTER_SCENES        1 /* has commands */
+#define CLI_HAS_CLUSTER_ONOFF         1 /* has commands */
+#define CLI_HAS_CLUSTER_ONOFF_SWITCH  1
+#define CLI_HAS_CLUSTER_TEMPERATURE   1
+#define CLI_HAS_CLUSTER_OTA_UPGRADE   1 /* has commands, uses filesystem */
+#define CLI_HAS_CLUSTER_THERMOSTAT    1 /* has commands */
+#define CLI_HAS_CLUSTER_MANUF_SPE     1 /* has commands */
+
+#ifdef ZB_PLATFORM_LINUX
+//#undef CLI_HAS_CLUSTER_BASIC
+//#undef CLI_HAS_CLUSTER_IDENTITY
+//#undef CLI_HAS_CLUSTER_GROUPS
+//#undef CLI_HAS_CLUSTER_SCENES
+//#undef CLI_HAS_CLUSTER_ONOFF
+//#undef CLI_HAS_CLUSTER_ONOFF_SWITCH
+//#undef CLI_HAS_CLUSTER_TEMPERATURE
+//#undef CLI_HAS_CLUSTER_OTA_UPGRADE
+//#undef CLI_HAS_CLUSTER_THERMOSTAT
+//#undef CLI_HAS_CLUSTER_MANUF_SPE
+
+#define MAX_CLUSTERS 256
+#endif
+
+#ifdef ZB_PLATFORM_ZEPHYR
+//#undef CLI_HAS_CLUSTER_BASIC
+//#undef CLI_HAS_CLUSTER_IDENTITY
+#undef CLI_HAS_CLUSTER_GROUPS
+#undef CLI_HAS_CLUSTER_SCENES
+//#undef CLI_HAS_CLUSTER_ONOFF
+//#undef CLI_HAS_CLUSTER_ONOFF_SWITCH
+//#undef CLI_HAS_CLUSTER_TEMPERATURE
+#undef CLI_HAS_CLUSTER_OTA_UPGRADE
+//#undef CLI_HAS_CLUSTER_THERMOSTAT
+//#undef CLI_HAS_CLUSTER_MANUF_SPE
+
+#define MAX_CLUSTERS 8
+#endif
+
+
 /* if it returns false, the command will be manage by the stack
  * if it returns true, the command will be ignore by the stack */
 typedef zb_uint8_t (*commands_handler_t)(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);

@@ -32,7 +32,10 @@
  *                                  CLUSTER Temperature Measurement
  *
  * ----------------------------------------------------------------------------------- */
-
+#ifndef CLI_HAS_CLUSTER_TEMPERATURE
+#define pCluster_0402 NULL
+#else
+#define pCluster_0402 &cluster_0402
 
 /* variable hidden  in macro ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION */
 static zb_uint16_t cluster_revision_temp_measurement_attr_list = ZB_ZCL_TEMP_MEASUREMENT_CLUSTER_REVISION_DEFAULT;
@@ -74,6 +77,7 @@ static zb_cluster_def cluster_0402 = {
   zb_zcl_temp_measurement_init_client,                          /* Can be replaced by our implementation to configure zb_zcl_cluster_write_attr_hook_t */
   dummy_commands_handler,
 };
+#endif /* CLI_HAS_CLUSTER_TEMPERATURE */
 
 
 /* -----------------------------------------------------------------------------------

@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2024 NXP
+ * Copyright 2024-2025 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -26,7 +26,7 @@
 
 #include <dirent.h>
 
-#define ZB_TRACE_FILE_ID 63255
+#define ZB_TRACE_FILE_ID 60001
 #include "zboss_api.h"
 
 #include "ota_server.h"
@@ -439,7 +439,7 @@ zb_ret_t next_data_ind_cb(zb_uint8_t index,
       zb_int8_t rssi = ZB_MAC_RSSI_UNDEFINED;
       zb_uint16_t short_addr= zcl_hdr->addr_data.common_data.source.u.short_addr;
 
-      clock_gettime(CLOCK_BOOTTIME, &now);
+      osif_get_clock_realtime(&now);
       elapsed.tv_sec = now.tv_sec - ota_file->start.tv_sec;
       elapsed.tv_nsec = now.tv_nsec - ota_file->start.tv_nsec;
       if(elapsed.tv_nsec < 0)
@@ -471,7 +471,7 @@ zb_ret_t next_data_ind_cb(zb_uint8_t index,
   if(size_to_read > 0)
   {
     if(file_offset == 0)
-      clock_gettime(CLOCK_BOOTTIME, &ota_file->start);
+      osif_get_clock_realtime(&ota_file->start);
 
     fp = fopen(ota_file->name, "r");
     if(!fp)

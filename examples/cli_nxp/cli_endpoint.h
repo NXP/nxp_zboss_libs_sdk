@@ -18,6 +18,12 @@
 #include "zboss_api.h"
 #include "cli_menu.h"
 
+#ifdef ZB_PLATFORM_LINUX
+#define MAX_ENDPOINTS 256
+#endif
+#ifdef ZB_PLATFORM_ZEPHYR
+#define MAX_ENDPOINTS 8
+#endif
 
 typedef struct {
   zb_uint16_t         id;

@@ -13,6 +13,11 @@
  */
 
 
+#ifndef CLI_HAS_CLUSTER_OTA_UPGRADE
+#define pCluster_0019 NULL
+#else
+#define pCluster_0019 &cluster_0019
+
 
 /* Client config */
 #define OTA_UPGRADE_DATA_SIZE 64 /* Max value accepted by the stack, refer to ZB_ZCL_OTA_UPGRADE_QUERY_IMAGE_BLOCK_DATA_SIZE_MAX */
@@ -758,7 +763,7 @@ static zb_ret_t cluster_ota_srv_next_data_ind_cb(zb_uint8_t index, zb_zcl_parsed
       zb_uint8_t lqi = ZB_MAC_LQI_UNDEFINED;
       zb_int8_t rssi = ZB_MAC_RSSI_UNDEFINED;
 
-      clock_gettime(CLOCK_BOOTTIME, &now);
+      osif_get_clock_realtime(&now);
       elapsed.tv_sec = now.tv_sec - ota_file->start.tv_sec;
       elapsed.tv_nsec = now.tv_nsec - ota_file->start.tv_nsec;
       if(elapsed.tv_nsec < 0)
@@ -789,7 +794,7 @@ static zb_ret_t cluster_ota_srv_next_data_ind_cb(zb_uint8_t index, zb_zcl_parsed
   if(size_to_read > 0)
   {
     if(file_offset == 0)
-      clock_gettime(CLOCK_BOOTTIME, &ota_file->start);
+      osif_get_clock_realtime(&ota_file->start);
 
     fp = fopen(ota_file->name, "r");
     if(!fp)
@@ -832,7 +837,7 @@ static void create_ota_clt_file_name(zb_zcl_ota_clt_file_t *ota_file)
   struct timespec ts = {0};
   struct tm rtm = {0};
 
-  clock_gettime(CLOCK_REALTIME, &ts);
+  osif_get_clock_realtime(&ts);
   localtime_r(&ts.tv_sec, &rtm);
 
   snprintf(ota_file->filename, sizeof(ota_file->filename),"OTA-FILE-%02d%02d%02d-%02d%02d-%s",
@@ -952,7 +957,7 @@ static zb_ret_t cluster_ota_clt_device_value_cb(zb_zcl_device_callback_param_t *
           zb_uint8_t lqi = ZB_MAC_LQI_UNDEFINED;
           zb_int8_t rssi = ZB_MAC_RSSI_UNDEFINED;
 
-          clock_gettime(CLOCK_BOOTTIME, &now);
+          osif_get_clock_realtime(&now);
           elapsed.tv_sec = now.tv_sec - ota_rx_file.start.tv_sec;
           elapsed.tv_nsec = now.tv_nsec - ota_rx_file.start.tv_nsec;
           if(elapsed.tv_nsec < 0)
@@ -980,7 +985,7 @@ static zb_ret_t cluster_ota_clt_device_value_cb(zb_zcl_device_callback_param_t *
       if(written_size)
       {
         if(file_offset == 0)
-          clock_gettime(CLOCK_BOOTTIME, &ota_rx_file.start);
+          osif_get_clock_realtime(&ota_rx_file.start);
 
         if(file_offset != ota_rx_file.written)
         {
@@ -1054,3 +1059,4 @@ static zb_uint8_t cluster_ota_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb
   return ZB_FALSE;
 }
 
+#endif /* CLI_HAS_CLUSTER_OTA_UPGRADE */

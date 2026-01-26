@@ -183,6 +183,7 @@ cluster create 10 GB server
 cluster create 10 GOF client
 config ieee_addr 00:00:00:00:00:00:00:01
 config role end_device
+config ed_timeout 8
 config channel 21
 nvram erase_at_start 1
 config start

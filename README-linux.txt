@@ -19,10 +19,10 @@
 Versioning:
 ===========
 
-Date:    Fri, 21 Nov 2025 09:44:13 +0000
-Version: 019.2504.019
-Sha1:    4195e27
-Zboss:   zoi_release-4.2.2.0-
+Date:    Thu, 12 Feb 2026 07:57:46 +0000
+Version: 019.2601.028
+Sha1:    5f065b8
+Zboss:   zoi_release-4.2.2.0
 
 
 Delivery content:
@@ -78,13 +78,11 @@ output
 │   │      └── systemd
 │   │          └── system
 │   │              ├── zb_app.service
-│   │              ├── fw-dump-monitor.service
 │   │              ├── zb_config.service
 │   │              └── zb_mux.service
 │   └── usr
 │       └── sbin
 │           ├── zb_app.sh
-│           ├── fw-dump-monitor.sh
 │           ├── zb_config.sh
 │           └── zb_mux.sh
 └── template
@@ -263,13 +261,6 @@ Its setting configure:
  - debug information (console log file,  debug TTY data, if configured)
 
 
-fw-dump-monitor.service:
-------------------------
-
-This service will monitor dmesg logs to check if FW crashed and it will collect logs.
-Logs will be saved in /var/log/fw_dumps
-
-
 run & check services:
 --------------------
 
@@ -277,28 +268,24 @@ in case a service bas changed:
   systemctl daemon-reload
 
 manual start:
-  systemctl start fw-dump-monitor.service
   systemctl start zb_config.service
   systemctl start zb_mux.service
   systemctl start zb_app.service
   systemctl start otbr-agent.service
 
 manual stop:
-  systemctl stop fw-dump-monitor.service
   systemctl stop otbr-agent.service
   systemctl stop zb_app.service
   systemctl stop zb_mux.service
   systemctl stop zb_config.service
 
 auto start:
-  systemctl enable fw-dump-monitor.service
   systemctl enable zb_config.service
   systemctl enable zb_mux.service
   systemctl enable zb_app.service
   systemctl enable otbr-agent.service
 
 auto stop:
-  systemctl disable fw-dump-monitor.service
   systemctl disable otbr-agent.service
   systemctl disable zb_app.service
   systemctl disable zb_mux.service
@@ -313,14 +300,12 @@ auto stop:
 
 
 check status:
-  systemctl status fw-dump-monitor.service
   systemctl status zb_config.service
   systemctl status zb_mux.service
   systemctl status zb_app.service
   systemctl status otbr-agent.service
 
 check journal:
-  journalctl -xeu fw-dump-monitor.service
   journalctl -xeu zb_config.service
   journalctl -xeu zb_mux.service
   journalctl -xeu zb_app.service
@@ -796,7 +781,7 @@ Deployment & execution:
 
 To deploy prebuild and compiled binaries:
 
-  IMX_IPADDR=192.168.0.xxx make deploy
+  IMX_IPADDR=192.168.0.xxx make imx/deploy
 
 
 To run prebuild binaries on IMX (via ssh or on uart):
@@ -816,7 +801,7 @@ Tools setup:
 Wireshark:
 ----------
 
-To be able to snif Zigbee R23, wireshark needs to have the following commit:
+To be able to sniff Zigbee R23, wireshark needs to have the following commit:
 "ZigBee: Add dissectors for r23 stuff", available from v4.1.0rc0
 
 https://www.wireshark.org/download.html
@@ -892,7 +877,7 @@ To activate concentrator mode without periodical many to one route request, set 
 Memory buffer handling:
 -----------------------
 
-An endpoint callback can be registered during endpoint creation which is used to handle incoming packet.
+An endpoint callback can be registered during endpoint creation which is used to handle incoming packets.
 If one is registered, then there is 2 possiblities:
 -return FALSE: It means stack will handle command and process it on its side.
 -return TRUE: It means that stack will not do anything and it's up to the app to handle command.

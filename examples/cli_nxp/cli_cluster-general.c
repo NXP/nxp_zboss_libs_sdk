@@ -18,6 +18,10 @@
  *                                  CLUSTER Basic
  *
  * ----------------------------------------------------------------------------------- */
+#ifndef CLI_HAS_CLUSTER_BASIC
+#define pCluster_0000 NULL
+#else
+#define pCluster_0000 &cluster_0000
 
 /* variable hidden  in macro ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION */
 static zb_uint16_t cluster_revision_basic_attr_list = ZB_ZCL_BASIC_CLUSTER_REVISION_DEFAULT;
@@ -50,6 +54,7 @@ static zb_cluster_def cluster_0000 = {
   zb_zcl_basic_init_client,                          /* Can be replaced by our implementation to configure zb_zcl_cluster_write_attr_hook_t */
   dummy_commands_handler,
 };
+#endif /* CLI_HAS_CLUSTER_BASIC */
 
 
 /* -----------------------------------------------------------------------------------
@@ -71,6 +76,10 @@ static zb_cluster_def cluster_0000 = {
  *                                  CLUSTER Identify
  *
  * ----------------------------------------------------------------------------------- */
+#ifndef CLI_HAS_CLUSTER_IDENTITY
+#define pCluster_0003 NULL
+#else
+#define pCluster_0003 &cluster_0003
 
 static zb_uint8_t identify_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
 
@@ -346,6 +355,7 @@ static zb_uint8_t identify_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_ui
 {
   return (cmd_info->cmd_direction == ZB_ZCL_FRAME_DIRECTION_TO_CLI)?(identify_client_commands_handler(cmd_info, param)):(identify_server_commands_handler(cmd_info, param));
 }
+#endif /* CLI_HAS_CLUSTER_IDENTITY */
 
 
 /* -----------------------------------------------------------------------------------
@@ -353,6 +363,10 @@ static zb_uint8_t identify_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_ui
  *                                  CLUSTER Groups
  *
  * ----------------------------------------------------------------------------------- */
+#ifndef CLI_HAS_CLUSTER_GROUPS
+#define pCluster_0004 NULL
+#else
+#define pCluster_0004 &cluster_0004
 
 static zb_uint8_t groups_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
 
@@ -888,6 +902,7 @@ static zb_uint8_t groups_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint
 {
   return (cmd_info->cmd_direction == ZB_ZCL_FRAME_DIRECTION_TO_CLI)?(groups_client_commands_handler(cmd_info, param)):(groups_server_commands_handler(cmd_info, param));
 }
+#endif /* CLI_HAS_CLUSTER_GROUPS */
 
 
 /* -----------------------------------------------------------------------------------
@@ -895,6 +910,10 @@ static zb_uint8_t groups_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint
  *                                  CLUSTER Scenes
  *
  * ----------------------------------------------------------------------------------- */
+#ifndef CLI_HAS_CLUSTER_SCENES
+#define pCluster_0005 NULL
+#else
+#define pCluster_0005 &cluster_0005
 
 static zb_uint8_t scenes_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
 
@@ -1676,14 +1695,30 @@ static zb_ret_t cluster_scenes_srv_device_value_cb(zb_zcl_device_callback_param_
 
           /* check len matching that cluster attr size */
           switch(fieldset->cluster_id) {
+#ifdef CLI_HAS_CLUSTER_BASIC
           case ZB_ZCL_CLUSTER_ID_BASIC:                my_cluster_attr_len = sizeof(g_general_basic_attr);         break;
+#endif
+#ifdef CLI_HAS_CLUSTER_IDENTITY
           case ZB_ZCL_CLUSTER_ID_IDENTIFY:             my_cluster_attr_len = sizeof(g_general_identity_attr);      break;
+#endif
+#ifdef CLI_HAS_CLUSTER_GROUPS
           case ZB_ZCL_CLUSTER_ID_GROUPS:               my_cluster_attr_len = sizeof(g_general_groups_attr);        break;
+#endif
+#ifdef CLI_HAS_CLUSTER_SCENES
           case ZB_ZCL_CLUSTER_ID_SCENES:               my_cluster_attr_len = sizeof(g_general_scenes_attr);        break;
+#endif
+#ifdef CLI_HAS_CLUSTER_ONOFF
           case ZB_ZCL_CLUSTER_ID_ON_OFF:               my_cluster_attr_len = sizeof(g_general_on_off_attr);        break;
+#endif
+#ifdef CLI_HAS_CLUSTER_ONOFF_SWITCH
           case ZB_ZCL_CLUSTER_ID_ON_OFF_SWITCH_CONFIG: my_cluster_attr_len = sizeof(g_general_on_off_switch_attr); break;
+#endif
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
           case ZB_ZCL_CLUSTER_ID_OTA_UPGRADE:          my_cluster_attr_len = sizeof(g_general_ota_upgrade_attr);   break;
+#endif
+#ifdef CLI_HAS_CLUSTER_THERMOSTAT
           case ZB_ZCL_CLUSTER_ID_THERMOSTAT:           my_cluster_attr_len = sizeof(g_general_thermostat_attr);   break;
+#endif
 //TODO : review ext_field_set_t management : not all attributes can be part of that
 //          case : my_cluster_attr_len = sizeof()); break;
           }
@@ -1772,14 +1807,30 @@ static zb_ret_t cluster_scenes_srv_device_value_cb(zb_zcl_device_callback_param_
 
           switch(this_efs->cluter_id) {
           /* We should access only attributes with access & ZB_ZCL_ATTR_ACCESS_SCENE */
+#ifdef CLI_HAS_CLUSTER_BASIC
           case ZB_ZCL_CLUSTER_ID_BASIC:                ZB_MEMCPY(this_efs->data, &g_general_basic_attr,         this_efs->len); break;
+#endif
+#ifdef CLI_HAS_CLUSTER_IDENTITY
           case ZB_ZCL_CLUSTER_ID_IDENTIFY:             ZB_MEMCPY(this_efs->data, &g_general_identity_attr,      this_efs->len); break;
+#endif
+#ifdef CLI_HAS_CLUSTER_GROUPS
           case ZB_ZCL_CLUSTER_ID_GROUPS:               ZB_MEMCPY(this_efs->data, &g_general_groups_attr,        this_efs->len); break;
+#endif
+#ifdef CLI_HAS_CLUSTER_SCENES
           case ZB_ZCL_CLUSTER_ID_SCENES:               ZB_MEMCPY(this_efs->data, &g_general_scenes_attr,        this_efs->len); break;
+#endif
+#ifdef CLI_HAS_CLUSTER_ONOFF
           case ZB_ZCL_CLUSTER_ID_ON_OFF:               ZB_MEMCPY(this_efs->data, &g_general_on_off_attr,        this_efs->len); break;
+#endif
+#ifdef CLI_HAS_CLUSTER_ONOFF_SWITCH
           case ZB_ZCL_CLUSTER_ID_ON_OFF_SWITCH_CONFIG: ZB_MEMCPY(this_efs->data, &g_general_on_off_switch_attr, this_efs->len); break;
+#endif
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
           case ZB_ZCL_CLUSTER_ID_OTA_UPGRADE:          ZB_MEMCPY(this_efs->data, &g_general_ota_upgrade_attr,   this_efs->len); break;
+#endif
+#ifdef CLI_HAS_CLUSTER_THERMOSTAT
           case ZB_ZCL_CLUSTER_ID_THERMOSTAT:           ZB_MEMCPY(this_efs->data, &g_general_thermostat_attr,    this_efs->len); break;
+#endif
 //TODO : review ext_field_set_t management : not all attributes can be part of that
 //          case :          ZB_MEMCPY(this_efs->data, &,   this_efs->len); break;
           }
@@ -1836,14 +1887,30 @@ static zb_ret_t cluster_scenes_srv_device_value_cb(zb_zcl_device_callback_param_
 // scenes_zc is doing ZB_ZCL_SET_ATTRIBUTE, but it only implement ZB_ZCL_ATTR_ON_OFF_ON_OFF_ID (1 cluster, 1 attribute of 1 byte)
           /* We should access only attributes with access & ZB_ZCL_ATTR_ACCESS_SCENE */
           switch(this_efs->cluter_id) {
+#ifdef CLI_HAS_CLUSTER_BASIC
           case ZB_ZCL_CLUSTER_ID_BASIC:                ZB_MEMCPY(&g_general_basic_attr,         this_efs->data, this_efs->len); break;
+#endif
+#ifdef CLI_HAS_CLUSTER_IDENTITY
           case ZB_ZCL_CLUSTER_ID_IDENTIFY:             ZB_MEMCPY(&g_general_identity_attr,      this_efs->data, this_efs->len); break;
+#endif
+#ifdef CLI_HAS_CLUSTER_GROUPS
           case ZB_ZCL_CLUSTER_ID_GROUPS:               ZB_MEMCPY(&g_general_groups_attr,        this_efs->data, this_efs->len); break;
+#endif
+#ifdef CLI_HAS_CLUSTER_SCENES
           case ZB_ZCL_CLUSTER_ID_SCENES:               ZB_MEMCPY(&g_general_scenes_attr,        this_efs->data, this_efs->len); break;
+#endif
+#ifdef CLI_HAS_CLUSTER_ONOFF
           case ZB_ZCL_CLUSTER_ID_ON_OFF:               ZB_MEMCPY(&g_general_on_off_attr,        this_efs->data, this_efs->len); break;
+#endif
+#ifdef CLI_HAS_CLUSTER_ONOFF_SWITCH
           case ZB_ZCL_CLUSTER_ID_ON_OFF_SWITCH_CONFIG: ZB_MEMCPY(&g_general_on_off_switch_attr, this_efs->data, this_efs->len); break;
+#endif
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
           case ZB_ZCL_CLUSTER_ID_OTA_UPGRADE:          ZB_MEMCPY(&g_general_ota_upgrade_attr,   this_efs->data, this_efs->len); break;
+#endif
+#ifdef CLI_HAS_CLUSTER_THERMOSTAT
           case ZB_ZCL_CLUSTER_ID_THERMOSTAT:           ZB_MEMCPY(&g_general_thermostat_attr,    this_efs->data, this_efs->len); break;
+#endif
 //TODO : review ext_field_set_t management : not all attributes can be part of that
 //          case :          ZB_MEMCPY(this_efs->data, &,   this_efs->len); break;
           }
@@ -2132,6 +2199,7 @@ static zb_ret_t cluster_scenes_srv_device_value_cb(zb_zcl_device_callback_param_
 
   return device_cb_params->status;
 }
+#endif /* CLI_HAS_CLUSTER_SCENES */
 
 
 /* -----------------------------------------------------------------------------------
@@ -2139,6 +2207,10 @@ static zb_ret_t cluster_scenes_srv_device_value_cb(zb_zcl_device_callback_param_
  *                                  CLUSTER ON/OFF
  *
  * ----------------------------------------------------------------------------------- */
+#ifndef CLI_HAS_CLUSTER_ONOFF
+#define pCluster_0006 NULL
+#else
+#define pCluster_0006 &cluster_0006
 
 static zb_uint8_t onoff_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
 
@@ -2252,7 +2324,6 @@ static zb_ret_t help_onoff_cmds_detailed(char *subcommand)
   }
   return RET_OK;
 }
-
 
 
 /* Static command cluster
@@ -2432,6 +2503,7 @@ static zb_uint8_t onoff_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8
 {
   return (cmd_info->cmd_direction == ZB_ZCL_FRAME_DIRECTION_TO_CLI)?(onoff_client_commands_handler(cmd_info, param)):(onoff_server_commands_handler(cmd_info, param));
 }
+#endif /* CLI_HAS_CLUSTER_ONOFF */
 
 
 /* -----------------------------------------------------------------------------------
@@ -2439,6 +2511,10 @@ static zb_uint8_t onoff_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8
  *                                  CLUSTER ON/OFF Switch Configuration
  *
  * ----------------------------------------------------------------------------------- */
+#ifndef CLI_HAS_CLUSTER_ONOFF_SWITCH
+#define pCluster_0007 NULL
+#else
+#define pCluster_0007 &cluster_0007
 
 /* variable hidden  in macro ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION */
 static zb_uint16_t cluster_revision_switch_cfg_attr_list = ZB_ZCL_ON_OFF_SWITCH_CONFIGURATION_CLUSTER_REVISION_DEFAULT;
@@ -2471,6 +2547,7 @@ static zb_cluster_def cluster_0007 = {
   zb_zcl_on_off_switch_config_init_client,           /* Can be replaced by our implementation to configure zb_zcl_cluster_write_attr_hook_t */
   dummy_commands_handler,
 };
+#endif /* CLI_HAS_CLUSTER_ONOFF_SWITCH */
 
 
 /* -----------------------------------------------------------------------------------

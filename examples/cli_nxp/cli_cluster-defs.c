@@ -13,6 +13,7 @@
  */
 
 
+#ifdef CLI_HAS_CLUSTER_BASIC
 /* -----------------------------------------------------------------------------------
  *
  *                                  CLUSTER Basic
@@ -31,6 +32,7 @@ static zb_zcl_general_basic_attr_t g_general_basic_attr = {
   .zcl_version  = ZB_ZCL_VERSION,
   .power_source = ZB_ZCL_BASIC_POWER_SOURCE_UNKNOWN,
 };
+#endif /* CLI_HAS_CLUSTER_BASIC */
 
 /* -----------------------------------------------------------------------------------
  *
@@ -46,6 +48,7 @@ static zb_zcl_general_basic_attr_t g_general_basic_attr = {
  * ----------------------------------------------------------------------------------- */
 
 
+#ifdef CLI_HAS_CLUSTER_IDENTITY
 /* -----------------------------------------------------------------------------------
  *
  *                                  CLUSTER Identify
@@ -60,8 +63,10 @@ typedef struct {
 static zb_zcl_general_identity_attr_t g_general_identity_attr = {
   .identify_time = ZB_ZCL_IDENTIFY_IDENTIFY_TIME_DEFAULT_VALUE,
 };
+#endif /* CLI_HAS_CLUSTER_IDENTITY */
 
 
+#ifdef CLI_HAS_CLUSTER_GROUPS
 /* -----------------------------------------------------------------------------------
  *
  *                                  CLUSTER Groups
@@ -76,8 +81,10 @@ typedef struct {
 static zb_zcl_general_groups_attr_t g_general_groups_attr = {
   .name_support = 0,
 };
+#endif /* CLI_HAS_CLUSTER_GROUPS */
 
 
+#ifdef CLI_HAS_CLUSTER_SCENES
 /* -----------------------------------------------------------------------------------
  *
  *                                  CLUSTER Scenes
@@ -100,8 +107,10 @@ static zb_zcl_general_scenes_attr_t g_general_scenes_attr = {
   .scene_valid   = ZB_ZCL_SCENES_SCENE_VALID_DEFAULT_VALUE,
   .name_support  = ZB_ZCL_SCENES_NAME_SUPPORT_DEFAULT_VALUE,
 };
+#endif /* CLI_HAS_CLUSTER_SCENES */
 
 
+#ifdef CLI_HAS_CLUSTER_ONOFF
 /* -----------------------------------------------------------------------------------
  *
  *                                  CLUSTER ON/OFF
@@ -117,8 +126,10 @@ typedef struct {
 static zb_zcl_general_on_off_attr_t g_general_on_off_attr = {
   .on_off = ZB_ZCL_ON_OFF_ON_OFF_DEFAULT_VALUE,
 };
+#endif /* CLI_HAS_CLUSTER_ONOFF */
 
 
+#ifdef CLI_HAS_CLUSTER_ONOFF_SWITCH
 /* -----------------------------------------------------------------------------------
  *
  *                                  CLUSTER ON/OFF Switch Configuration
@@ -135,6 +146,7 @@ static zb_zcl_general_on_off_switch_attr_t g_general_on_off_switch_attr = {
   .type    = ZB_ZCL_ON_OFF_SWITCH_CONFIGURATION_SWITCH_TYPE_TOGGLE,
   .actions = ZB_ZCL_ON_OFF_SWITCH_CONFIGURATION_SWITCH_ACTIONS_DEFAULT_VALUE,
 };
+#endif /* CLI_HAS_CLUSTER_ONOFF_SWITCH */
 
 
 /* -----------------------------------------------------------------------------------
@@ -270,6 +282,7 @@ static zb_zcl_general_on_off_switch_attr_t g_general_on_off_switch_attr = {
  * ----------------------------------------------------------------------------------- */
 
 
+#ifdef CLI_HAS_CLUSTER_TEMPERATURE
 /* -----------------------------------------------------------------------------------
  *
  *                                  CLUSTER Temperature Measurement
@@ -292,6 +305,7 @@ static zb_zcl_measur_lvlsensor_temp_measurement_attr_t g_lvlsensor_temp_measurem
   .tolerance = 0,
 #endif
 };
+#endif /* CLI_HAS_CLUSTER_TEMPERATURE */
 
 
 /* -----------------------------------------------------------------------------------
@@ -329,6 +343,7 @@ static zb_zcl_measur_lvlsensor_temp_measurement_attr_t g_lvlsensor_temp_measurem
  * ----------------------------------------------------------------------------------- */
 
 
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
 /* -----------------------------------------------------------------------------------
  *
  *                                  CLUSTER OTA Upgrade
@@ -389,8 +404,10 @@ enum zb_zcl_nxp_ota_cmd_e
   ZB_ZCL_CMD_OTA_NXP_TEMPO       = 0x04,  /* Tempo OTA NXP command identifier. */
 #endif
 };
+#endif /* CLI_HAS_CLUSTER_OTA_UPGRADE */
 
 
+#ifdef CLI_HAS_CLUSTER_THERMOSTAT
 /* -----------------------------------------------------------------------------------
  *
  *                                  CLUSTER Thermostat
@@ -413,8 +430,10 @@ static zb_zcl_general_thermostat_attr_t g_general_thermostat_attr = {
   .control_seq_of_operation  = ZB_ZCL_THERMOSTAT_CONTROL_SEQ_OF_OPERATION_DEFAULT_VALUE,
   .system_mode               = ZB_ZCL_THERMOSTAT_CONTROL_SYSTEM_MODE_DEFAULT_VALUE,
 };
+#endif /* CLI_HAS_CLUSTER_THERMOSTAT */
 
 
+#ifdef CLI_HAS_CLUSTER_MANUF_SPE
 /* -----------------------------------------------------------------------------------
  *
  *                                  CLUSTER NXP CUSTOM
@@ -509,3 +528,4 @@ enum zb_zcl_nxp_custom_cmd_e
   ZB_ZCL_CMD_NXP_ABORT   = 0x02,  /* Payload NXP custom command abort ongoing ping identifier. */
   ZB_ZCL_CMD_NXP_STATUS  = 0x03,  /* Payload NXP custom command status ongoing ping identifier. */
 };
+#endif /* CLI_HAS_CLUSTER_MANUF_SPE */

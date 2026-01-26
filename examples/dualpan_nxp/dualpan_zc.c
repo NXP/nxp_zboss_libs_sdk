@@ -25,7 +25,7 @@
 */
 
 
-#define ZB_TRACE_FILE_ID 63255
+#define ZB_TRACE_FILE_ID 60010
 #include "zboss_api.h"
 
 #include "dualpan.h"

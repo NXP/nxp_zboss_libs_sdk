@@ -1,5 +1,18 @@
 var group__zb__general__set =
 [
+    [ "zb_get_pan_channel_params_s", "structzb__get__pan__channel__params__s.html", [
+      [ "cb", "structzb__get__pan__channel__params__s.html#a4d584874c049a1bae106bffa40df67c1", null ],
+      [ "current_pan_channel", "structzb__get__pan__channel__params__s.html#ad5d821cebb3a1131cf96d665ed677d0e", null ],
+      [ "page", "structzb__get__pan__channel__params__s.html#a3d65d348f143ae4acdeb58b4ea124ac1", null ],
+      [ "side_pan_channel", "structzb__get__pan__channel__params__s.html#a02550c955b33940d89ee67c02614d932", null ],
+      [ "status", "structzb__get__pan__channel__params__s.html#a1b59e3a9b881ab653f9ddbc8c19f3193", null ]
+    ] ],
+    [ "zb_set_pan_channel_params_s", "structzb__set__pan__channel__params__s.html", [
+      [ "cb", "structzb__set__pan__channel__params__s.html#af40a0616d7826afce3b78c9142d30c29", null ],
+      [ "current_pan_channel", "structzb__set__pan__channel__params__s.html#a94924fde3bc43d80eb6ac9f994ae25f6", null ],
+      [ "page", "structzb__set__pan__channel__params__s.html#abdf9915278113d0186e9e9634573e23a", null ],
+      [ "status", "structzb__set__pan__channel__params__s.html#a01f6fd02254287c8be5ac0d8f6790fb3", null ]
+    ] ],
     [ "BOTH_KEEPALIVE_METHODS", "group__zb__general__set.html#ga1f65020328ff875c25b4054d8341da33", null ],
     [ "ED_AGING_TIMEOUT_1024MIN", "group__zb__general__set.html#ga56e0c33c69bd4a6243135dde68706f1d", null ],
     [ "ED_AGING_TIMEOUT_10SEC", "group__zb__general__set.html#ga3641e094836d355a64085fad9b5d3f8b", null ],
@@ -21,10 +34,13 @@ var group__zb__general__set =
     [ "MAC_DATA_POLL_KEEPALIVE", "group__zb__general__set.html#ga3fe1a4b9807bab2743343e39d312ef49", null ],
     [ "nwk_keepalive_supported_method_t", "group__zb__general__set.html#ga56ca96fa6494f30bc2e77de3bf53e534", null ],
     [ "nwk_requested_timeout_t", "group__zb__general__set.html#gab2c7b185dfc85a2643b7261d484a52d0", null ],
+    [ "zb_get_pan_channel_params_t", "group__zb__general__set.html#ga54c64a0b6a0cabfa44a76471665e73ad", null ],
     [ "zb_set_manufacturer_code_cb_t", "group__zb__general__set.html#ga981c241d8fc2ad7aea6093a8605e203f", null ],
+    [ "zb_set_pan_channel_params_t", "group__zb__general__set.html#gaaaabe1bae1692c213de7c8cbf83cf617", null ],
     [ "zb_channel_list_add", "group__zb__general__set.html#gaada35da08b451d550953a2a6575053c0", null ],
     [ "zb_channel_list_init", "group__zb__general__set.html#gaebc3b50bd1edca9c693b5f5aca239619", null ],
     [ "zb_get_node_descriptor_manufacturer_code", "group__zb__general__set.html#ga74f1e43bb2ee54d8eacec70cd40c7a1d", null ],
+    [ "zb_get_pan_channel_async", "group__zb__general__set.html#gafa6bb63bf33e8b679d5a819da3af9511", null ],
     [ "zb_set_channel_mask", "group__zb__general__set.html#ga7767a6018a3c4a62f5d7942e341ff1a5", null ],
     [ "zb_set_ed_timeout", "group__zb__general__set.html#gaf8e3a6e219eba542ddd1ef8dc361149d", null ],
     [ "zb_set_extended_pan_id", "group__zb__general__set.html#ga192e0a93686ff250fae63d2c8e42b59e", null ],
@@ -42,6 +58,7 @@ var group__zb__general__set =
     [ "zb_set_network_router_role_ext", "group__zb__general__set.html#gac066ff1863237394d52f8f62df27747e", null ],
     [ "zb_set_network_router_role_legacy", "group__zb__general__set.html#gafca3271cdb282b7bafce261cfeaf6742", null ],
     [ "zb_set_node_descriptor_manufacturer_code_req", "group__zb__general__set.html#ga814a9f0a52f8e1805c4075e7ae7e1402", null ],
+    [ "zb_set_pan_channel_async", "group__zb__general__set.html#gaccf48268518d5abac229f466c39b78b4", null ],
     [ "zb_set_pan_id", "group__zb__general__set.html#ga5517656935285035d58dd1561e24a275", null ],
     [ "zb_set_rx_on_when_idle", "group__zb__general__set.html#ga6880473f802a340c6702e8c91f8ac606", null ]
 ];

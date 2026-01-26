@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 NXP
+ * Copyright 2024-2026 NXP
  *
  * NXP Proprietary.
  * This software is owned or controlled by NXP and may only be used strictly
@@ -13,7 +13,7 @@
  */
 
 #ifndef ZB_TRACE_FILE_ID
-#define ZB_TRACE_FILE_ID 33613
+#define ZB_TRACE_FILE_ID 60033
 #endif
 #include "zboss_api.h"
 #include "zboss_api_error.h"
@@ -121,6 +121,9 @@ static zb_ret_t config_max_children(int argc, char *argv[]);  static zb_ret_t he
 static zb_ret_t config_concentrator(int argc, char *argv[]);  static zb_ret_t help_concentrator(void);
 static zb_ret_t config_channel_change(int argc, char *argv[]);static zb_ret_t help_channel_change(void);
 #endif
+#if defined(ZB_ED_ROLE)
+static zb_ret_t config_ed_timeout(int argc, char *argv[]);    static zb_ret_t help_ed_timeout(void);
+#endif
 #ifdef ZB_MAC_CONFIGURABLE_TX_POWER
 static zb_ret_t config_tx_power(int argc, char *argv[]);      static zb_ret_t help_tx_power(void);
 static zb_ret_t config_tx_ppch(int argc, char *argv[]);       static zb_ret_t help_tx_ppch(void);
@@ -154,7 +157,9 @@ static zb_ret_t config_get_version(int argc, char *argv[]);
 #if defined(ZB_TRACE_LEVEL)
 static zb_ret_t config_trace(int argc, char *argv[]);         static zb_ret_t help_trace(void);
 #endif
+#if defined(ZB_TRACE_TO_FILE)
 static zb_ret_t config_redirect_trace(int argc, char *argv[]);static zb_ret_t help_redirect_trace(void);
+#endif
 static zb_ret_t config_dbgtty(int argc, char *argv[]);        static zb_ret_t help_dbgtty(void);
 
 /* Menu config */
@@ -174,6 +179,7 @@ cli_menu_cmd menu_config[] = {
   { "concentrator", " [time] [radius]", "   ", config_concentrator,  help_concentrator,  "configure device as concentrator, time: the time in seconds between concentrator route discoveries [0x0~0xFFFFFFFF], radius the hop count radius for concentrator route discoveries [0-255]" },
 #endif
 #if defined(ZB_ED_ROLE)
+  { "ed_timeout", " [timeout]", "           ", config_ed_timeout,    help_ed_timeout,    "configure network end device timeout [0-14] according to Requested Timeout enumerated values [10 sec ~ 16384 min]" },
 #endif
 #ifdef ZB_MAC_CONFIGURABLE_TX_POWER
   { "tx_power", " <power_value>", "         ", config_tx_power,      help_tx_power,      "configure or read tx power: [-20, 22] dBm" },
@@ -206,7 +212,9 @@ cli_menu_cmd menu_config[] = {
 #if defined(ZB_TRACE_LEVEL)
   { "trace", " [level] [mask]", "           ", config_trace,         help_trace,         "configure the zboss log, level [0-4], mask [0x0~0xFFFFFFFF] " },
 #endif
+#if defined(ZB_TRACE_TO_FILE)
   { "redirect_trace", " [enable]", "        ", config_redirect_trace,help_redirect_trace,"configure the zboss log, redirect to app if enabled [0|1]" },
+#endif
   { "dbgtty", " [level]", "                 ", config_dbgtty,        help_dbgtty,        "configure debug TTY frames, level: [0-3]" },
   /* Add new commands above here */
   CONFIG_MENU_TERMINATE_ENTRIES
@@ -1103,6 +1111,57 @@ static zb_ret_t help_concentrator(void)
 #endif
 
 
+#if defined(ZB_ED_ROLE)
+/* Static command config
+ * command ed_timeout
+ *
+ * config ed_timeout [timeout]
+ */
+static zb_ret_t config_ed_timeout(int argc, char *argv[])
+{
+  zb_ret_t ret;
+  zb_uint8_t new_timeout;
+  static const zb_uint32_t ed_timeout_sec[] = {
+      [ED_AGING_TIMEOUT_10SEC]    = 10,      /* 10 seconds */
+      [ED_AGING_TIMEOUT_2MIN]     = 120,     /* 2 minutes */
+      [ED_AGING_TIMEOUT_4MIN]     = 240,     /* 4 minutes */
+      [ED_AGING_TIMEOUT_8MIN]     = 480,     /* 8 minutes */
+      [ED_AGING_TIMEOUT_16MIN]    = 960,     /* 16 minutes */
+      [ED_AGING_TIMEOUT_32MIN]    = 1920,    /* 32 minutes */
+      [ED_AGING_TIMEOUT_64MIN]    = 3840,    /* 64 minutes */
+      [ED_AGING_TIMEOUT_128MIN]   = 7680,    /* 128 minutes */
+      [ED_AGING_TIMEOUT_256MIN]   = 15360,   /* 256 minutes */
+      [ED_AGING_TIMEOUT_512MIN]   = 30720,   /* 512 minutes */
+      [ED_AGING_TIMEOUT_1024MIN]  = 61440,   /* 1024 minutes */
+      [ED_AGING_TIMEOUT_2048MIN]  = 122880,  /* 2048 minutes */
+      [ED_AGING_TIMEOUT_4096MIN]  = 245760,  /* 4096 minutes */
+      [ED_AGING_TIMEOUT_8192MIN]  = 491520,  /* 8192 minutes */
+      [ED_AGING_TIMEOUT_16384MIN] = 983040   /* 16384 minutes */
+  };
+
+  if(argc != 1)
+    return RET_INVALID_PARAMETER;
+
+  /* get [timeout] */
+  TOOLS_GET_ARG(ret, uint8, argv, 0, &new_timeout);
+
+  if(new_timeout > ED_AGING_TIMEOUT_16384MIN)
+    return RET_INVALID_PARAMETER;
+
+  /* Configure ED timeout, and send by default 3 keep alive messages during the ED timeout period */
+  zb_set_ed_timeout(new_timeout);
+  zb_set_keepalive_timeout(ZB_MILLISECONDS_TO_BEACON_INTERVAL(1000U / 3U * ed_timeout_sec[new_timeout]));
+
+  return RET_OK;
+}
+static zb_ret_t help_ed_timeout(void)
+{
+  menu_printf("pre-start OPTIONAL config with default value 256 min (8) (if not configured)");
+  return RET_OK;
+}
+#endif
+
+
 #ifdef ZB_MAC_CONFIGURABLE_TX_POWER
 /* Static stack callback function
  * response for zb_get/set_tx_power_async
@@ -1487,7 +1546,7 @@ static zb_ret_t config_start(int argc, char *argv[])
 
   /* Wait for ZB_ZDO_SIGNAL_SKIP_STARTUP */
   while(!config.signal_skip_startup)
-    usleep(100);
+    osif_usleep(100);
 
   return ret;
 }
@@ -1939,6 +1998,7 @@ static zb_ret_t redirect_trace_cb(const zb_trace_handler_info_t *info, const zb_
   //return RET_IGNORE; /* In this case, the message is handled by the stack. */
 }
 
+#if defined(ZB_TRACE_TO_FILE)
 /* Static command config
  * command redirect_trace
  *
@@ -1969,6 +2029,7 @@ static zb_ret_t help_redirect_trace(void)
   menu_printf("runtime config: redirect zboss log to app");
   return RET_OK;
 }
+#endif
 
 
 /* Static command config
@@ -1991,10 +2052,15 @@ static zb_ret_t config_dbgtty(int argc, char *argv[])
 
   if(new_dbgtty != config.dbgtty)
   {
+#if defined(ZB_PLATFORM_LINUX)
     char dumpTtyVal[] = "?";
-    
+
     sprintf(dumpTtyVal, "%hhu", new_dbgtty);
     setenv("DUMP_TTY", dumpTtyVal, 1);
+#elif defined(ZB_PLATFORM_ZEPHYR)
+extern void zb_macsplit_logs(zb_bool_t enabled);
+    zb_macsplit_logs(new_dbgtty > 0);
+#endif
 
     config.dbgtty = new_dbgtty;
   }

@@ -24,7 +24,7 @@
 /* PURPOSE: Simple app
 */
 
-#define ZB_TRACE_FILE_ID 33616
+#define ZB_TRACE_FILE_ID 60030
 #include "zboss_api.h"
 #include "cli_config.h"
 #include "cli_endpoint.h"
@@ -32,6 +32,14 @@
 #ifdef ZB_CONFIGURABLE_MEM
 #include ZB_VENDOR_MEM_CONFIG
 #endif
+
+#ifdef ZB_ED_ROLE
+#define APP_NAME "cli_nxp_zed"
+#else
+#define APP_NAME "cli_nxp_zczr"
+#endif
+
+OSIF_THREAD_STACK_DEFINE(cli_stack, 6*1024);
 
 zb_ieee_addr_t g_zr_addr = {0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00};
 
@@ -49,7 +57,7 @@ MAIN()
   zb_bool_t running = ZB_TRUE;
   zb_ret_t ret;
 
-  ZVUNUSED(argc);
+  ARGV_UNUSED;
 
   ZB_SET_TRAF_DUMP_ON();
 
@@ -60,30 +68,19 @@ MAIN()
     MAIN_RETURN(1);
   }
 
-  osif_start_thread(&cli_thread, cli_main, NULL);
+  osif_start_thread2(&cli_thread, cli_main, NULL, cli_stack, OSIF_THREAD_STACK_SIZE(cli_stack));
 
   while(running) {
     switch(config_get_state()) {
       case STATE_INIT:
           {
-            char *name = argv[0];
-            char *tmp;
-
-            tmp = strstr(name, "/");
-            while(tmp)
-            {
-              tmp++;
-              name = tmp;
-              tmp = strstr(tmp, "/");
-            }
-
-            ZB_INIT(name);
+            ZB_INIT(APP_NAME);
             config_init_default();
           }
         break;
       case STATE_INITTING:
-        sleep(1);
-        if(osif_is_term_sig_received())
+        osif_sleep(1);
+        if(ZB_OSIF_IS_EXIT())
           running = ZB_FALSE;
         break;
       case STATE_RUN:

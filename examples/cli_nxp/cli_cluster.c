@@ -12,16 +12,13 @@
  *
  */
 
-#define ZB_TRACE_FILE_ID 33612
+#define ZB_TRACE_FILE_ID 60032
 #include "zboss_api.h"
 #include "cli_menu.h"
 #include "cli_config.h"
 #include "cli_endpoint.h"
 #include "cli_cluster.h"
 #include "cli_tools.h"
-
-
-#define MAX_CLUSTERS 256
 
 
 // Local define to simply lisibility:
@@ -41,7 +38,9 @@
 static zb_uint8_t dummy_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
 
 
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
 #include "../ota_upgrade_nxp/ota_nxp_definitions.h"
+#endif
 
 /* Define clusters attributes */
 #include "cli_cluster-defs.c"
@@ -59,14 +58,14 @@ static zb_uint8_t dummy_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8
 /* Updated based on 07-5123-08 Zigbee Cluster Library */
 zb_cluster_entry table_clusters[] = {
   /* General */
-  { 0x0000, "General",             "Basic",                               "GB", "    ", &cluster_0000 },
+  { 0x0000, "General",             "Basic",                               "GB", "    ", pCluster_0000 },
   { 0x0001, "General",             "Power Configuration",                 "GPWC", "  ", NULL          },
   { 0x0002, "General",             "Device Temperature Configuration",    "GDTC", "  ", NULL          },
-  { 0x0003, "General",             "Identify",                            "GI", "    ", &cluster_0003 },
-  { 0x0004, "General",             "Groups",                              "GG", "    ", &cluster_0004 },
-  { 0x0005, "General",             "Scenes",                              "GS", "    ", &cluster_0005 },
-  { 0x0006, "General",             "ON/OFF",                              "GOF", "   ", &cluster_0006 },
-  { 0x0007, "General",             "ON/OFF Switch Configuration",         "GOFSC", " ", &cluster_0007 },
+  { 0x0003, "General",             "Identify",                            "GI", "    ", pCluster_0003 },
+  { 0x0004, "General",             "Groups",                              "GG", "    ", pCluster_0004 },
+  { 0x0005, "General",             "Scenes",                              "GS", "    ", pCluster_0005 },
+  { 0x0006, "General",             "ON/OFF",                              "GOF", "   ", pCluster_0006 },
+  { 0x0007, "General",             "ON/OFF Switch Configuration",         "GOFSC", " ", pCluster_0007 },
   { 0x0008, "General",             "Level Control",                       "GLC", "   ", NULL          },
   { 0x0009, "General",             "Alarms",                              "GA", "    ", NULL          },
   { 0x000A, "General",             "Time",                                "GT", "    ", NULL          },
@@ -89,7 +88,7 @@ zb_cluster_entry table_clusters[] = {
   /* Measurement and Level Sensing */
   { 0x0400, "Measur. & Lvl Sens.", "Illuminance Measurement",             "MIM", "   ", NULL          },
   { 0x0401, "Measur. & Lvl Sens.", "Illuminance Level Sensing",           "MILS", "  ", NULL          },
-  { 0x0402, "Measur. & Lvl Sens.", "Temperature Measurement",             "MTM", "   ", &cluster_0402 },
+  { 0x0402, "Measur. & Lvl Sens.", "Temperature Measurement",             "MTM", "   ", pCluster_0402 },
   { 0x0403, "Measur. & Lvl Sens.", "Pressure Measurement",                "MPM", "   ", NULL          },
   { 0x0404, "Measur. & Lvl Sens.", "Flow Measurement",                    "MFM", "   ", NULL          },
   { 0x0405, "Measur. & Lvl Sens.", "Relative Humidity Measurement",       "MRHM", "  ", NULL          },
@@ -137,7 +136,7 @@ zb_cluster_entry table_clusters[] = {
   { 0x0301, "Lighting",            "Ballast Configuration",               "LBC", "   ", NULL          },
   /* HVAC */
   { 0x0200, "HVAC",                "Pump Configuration and Control",      "HPCC", "  ", NULL          },
-  { 0x0201, "HVAC",                "Thermostat",                          "HT", "    ", &cluster_0201 },
+  { 0x0201, "HVAC",                "Thermostat",                          "HT", "    ", pCluster_0201 },
   { 0x0202, "HVAC",                "Fan Control",                         "HFC", "   ", NULL          },
   { 0x0203, "HVAC",                "Dehumidification Control",            "HDC", "   ", NULL          },
   { 0x0204, "HVAC",                "Thermostat User Interface Config",    "HTUIC", " ", NULL          },
@@ -188,7 +187,7 @@ zb_cluster_entry table_clusters[] = {
   { 0x0800, "Smart Energy",        "Key Establishment",                   "SEKE", "  ", NULL          },
   { 0x0801, "Smart Energy",        "Meter Identification",                "SEMI", "   ", NULL         },
   /* Over-The-Air Upgrading */
-  { 0x0019, "OTA Upgrading",       "OTA Upgrade",                         "OTA", "   ", &cluster_0019 },
+  { 0x0019, "OTA Upgrading",       "OTA Upgrade",                         "OTA", "   ", pCluster_0019 },
   /* Telecom */
   { 0x0900, "Telecom",             "Information",                         "TI", "    ", NULL          },
   { 0x0905, "Telecom",             "Chatting",                            "TC", "    ", NULL          },
@@ -207,7 +206,7 @@ zb_cluster_entry table_clusters[] = {
   { 0x0B02, "Appliances",          "EN50523 Appliance Events and Alerts", "AEA", "   ", NULL          },
   { 0x0B03, "Appliances",          "EN50523 Appliance Statistics",        "AS", "    ", NULL          },
   /* Manuf Specific */
-  { 0xFC02, "Custom",             "Test NXP",                             "MSNXP","  ", &cluster_fc02 },
+  { 0xFC02, "Custom",             "Test NXP",                             "MSNXP","  ", pCluster_fc02 },
   /* ... */
   { 0xFFFF, NULL,                  NULL,                                  NULL, NULL,   NULL,         }
 };
@@ -238,10 +237,12 @@ void cluster_init(uint8_t ep_id)
 
   for(int i=0; i<this_ep->cluster_count; i++)
   {
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
     /* Init OTA Server */
     if(this_ep->cluster_desc_list[i].cluster_id == ZB_ZCL_CLUSTER_ID_OTA_UPGRADE &&
        this_ep->cluster_desc_list[i].role_mask & ZB_ZCL_CLUSTER_SERVER_ROLE)
       zb_zcl_ota_upgrade_init_server(ep_id, cluster_ota_srv_next_data_ind_cb);
+#endif
   }
 }
 
@@ -274,15 +275,29 @@ cli_menu_cmd menu_cluster[] = {
   { "raw_cmd", " [endpoint] [addr] [ep] [cluster] [cmd] <payload>", "        ", cluster_raw_cmd,         help_empty,        "\r\n\tsend ZCL Cluster command on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] command [0xCC] optional payload <P1:P2....Pn>" },
   { "profile_cmd", " [endpoint] [addr] [ep] [cluster] [cmd] <payload>", "    ", cluster_profile_cmd,     help_empty,        "\r\n\tsend ZCL Profile command on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] command [0xCC] optional payload <P1:P2....Pn>" },
   { "aps_cmd", " [endpoint] [addr] [ep] [cluster] [type] [cmd] <payload>", " ", cluster_zcl_aps_cmd,     help_empty,        "\r\n\tsend APS ZCL command on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] cmd type [0x00|0x01] command [0xCC] optional payload <P1:P2....Pn>" },
+#ifdef CLI_HAS_CLUSTER_ONOFF
   { "onoff_cmd", "", "                                                       ", cluster_onoff_submenu,   help_onoff_cmds,   "SUBMENU ON/OFF Commands" },
+#endif
+#ifdef CLI_HAS_CLUSTER_IDENTITY
   { "identify_cmd", "", "                                                    ", cluster_ident_submenu,   help_ident_cmds,   "SUBMENU IDENTIFY Commands" },
+#endif
+#ifdef CLI_HAS_CLUSTER_GROUPS
   { "groups_cmd", "", "                                                      ", cluster_groups_submenu,  help_groups_cmds,  "SUBMENU GROUPS Commands" },
+#endif
+#ifdef CLI_HAS_CLUSTER_SCENES
   { "scenes_cmd", "", "                                                      ", cluster_scenes_submenu,  help_scenes_cmds,  "SUBMENU SCENES Commands" },
+#endif
+#ifdef CLI_HAS_CLUSTER_THERMOSTAT
   { "thermostat_cmd", "", "                                                  ", cluster_thermo_submenu,  help_thermo_cmds,  "SUBMENU THERMOSTAT Commands" },
+#endif
+#ifdef CLI_HAS_CLUSTER_MANUF_SPE
   { "custom_nxp_cmd", "", "                                                  ", cluster_custnxp_submenu, help_custnxp_cmds, "SUBMENU CUSTOM NXP Commands" },
+#endif
   /* Cluster OTA Upgrade commands */
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
   { "ota_server", "", "                                                      ", cluster_ota_srv_submenu, help_ota_srv_cmds, "SUBMENU OTA Upgrade Server" },
   { "ota_client", "", "                                                      ", cluster_ota_clt_submenu, help_ota_clt_cmds, "SUBMENU OTA Upgrade Client" },
+#endif
   { "print", " [endpoint]", "                                                ", cluster_print,           help_empty,        "print the cluster table on endpoint id [0-255]" },
   /* Add new commands above here */
   { NULL, NULL,                                                           NULL, NULL,                    NULL,              NULL }

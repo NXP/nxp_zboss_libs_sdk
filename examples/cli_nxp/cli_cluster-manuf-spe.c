@@ -18,6 +18,10 @@
  *                                  CLUSTER CUSTOM NXP
  *
  * ----------------------------------------------------------------------------------- */
+#ifndef CLI_HAS_CLUSTER_MANUF_SPE
+#define pCluster_fc02 NULL
+#else
+#define pCluster_fc02 &cluster_fc02
 
 #define MAX_PAYLOAD_SIZE 73 /* Maximal payload size authorized in order to send packet in one frame */
 
@@ -94,9 +98,7 @@ static zb_zcl_attr_t cluster_attr_fc02[] = {
   { ZB_ZCL_NULL_ID,                         0,                          0,             ZB_MANUFACTURER_CODE_NXP, NULL }
 };
 
-void zb_zcl_init_attributes(void)
-{
-  zb_zcl_custom_nxp_attr_access_t init_val = {
+zb_zcl_custom_nxp_attr_access_t test_init_val = {
     .type_null            = 0,
     .type_8bit            = 8,
     .type_16bit           = 16,
@@ -156,9 +158,11 @@ void zb_zcl_init_attributes(void)
     .type_128_bit_key       = { 0xFF },
   };
 
-  ZB_MEMCPY(&g_custom_nxp_attr.ro, &init_val, sizeof(init_val));
-  ZB_MEMCPY(&g_custom_nxp_attr.ow, &init_val, sizeof(init_val));
-  ZB_MEMCPY(&g_custom_nxp_attr.rw, &init_val, sizeof(init_val));
+void zb_zcl_test_init_attributes(void)
+{
+  ZB_MEMCPY(&g_custom_nxp_attr.ro, &test_init_val, sizeof(test_init_val));
+  ZB_MEMCPY(&g_custom_nxp_attr.ow, &test_init_val, sizeof(test_init_val));
+  ZB_MEMCPY(&g_custom_nxp_attr.rw, &test_init_val, sizeof(test_init_val));
 }
 
 void zb_zcl_test_init_server()
@@ -169,7 +173,7 @@ void zb_zcl_test_init_server()
                               (zb_zcl_cluster_write_attr_hook_t)NULL,
                               (zb_zcl_cluster_handler_t)NULL);
 
-  zb_zcl_init_attributes();
+  zb_zcl_test_init_attributes();
 }
 
 void zb_zcl_test_init_client()
@@ -180,7 +184,7 @@ void zb_zcl_test_init_client()
                               (zb_zcl_cluster_write_attr_hook_t)NULL,
                               (zb_zcl_cluster_handler_t)NULL);
 
-  zb_zcl_init_attributes();
+  zb_zcl_test_init_attributes();
 }
 
 static zb_cluster_def cluster_fc02 = {
@@ -196,13 +200,16 @@ static zb_cluster_def cluster_fc02 = {
 
 /* Prototype of custom NXP sub commands */
 typedef ZB_PACKED_PRE struct zb_zcl_custom_nxp_ping_hdr_s {
-  zb_uint16_t    checksum;
-  zb_uint8_t     seq_num;
-  void          *identifier; /* Used to store ping_header */
-  struct timeval timestamp;
-  zb_ret_t       status;
-  zb_uint16_t    data_len;
-  zb_uint8_t     data_buf[1];
+  zb_uint16_t     checksum;
+  zb_uint8_t      seq_num;
+  zb_uint64_t     identifier; /* Used to store ping_header */
+  struct {
+    zb_uint64_t   sec;
+    zb_uint32_t   nsec;
+  } timestamp;
+  zb_ret_t        status;
+  zb_uint16_t     data_len;
+  zb_uint8_t      data_buf[1];
 } ZB_PACKED_STRUCT zb_zcl_custom_nxp_ping_hdr_t;
 
 #define ZCL_CUSTNXP_CMD_PING_DEFAULT_CNT    1
@@ -312,32 +319,32 @@ typedef struct {
     zb_uint16_t            delay;
   } config;
   struct {
-    struct timeval start;
-    zb_uint16_t    count;   /* nb cmds to send */
-    zb_bool_t      ongoing; /* wait tx to be sent */
-    zb_uint16_t    tx;      /* nb cmds sent ok */
-    zb_uint16_t    rx;      /* nb cmds recv ok */
+    struct timespec start;
+    zb_uint16_t     count;   /* nb cmds to send */
+    zb_bool_t       ongoing; /* wait tx to be sent */
+    zb_uint16_t     tx;      /* nb cmds sent ok */
+    zb_uint16_t     rx;      /* nb cmds recv ok */
     struct {
-      zb_uint64_t min;
-      zb_uint64_t avg;
-      zb_uint64_t max;
+      zb_uint32_t min;
+      zb_uint32_t avg;
+      zb_uint32_t max;
     } rtt;
   } stats;
 } zb_zcl_custom_nxp_ping_info_t;
 
 zb_zcl_custom_nxp_ping_info_t ping = { 0 };
 
-static zb_uint64_t cluster_custnxp_get_elapsed(struct timeval start)
+static zb_uint32_t cluster_custnxp_get_elapsed(struct timespec start)
 {
-  struct timeval now;
-  zb_uint64_t elapsed;
+  struct timespec now;
+  zb_uint32_t elapsed;
 
-  gettimeofday(&now, NULL);
+  osif_get_clock_realtime(&now);
 
   elapsed = now.tv_sec - start.tv_sec;
   elapsed *= 1000000;
-  if(now.tv_usec >= start.tv_usec) { elapsed += (now.tv_usec - start.tv_usec); }
-  else {       elapsed -= 1000000;   elapsed += (start.tv_usec - now.tv_usec); }
+  if(now.tv_nsec >= start.tv_nsec) { elapsed += (now.tv_nsec - start.tv_nsec)/1000; }
+  else {       elapsed -= 1000000;   elapsed += (start.tv_nsec - now.tv_nsec)/1000; }
 
   return elapsed;
 }
@@ -354,7 +361,7 @@ static zb_uint16_t cluster_custnxp_checksum(zb_uint8_t *data, zb_uint16_t len)
 
 static void cluster_custnxp_ping_stats(void)
 {
-  zb_uint64_t elapsed = cluster_custnxp_get_elapsed(ping.stats.start);
+  zb_uint32_t elapsed = cluster_custnxp_get_elapsed(ping.stats.start);
 
   menu_printf("--- 0x%04x:%u cluster custnxp ping statistics ---", ping.config.dest_short_addr , ping.config.dest_ep_id);
   menu_printf("%u requests, %u acked, %u responses, %u%% requests lost, time %u ms",
@@ -442,6 +449,7 @@ static void cluster_custnxp_ping_send_req(zb_uint8_t param)
 {
   zb_ret_t ret;
   zb_uint8_t random8;
+  struct timespec time;
 
   ZB_SCHEDULE_APP_ALARM_CANCEL(cluster_custnxp_ping_send_req, ZB_ALARM_ANY_PARAM);
 
@@ -470,7 +478,9 @@ static void cluster_custnxp_ping_send_req(zb_uint8_t param)
   random8 = ZB_RANDOM_U8();
   for(zb_uint16_t i=0; i < ping.header->data_len; i++)
     ping.header->data_buf[i] = (random8+i)%256;
-  gettimeofday(&ping.header->timestamp, NULL);
+  osif_get_clock_realtime(&time);
+  ping.header->timestamp.sec  = time.tv_sec;
+  ping.header->timestamp.nsec = time.tv_nsec;
   ping.header->checksum = cluster_custnxp_checksum(&ping.header->seq_num, sizeof(zb_zcl_custom_nxp_ping_hdr_t) + ping.header->data_len -1 -2);
 
   /* send ping req */
@@ -584,7 +594,7 @@ static zb_uint8_t cluster_custnxp_ping_recv_resp(zb_zcl_parsed_hdr_t *cmd_info, 
   zb_uint8_t ret = ZB_TRUE; /* Yes, we manage the command */
   zb_ret_t status = RET_OK;
   zb_zcl_custom_nxp_ping_hdr_t *ping_header;
-  zb_uint64_t elapsed;
+  zb_uint32_t elapsed = 0;
   zb_uint16_t *rx_len; /* In cas the buffer received is too small, use the 2 first bytes of the payload data to store this value & set status to RET_BUFFER_TOO_SMALL */
 
   ZVUNUSED(cmd_info);
@@ -615,7 +625,11 @@ static zb_uint8_t cluster_custnxp_ping_recv_resp(zb_zcl_parsed_hdr_t *cmd_info, 
 
   if(status == RET_OK && ping_header->status == RET_OK)
   {
-    elapsed = cluster_custnxp_get_elapsed(ping.header->timestamp);
+    struct timespec timestamp = {
+      .tv_sec  = ping.header->timestamp.sec,
+      .tv_nsec = ping.header->timestamp.nsec,
+    };
+    elapsed = cluster_custnxp_get_elapsed(timestamp);
     if(ping.stats.rx == 0)
     {
       ping.stats.rtt.min = elapsed;
@@ -634,7 +648,7 @@ static zb_uint8_t cluster_custnxp_ping_recv_resp(zb_zcl_parsed_hdr_t *cmd_info, 
   }
 
   menu_printf("%u bytes from 0x%04x:%u seq_num=%u time=%u.%03u ms, status tx_%s/rx_%s",
-    sizeof(zb_zcl_custom_nxp_ping_hdr_t) + ping_header->data_len -1,
+     sizeof(zb_zcl_custom_nxp_ping_hdr_t) + ping_header->data_len -1,
      ping.config.dest_short_addr,
      ping.config.dest_ep_id,
      ping_header->seq_num,
@@ -727,7 +741,7 @@ static zb_ret_t cluster_custnxp_cmd_ping(int argc, char *argv[])
   /* Do it */
   {
     ZB_MEMSET(&ping.stats, 0, sizeof(ping.stats));
-    gettimeofday(&ping.stats.start, NULL);
+    osif_get_clock_realtime(&ping.stats.start);
 
     ping.param = zb_buf_get_any();
     ping.header = (zb_zcl_custom_nxp_ping_hdr_t *)ZB_MALLOC(sizeof(zb_zcl_custom_nxp_ping_hdr_t) + ping.config.size - 1/* header already contain 1 byte of data */);
@@ -735,7 +749,7 @@ static zb_ret_t cluster_custnxp_cmd_ping(int argc, char *argv[])
       return RET_NO_MEMORY;
 
     ping.header->seq_num    = (zb_uint8_t)-1;
-    ping.header->identifier = (void *)ping.header;
+    ping.header->identifier = (zb_uint64_t)ping.header;
     /* ping.header->timestamp  = Updated by each ping */
     ping.header->status     = RET_OK;
     ping.header->data_len   = ping.config.size;
@@ -867,3 +881,4 @@ static zb_uint8_t custom_nxp_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_
 {
   return (cmd_info->cmd_direction == ZB_ZCL_FRAME_DIRECTION_TO_CLI)?(custom_nxp_client_commands_handler(cmd_info, param)):(custom_nxp_server_commands_handler(cmd_info, param));
 }
+#endif /* CLI_HAS_CLUSTER_MANUF_SPE */

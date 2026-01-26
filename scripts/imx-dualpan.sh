@@ -37,9 +37,6 @@ coredump=0
 zbclean=0
 
 # firmware dump monitoring
-fw_dump_monitor=1
-fw_dump_dir="$(pwd)/fw_dumps"
-fw_dump_script="./fw-dump-monitor.sh"
 
 function usage()
 {
@@ -95,8 +92,6 @@ function usage()
 	echo "  --zbclean                  cleanup all previous execution of zigbee (removes *.log, *.nvram, *.prod, *.dump, *.trace files)"
 	echo "  --logsh <postlogrotatesh>  script to be called by zb_mux/zb_app after a log file is rotated (every 50MB, keep only 3 last logs)"
 	echo "  --rw                       i.MX8 Mini rework for direct SPI_INT"
-	echo "  --fwdump <dir>             Monitor and save firmware dumps to specified directory (default: ./fw_dumps)"
-	echo "  --nofwdump                 Disable firmware dump monitoring"
 	echo
 	echo "spi_speed:   ${spi_speed}"
 	echo "mux_trace:   ${mux_trace}"
@@ -267,8 +262,6 @@ while [ "$#" -gt 0 ]; do
 	--zbclean)   zbclean=1                                    ;;
 	--logsh)     shift; export ZB_LOGFILE_POST_ROTATE_SH=$1   ;;
 	--rw)        imx8_reworked=1; validate_imx8_reworked      ;;
-	--fwdump)    fw_dump_monitor=1; shift; fw_dump_dir=$1     ;;
-	--nofwdump)  fw_dump_monitor=0                            ;;
 	*)           echo "Unknown option $1"; echo "usage: ${me} --help"; exit 1 ;;
 	esac
 	shift
@@ -319,7 +312,7 @@ else
 fi
 
 echo "me:       ${me} ${me_5sum}"
-echo "version:  release 019.2504.019"
+echo "version:  release 019.2601.028"
 echo "channel:  ${channel}"
 echo "first:    ${first}"
 echo "second:   ${second}"
@@ -380,55 +373,17 @@ function detect_config()
 	kernel_maj=`echo ${kernel_version} | awk -F"." '{print $1}'`
 	kernel_min=`echo ${kernel_version} | awk -F"." '{print $2}'`
 	kernel_idx=`echo ${kernel_version} | awk -F"." '{print $3}'`
+	model_info=`tr -d '\0' < /proc/device-tree/model `
 
-	# Check DTB version, if applicable
-	dtb_version_match=`tr -d '\0' < /proc/device-tree/model | grep -c "board for IW"`
-	if [ ${dtb_version_match} -gt 0 ]; then
-		dtb_version=`tr -d '\0' < /proc/device-tree/model | awk -F"board for IW" '{print $2}' | awk -F"-v" '{print $2}' | awk -F":" '{print $1}'`
-		echo "Config detected: ${soc_id}, kernel ${kernel_maj}.${kernel_min}.${kernel_idx}, dtb version ${dtb_version}"
-	else
-		dtb_version=0
-		echo "Config detected: ${soc_id}, kernel ${kernel_maj}.${kernel_min}.${kernel_idx}"
-	fi
+	echo "Config detected: ${soc_id}"
+	echo "- kernel: ${kernel_maj}.${kernel_min}.${kernel_idx}"
+	echo "- dtb:    ${model_info}"
 
 	if_eth0=`ifconfig eth0 2>/dev/null`
 	if [ $? -ne 0 ]; then
 		echo "Invalid Setup, dtb does not match kernel ${kernel_version}, please update it"
 		exit 1
 	fi
-
-	# Backward compatibility on fw_loader_imx_lnx and fails if the hardware is not known
-	case ${soc_id} in
-		i.MX8MM|i.MX8MN|i.MX8MP)
-			fw_dld_dev="/dev/ttymxc2"
-			# kernel 6.12.x requires minimum dtb version 2
-			if [[ ${kernel_maj} -eq 6  && ${kernel_min} -ge 12 ]] || [ ${kernel_maj} -gt 6 ]; then
-				if [ ${dtb_version} -lt 2 ]; then
-					echo "Invalid Setup, dtb is too old for kernel ${kernel_version}, please update it"
-					exit 1
-				fi
-			fi
-			# kernel 6.6 with dtb for 6.12-v2: does not boot, stuck at:
-			# mmc1: SDHCI controller on 30b50000.mmc [30b50000.mmc] using ADMA
-			# kernel 6.12 with dtb for 6.6-vx: does not boot, Kernel panic after:
-			# Hardware name: FSL i.MX8MM EVK board (DT)
-
-			;;
-		i.MX93|i.MX91)
-			fw_dld_dev="/dev/ttyLP4"
-			# kernel 6.12.x requires minimum dtb version 4
-			if [[ ${kernel_maj} -eq 6  && ${kernel_min} -ge 12 ]] || [ ${kernel_maj} -gt 6 ]; then
-				if [ ${dtb_version} -lt 4 ]; then
-					echo "Invalid Setup, dtb is too old for kernel ${kernel_version}, please update it"
-					exit 1
-				fi
-			fi
-			;;
-		*)
-			echo "Unknown hardware config"
-			exit 1
-			;;
-	esac
 
 
 	# Check gpio config from pin name configured in the dtb
@@ -474,28 +429,8 @@ function detect_config()
 		gpio_reset_lin=`echo "${gpio_reset}" | awk -F" " '{print $2}'`
 		echo "autodetect gpio_reset:         ${gpio_reset_dev} line ${gpio_reset_lin}"
 	else
-		case ${soc_id} in
-			i.MX8MM|i.MX8MN|i.MX8MP)
-				# IND_RST_15.4: EXP_IO11 IMX8 <-> GPIO24 IW61x
-				gpio_reset_dev=gpiochip5
-				case ${chip_name} in
-					IW612) gpio_reset_lin=13 ;;
-					IW610) gpio_reset_lin=14 ;;
-				esac
-				;;
-			i.MX93|i.MX91)
-				# INT_RST_15_4: I2C PCAL6408 2EL M.2 Murata
-				if [[ ${kernel_maj} -eq 6  && ${kernel_min} -ge 12 ]] || [ ${kernel_maj} -gt 6 ]; then
-					# BSP 6.12.x:
-					gpio_reset_dev=gpiochip0
-				else
-					# BSP 6.6.x:
-					gpio_reset_dev=gpiochip4
-				fi
-				gpio_reset_lin=1
-				;;
-		esac
-		echo "manual gpio_reset:         ${gpio_reset_dev} line ${gpio_reset_lin}"
+		echo "Invalid Setup, IND_RST is a mandatory feature, please update dtb"
+		exit 1
 	fi
 	# Same pin for independent reset 15.4
 	iw612_gpio_ind_rst_dev=${gpio_reset_dev}
@@ -503,7 +438,7 @@ function detect_config()
 
 
 	# IW61x_RESET, used for auto firmware download (no use action)
-	# also define reset_method based on hardware & dtb version
+	# also define reset_method based on hardware & IWxxx_PD_N GPIO pin presence
 	iw612_gpio_reset=`gpioinfo IWxxx_PD_N 2>/dev/null`
 	if [ $? -eq 0 ]; then
 	#	iw612_gpio_reset=`echo "${iw612_gpio_reset}" | awk -F"\t" '{print $1}'`
@@ -517,33 +452,7 @@ function detect_config()
 				reset_method="button"
 				;;
 			i.MX93|i.MX91)
-				# Activating reset using gpio behaves on IMX93 like a full IW612 reset (both BT & WiFi)
-				if [ ${dtb_version} -lt 2 ]; then
-					echo "WARNING: your dtb does not allow to reset ${chip_name}, please update it"
-					echo ""
-					reset_method="none"
-				else
-					reset_method="gpio"
-					# PD_n_IW612: M2_nDIS1 IMX93 <-> PD_n IW612
-					iw612_gpio_reset_dev=gpiochip5
-					iw612_gpio_reset_lin=20
-					if [ ${dtb_version} -eq 2 ]; then
-						drive_spi_en="yes"
-						# SPI_ENABLE: I2C PCAL6408 2EL M.2 Murata
-						if [[ ${kernel_maj} -eq 6  && ${kernel_min} -ge 12 ]] || [ ${kernel_maj} -gt 6 ]; then
-							# BSP 6.12.x
-							iw612_gpio_spi_ena_dev=gpiochip0
-						else
-							# BSP 6.6.x:
-							iw612_gpio_spi_ena_dev=gpiochip4
-						fi
-						iw612_gpio_spi_ena_lin=0
-						echo "manual iw61x_gpio_spi_ena: ${iw612_gpio_spi_ena_dev} line ${iw612_gpio_spi_ena_lin}"
-					else
-						drive_spi_en="no"
-					fi
-				fi
-				echo "manual iw61x_gpio_reset:   ${iw612_gpio_reset_dev} line ${iw612_gpio_reset_lin}"
+				reset_method="none"
 				;;
 		esac
 	fi
@@ -808,14 +717,7 @@ function reset_device()
 				gpioset ${option} ${iw612_gpio_reset_dev} ${iw612_gpio_reset_lin}=1 &
 				sleep 0.5 # Wait action to be done
 				killall gpioset &> /dev/null
-				if [ "${drive_spi_en}" = "yes" ]; then
-					echo "Enable IW612 (SPI_ENA=1 & IND_RST_15_4=0)"
-					gpioset ${option} ${iw612_gpio_spi_ena_dev} ${iw612_gpio_spi_ena_lin}=1 &
-					sleep 0.5 # Wait action to be done
-					killall gpioset &> /dev/null
-				else
-					echo "Enable IW612 (IND_RST_15_4=0)"
-				fi
+				echo "Enable IW612 (IND_RST_15_4=0)"
 				gpioset ${option} ${iw612_gpio_ind_rst_dev} ${iw612_gpio_ind_rst_lin}=0 &
 				sleep 0.5 # Wait action to be done
 				killall gpioset &> /dev/null
@@ -850,54 +752,38 @@ function check_btnxpuart_events()
 
 	if [ ! -f /etc/udev/scripts/btnxpuart.sh ]; then
 		echo "Create /etc/udev/scripts/btnxpuart.sh"
-		echo "#!/bin/bash"                                                        > /etc/udev/scripts/btnxpuart.sh
-		echo ""                                                                  >> /etc/udev/scripts/btnxpuart.sh
-		echo "BASE_DIR=\"/run/udev/data/btnxpuart\""                             >> /etc/udev/scripts/btnxpuart.sh
-		echo "DEVICE_NAME=\"\$1\""                                               >> /etc/udev/scripts/btnxpuart.sh
-		echo "EVENT_VALUE=\"\$2\""                                               >> /etc/udev/scripts/btnxpuart.sh
-		echo ""                                                                  >> /etc/udev/scripts/btnxpuart.sh
-		echo "if [[ -z \"\$DEVICE_NAME\" || -z \"\$EVENT_VALUE\" ]]; then"       >> /etc/udev/scripts/btnxpuart.sh
-		echo "    echo \"Error: Missing environment variables\" >&2"             >> /etc/udev/scripts/btnxpuart.sh
-		echo "    exit 1"                                                        >> /etc/udev/scripts/btnxpuart.sh
-		echo "fi"                                                                >> /etc/udev/scripts/btnxpuart.sh
-		echo ""                                                                  >> /etc/udev/scripts/btnxpuart.sh
-		echo "chattr -i ${BASE_DIR}:${DEVICE_NAME}.state"                        >> /etc/udev/scripts/btnxpuart.sh
-		echo "# Write the event value to the \"state\" file"                     >> /etc/udev/scripts/btnxpuart.sh
-		echo "echo \"\$EVENT_VALUE\" > \"\${BASE_DIR}:\${DEVICE_NAME}.state\""   >> /etc/udev/scripts/btnxpuart.sh
-		echo "chattr +i ${BASE_DIR}:${DEVICE_NAME}.state"                        >> /etc/udev/scripts/btnxpuart.sh
-		echo "exit 0"                                                            >> /etc/udev/scripts/btnxpuart.sh
+		echo "#!/bin/bash"                                                                                          > /etc/udev/scripts/btnxpuart.sh
+		echo ""                                                                                                     >> /etc/udev/scripts/btnxpuart.sh
+		echo "# Copy udev rule and script to the following paths:"                                                  >> /etc/udev/scripts/btnxpuart.sh
+		echo "#    /etc/udev/rules.d/98-btnxpuart.rules"                                                            >> /etc/udev/scripts/btnxpuart.sh
+		echo "#    /etc/udev/scripts/btnxpuart.sh"                                                                  >> /etc/udev/scripts/btnxpuart.sh
+		echo ""                                                                                                     >> /etc/udev/scripts/btnxpuart.sh
+		echo "BASE_DIR=\"/run/udev/data/btnxpuart\""                                                                >> /etc/udev/scripts/btnxpuart.sh
+		echo "DEVICE_NAME=\"\$1\""                                                                                  >> /etc/udev/scripts/btnxpuart.sh
+		echo "EVENT_VALUE=\"\$2\""                                                                                  >> /etc/udev/scripts/btnxpuart.sh
+		echo ""                                                                                                     >> /etc/udev/scripts/btnxpuart.sh
+		echo "if [[ -z \"\$DEVICE_NAME\" || -z \"\$EVENT_VALUE\" ]]; then"                                          >> /etc/udev/scripts/btnxpuart.sh
+		echo "    echo \"Error: Missing environment variables\" >&2"                                                >> /etc/udev/scripts/btnxpuart.sh
+		echo "    exit 1"                                                                                           >> /etc/udev/scripts/btnxpuart.sh
+		echo "fi"                                                                                                   >> /etc/udev/scripts/btnxpuart.sh
+		echo ""                                                                                                     >> /etc/udev/scripts/btnxpuart.sh
+		echo "mkdir -p \${BASE_DIR}/\${DEVICE_NAME}"                                                                >> /etc/udev/scripts/btnxpuart.sh
+		echo ""                                                                                                     >> /etc/udev/scripts/btnxpuart.sh
+		echo "chattr -i \${BASE_DIR}:\${DEVICE_NAME}.state"                                                         >> /etc/udev/scripts/btnxpuart.sh
+		echo ""                                                                                                     >> /etc/udev/scripts/btnxpuart.sh
+		echo "# Write the event value to the \"state\" file"                                                        >> /etc/udev/scripts/btnxpuart.sh
+		echo "echo \"\$EVENT_VALUE\" > \"\${BASE_DIR}:\${DEVICE_NAME}.state\""                                      >> /etc/udev/scripts/btnxpuart.sh
+		echo "chattr +i \${BASE_DIR}:\${DEVICE_NAME}.state"                                                         >> /etc/udev/scripts/btnxpuart.sh
+		echo ""                                                                                                     >> /etc/udev/scripts/btnxpuart.sh
+		echo "# Copy fw_dump file."                                                                                 >> /etc/udev/scripts/btnxpuart.sh
+		echo "if [[ \$EVENT_VALUE==\"FW_DUMP_DONE\" ]]; then"                                                       >> /etc/udev/scripts/btnxpuart.sh
+		echo "    suffix=\$(date +'%d%m%g%H%M%S')"                                                                  >> /etc/udev/scripts/btnxpuart.sh
+		echo "    cat /sys/class/bluetooth/hci0/devcoredump/data > \${BASE_DIR}/\${DEVICE_NAME}/fw_dump-\$suffix"   >> /etc/udev/scripts/btnxpuart.sh
+		echo "fi"                                                                                                   >> /etc/udev/scripts/btnxpuart.sh
+		echo ""                                                                                                     >> /etc/udev/scripts/btnxpuart.sh
+		echo "exit 0"                                                                                               >> /etc/udev/scripts/btnxpuart.sh
 		chmod +x /etc/udev/scripts/btnxpuart.sh
 	fi
-}
-
-function start_fw_dump_monitor()
-{
-	if [ ${fw_dump_monitor} -eq 0 ]; then
-		return
-	fi
-
-	if [ -f "${fw_dump_script}" ]; then
-		echo "Starting firmware dump monitor..."
-		"${fw_dump_script}" --dir "${fw_dump_dir}" start
-		echo "Dumps will be saved to: ${fw_dump_dir}"
-		echo "HCI captures will be saved to: ${fw_dump_dir}/hci_dumps.pcap"
-	else
-		echo "WARNING: Firmware dump monitor script not found: ${fw_dump_script}"
-	fi
-}
-
-function stop_fw_dump_monitor()
-{
-	check_and_kill btmon
-    # Try to stop service first
-    if systemctl is-active --quiet fw-dump-monitor.service; then
-        echo "Stopping firmware dump monitor service..."
-        systemctl stop fw-dump-monitor.service
-    fi
-    # Also try script stop (in case service wasn't used)
-    if [ -f "${fw_dump_script}" ]; then
-        "${fw_dump_script}" stop
-    fi
 }
 
 function flash_firmware()
@@ -905,100 +791,76 @@ function flash_firmware()
 	# If no firmware is provided, bringup up BT in
 	echo ""
 
-	if [ -e ${fw_dld_dev} ]; then
+	check_btnxpuart_events
 
-		killall hciattach 2> /dev/null
-
-		if [ -n  "${firmware}" ]; then
-			echo "Flash ${firmware} with w_loader_imx_lnx on ${fw_dld_dev}"
-			echo ""
-			reset_device
-			fw_loader_imx_lnx ${fw_dld_dev} 115200 0 ${firmware} 3000000
-			if [ $? -ne 0 ]; then
-				echo "Flash failure, ABORT"
-				exit 1
-			else
-				echo "Wait for the firmware to start..."
-				sleep 1
-			fi
+	if [ -n  "${firmware}" ]; then
+		case ${chip_name} in
+			IW612) firmware_name="uartspi_n61x_v1.bin.se" ;;
+			IW610) # Here we need to know if the firmware is secured or not
+				secured=`echo "${firmware}" | awk -F".bin" '{print $2}'`
+				#echo "+++${secured}---"
+				if [ "${secured}" = ".se" ]; then
+					firmware_name="uartspi_iw610.bin.se"
+				else
+					firmware_name="uartspi_iw610.bin"
+				fi
+				;;
+		esac
+		if [ ! -h /lib/firmware/nxp/${firmware_name} ]; then
+			echo "backup original firmware ${firmware_name}"
+			cd /lib/firmware/nxp
+			mv ${firmware_name} ${firmware_name}_original
+			cd - > /dev/null
 		fi
 
-		hciattach ${fw_dld_dev} any -s 115200 115200 flow dtron
-		sleep 1
+		rm -f /lib/firmware/nxp/${firmware_name}
+		abs_firmware=`readlink -f ${firmware}`
+		ln -s ${abs_firmware} /lib/firmware/nxp/${firmware_name}
+		this_firmware=`ls -al /lib/firmware/nxp/${firmware_name} | awk -F" -> " '{print $2}'`
+		echo "Flash ${firmware} with btnxpuart (symlink on /lib/firmware/nxp/${firmware_name})"
+		echo ""
+
+		res=`lsmod | grep -c btnxpuart`
+		if [ ${res} -ne 0 ]; then
+			echo "remove btnxpuart"
+			rmmod btnxpuart
+			sleep 1
+		fi
+		reset_device
+		if [ -n "${SSH_CONNECTION}" ]; then
+			tail -f -n 0 /var/log/messages | grep "Bluetooth" &
+			tail_pid=$!
+		else
+			tail_pid=0
+		fi
+		kernel_lvl=`cat /proc/sys/kernel/printk |  awk '{print $1}'`
+		echo 7 > /proc/sys/kernel/printk
+		echo "probe btnxpuart"
+		modprobe btnxpuart
+		# measured timing:
+		# +0.6s: request firmware
+		# uartspi:
+		# +2.2s: firmware downloaded
+		# +4.2s: config done (baudrate & wakeup method)
+		# sduart: combo
+		# +3.5s:  firmware downloaded
+		# +5.0s: config done (baudrate & wakeup method)
+		sleep 6
+		echo ${kernel_lvl} > /proc/sys/kernel/printk
+		if [ ${tail_pid} -ne 0 ]; then
+			kill -SIGTERM ${tail_pid}
+		fi
 	else
-		check_btnxpuart_events
-
-		if [ -n  "${firmware}" ]; then
-			case ${chip_name} in
-				IW612) firmware_name="uartspi_n61x_v1.bin.se" ;;
-				IW610) # Here we need to know if the firmware is secured or not
-					secured=`echo "${firmware}" | awk -F".bin" '{print $2}'`
-					#echo "+++${secured}---"
-					if [ "${secured}" = ".se" ]; then
-						firmware_name="uartspi_iw610.bin.se"
-					else
-						firmware_name="uartspi_iw610.bin"
-					fi
-					;;
-			esac
-			if [ ! -h /lib/firmware/nxp/${firmware_name} ]; then
-				echo "backup original firmware ${firmware_name}"
-				cd /lib/firmware/nxp
-				mv ${firmware_name} ${firmware_name}_original
-				cd - > /dev/null
-			fi
-
-			rm -f /lib/firmware/nxp/${firmware_name}
-			abs_firmware=`readlink -f ${firmware}`
-			ln -s ${abs_firmware} /lib/firmware/nxp/${firmware_name}
-			this_firmware=`ls -al /lib/firmware/nxp/${firmware_name} | awk -F" -> " '{print $2}'`
-			echo "Flash ${firmware} with btnxpuart (symlink on /lib/firmware/nxp/${firmware_name})"
-			echo ""
-
-			res=`lsmod | grep -c btnxpuart`
-			if [ ${res} -ne 0 ]; then
-				echo "remove btnxpuart"
-				rmmod btnxpuart
-				sleep 1
-			fi
-			reset_device
-			if [ -n "${SSH_CONNECTION}" ]; then
-				tail -f -n 0 /var/log/messages | grep "Bluetooth" &
-				tail_pid=$!
-			else
-				tail_pid=0
-			fi
-			kernel_lvl=`cat /proc/sys/kernel/printk |  awk '{print $1}'`
-			echo 7 > /proc/sys/kernel/printk
+		res=`lsmod | grep -c btnxpuart`
+		if [ ${res} -eq 0 ]; then
 			echo "probe btnxpuart"
 			modprobe btnxpuart
-			# measured timing:
-			# +0.6s: request firmware
-			# uartspi:
-			# +2.2s: firmware downloaded
-			# +4.2s: config done (baudrate & wakeup method)
-			# sduart: combo
-			# +3.5s:  firmware downloaded
-			# +5.0s: config done (baudrate & wakeup method)
-			sleep 6
-			echo ${kernel_lvl} > /proc/sys/kernel/printk
-			if [ ${tail_pid} -ne 0 ]; then
-				kill -SIGTERM ${tail_pid}
-			fi
-		else
-			res=`lsmod | grep -c btnxpuart`
-			if [ ${res} -eq 0 ]; then
-				echo "probe btnxpuart"
-				modprobe btnxpuart
-				sleep 3
-			fi
+			sleep 3
 		fi
 	fi
 	sleep 1
 	echo "bring up hci0"
 	hciconfig hci0 up
-	# Start firmware dump monitoring
-	start_fw_dump_monitor
 }
 
 apps_running=0
@@ -1331,7 +1193,6 @@ function stop_all()
 	[ -n "${second}" ] && stop_${second} || true
 	stop_${first}
 	stop_mux
-	stop_fw_dump_monitor
 	#  Get rid of colors (end)
 	sed 's/\x06//g' -i *.console &> /dev/null
 }

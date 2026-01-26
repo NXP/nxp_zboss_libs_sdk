@@ -12,7 +12,7 @@
  *
  */
 
-#define ZB_TRACE_FILE_ID 33617
+#define ZB_TRACE_FILE_ID 60037
 #include "zboss_api.h"
 #include "zboss_api_error.h"
 #include "cli_menu.h"
@@ -235,7 +235,7 @@ static zb_ret_t menu_sleep(int argc, char *argv[])
   /* get [delay] */
   TOOLS_GET_ARG(ret, uint, argv, 0, &delay);
 
-  sleep(delay);
+  osif_sleep(delay);
 
   return RET_OK;
 }
@@ -269,7 +269,7 @@ static zb_ret_t menu_wait_cb(int argc, char *argv[])
   wait_cb_events = count_cb_events + nb;
   while(count < timeout && count_cb_events != wait_cb_events)
   {
-    usleep(1000);
+    osif_usleep(1000);
     count++;
   }
 
@@ -294,7 +294,7 @@ static zb_ret_t menu_quit(int argc, char *argv[])
   if(argc != 0)
     return RET_INVALID_PARAMETER;
 
-  exit(0);
+  ZB_DO_EXIT();
 
   return RET_OK;
 }

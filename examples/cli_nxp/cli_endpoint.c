@@ -12,7 +12,7 @@
  *
  */
 
-#define ZB_TRACE_FILE_ID 33614
+#define ZB_TRACE_FILE_ID 60035
 #include "zboss_api.h"
 #include "cli_menu.h"
 #include "cli_config.h"
@@ -21,16 +21,13 @@
 #include "cli_tools.h"
 
 
-#define MAX_ENDPOINTS 256
-
-#define MAX_CLUSTERS 256
-
 /* Declare zb_af_simple_desc_##MAX_CLUSTERS_SERVERS##_##MAX_CLUSTERS_SERVERS##_t => zb_af_simple_desc_256_0_t */
 //ZB_DECLARE_SIMPLE_DESC(MAX_CLUSTERS_SERVERS,MAX_CLUSTERS_CLIENTS);
 ZB_DECLARE_SIMPLE_DESC(256,0);
 #define STRUCT_SIMPLE_DESC_NAME zb_af_simple_desc_256_0_t
 
 zb_af_endpoint_desc_t *cli_endpoints[MAX_ENDPOINTS] = { 0 };
+static zb_uint8_t param_tmp = 0; /* used by endpoint_command_handler */
 
 /* Context containing endpoints table, each endpoint containing clusters table */
 zb_af_device_ctx_t cli_ctx = {
@@ -168,7 +165,10 @@ static zb_uint8_t endpoint_commands_handler(zb_uint8_t param)
   zb_af_endpoint_desc_t *this_ep;
   zb_uint8_t cmd_processed = 0;
 
-  /* Search the endpoint */
+  if(param_tmp == 0)
+    param_tmp = zb_buf_get(ZB_TRUE, 2000);/* In case of big buffer, make sure the multiplicity will match */
+
+    /* Search the endpoint */
   this_ep = endpoint_get_by_id(ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).dst_endpoint);
   if(!this_ep)
   {
@@ -195,7 +195,6 @@ static zb_uint8_t endpoint_commands_handler(zb_uint8_t param)
     case ZB_ZCL_CMD_REPORT_ATTRIB:        /*!< 0x0a: Report attribute command */
       {
         zb_zcl_report_attr_req_t *rep_attr_req;
-        zb_uint8_t param_tmp = zb_buf_get(ZB_TRUE, 2000);/* In case of big buffer, make sure the multiplicity will match */
 
         zb_buf_copy(param_tmp, param);
 
@@ -212,7 +211,6 @@ static zb_uint8_t endpoint_commands_handler(zb_uint8_t param)
           if(rep_attr_req) ExtraLen += wcs_snprintf(ExtraInfo+ExtraLen, 256-ExtraLen, ", ");
           menu_printf("%s", ExtraInfo);
         }
-        zb_buf_free(param_tmp);
       }
       break;
 
@@ -238,7 +236,6 @@ static zb_uint8_t endpoint_commands_handler(zb_uint8_t param)
     case ZB_ZCL_CMD_READ_ATTRIB:          /*!< 0x00: Read attributes command */
       {
         zb_zcl_read_attr_req_t *read_attr_req;
-        zb_uint8_t param_tmp = zb_buf_get(ZB_TRUE, 2000);/* In case of big buffer, make sure the multiplicity will match */
 
         zb_buf_copy(param_tmp, param);
 
@@ -248,14 +245,12 @@ static zb_uint8_t endpoint_commands_handler(zb_uint8_t param)
         menu_printf("\tRead Attr 0x%04x:%s",
           read_attr_req->attr_id[0],
           get_cluster_attr_id_str(cmd_info->cluster_id, read_attr_req->attr_id[0]));
-        zb_buf_free(param_tmp);
       }
       break;
 
     case ZB_ZCL_CMD_READ_ATTRIB_RESP:     /*!< 0x01: Read attributes response command */
       {
         zb_zcl_read_attr_res_t *read_attr_resp;
-        zb_uint8_t param_tmp = zb_buf_get(ZB_TRUE, 2000);/* In case of big buffer, make sure the multiplicity will match */
 
         zb_buf_copy(param_tmp, param);
 
@@ -278,7 +273,6 @@ static zb_uint8_t endpoint_commands_handler(zb_uint8_t param)
           if(read_attr_resp) ExtraLen += wcs_snprintf(ExtraInfo+ExtraLen, 256-ExtraLen, ", ");
           menu_printf("%s", ExtraInfo);
         }
-        zb_buf_free(param_tmp);
       }
       break;
 
@@ -286,7 +280,6 @@ static zb_uint8_t endpoint_commands_handler(zb_uint8_t param)
     case ZB_ZCL_CMD_WRITE_ATTRIB_UNDIV:   /*!< 0x03: Write attributes undivided command */
       {
         zb_zcl_write_attr_req_t *write_attr_req;
-        zb_uint8_t param_tmp = zb_buf_get(ZB_TRUE, 2000);/* In case of big buffer, make sure the multiplicity will match */
         zb_uint8_t *buf_ptr;
         zb_uint8_t buf_len;
 
@@ -307,7 +300,6 @@ static zb_uint8_t endpoint_commands_handler(zb_uint8_t param)
           if(write_attr_req) ExtraLen += wcs_snprintf(ExtraInfo+ExtraLen, 256-ExtraLen, ", ");
           menu_printf("%s", ExtraInfo);
         }
-        zb_buf_free(param_tmp);
       }
       break;
 
@@ -315,7 +307,6 @@ static zb_uint8_t endpoint_commands_handler(zb_uint8_t param)
     case ZB_ZCL_CMD_WRITE_ATTRIB_NO_RESP: /*!< 0x05: Write attributes no response command */
       {
         zb_zcl_write_attr_res_t *write_attr_resp;
-        zb_uint8_t param_tmp = zb_buf_get(ZB_TRUE, 2000);/* In case of big buffer, make sure the multiplicity will match */
 
         zb_buf_copy(param_tmp, param);
 
@@ -336,7 +327,6 @@ static zb_uint8_t endpoint_commands_handler(zb_uint8_t param)
           if(write_attr_resp) ExtraLen += wcs_snprintf(ExtraInfo+ExtraLen, 256-ExtraLen, ", ");
           menu_printf("%s", ExtraInfo);
         }
-        zb_buf_free(param_tmp);
       }
       break;
 
@@ -354,8 +344,6 @@ static zb_uint8_t endpoint_commands_handler(zb_uint8_t param)
 //        zb_zcl_disc_attr_res_t *disc_attr_res = (zb_zcl_disc_attr_res_t *)zb_buf_begin(param);
           zb_uint8_t complete;                     /*!< Discovery complete */
           zb_zcl_disc_attr_info_t *disc_attr_info; /*!< Attribute desc list */
-
-        zb_uint8_t param_tmp = zb_buf_get(ZB_TRUE, 2000);/* In case of big buffer, make sure the multiplicity will match */
 
         zb_buf_copy(param_tmp, param);
 
@@ -375,7 +363,6 @@ static zb_uint8_t endpoint_commands_handler(zb_uint8_t param)
         }
 
         cmd_processed = ZB_TRUE;
-        zb_buf_free(param_tmp);
       }
       break;
 
@@ -426,6 +413,8 @@ static zb_uint8_t endpoint_commands_handler(zb_uint8_t param)
    * - Stack will not handle any processing
    * - Allocated buffers used to handle command must be freed explicitely by the user as the stack will not do it
    */
+  if(cmd_processed)
+    zb_buf_free(param);
 
   return cmd_processed;
 }

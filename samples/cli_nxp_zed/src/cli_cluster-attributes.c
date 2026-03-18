@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 NXP
+ * Copyright 2024-2026 NXP
  *
  * NXP Proprietary.
  * This software is owned or controlled by NXP and may only be used strictly
@@ -23,7 +23,7 @@ static void menu_print_cluster_attributes(zb_zcl_device_callback_param_t *device
 
 }
 
-#if defined(CLI_HAS_CLUSTER_OTA_UPGRADE) || defined(CLI_HAS_CLUSTER_OTA_UPGRADE)
+#if defined(CLI_HAS_CLUSTER_OTA_UPGRADE_CLT) || defined(CLI_HAS_CLUSTER_OTA_UPGRADE_SRV) || defined(CLI_HAS_CLUSTER_SCENES)
 static zb_bool_t is_cluster_created(zb_af_endpoint_desc_t *this_ep, zb_uint16_t cluster_id, zb_uint8_t role)
 {
   if(!this_ep)
@@ -36,7 +36,7 @@ static zb_bool_t is_cluster_created(zb_af_endpoint_desc_t *this_ep, zb_uint16_t 
 
   return ZB_FALSE;
 }
-#endif
+#endif /* CLI_HAS_CLUSTER_OTA_UPGRADE_CLT || CLI_HAS_CLUSTER_OTA_UPGRADE_SRV || CLI_HAS_CLUSTER_SCENES */
 
 void cluster_attributes_cb(zb_uint8_t param)
 {
@@ -46,7 +46,7 @@ void cluster_attributes_cb(zb_uint8_t param)
   device_cb_params->status = RET_NOT_IMPLEMENTED; //Will return ZCL status ZB_ZCL_STATUS_UNSUP_CMD
   switch(device_cb_params->device_cb_id)
   {
-#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE_CLT
   case ZB_ZCL_OTA_UPGRADE_VALUE_CB_ID:
     // done inside the handler... menu_print_cluster_attributes(device_cb_params, this_ep);
     /* Make sure we have created the ota cluster on client side */
@@ -59,7 +59,9 @@ void cluster_attributes_cb(zb_uint8_t param)
       device_cb_params->status = RET_INVALID_PARAMETER;
     }
     break;
+#endif /* CLI_HAS_CLUSTER_OTA_UPGRADE_CLT */
 
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE_SRV
   case ZB_ZCL_OTA_UPGRADE_SRV_QUERY_IMAGE_CB_ID:
     menu_print_cluster_attributes(device_cb_params, this_ep);
     /* Make sure we have created the ota cluster on client side */
@@ -73,7 +75,7 @@ void cluster_attributes_cb(zb_uint8_t param)
       device_cb_params->status = RET_INVALID_PARAMETER;
     }
     break;
-#endif /* CLI_HAS_CLUSTER_OTA_UPGRADE */
+#endif /* CLI_HAS_CLUSTER_OTA_UPGRADE_SRV */
 
   case ZB_ZCL_SET_ATTR_VALUE_CB_ID:
     /* This case has been added to avoid going into the default case which returns an error code, when we have a set attribute command. */

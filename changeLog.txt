@@ -3,16 +3,32 @@
                   +---------------------------------+
 
 
+2026-Q2:
+--------
+
+Zboss host: v019.2602.024
+Zboss libs: 4.2.2.0
+
+- Zephyr mcxw71 PRC
+- Introduce low power on Zephyr, disabled by default
+- Misc Zephyr Improvements
+- Add Linux-BSP 6.18.2 support (toolchain)
+
+
 2026-Q1:
 --------
 
-Zboss host: v019.2601.009
+Zboss host: v019.2601.028
 Zboss libs: 4.2.2.0
 
+- Refactor vendor files for improved readability and standardized feature set
+- Enable zboss logs on mcxw71 zephyr, disabled by default
 - Add mcxw71 zephyr support for cli_nxp_zed (EAR2)
 - Add mcxw71 zephyr persistante storage (nvram) support on littlefs
 - Add mcxw71 zephyr support for onoff_switch_zed (EAR1)
 - Update imx-dualpan.sh script to make it independent of dtb version
+- Update cli_nxp:
+  - Add config ed_timeout (End Device timeout with built-in keepalive mechanism)
 
 
 2025-Q4:

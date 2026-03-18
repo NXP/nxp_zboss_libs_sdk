@@ -1,14 +1,5 @@
 var NAVTREEINDEX30 =
 {
-"r23_new_features.html#r23_auth_tok":[0,6,3,0,6],
-"r23_new_features.html#r23_beacon_surv":[0,6,4,2,3],
-"r23_new_features.html#r23_brief":[0,6,2],
-"r23_new_features.html#r23_brief_secur":[0,6,2,0],
-"r23_new_features.html#r23_certification":[0,6,1],
-"r23_new_features.html#r23_clearallbind":[0,6,4,2,1],
-"r23_new_features.html#r23_codebase_features":[0,6,0],
-"r23_new_features.html#r23_decommis":[0,6,4,2,0],
-"r23_new_features.html#r23_details":[0,6,3],
 "r23_new_features.html#r23_dev_interview":[0,6,3,1],
 "r23_new_features.html#r23_dev_interview_joiner":[0,6,3,1,1],
 "r23_new_features.html#r23_dev_interview_tc":[0,6,3,1,0],
@@ -246,8 +237,17 @@ var NAVTREEINDEX30 =
 "structzb__route__record__s.html#a1abc34063039e90764c74f073da8624b":[2,0,7,4,0,1],
 "structzb__route__record__s.html#a5291522b7f7019ffff1fd19e9b0f5c8e":[2,0,7,4,0,2],
 "structzb__route__record__s.html#aa29efd92ea884351a211cda938133e50":[2,0,7,4,0,0],
-"structzb__rx__sensitivity__params__s.html":[2,0,9,0,2],
-"structzb__rx__sensitivity__params__s.html#a18465c653a3ba5b86769417650f3255d":[2,0,9,0,2,2],
-"structzb__rx__sensitivity__params__s.html#a43c760a564b214fc579207655ff1cbd1":[2,0,9,0,2,0],
-"structzb__rx__sensitivity__params__s.html#af5ea5ae634df3b0985b2617915a27e03":[2,0,9,0,2,1]
+"structzb__se__signal__service__discovery__bind__params__s.html":[2,0,9,3,4],
+"structzb__se__signal__service__discovery__bind__params__s.html#a10dc8ef3ec0f3e54186009067db80388":[2,0,9,3,4,1],
+"structzb__se__signal__service__discovery__bind__params__s.html#a9f9bf83a4668beb1cacdac2884f9ad76":[2,0,9,3,4,2],
+"structzb__se__signal__service__discovery__bind__params__s.html#ac85f82e23ac7f7bce72c6066d3b2f86b":[2,0,9,3,4,0],
+"structzb__se__signal__service__discovery__bind__params__s.html#ae6ec8d50e851605bdc624eaecba8bfd9":[2,0,9,3,4,3],
+"structzb__secur__ic__entry__s.html":[2,0,8,2,2],
+"structzb__secur__ic__entry__s.html#a3d70a5e7fdd94080ba4e42a52351fa50":[2,0,8,2,2,3],
+"structzb__secur__ic__entry__s.html#a6658b331441d37b675a9fb0cbec030b7":[2,0,8,2,2,0],
+"structzb__secur__ic__entry__s.html#a7cf4e93efe2d01305ca96eb96e92df4b":[2,0,8,2,2,2],
+"structzb__secur__ic__entry__s.html#ac765c76fc8b69a66c7b9b72a1b4a3e74":[2,0,8,2,2,1],
+"structzb__secur__ic__get__by__idx__req__s.html":[2,0,8,2,3],
+"structzb__secur__ic__get__by__idx__req__s.html#a4a602b89d2372568a9ddc34d9be0be32":[2,0,8,2,3,1],
+"structzb__secur__ic__get__by__idx__req__s.html#aa77440356381bf635b627e94c1c827aa":[2,0,8,2,3,0]
 };

@@ -72,7 +72,6 @@ var group__buf =
     [ "zb_mult_buf_t", "group__buf.html#ga276d630a0f90931f8110e7b8e7a45df7", null ],
     [ "zb_buf_get_mac_rx_need", "group__buf.html#gae9221bc9089fcd4be96a28944d0e82d2", null ],
     [ "zb_buf_is_oom_state", "group__buf.html#gad7855cad80be48f2feac0f61eb53cf27", null ],
-    [ "zb_buf_memory_close_to_low", "group__buf.html#gaf0579e58fe862e5d16052a51f55de755", null ],
     [ "zb_buf_memory_low", "group__buf.html#ga9e8ad9f761a1eccf00ab3eb761a55c7e", null ],
     [ "zb_buf_oom_trace", "group__buf.html#ga390b0c8500e8d2ac8885ffdfe97493d6", null ],
     [ "zb_buf_set_mac_rx_need", "group__buf.html#ga98f8ca54988786ec13015435abae6f9e", null ]

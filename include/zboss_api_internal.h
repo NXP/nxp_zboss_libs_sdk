@@ -1,11 +1,11 @@
 /* ZBOSS Zigbee software protocol stack
  *
- * Copyright (c) 2012-2020 DSR Corporation, Denver CO, USA.
+ * Copyright (c) 2012-2025 DSR Corporation, Denver CO, USA.
  * www.dsr-zboss.com
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2024 NXP
+ * Copyright 2024-2025 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -388,12 +388,6 @@ typedef ZB_PACKED_PRE struct zb_neighbor_tbl_ent_s /* not need to pack it at IAR
 
   zb_bitfield_t             device_type:2; /*!< Neighbor device type - @see @ref nwk_device_type */
 
-  zb_bitfield_t             depth:4; /*!< The network depth of this
-                                       device. A value of 0x00
-                                       indicates that this device is the
-                                       Zigbee coordinator for the
-                                       network.  */
-
   zb_bitfield_t             send_via_routing:1;  /*!< Due to bad link to that device send packets
                                                   *   via NWK routing.
                                                   */
@@ -417,11 +411,6 @@ typedef ZB_PACKED_PRE struct zb_neighbor_tbl_ent_s /* not need to pack it at IAR
    * can head the device but it can't hear us. Now that functionality is
    * implemented using outgoing_cost field. */
 
-  zb_bitfield_t             keepalive_received:1; /*!< This value indicates at least one keepalive
-                                                   *   has been received from the end device since
-                                                   *   the router has rebooted.
-                                                   */
-
   zb_bitfield_t             mac_iface_idx:5;  /*!< An index into the MAC Interface Table
                                                * indicating what interface the neighbor or
                                                * child is bound to. */
@@ -430,7 +419,22 @@ typedef ZB_PACKED_PRE struct zb_neighbor_tbl_ent_s /* not need to pack it at IAR
                                                       * device address
                                                       * search). */
   zb_bitfield_t             zvd_ephemeral_session_is_started:1; /*!< ZDD should be able to track ZVD session */
-  zb_bitfield_t             reserved:1;
+
+  zb_lbitfield_t            rx_on_when_idle:1; /*!< Indicates if neighbor receiver
+                                                  enabled during idle periods:
+                                                  TRUE = Receiver is on
+                                                  FALSE = Receiver is off
+                                                  This field should be present for
+                                                  entries that record the parent or
+                                                  children of a Zigbee router or
+                                                  Zigbee coordinator.  */
+
+  zb_lbitfield_t            keepalive_received:1; /*!< This value indicates at least one keepalive
+                                                    *   has been received from the end device since
+                                                    *   the router has rebooted.
+                                                    */
+
+  zb_lbitfield_t            nwk_timeout:4; /*!< End device timeout - @see @ref nwk_requested_timeout */
 
   zb_uint8_t                lqa;  /*!< Link quality. Also used to calculate
                                    * incoming cost */
@@ -492,23 +496,7 @@ typedef ZB_PACKED_PRE struct zb_neighbor_tbl_ent_s /* not need to pack it at IAR
 
     ZB_PACKED_PRE struct ed_s
     {
-      zb_lbitfield_t          rx_on_when_idle:1; /*!< Indicates if neighbor receiver
-                                                      enabled during idle periods:
-                                                      TRUE = Receiver is on
-                                                      FALSE = Receiver is off
-                                                      This field should be present for
-                                                      entries that record the parent or
-                                                      children of a Zigbee router or
-                                                      Zigbee coordinator.  */
-
-      zb_lbitfield_t          keepalive_received:1; /*!< This value indicates at least one keepalive
-                                                       *   has been received from the end device since
-                                                       *   the router has rebooted.
-                                                       */
-
-      zb_lbitfield_t          nwk_timeout:4; /*!< End device timeout - @see @ref nwk_requested_timeout */
-
-      zb_lbitfield_t          time_to_expire:26; /*Time stamp for ED aging*/
+      zb_time_t          time_to_expire; /*Time stamp for ED aging*/
     } ZB_PACKED_STRUCT ed;
   } ZB_PACKED_STRUCT dev;
 } ZB_PACKED_STRUCT
@@ -524,7 +512,7 @@ zb_neighbor_tbl_ent_t;
  */
 #define ZB_NEIGHBOR_ENT_RX_ON_WHEN_IDLE(nbt)                                              \
   (((nbt)->device_type != ZB_NWK_DEVICE_TYPE_ED) ||                                       \
-    ((nbt)->device_type == ZB_NWK_DEVICE_TYPE_ED && ZB_U2B((nbt)->dev.ed.rx_on_when_idle)))
+    ((nbt)->device_type == ZB_NWK_DEVICE_TYPE_ED && ZB_U2B((nbt)->rx_on_when_idle)))
 
 /**
    Returns outgoing cost of route for the neighbor device.

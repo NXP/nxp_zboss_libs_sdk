@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 NXP
+ * Copyright 2024-2026 NXP
  *
  * NXP Proprietary.
  * This software is owned or controlled by NXP and may only be used strictly
@@ -343,7 +343,7 @@ static zb_zcl_measur_lvlsensor_temp_measurement_attr_t g_lvlsensor_temp_measurem
  * ----------------------------------------------------------------------------------- */
 
 
-#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
+#if defined CLI_HAS_CLUSTER_OTA_UPGRADE_SRV || defined CLI_HAS_CLUSTER_OTA_UPGRADE_CLT
 /* -----------------------------------------------------------------------------------
  *
  *                                  CLUSTER OTA Upgrade
@@ -404,7 +404,7 @@ enum zb_zcl_nxp_ota_cmd_e
   ZB_ZCL_CMD_OTA_NXP_TEMPO       = 0x04,  /* Tempo OTA NXP command identifier. */
 #endif
 };
-#endif /* CLI_HAS_CLUSTER_OTA_UPGRADE */
+#endif /* CLI_HAS_CLUSTER_OTA_UPGRADE_SRV || CLI_HAS_CLUSTER_OTA_UPGRADE_CLT */
 
 
 #ifdef CLI_HAS_CLUSTER_THERMOSTAT

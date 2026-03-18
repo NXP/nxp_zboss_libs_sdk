@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2024 NXP
+ * Copyright 2024-2026 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -720,6 +720,17 @@ void zb_osif_nvram_flush(void);
 #define OTA_UPGRADE_TRAILING_DATA                                       \
   (2 /* hash tag Id */ + 4 /* hash length */ + OTA_UPGRADE_HASH_SIZE /* Hash */)
 
+/**
+ * Forward zb_zcl_ota_upgrade_file_header_t declaration
+ */
+typedef struct zb_zcl_ota_upgrade_file_header_s zb_zcl_ota_upgrade_file_header_t;
+
+/**
+   Configure the file header for OTA image
+
+   @param header ota upgrade file header
+ */
+void zb_osif_ota_config_file_header(zb_zcl_ota_upgrade_file_header_t *header);
 
 /**
    Open device to be used for OTA image write or read.

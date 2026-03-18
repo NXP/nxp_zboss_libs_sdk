@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 NXP
+ * Copyright 2024-2026 NXP
  *
  * NXP Proprietary.
  * This software is owned or controlled by NXP and may only be used strictly
@@ -17,6 +17,10 @@
 
 #include "zboss_api.h"
 #include "cli_menu.h"
+
+#ifdef ZB_PLATFORM_ZEPHYR
+#define CLI_HAS_SLEEPY_END_DEVICE
+#endif
 
 typedef enum {
   STATE_INIT = 0, /* Doing ZB_INIT() */

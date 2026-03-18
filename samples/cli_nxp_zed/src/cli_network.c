@@ -12,7 +12,7 @@
  *
  */
 
-#define ZB_TRACE_FILE_ID 33618
+#define ZB_TRACE_FILE_ID 60038
 #include "zboss_api.h"
 #include "cli_network.h"
 #include "cli_menu.h"

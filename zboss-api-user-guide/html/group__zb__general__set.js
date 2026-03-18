@@ -1,23 +1,5 @@
 var group__zb__general__set =
 [
-    [ "zb_tx_power_params_s", "structzb__tx__power__params__s.html", [
-      [ "cb", "structzb__tx__power__params__s.html#a833eaa62e9d6b18f4c3b0cf8f28eee73", null ],
-      [ "channel", "structzb__tx__power__params__s.html#a7d90e35d84fe0069c1a5c1f97f8c1f64", null ],
-      [ "page", "structzb__tx__power__params__s.html#a03c1505e009f2fd1c55c0fe33030cbba", null ],
-      [ "status", "structzb__tx__power__params__s.html#afd907f51ed1b6dd53284634228e11074", null ],
-      [ "tx_power", "structzb__tx__power__params__s.html#af5cc584e65ec58520612dae6de22081f", null ]
-    ] ],
-    [ "zb_tx_power_capabilities_params_s", "structzb__tx__power__capabilities__params__s.html", [
-      [ "cb", "structzb__tx__power__capabilities__params__s.html#aeafe7828757374975e4f9744c9fa87a9", null ],
-      [ "max", "structzb__tx__power__capabilities__params__s.html#a9216aa206acc6ba9f8f5e85b27323d5f", null ],
-      [ "min", "structzb__tx__power__capabilities__params__s.html#a80ce26527ece414a4d3860e09e28eca7", null ],
-      [ "status", "structzb__tx__power__capabilities__params__s.html#a602d7dd68a8e455258f2b08dbe06f0e3", null ]
-    ] ],
-    [ "zb_rx_sensitivity_params_s", "structzb__rx__sensitivity__params__s.html", [
-      [ "cb", "structzb__rx__sensitivity__params__s.html#a43c760a564b214fc579207655ff1cbd1", null ],
-      [ "rx_sensitivity", "structzb__rx__sensitivity__params__s.html#af5ea5ae634df3b0985b2617915a27e03", null ],
-      [ "status", "structzb__rx__sensitivity__params__s.html#a18465c653a3ba5b86769417650f3255d", null ]
-    ] ],
     [ "BOTH_KEEPALIVE_METHODS", "group__zb__general__set.html#ga1f65020328ff875c25b4054d8341da33", null ],
     [ "ED_AGING_TIMEOUT_1024MIN", "group__zb__general__set.html#ga56e0c33c69bd4a6243135dde68706f1d", null ],
     [ "ED_AGING_TIMEOUT_10SEC", "group__zb__general__set.html#ga3641e094836d355a64085fad9b5d3f8b", null ],
@@ -39,16 +21,10 @@ var group__zb__general__set =
     [ "MAC_DATA_POLL_KEEPALIVE", "group__zb__general__set.html#ga3fe1a4b9807bab2743343e39d312ef49", null ],
     [ "nwk_keepalive_supported_method_t", "group__zb__general__set.html#ga56ca96fa6494f30bc2e77de3bf53e534", null ],
     [ "nwk_requested_timeout_t", "group__zb__general__set.html#gab2c7b185dfc85a2643b7261d484a52d0", null ],
-    [ "zb_rx_sensitivity_params_t", "group__zb__general__set.html#ga288cf5f3f5cf660aaf8927562e5e63c6", null ],
     [ "zb_set_manufacturer_code_cb_t", "group__zb__general__set.html#ga981c241d8fc2ad7aea6093a8605e203f", null ],
-    [ "zb_tx_power_capabilities_params_t", "group__zb__general__set.html#ga6a1b204fedc92eecc59679c615c8ba3c", null ],
-    [ "zb_tx_power_params_t", "group__zb__general__set.html#gacb64c7244395e224d5a21a8eaf81925d", null ],
     [ "zb_channel_list_add", "group__zb__general__set.html#gaada35da08b451d550953a2a6575053c0", null ],
     [ "zb_channel_list_init", "group__zb__general__set.html#gaebc3b50bd1edca9c693b5f5aca239619", null ],
     [ "zb_get_node_descriptor_manufacturer_code", "group__zb__general__set.html#ga74f1e43bb2ee54d8eacec70cd40c7a1d", null ],
-    [ "zb_get_rx_sensitivity", "group__zb__general__set.html#ga050c24fd5f8f880593802a3020f44ea3", null ],
-    [ "zb_get_tx_power_async", "group__zb__general__set.html#ga818797cad07a011826b4a04b70be3cec", null ],
-    [ "zb_get_tx_power_capabilities", "group__zb__general__set.html#gab7d8e71fad84453121dfe8b9ed6e4129", null ],
     [ "zb_set_channel_mask", "group__zb__general__set.html#ga7767a6018a3c4a62f5d7942e341ff1a5", null ],
     [ "zb_set_ed_timeout", "group__zb__general__set.html#gaf8e3a6e219eba542ddd1ef8dc361149d", null ],
     [ "zb_set_extended_pan_id", "group__zb__general__set.html#ga192e0a93686ff250fae63d2c8e42b59e", null ],
@@ -67,6 +43,5 @@ var group__zb__general__set =
     [ "zb_set_network_router_role_legacy", "group__zb__general__set.html#gafca3271cdb282b7bafce261cfeaf6742", null ],
     [ "zb_set_node_descriptor_manufacturer_code_req", "group__zb__general__set.html#ga814a9f0a52f8e1805c4075e7ae7e1402", null ],
     [ "zb_set_pan_id", "group__zb__general__set.html#ga5517656935285035d58dd1561e24a275", null ],
-    [ "zb_set_rx_on_when_idle", "group__zb__general__set.html#ga6880473f802a340c6702e8c91f8ac606", null ],
-    [ "zb_set_tx_power_async", "group__zb__general__set.html#ga60f4177eae7f3bbb28ba54c43649ae0b", null ]
+    [ "zb_set_rx_on_when_idle", "group__zb__general__set.html#ga6880473f802a340c6702e8c91f8ac606", null ]
 ];

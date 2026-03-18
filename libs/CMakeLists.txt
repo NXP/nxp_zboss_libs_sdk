@@ -52,6 +52,16 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/../../include/platform
 )
 
+if(CONFIG_SUPPORT_ZBOSS)
+    zephyr_library_sources(
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../platform/osif/zb_osif_nvram.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../platform/osif/zb_osif_serial.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../platform/zb_zephyr_power.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../platform/zb_zephyr_ota_partition.c
+   )
+endif()
+
+
 include(${CMAKE_CURRENT_SOURCE_DIR}/../../libs/${CHIP_TYPE}/build_cmake)
 if(${KERNEL_BUILD_TYPE} STREQUAL "debug")
     target_compile_options(app PRIVATE -DDEBUG -DUSE_ASSERT)

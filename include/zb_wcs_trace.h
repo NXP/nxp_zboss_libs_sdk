@@ -1,6 +1,6 @@
 /*
  *
- * Copyright 2023-2025 NXP
+ * Copyright 2023-2026 NXP
  *
  * NXP Proprietary.
  * This software is owned or controlled by NXP and may only be used strictly
@@ -39,6 +39,7 @@ typedef enum {
 
 extern int wcs_out;
 
+/* These macro should uses WCS_TRACE_FORMAT & WCS_TRACE_ARG defined below instead of zboss definition since in case of binary_trace, the definitions are different */
 #define WCS_TRACE_ERROR(format, ...)   do { if(wcs_out) wcs_printf(WCS_LOG_LEVEL_ERROR,   format, ##__VA_ARGS__); } while(0)
 #define WCS_TRACE_WARNING(format, ...) do { if(wcs_out) wcs_printf(WCS_LOG_LEVEL_WARNING, format, ##__VA_ARGS__); } while(0)
 #define WCS_TRACE_NOTICE(format, ...)  do { if(wcs_out) wcs_printf(WCS_LOG_LEVEL_NOTICE,  format, ##__VA_ARGS__); } while(0)
@@ -50,6 +51,18 @@ extern int wcs_out;
 #define WCS_TRACE_DEBUG(format, ...)   do {} while(0)
 #endif
 
+#if defined ZB_TRACE_TO_FILE
+#define WCS_TRACE_FORMAT_64    TRACE_FORMAT_64
+#define WCS_TRACE_FORMAT_128   TRACE_FORMAT_128
+#define WCS_TRACE_ARG_64(a)    TRACE_ARG_64(a)
+#define WCS_TRACE_ARG_128(a)   TRACE_ARG_128(a)
+#else
+/* In case of zboss binary trace, zboss logs are not string, but wcs trace are, so keep these definition as string */
+#define WCS_TRACE_FORMAT_64    "%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx"
+#define WCS_TRACE_FORMAT_128   "%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx"
+#define WCS_TRACE_ARG_64(a)    (zb_uint8_t)((a)[7]),(zb_uint8_t)((a)[6]),(zb_uint8_t)((a)[5]),(zb_uint8_t)((a)[4]),(zb_uint8_t)((a)[3]),(zb_uint8_t)((a)[2]),(zb_uint8_t)((a)[1]),(zb_uint8_t)((a)[0])
+#define WCS_TRACE_ARG_128(a)   (zb_uint8_t)((a)[0]),(zb_uint8_t)((a)[1]),(zb_uint8_t)((a)[2]),(zb_uint8_t)((a)[3]),(zb_uint8_t)((a)[4]),(zb_uint8_t)((a)[5]),(zb_uint8_t)((a)[6]),(zb_uint8_t)((a)[7]),(zb_uint8_t)((a)[8]),(zb_uint8_t)((a)[9]),(zb_uint8_t)((a)[10]),(zb_uint8_t)((a)[11]),(zb_uint8_t)((a)[12]),(zb_uint8_t)((a)[13]),(zb_uint8_t)((a)[14]),(zb_uint8_t)((a)[15])
+#endif
 
 void wcs_trace_config(const char *name, char *env);
 
@@ -92,6 +105,10 @@ char *get_err_sev_str(zb_uint8_t severity);
 char *wcs_get_error_str(zb_ret_t retval);
 char *get_zcl_status_str(zb_uint8_t zcl_status);
 char *get_zdp_status_str(zb_uint8_t zdp_status);
+
+#ifdef ZB_CONFIG_ZEPHYR_MACSPLIT_NXP_HOST
+void zb_macsplit_logs(zb_bool_t enabled);
+#endif
 
 #endif /* ZB_MACSPLIT_DEVICE_NXP */
 #endif /* ZB_WCS_LOGGER_H */

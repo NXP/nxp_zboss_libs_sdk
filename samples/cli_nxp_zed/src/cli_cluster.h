@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 NXP
+ * Copyright 2024-2026 NXP
  *
  * NXP Proprietary.
  * This software is owned or controlled by NXP and may only be used strictly
@@ -25,7 +25,8 @@
 #define CLI_HAS_CLUSTER_ONOFF         1 /* has commands */
 #define CLI_HAS_CLUSTER_ONOFF_SWITCH  1
 #define CLI_HAS_CLUSTER_TEMPERATURE   1
-#define CLI_HAS_CLUSTER_OTA_UPGRADE   1 /* has commands, uses filesystem */
+#define CLI_HAS_CLUSTER_OTA_UPGRADE_SRV 1 /* has commands, uses filesystem */
+#define CLI_HAS_CLUSTER_OTA_UPGRADE_CLT 1 /* has commands, uses filesystem */
 #define CLI_HAS_CLUSTER_THERMOSTAT    1 /* has commands */
 #define CLI_HAS_CLUSTER_MANUF_SPE     1 /* has commands */
 
@@ -37,7 +38,8 @@
 //#undef CLI_HAS_CLUSTER_ONOFF
 //#undef CLI_HAS_CLUSTER_ONOFF_SWITCH
 //#undef CLI_HAS_CLUSTER_TEMPERATURE
-//#undef CLI_HAS_CLUSTER_OTA_UPGRADE
+//#undef CLI_HAS_CLUSTER_OTA_UPGRADE_SRV
+//#undef CLI_HAS_CLUSTER_OTA_UPGRADE_CLT
 //#undef CLI_HAS_CLUSTER_THERMOSTAT
 //#undef CLI_HAS_CLUSTER_MANUF_SPE
 
@@ -52,7 +54,8 @@
 //#undef CLI_HAS_CLUSTER_ONOFF
 //#undef CLI_HAS_CLUSTER_ONOFF_SWITCH
 //#undef CLI_HAS_CLUSTER_TEMPERATURE
-#undef CLI_HAS_CLUSTER_OTA_UPGRADE
+#undef CLI_HAS_CLUSTER_OTA_UPGRADE_SRV
+#undef CLI_HAS_CLUSTER_OTA_UPGRADE_CLT
 //#undef CLI_HAS_CLUSTER_THERMOSTAT
 //#undef CLI_HAS_CLUSTER_MANUF_SPE
 

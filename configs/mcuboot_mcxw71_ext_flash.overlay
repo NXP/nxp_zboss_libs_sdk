@@ -1,0 +1,65 @@
+/ {
+    chosen {
+        zephyr,code-partition = &boot_partition;
+    };
+};
+
+/* Delete all existing partitions */
+/delete-node/ &boot_partition;
+/delete-node/ &slot0_partition;
+/delete-node/ &slot1_partition;
+/delete-node/ &storage_partition;
+/delete-node/ &hw_params_partition;
+
+/* Redefine internal flash partitions */
+&flash {
+    ranges = <0x0 0x0 0x0 DT_SIZE_M(1)>;
+
+    /delete-node/ partitions;
+
+    partitions {
+        compatible = "fixed-partitions";
+        #address-cells = <1>;
+        #size-cells = <1>;
+        ranges;
+
+        boot_partition: partition@0 {
+            label = "mcuboot";
+            reg = <0x0 DT_SIZE_K(64)>;
+        };
+
+        slot0_partition: partition@10000 {
+            label = "image-0";
+            reg = <0x10000 DT_SIZE_K(768)>;
+        };
+
+        storage_partition: partition@D0000 {
+            label = "storage";
+            reg = <0xD0000 DT_SIZE_K(184)>;
+        };
+
+        hw_params_partition: partition@FE000 {
+            label = "hw-parameters";
+            reg = <0xFE000 DT_SIZE_K(8)>;
+        };
+    };
+};
+
+&mx25r6435fm2il0 {
+    status = "okay";
+    ranges = <0x0 0x0 0x0 DT_SIZE_M(8)>;
+
+    /delete-node/ partitions;
+
+    partitions {
+        compatible = "fixed-partitions";
+        #address-cells = <1>;
+        #size-cells = <1>;
+        ranges;
+
+        slot1_partition: partition@0 {
+            label = "image-1";
+            reg = <0x0 DT_SIZE_K(768)>;
+        };
+    };
+};

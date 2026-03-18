@@ -1,26 +1,24 @@
 /*
- @licstart  The following is the entire license notice for the JavaScript code in this file.
+@licstart  The following is the entire license notice for the
+JavaScript code in this file.
 
- The MIT License (MIT)
+Copyright (C) 1997-2019 by Dimitri van Heesch
 
- Copyright (C) 1997-2020 by Dimitri van Heesch
+This program is free software; you can redistribute it and/or modify
+it under the terms of version 2 of the GNU General Public License as published by
+the Free Software Foundation
 
- Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- and associated documentation files (the "Software"), to deal in the Software without restriction,
- including without limitation the rights to use, copy, modify, merge, publish, distribute,
- sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
- The above copyright notice and this permission notice shall be included in all copies or
- substantial portions of the Software.
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
- BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
- DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
- @licend  The above is the entire license notice for the JavaScript code in this file
+@licend  The above is the entire license notice
+for the JavaScript code in this file
 */
 var NAVTREE =
 [
@@ -41,47 +39,46 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga981906e5badb3562c600b896ab4bc9e6",
-"group___z_b___z_c_l___a_n_a_l_o_g___v_a_l_u_e.html#ggab009e8a215e24da302e50d05e2b5c6b1abe18e8da0a0687e6f0bc7a6b42ececae",
-"group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga86bbec83067bb82e5b03e751861ed54c",
-"group___z_b___z_c_l___c_o_l_o_r___c_o_n_t_r_o_l.html#gafd1a2eb04ff142d5587463523bd1e166",
-"group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#ga756e687778847e3c2fe0070e63428e42",
-"group___z_b___z_c_l___d_e_v_i_c_e___m_a_n_a_g_e_m_e_n_t___a_t_t_r_s.html#ggaf0854f8681fd0eb5f1e8ebe6809c9f31acf8f5fed96522b1e4536ec58829c6e2a",
-"group___z_b___z_c_l___d_o_o_r___l_o_c_k.html#gga32dc26e1e53e277e16b03960e5debbf5a1590893e4fa1655427348a2c96f6126c",
-"group___z_b___z_c_l___e_l_e_c_t_r_i_c_a_l___m_e_a_s_u_r_e_m_e_n_t.html#ga785d64381301e892c679703c5a6d362f",
-"group___z_b___z_c_l___e_n_e_r_g_y___m_a_n_a_g_e_m_e_n_t___a_t_t_r_s.html#ga6bf60e7596584949b3a75b21b9c3190d",
-"group___z_b___z_c_l___i_a_s___a_c_e.html#gaf6544648b1d4e9f2d6cdd3e3409a29f4",
-"group___z_b___z_c_l___i_l_l_u_m_i_n_a_n_c_e___m_e_a_s_u_r_e_m_e_n_t.html#ga3292580dc984e8f3bc1235129b5e1760",
-"group___z_b___z_c_l___l_e_v_e_l___c_o_n_t_r_o_l.html#gga12838214973310738679f4849393b849a369b0e6dcf1c396a6aa3637e90d2c485",
-"group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#gga3d3ea4e418ce239fcedaeb70c23eb62dab6f3d37d4a423116e0cc9b68f78c577f",
-"group___z_b___z_c_l___m_e_t_e_r_i_n_g___s_r_v___a_t_t_r_s.html#gga6706d90fe36418c259463f0dcc86bf0ea5acea032e89133251804eb1d06180765",
-"group___z_b___z_c_l___m_e_t_e_r_i_n_g___s_r_v___a_t_t_r_s.html#gga776cdbc48b766012d3a5fc272deb5be3a97becacd8bbb57613285d48a32c0ad88",
-"group___z_b___z_c_l___m_u_l_t_i_s_t_a_t_e___v_a_l_u_e.html#gga9316102e87aa7c076de5fb76f6e28f94a5765705cc0831f91bb994238920a1c41",
-"group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#gadf32a73f3f2118e4e30c23bbe6921203",
-"group___z_b___z_c_l___p_r_e_p_a_y_m_e_n_t___a_t_t_r_s.html#ga1c837bc17a734ef2bcf5261962780b89",
-"group___z_b___z_c_l___p_r_i_c_e___c_l_u_s_t_e_r___c_o_m_m_a_n_d_s.html#ga53a5c03d099afa569a633341303a0bab",
-"group___z_b___z_c_l___p_r_i_c_e___s_e_t___t_a_r_i_f_f___i_n_f_o_r_m_a_t_i_o_n___g_r_o_u_p.html#ggaf5887fe6b73a6b0c63b53cd36a9133a8adee5cf06444796f1b1c503780d8ea4d7",
-"group___z_b___z_c_l___t_h_e_r_m_o_s_t_a_t.html#ga506ffa4492ae6bda6cecedc71a8919fa",
-"group___z_b___z_c_l___t_o_u_c_h_l_i_n_k___c_o_m_m_i_s_s_i_o_n_i_n_g.html#ga03d0f423100f8f2c283bf4ffad7f0c0a",
-"group___z_b___z_c_l___w_i_n_d_o_w___c_o_v_e_r_i_n_g.html#ga8098b805fc305ad7746ed19cbcfe7f3a",
-"group__base__types.html#gae4583d96f343b0046b504fce12edd04e",
-"group__nwk__common__constants.html#ga3f25cedb6871084a8fb8689f288c83b6",
-"group__se__secur.html#gaf832e857cfbf3b6aeb6e77eb065ade65",
-"group__zb__general__set.html#ga3fe1a4b9807bab2743343e39d312ef49",
-"group__zb__zcl__common__types.html#ga31e32e8bd0c9ff199d8cbab2f50c4308",
-"group__zdo__bind.html#gab3332e0abcc465ff7d8f7fd5e9f72084",
-"r23_new_features.html#r23_auth_tok",
-"structzb__se__signal__service__discovery__bind__params__s.html",
-"structzb__zcl__color__control__move__to__hue__saturation__req__s.html#a09d8b690fa99b538d2201c1df381cd54",
-"structzb__zcl__energy__management__manage__event__payload__s.html",
-"structzb__zcl__messaging__cancel__all__message__payload__s.html#aa0a561e90e776617ef560f591c39a464",
-"structzb__zcl__ota__upgrade__query__next__image__s.html#adeac8657846e2e21341686af91e71416",
-"structzb__zcl__price__get__block__period__payload__s.html#ab2b8f94376e52499d185c8a6ef423ddc",
-"structzb__zcl__scenes__recall__scene__transition__time__req__s.html",
-"structzb__zdo__get__configuration__resp__param__s.html",
-"structzb__zdo__secur__get__auth__level__rsp__s.html#a55984e2469e50c830031bf9aede63f57",
-"structzbd__network__status__s.html",
-"zigbee_prog_principles.html#zigbee_multitasking_alarms"
+"group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga91fc6bead0ca7579f6d75893b85891c5",
+"group___z_b___z_c_l___a_n_a_l_o_g___v_a_l_u_e.html#ggab009e8a215e24da302e50d05e2b5c6b1a0c4d824470f024a74d1b0f25484d4fcd",
+"group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga807d49dd558fde743918a0c236c76b03",
+"group___z_b___z_c_l___c_o_l_o_r___c_o_n_t_r_o_l.html#gaf7e13dc2dba82664a372ca9e2afbe67e",
+"group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#ga4b1ed0ef1cb33adc759e12b2795570de",
+"group___z_b___z_c_l___d_e_v_i_c_e___m_a_n_a_g_e_m_e_n_t___a_t_t_r_s.html#ggaf0854f8681fd0eb5f1e8ebe6809c9f31a9f3d5207620e7f11666bdd724744c32f",
+"group___z_b___z_c_l___d_o_o_r___l_o_c_k.html#gga1366d6b277d0e52235d5a08e1dc117faae8ca609bd5279daa57b8fa8162c328b6",
+"group___z_b___z_c_l___e_l_e_c_t_r_i_c_a_l___m_e_a_s_u_r_e_m_e_n_t.html#ga6e912db247baec6db950b584d069a2ce",
+"group___z_b___z_c_l___e_n_e_r_g_y___m_a_n_a_g_e_m_e_n_t___a_t_t_r_s.html",
+"group___z_b___z_c_l___i_a_s___a_c_e.html#gae6ca1b769f2e0e4497ab1a7c49eb16cf",
+"group___z_b___z_c_l___i_d_e_n_t_i_f_y.html#ggacc343c9ec9f9b90f1c16c2eacf965ddfa702d827207902fb78b2060fc9c91077e",
+"group___z_b___z_c_l___l_e_v_e_l___c_o_n_t_r_o_l.html#gaf0c5f1b19209295b81b930222a770eca",
+"group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#gga3d3ea4e418ce239fcedaeb70c23eb62da2239c9fe7cedbf79120f7d637faf2080",
+"group___z_b___z_c_l___m_e_t_e_r_i_n_g___s_r_v___a_t_t_r_s.html#gga6706d90fe36418c259463f0dcc86bf0ea590bb381efe5017d0c4115bff723afc2",
+"group___z_b___z_c_l___m_e_t_e_r_i_n_g___s_r_v___a_t_t_r_s.html#gga776cdbc48b766012d3a5fc272deb5be3a5b574fbb1f9b8633bf5d969ab6c93ccf",
+"group___z_b___z_c_l___m_u_l_t_i_s_t_a_t_e___v_a_l_u_e.html#gafa8bca4f24fc01e4a1d002ac3370f600",
+"group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#gad465d5b1b691f5b967b2af3a4fea47d6",
+"group___z_b___z_c_l___p_r_e_p_a_y_m_e_n_t.html",
+"group___z_b___z_c_l___p_r_i_c_e___c_l_u_s_t_e_r___c_o_m_m_a_n_d_s.html#ga2b60552346caaeb1f3a70379ed008265",
+"group___z_b___z_c_l___p_r_i_c_e___s_e_t___t_a_r_i_f_f___i_n_f_o_r_m_a_t_i_o_n___g_r_o_u_p.html#ggaf5887fe6b73a6b0c63b53cd36a9133a8a9144dbff30331216112216609b60ce3a",
+"group___z_b___z_c_l___t_h_e_r_m_o_s_t_a_t.html#ga4c56b50dc7ec6cd7b9a98d6c8ad69f73",
+"group___z_b___z_c_l___t_i_m_e___a_t_t_r_s.html#ggaf54b23ae4f46dcb0f95110bd0afaf832ac1d6abea4de4023ea0a2f2b993cb0009",
+"group___z_b___z_c_l___w_i_n_d_o_w___c_o_v_e_r_i_n_g.html#ga6edd077eeedeae908fd6f02eb0084fef",
+"group__base__types.html#gab8a5b6e19580d111fe34b21f700d98aa",
+"group__nwk__common__constants.html#ga3ae8a331e2f38980e17cff453a6d01de",
+"group__se__secur.html#gaa930f763a4b82fe98dba1bba75cafafb",
+"group__zb__general__set.html#ga4268b37fa68f97e40073b979215a0685",
+"group__zb__zcl__common__types.html#ga40f403bfcf8d2376da1ac77d5c2c8801",
+"group__zdo__disc.html#ga0b5c9e417d29f287995177ced2bff903",
+"r23_new_features.html#r23_dev_interview",
+"structzb__secur__ic__get__by__idx__resp__s.html",
+"structzb__zcl__color__control__step__saturation__req__s.html#ab6c4fd76b5fc20f3f196eeb5d8080064",
+"structzb__zcl__events__get__event__log__payload__s.html#ac5b70a1fad376eb4d37eb192975d7e17",
+"structzb__zcl__metering__attrs__s.html",
+"structzb__zcl__ota__upgrade__server__variable__s.html",
+"structzb__zcl__price__get__price__matrix__payload__s.html#a1f31ed11cf21aa9d9e2d21adef3b52e6",
+"structzb__zcl__scenes__view__scene__res__fixed__size__s.html",
+"structzb__zdo__get__diag__data__resp__params__s.html#a03d85b6d4e5062875d0cceaed62c7686",
+"structzb__zdo__signal__device__update__params__s.html#a3399ce1d6cda7083c4af796583281184",
+"structzbd__zvd__comm__service__params__t.html#abe8a2d970ea93ea040d820b30b388b5b"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

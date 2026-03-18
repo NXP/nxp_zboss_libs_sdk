@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2024-2025 NXP
+ * Copyright 2024-2026 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -57,7 +57,14 @@ constants etc.
 #define ZB_CHILD_HASH_TABLE_SIZE (((ZB_IEEE_ADDR_TABLE_SIZE + ZB_IEEE_ADDR_TABLE_SIZE / 3) + 31) / 32 * 32)
 #endif /* ZB_CONFIGURABLE_MEM */
 
+#ifdef ZB_ED_ROLE
+#define ZB_USE_SLEEP
+#define ZB_SCHEDULER_NO_AUTOWAKEUP
+#define ZB_MAC_RADIO_CANT_WAKEUP_MCU
+#else
 #define MAC_TRANSPORT_USES_SELECT
+#endif
+
 #define ZB_MAC_PENDING_BIT_SOURCE_MATCHING
 #define ZB_SOFT_SECURITY
 #define ZB_DEBUG_ENLARGE_TIMEOUT 1
@@ -66,9 +73,8 @@ constants etc.
 #define ZB_CB_QUANT 2
 #endif
 
-#ifndef NCP_TRANSPORT_REFRESH_TIME
-#define NCP_TRANSPORT_REFRESH_TIME (-1) /* Lock for an infinite amount of time on the transport select if no callbacks and alarms are scheduled. */
-#endif /* NCP_TRANSPORT_REFRESH_TIME */
+#define NCP_TRANSPORT_REFRESH_TIME 20 /* Amount of time on the transport select if no callbacks and alarms are scheduled. */
+
 
 #ifdef ZB_CONFIG_LINUX_MACSPLIT_HOST
   #define ZB_MACSPLIT

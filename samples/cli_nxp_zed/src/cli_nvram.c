@@ -12,7 +12,7 @@
  *
  */
 
-#define ZB_TRACE_FILE_ID 33619
+#define ZB_TRACE_FILE_ID 60039
 #include "zboss_api.h"
 #include "cli_nvram.h"
 #include "cli_config.h"

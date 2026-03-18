@@ -33,7 +33,7 @@ manifest:
     - name: zephyr
       remote: zephyrproject
       repo-path: zephyr
-      revision: 2baee8af6d9f26a3c1b121725a488d4608ccc970
+      revision: 8a4046610a490c9b27667d6165e91b7ab7c23e83
       path: zephyr
       west-commands: scripts/west-commands.yml
       import:
@@ -41,6 +41,8 @@ manifest:
           - cmsis_6
           - hal_nxp
           - littlefs
+          - mcuboot
+          - mbedtls
 
   self:
       path: modules/zboss

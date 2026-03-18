@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 NXP
+ * Copyright 2024-2026 NXP
  *
  * NXP Proprietary.
  * This software is owned or controlled by NXP and may only be used strictly
@@ -12,7 +12,7 @@
  *
  */
 
-#define ZB_TRACE_FILE_ID 33612
+#define ZB_TRACE_FILE_ID 60032
 #include "zboss_api.h"
 #include "cli_menu.h"
 #include "cli_config.h"
@@ -38,9 +38,10 @@
 static zb_uint8_t dummy_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
 
 
-#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
-#include "../ota_upgrade_nxp/ota_nxp_definitions.h"
+#if defined(CLI_HAS_CLUSTER_OTA_UPGRADE_CLT) || defined(CLI_HAS_CLUSTER_OTA_UPGRADE_SRV)
+#include "zcl/zb_zcl_ota_nxp_definitions.h"
 #endif
+
 
 /* Define clusters attributes */
 #include "cli_cluster-defs.c"
@@ -237,7 +238,7 @@ void cluster_init(uint8_t ep_id)
 
   for(int i=0; i<this_ep->cluster_count; i++)
   {
-#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE_SRV
     /* Init OTA Server */
     if(this_ep->cluster_desc_list[i].cluster_id == ZB_ZCL_CLUSTER_ID_OTA_UPGRADE &&
        this_ep->cluster_desc_list[i].role_mask & ZB_ZCL_CLUSTER_SERVER_ROLE)
@@ -294,8 +295,10 @@ cli_menu_cmd menu_cluster[] = {
   { "custom_nxp_cmd", "", "                                                  ", cluster_custnxp_submenu, help_custnxp_cmds, "SUBMENU CUSTOM NXP Commands" },
 #endif
   /* Cluster OTA Upgrade commands */
-#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE_SRV
   { "ota_server", "", "                                                      ", cluster_ota_srv_submenu, help_ota_srv_cmds, "SUBMENU OTA Upgrade Server" },
+#endif
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE_CLT
   { "ota_client", "", "                                                      ", cluster_ota_clt_submenu, help_ota_clt_cmds, "SUBMENU OTA Upgrade Client" },
 #endif
   { "print", " [endpoint]", "                                                ", cluster_print,           help_empty,        "print the cluster table on endpoint id [0-255]" },

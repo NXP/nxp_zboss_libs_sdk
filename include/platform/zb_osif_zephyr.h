@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2025 NXP
+ * Copyright 2025-2026 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -123,7 +123,11 @@ void osif_ipc_init(void);
 void osif_ipc_deinit(void);
 void zb_scheduler_wakeup(void);
 
+#ifdef MAC_TRANSPORT_USES_SELECT
 void zb_osif_platform_io_iteration(zb_bool_t block);
+#else
+void zb_zephyr_go_idle(void);
+#endif
 
 #if defined ZB_COMPILE_MAC_MONOLITHIC
 #define ZB_TRANSPORT_BLOCK() zb_nsng_io_iteration(ZB_TRUE)
@@ -174,6 +178,14 @@ zb_uint32_t osif_current_time_to_be();
 
 void osif_sleep(zb_uint_t s);
 void osif_usleep(zb_uint_t us);
+void zb_osif_goto_idle(void);
+#define zb_osif_low_power_config(enable) zephyr_low_power_config(enable)
+
+void zephyr_low_power_config(uint8_t enable);
+void zephyr_low_power_off(void);
+void zephyr_low_power_on(void);
+
+uint8_t zephyr_ota_get_partition_id(const char *partition_name);
 
 /* threads */
 typedef struct k_mutex   osif_mutex_t;
@@ -185,15 +197,15 @@ typedef osif_func_ret_t (*osif_func_t)(osif_func_arg_t);
 typedef osif_func_ret_t (*osif_tread_detached_func_t)(osif_func_arg_t);
 
 #ifdef CONFIG_USERNAME
-#define OSIF_THREAD_STACK_DEFINE(stack_name, stack_size)  K_KERNEL_STACK_DEFINE(stack_name, stack_size)
+#define OSIF_THREAD_STACK_DEFINE(stack_name, stack_size)  static K_KERNEL_STACK_DEFINE(stack_name, stack_size)
 #define OSIF_THREAD_STACK_SIZE(stack_name)                K_KERNEL_STACK_SIZEOF(stack_name)
 #else
-#define OSIF_THREAD_STACK_DEFINE(stack_name, stack_size)  K_THREAD_STACK_DEFINE(stack_name, stack_size)
+#define OSIF_THREAD_STACK_DEFINE(stack_name, stack_size)  static K_THREAD_STACK_DEFINE(stack_name, stack_size)
 #define OSIF_THREAD_STACK_SIZE(stack_name)                K_THREAD_STACK_SIZEOF(stack_name)
 #endif
 
-#define   osif_start_thread(thread, func, arg, stack_name, stack_size) RET_NOT_SUPPORTED
-zb_ret_t   osif_start_thread2(osif_thread_t *thread, osif_func_t func, void * arg, osif_thread_stack_t *stack_name, size_t stack_size);
+#define   osif_start_thread(thread, func, arg, stack_name, stack_size, thread_priority) RET_NOT_SUPPORTED
+zb_ret_t   osif_start_thread2(osif_thread_t *thread, osif_func_t func, void * arg, osif_thread_stack_t *stack_name, size_t stack_size, zb_int_t thread_priority);
 void* osif_thread_join(osif_thread_t *thread);
 zb_uint_t  osif_get_thread_id(ZB_VOID_ARGLIST);
 void       osif_thread_exit(void *retval);

@@ -1,5 +1,5 @@
 
- Copyright 2024-2025 NXP
+ Copyright 2024-2026 NXP
 
  NXP Proprietary.
  This software is owned or controlled by NXP and may only be used strictly
@@ -91,6 +91,8 @@ config status:                          R-  status ZigBee stack
 config stop:                            RO  stop ZigBee stack
 config channel_change [channel]:        RO  configure channel change to channel number [11-26]
 config concentrator [time] [radius]:    RO  configure device as concentrator, time: the time in seconds between concentrator route discoveries [0x0~0xFFFFFFFF], radius the hop count radius for concentrator route discoveries [0-255].
+config ed_timeout [timeout]:            RO  configure network end device timeout [0-14] according to Requested Timeout enumerated values [10 sec ~ 16384 min]
+config sleepy <interval> <turbo>:       CO  configure sleepy end device (if applicable)
 config pan_channel [get|set] <ch>:      RO  get or set the pan channel (shared with OpenThread)
 config power_capa:                      RO  get tx power capabilities
 config rx_sensitivity:                  RO  get rx sensitivity
@@ -102,6 +104,7 @@ config frag_on_msc [cluster] [index]:   RO  register a manufacturer specific clu
 config get_version [version_type]:      R-  get software version [host|stack|firmware]
 config trace [level] [mask]:            RO  configure the zboss log, level [0-4], mask [0x0~0xFFFFFFFF]
 config redirect_trace [enable]:         RO  configure the zboss log, redirect to app if enabled [0|1]
+                                            Note: only if ZB_TRACE_TO_FILE is enabled (case of Linux solutions)
 config dbgtty [level]:                  RO  configure debug TTY frames, level: [0-3]
 
 

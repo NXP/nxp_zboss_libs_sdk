@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2024-2025 NXP
+ * Copyright 2024-2026 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -24,7 +24,7 @@
 /* PURPOSE: Simple app
 */
 
-#define ZB_TRACE_FILE_ID 33616
+#define ZB_TRACE_FILE_ID 60030
 #include "zboss_api.h"
 #include "cli_config.h"
 #include "cli_endpoint.h"
@@ -39,9 +39,8 @@
 #define APP_NAME "cli_nxp_zczr"
 #endif
 
-static OSIF_THREAD_STACK_DEFINE(cli_stack, 6*1024);
-
-zb_ieee_addr_t g_zr_addr = {0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00};
+OSIF_THREAD_STACK_DEFINE(cli_stack, 6*1024);
+#define THREAD_PRIORITY K_PRIO_PREEMPT(CONFIG_MAIN_THREAD_PRIORITY+1) // Run when the stack is idle
 
 static void *cli_main(void *arg)
 {
@@ -59,6 +58,10 @@ MAIN()
 
   ARGV_UNUSED;
 
+#ifdef CONFIG_PM
+  #error CONFIG_PM is not supported by the CLI_NXP
+#endif
+
   ZB_SET_TRAF_DUMP_ON();
 
 
@@ -68,7 +71,7 @@ MAIN()
     MAIN_RETURN(1);
   }
 
-  osif_start_thread2(&cli_thread, cli_main, NULL, cli_stack, OSIF_THREAD_STACK_SIZE(cli_stack));
+  osif_start_thread2(&cli_thread, cli_main, NULL, cli_stack, OSIF_THREAD_STACK_SIZE(cli_stack), THREAD_PRIORITY);
 
   while(running) {
     switch(config_get_state()) {
@@ -141,7 +144,7 @@ void zboss_signal_handler(zb_uint8_t param)
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_type_t sig = zb_get_app_signal(param, &sg_p);
 
-  TRACE_MSG(TRACE_APP1, "> zboss_signal_handler %h", (FMT__H, param));
+  TRACE_MSG(TRACE_APP1, "> zboss_signal_handler %u", (FMT__H, sig));
 
   if (ZB_GET_APP_SIGNAL_STATUS(param) == 0)
   {
@@ -173,6 +176,14 @@ void zboss_signal_handler(zb_uint8_t param)
         param = 0;
         break;
 #endif
+#if defined(ZB_USE_SLEEP)
+      case ZB_COMMON_SIGNAL_CAN_SLEEP:
+        {
+          zb_sleep_now();
+        }
+        break;
+#endif
+
       default:
         TRACE_MSG(TRACE_APP1, "Unknown signal", (FMT__0));
     }

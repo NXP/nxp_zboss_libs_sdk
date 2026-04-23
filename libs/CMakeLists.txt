@@ -55,6 +55,7 @@ include_directories(
 if(CONFIG_SUPPORT_ZBOSS)
     zephyr_library_sources(
         ${CMAKE_CURRENT_SOURCE_DIR}/../../platform/osif/zb_osif_nvram.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../platform/osif/zb_osif_prod_cfg.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../../platform/osif/zb_osif_serial.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../../platform/zb_zephyr_power.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../../platform/zb_zephyr_ota_partition.c

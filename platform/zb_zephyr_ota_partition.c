@@ -17,12 +17,43 @@
 
 uint8_t zephyr_ota_get_partition_id(const char *partition_name)
 {
-	if (strcmp(partition_name, "slot1_partition") == 0) {
-		return FIXED_PARTITION_ID(slot1_partition);
-	} else if (strcmp(partition_name, "slot0_partition") == 0) {
-		return FIXED_PARTITION_ID(slot0_partition);
-	} else if (strcmp(partition_name, "storage_partition") == 0) {
-		return FIXED_PARTITION_ID(storage_partition);
-	}
-	return 0; /* Invalid partition */
+  if (strcmp(partition_name, "slot1_partition") == 0) {
+    return  PARTITION_ID(slot1_partition);
+  } else if (strcmp(partition_name, "slot0_partition") == 0) {
+    return  PARTITION_ID(slot0_partition);
+  } else if (strcmp(partition_name, "storage_partition") == 0) {
+    return  PARTITION_ID(storage_partition);
+  }
+  return 0; /* Invalid partition */
+}
+
+
+const struct device *zephyr_ota_get_device_pointer(const char *partition_name, uint32_t *offset, uint32_t *size)
+{
+  const struct flash_area *fa;
+  const struct device *dev = NULL;
+
+  uint8_t partition_id = zephyr_ota_get_partition_id(partition_name);
+  if (partition_id == 0) {
+    return NULL;
+  }
+
+  int err = flash_area_open(partition_id, &fa);
+  if (err) {
+    return NULL;
+  }
+
+  dev = flash_area_get_device(fa);
+
+  if (offset != NULL) {
+    *offset = fa->fa_off;
+  }
+
+  if (size != NULL) {
+    *size = fa->fa_size;
+  }
+
+  flash_area_close(fa);
+
+  return dev;
 }

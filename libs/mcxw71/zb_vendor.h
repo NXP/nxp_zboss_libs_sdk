@@ -66,8 +66,15 @@
 
 
 /* Log level and log file management */
+#define ZB_NXP_WCS_TRACE
+#define ZB_ZBOSS_TRACE
+#ifdef ZB_ZBOSS_TRACE
 #define ZB_TRACE_LEVEL 4
 #define ZB_TRACE_MASK  0x9D8 /* 0x800 + NWK APS ZDO SECUR ZCL */
+#else
+#define ZB_TRACE_LEVEL 0
+#define ZB_TRACE_MASK  0
+#endif
 #define ZB_BINARY_TRACE
 //#define ZB_USE_LOGFILE_ROTATE
 

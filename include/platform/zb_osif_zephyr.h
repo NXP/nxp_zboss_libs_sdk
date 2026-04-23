@@ -186,6 +186,10 @@ void zephyr_low_power_off(void);
 void zephyr_low_power_on(void);
 
 uint8_t zephyr_ota_get_partition_id(const char *partition_name);
+const struct device *zephyr_ota_get_device_pointer(const char *partition_name, uint32_t *offset, uint32_t *size);
+
+void zb_osif_prod_cfg_init(void);
+void zb_osif_prod_cfg_deinit(void);
 
 /* threads */
 typedef struct k_mutex   osif_mutex_t;

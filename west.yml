@@ -25,24 +25,40 @@ manifest:
   remotes:
     - name: zephyrproject
       url-base: https://github.com/zephyrproject-rtos
+    - name: nxp_zephyr_upstream
+      url-base: https://github.com/nxp-upstream
+    - name: nxp_zephyr_hal
+      url-base: https://github.com/zephyrproject-rtos
+
+  # If not otherwise specified, the projects below should be obtained
+  # from the zephyrproject remote.
+  defaults:
+    remote: zephyrproject
 
   # "projects" is a list of git repositories to populate NXP Zephyr Zboss SDK
   # workspace.
   projects:
 
     - name: zephyr
-      remote: zephyrproject
+      remote: nxp_zephyr_upstream
       repo-path: zephyr
-      revision: 8a4046610a490c9b27667d6165e91b7ab7c23e83
+      revision: 181a550449ef248b69ab4a2fb0827e8b21749ecc
       path: zephyr
       west-commands: scripts/west-commands.yml
       import:
         name-allowlist:
           - cmsis_6
           - hal_nxp
-          - littlefs
           - mcuboot
           - mbedtls
+          - tf-psa-crypto
+
+    - name: hal_nxp
+      remote: nxp_zephyr_hal
+      revision: cbf42f141066d999441696d12c206fc38929f3ea
+      path: modules/hal/nxp
+      groups:
+        - hal
 
   self:
       path: modules/zboss

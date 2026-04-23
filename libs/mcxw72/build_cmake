@@ -1,0 +1,1 @@
+set(KERNEL_BUILD_TYPE release)

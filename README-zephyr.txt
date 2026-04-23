@@ -19,9 +19,9 @@
 Versioning:
 ===========
 
-Date:    Thu, 05 Mar 2026 08:15:12 +0000
-Version: 019.2602.024
-Sha1:    9c759ff
+Date:    Wed, 22 Apr 2026 14:58:22 +0000
+Version: 019.2602.045
+Sha1:    b4be159
 Zboss:   zoi_release-4.2.2.0
 
 
@@ -38,8 +38,10 @@ modules/zboss/
 ├── platform
 │   ├── osif
 │   │   ├── zb_osif_nvram.c          => Zboss Operating system Interface for NVRAM (persistant storage)
+│   │   ├── zb_osif_prod_cfg.c       => Zboss Operating system Interface for PRODUCTION_CONFIG (factory settings)
 │   │   └── zb_osif_serial.c         => Zboss Operating system Interface for Serial (Zboss logs on second uart)
-│   └── zb_zephyr_power.c            => Zephyr Low Power acess
+│   ├── zb_zephyr_ota_partition.c    => Zephyr OTA upgrade partition access
+│   └── zb_zephyr_power.c            => Zephyr Low Power access
 ├── samples
 │   ├── APPLICATION                  => Zephyr Application project description
 │   │   ├── CMakeLists.txt           => Zephyr CMake
@@ -48,18 +50,35 @@ modules/zboss/
 │   │   │   └── test_readme.txt      => Description of samples test steps
 │   │   ├── Kconfig                  => Zephyr Kconfig
 │   │   ├── prj.conf                 => Zephyr project config
+│   │   ├── sample.yaml              => Tools for debugging
 │   │   └── src
 │   │       └── *.c/*.h
+│   │
 │   ├── cli_nxp_zed                  => Sample of Command Line Interface
 │   │   ├── ...                      => Zephyr Application project
 │   │   ├── doc                      => Zboss Application documentation
 │   │   └── src
 │   │       └── *.c/*.h              => Zboss Application Command Line Interface End Device
+│   │
 │   ├── on_off_switch_zed            => Sample of OnOff cluster
 │   │   ├── ...                      => Zephyr Application project
 │   │   ├── doc                      => Zboss Application documentation
 │   │   └── src
 │   │       └── on_off_switch_zed.c  => Zboss Application OnOff cluster End Device
+│   │
+│   ├── minimal_zed                  => Sample of Minimal application
+│   │   ├── ...                      => Zephyr Application project
+│   │   ├── doc                      => Zboss Application documentation
+│   │   └── src
+│   │       └── minimal_zed.c        => Zboss Application Minimal End Device
+│   │
+│   ├── multi_ep_zed                 => Sample of Multiple Endpoints application
+│   │   ├── ...                      => Zephyr Application project
+│   │   ├── doc                      => Zboss Application documentation
+│   │   └── src
+│   │       ├── multiendpoint_zed.c  => Zboss Application Multiple Endpoints End Device
+│   │       └── multiendpoint_zed.h  => Zboss Definition Multiple Endpoints End Device
+│   │
 │   └── ota_client_zed               => Sample of Ota Upgrade cluster
 │       ├── ...                      => Zephyr Application project
 │       ├── doc                      => Zboss Application documentation
@@ -89,6 +108,8 @@ Overview:
 	- Zboss Logs
 - Run Zigbee applications
 	- cli_nxp
+	- minimal_zed
+	- multi_ep_zed
 	- onoff_server
 	- ota_upgrade_nxp
 - Tools setup
@@ -119,17 +140,17 @@ SPSDK (flash NBU):
 ------------------
 
 Linux:
-  python3 -m venv venvsource venv/bin/activate
-  python -m pip install --upgrade pip
-  pip install spsdk
-  blhost --help
+    python3 -m venv venvsource venv/bin/activate
+    python3 -m pip install --upgrade pip
+    pip install spsdk
+    blhost --help
 
 Windows:
-  python -m venv venv
-  venv\Scripts\activate
-  python -m pip install --upgrade pip
-  pip install spsdk
-  blhost --help
+    python -m venv venv
+    venv\Scripts\activate
+    python -m pip install --upgrade pip
+    pip install spsdk
+    blhost --help
 
 
 JLinkExe (flash MCU):
@@ -152,16 +173,39 @@ Fetch Zboss on Zephyr:
 
 mkdir -p nxp_zephyr_zboss
 cd nxp_zephyr_zboss
-west init -m https://github.com/NXP/nxp_zboss_libs_sdk.git . --mr release/zephyr
+west init -m https://github.com/NXP/nxp_zboss_libs_sdk . --mr release/zephyr
 west update
 
 
-Temporary patch on zephyr for OTA support:
-------------------------------------------
+Update Zboss version:
+---------------------
 
-cd zephyr
-git am ../modules/zboss/zephyr-mcuboot-nbu.patch
+cd modules/zboss
+git checkout release/zephyr
+git pull
 cd -
+west update
+
+
+Update Zephyr SDK:
+------------------
+
+cat zephyr/SDK_VERSION
+
+If this version has not been installed:
+
+    source ~/zephyrproject/.venv/bin/activate
+    cd zephyr
+    west sdk install -d ~/zephyr-sdk-<SDK_VERSION>
+    cd -
+    cd ~/zephyr-sdk/zephyr-sdk-<SDK_VERSION>
+    ./setup.sh
+    => anwser y to all questions
+    => CAUTION: setup.sh needs to be re-run each time we change the version of zephyr-sdk
+
+    sudo mkdir -p /opt/zephyr-sdk
+    cd /opt/zephyr-sdk
+    sudo ln -s ~/zephyr-sdk-<SDK_VERSION> .
 
 
 Zigbee samples:
@@ -185,6 +229,10 @@ Go to Zephyr, activate it:
 Update hal_nxp blobs (for libieee & nbu firmware):
     west blobs fetch hal_nxp
 
+Configure Zephyr SDK to use:
+    export ZEPHYR_TOOLCHAIN_VARIANT=zephyr
+    export ZEPHYR_SDK_INSTALL_DIR=/opt/zephyr-sdk/zephyr-sdk-`cat zephyr/SDK_VERSION`
+
 Compile sample application:
     west build -b frdm_mcxw71 modules/zboss/samples/<app_name> -d _build/frdm_mcxw71/<app_name> -p
     west build -b frdm_mcxw72 modules/zboss/samples/<app_name> -d _build/frdm_mcxw72/<app_name> -p
@@ -194,14 +242,26 @@ MCUboot:
 --------
 
 Note: MCXW71 allows application image max size limited to 424KB.
-In case your application is bigger, external flash needs to be used, allowing image size upto 768 KB.
+In case your application is bigger, external flash needs to be used, allowing image size upto the slot1_partition size,
+refer to modules/zboss/samples/<app_name>/boards/frdm_<board>.overlay.
 For that, MCUboot needs to use mcuboot_mcxw71_ext_flash.overlay and application needs to use app_mcxw71_ext_flash.overlay.
+Internal flash can be used by recompiled ZBOSS libs without NXP nor ZBOSS traces.
+In that case, MCUboot needs to use mcuboot_mcxw71.overlay and application needs to use app_mcxw71.overlay.
 
 MCU Boot compilation:
+
+MCXW71
+with external flash (default):
     west build -b frdm_mcxw71 bootloader/mcuboot/boot/zephyr -d _build/frdm_mcxw71/mcuboot -p \
-      -- -DOVERLAY_CONFIG=../../../../modules/zboss/configs/bootloader.conf -DDTC_OVERLAY_FILE=../../../../modules/zboss/configs/mcuboot_mcxw71_ext_flash.overlay
+      -- -DCONFIG_SPI_NOR_FLASH_LAYOUT_PAGE_SIZE=8192 -DDTC_OVERLAY_FILE=../../../../modules/zboss/mcuboot/mcuboot_mcxw71_ext_flash.overlay
+with internal flash:
+    west build -b frdm_mcxw71 bootloader/mcuboot/boot/zephyr -d _build/frdm_mcxw71/mcuboot -p \
+      -- -DCONFIG_SPI_NOR_FLASH_LAYOUT_PAGE_SIZE=8192 -DDTC_OVERLAY_FILE=../../../../modules/zboss/mcuboot/mcuboot_mcxw71.overlay
+
+MCXW72
+with internal flash (default):
     west build -b frdm_mcxw72 bootloader/mcuboot/boot/zephyr -d _build/frdm_mcxw72/mcuboot -p \
-      -- -DOVERLAY_CONFIG=../../../../modules/zboss/configs/bootloader.conf
+      -- -DCONFIG_SPI_NOR_FLASH_LAYOUT_PAGE_SIZE=8192 -DDTC_OVERLAY_FILE=../../../../modules/zboss/mcuboot/mcuboot_mcxw72.overlay
 
 
 Deployment & execution:
@@ -353,6 +413,26 @@ Note: Low Power:
 cli_nxp does not support Low Power due to the console from uart
 
 
+minimal usecase (ZED):
+----------------------
+
+Start a Zigbee Coordinator and open the network
+Start MCXW7x board
+
+Minimal application just associate
+
+
+multiple endpoints usecase (ZED):
+---------------------------------
+
+Start a Zigbee Coordinator and open the network
+Start MCXW7x board
+
+Multiple endpoints application associate and provide a layout
+with multiple endpoints and include some manufacturer specific
+attributes
+
+
 onoff_server usecase (ZED):
 ---------------------------
 
@@ -373,6 +453,10 @@ Start MCXW7x board
 
 Once OTA client (ZED) has joined NWK, it sends Query Next Image Request to OTA server (ZC) and the OTA upgrade is started.
 When completed, the ZED switches to the new image on the next auto-reboot of the board.
+
+Supports two image formats:
+- MCUboot signed images: For updating the application core (MCU) via MCUboot
+- SB3.1 secure containers: For updating the radio core (NBU) via NXP ROM bootloader
 
 Note: On MCXW71, external flash overlay is used, refer to MCUBoot compilation note.
 

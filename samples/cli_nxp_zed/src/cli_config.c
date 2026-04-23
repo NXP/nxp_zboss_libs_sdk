@@ -354,7 +354,7 @@ zb_cfg_state_e config_get_state(void)
   return config.state;
 }
 
-#ifdef DEBUG
+#if defined(DEBUG) && defined(ZB_NXP_WCS_TRACE)
 static char *stateStr(zb_cfg_state_e state)
 {
   char *str = "???";
@@ -563,7 +563,7 @@ zb_bool_t config_update(zb_uint8_t channel, zb_uint16_t panid, zb_ext_pan_id_t e
   menu_printf("config panid 0x%04x", panid);
   zb_set_pan_id(panid);
 
-  menu_printf("config expanid "TRACE_FORMAT_64, TRACE_ARG_64(ext_panid));
+  menu_printf("config expanid "WCS_TRACE_FORMAT_64, WCS_TRACE_ARG_64(ext_panid));
   zb_set_extended_pan_id(ext_panid);
 
   return config.nwk_distrib;
@@ -1495,7 +1495,7 @@ static zb_ret_t config_print(int argc, char *argv[])
   menu_printf("Host version:     %s", zb_get_version(HOST_VERSION));
   menu_printf("Stack version:    %s", zb_get_version(STACK_VERSION));
   menu_printf("Firmware version: %s", zb_get_version(FIRMWARE_VERSION));
-  menu_printf("ieee_addr:        "TRACE_FORMAT_64, TRACE_ARG_64(config.ieee_addr));
+  menu_printf("ieee_addr:        "WCS_TRACE_FORMAT_64, WCS_TRACE_ARG_64(config.ieee_addr));
   menu_printf("role:             %s",               config_get_role_str(config.role));
   if(config.channel.type == CHANNEL_TYPE_NUMBER)
     menu_printf("channel num:      %u",             config.channel.val.number);
@@ -1514,13 +1514,13 @@ static zb_ret_t config_print(int argc, char *argv[])
   menu_printf("current channel:  %u",               zb_get_current_channel());
   menu_printf("behavior:         %s",               config_get_behavior_str(config.behavior));
   menu_printf("nwk_distrib:      %u",               config.nwk_distrib);
-  menu_printf("nwk_key 0:        "TRACE_FORMAT_128, TRACE_ARG_128(config.nwk_key[0]));
-  menu_printf("nwk_key 1:        "TRACE_FORMAT_128, TRACE_ARG_128(config.nwk_key[1]));
-  menu_printf("nwk_key 2:        "TRACE_FORMAT_128, TRACE_ARG_128(config.nwk_key[2]));
-  menu_printf("nwk_key 3:        "TRACE_FORMAT_128, TRACE_ARG_128(config.nwk_key[3]));
+  menu_printf("nwk_key 0:        "WCS_TRACE_FORMAT_128, WCS_TRACE_ARG_128(config.nwk_key[0]));
+  menu_printf("nwk_key 1:        "WCS_TRACE_FORMAT_128, WCS_TRACE_ARG_128(config.nwk_key[1]));
+  menu_printf("nwk_key 2:        "WCS_TRACE_FORMAT_128, WCS_TRACE_ARG_128(config.nwk_key[2]));
+  menu_printf("nwk_key 3:        "WCS_TRACE_FORMAT_128, WCS_TRACE_ARG_128(config.nwk_key[3]));
 #if defined(ZB_COORDINATOR_ROLE) || defined(ZB_ROUTER_ROLE)
   menu_printf("panid:            0x%x",               config.panid);
-  menu_printf("extpanid:         "TRACE_FORMAT_64, TRACE_ARG_64(config.extpanid));
+  menu_printf("extpanid:         "WCS_TRACE_FORMAT_64, WCS_TRACE_ARG_64(config.extpanid));
   menu_printf("max_children:     %u",               config.max_children);
   menu_printf("concentrator:     %s", (config.concentrator)?("enabled"):("disabled"));
 #endif
@@ -1573,6 +1573,13 @@ static zb_ret_t config_start(int argc, char *argv[])
 
     config.got_error = RET_OK;
     zb_error_register_app_handler(config_got_error);
+
+#ifdef ZB_PLATFORM_ZEPHYR
+     if(config.behavior == behavior_undef) {
+      /* Zigbee 3.0 compliant device */
+      zboss_use_r22_behavior();
+    }
+#endif
 
     /* Entry point for endpoints & clusters declaration to the stack */
     ZB_AF_REGISTER_DEVICE_CTX(&cli_ctx);

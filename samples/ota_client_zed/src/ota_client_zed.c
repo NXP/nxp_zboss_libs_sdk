@@ -258,13 +258,16 @@ void test_device_cb(zb_uint8_t param)
           /* Receive remaining of data */
           else
           {
+#ifdef ZB_NXP_WCS_TRACE
             static size_t lastlog = 0;
             size_t percentage, step;
+#endif
 
             file_offset   = ota_upgrade_value->upgrade.receive.file_offset - ota_rx_file.header.header_length;
             written_size  = ota_upgrade_value->upgrade.receive.data_length;
             file_ptr      = ota_upgrade_value->upgrade.receive.block_data;
 
+#ifdef ZB_NXP_WCS_TRACE
             percentage = (file_offset * 100) / ota_rx_file.size;
             if(ota_rx_file.size > 1024*1024) step = 1;
             else if(ota_rx_file.size > 1024) step = 10;
@@ -302,6 +305,7 @@ void test_device_cb(zb_uint8_t param)
 
               lastlog = percentage / step;
             }
+#endif
           }
           if(written_size)
           {
@@ -416,6 +420,7 @@ static zb_bool_t read_test_param(char *config_file)
 #ifdef ZB_MAC_CONFIGURABLE_TX_POWER /* Test API zb_set_tx_power */
 static void tx_power_cb(zb_bufid_t param)
 {
+#ifdef ZB_NXP_WCS_TRACE
   zb_tx_power_params_t *power_params = zb_buf_begin(param);
 
   WCS_TRACE_INFO("%s_tx_power() response %s: channel %d, page %d, power 0x%02x (%d dBm)",
@@ -425,6 +430,7 @@ static void tx_power_cb(zb_bufid_t param)
     power_params->page,
     power_params->tx_power&0xFF,
     power_params->tx_power);
+#endif
 
   zb_buf_free(param);
 }
@@ -474,6 +480,11 @@ MAIN()
   zb_set_ed_timeout(ED_AGING_TIMEOUT_64MIN);
   zb_set_keepalive_timeout(ZB_MILLISECONDS_TO_BEACON_INTERVAL(1000U / 3U * (64U * 60U) )); /* 64 minutes = 3840 seconds */
   zb_set_rx_on_when_idle(ZB_TRUE);
+
+#ifdef ZB_PLATFORM_ZEPHYR
+  /* Zigbee 3.0 compliant device */
+  zboss_use_r22_behavior();
+#endif
 
   /* Register device ZCL context */
   ZB_AF_REGISTER_DEVICE_CTX(&ota_upgrade_client_ctx);

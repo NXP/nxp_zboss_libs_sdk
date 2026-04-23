@@ -144,15 +144,19 @@ Menu cluster:
         bind a cluster on endpoint id [0-255] to a device at addr [IEEE] [0xSSSS] endpoint [0-255] cluster [0xCCCC or initials] mode [ieee|group]
 - cluster unbind [endpoint] [ieee] [short] [ep] [cluster] [mode]:
         unbind a cluster on endpoint id [0-255] to a device at addr [IEEE] [0xSSSS] endpoint [0-255] cluster [0xCCCC or initials] mode [ieee|group]
-- cluster disc_attr [endpoint] [addr] [ep] [cluster] [start] [max] <aps_secured> <disable_aps_ack> <delay>:
+- cluster disc_attr [endpoint] [addr] [ep] [cluster] [start] [max]:
         discover attribute on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] starting attr_id [0xAAAA] max number [0-255]
+  cluster disc_attr [endpoint] [addr] [ep] [cluster] [start] [max] <manuf>:
+        extra options:  <manuf>:           use manufacturer specific (0xFFFF to disable it)
+  cluster disc_attr [endpoint] [addr] [ep] [cluster] [start] [max] <manuf> <aps_secured> <disable_aps_ack> <delay>:
+        extra options:  <manuf>:           use manufacturer specific (0xFFFF to disable it)
         extra options:  <aps_secured>:     enable  tx option Security transmission
         extra options:  <disable_aps_ack>: disable tx option Acknowledged transmission
         extra options:  <delay>:           delay the APS request
-- cluster read_attr [endpoint] [addr] [ep] [cluster] [attr]:
-        read attribute on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] attribute  [0xAAAA]
-- cluster write_attr [endpoint] [addr] [ep] [cluster] [attr] [type] [val]:
-        write attribute on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] attribute [0xAAAA] type [0xTT] val in hex [VV:VV....VV:VV]
+- cluster read_attr [endpoint] [addr] [ep] [cluster] [attr] <manuf>:
+        read attribute on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] attribute  [0xAAAA], optionally manufacturer specific code <0xMMMM>
+- cluster write_attr [endpoint] [addr] [ep] [cluster] [attr] [type] [val] <manuf>:
+        write attribute on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] attribute [0xAAAA] type [0xTT] val in hex [VV:VV....VV:VV], optionally manufacturer specific code <0xMMMM>
 - cluster read_local [endpoint] [cluster] [role] [attr]:
         read local attribute on endpoint id [0-255] cluster [0xCCCC or initials] role [client|server] attribute [0xAAAA]
 - cluster write_local [endpoint] [cluster] [role] [attr] [type] [val]:

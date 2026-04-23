@@ -1,0 +1,21 @@
+sample:
+  name: on_off_switch_zed
+  description: >
+    sample application demonstrating Zigbee functionality for NXP ZBOSS stack
+  common:
+    min_ram: 32
+    min_flash: 256
+    tags: zboss
+    depends_on: zboss
+
+tests:
+  sample.zboss.basic:
+    tags: zboss
+    harness: console
+    harness_config:
+      type: one_line
+      regex:
+        - "Zboss (.*)"
+    platform_allow:
+      - frdm_mcxw71
+      - frdm_mcxw72

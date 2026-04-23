@@ -6,9 +6,16 @@
 2026-Q2:
 --------
 
-Zboss host: v019.2602.024
+Zboss host: v019.2602.045
 Zboss libs: 4.2.2.0
 
+- Zephyr mcxw71 & mcxw72 RFP-RC1
+- set r22 behavior for Zigbee 3.0 compliant device
+- cli_nxp allow attr_disc|read|write for manufacturer code
+- zboss libs: allow manufacturer attributes in range 0x8xxx
+- OTA support for MCU & NBU
+- NVRAM uses NVS instead of LittleFs
+- Add production_config on flash hw_params_partition
 - Zephyr mcxw71 PRC
 - Introduce low power on Zephyr, disabled by default
 - Misc Zephyr Improvements

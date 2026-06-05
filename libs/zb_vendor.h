@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2023-2025 NXP
+ * Copyright 2023-2026 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -68,12 +68,20 @@
 
 
 /* Log level and log file management */
+#define ZB_NXP_WCS_TRACE
+#define ZB_ZBOSS_TRACE
+#ifdef ZB_ZBOSS_TRACE
 #define ZB_TRACE_LEVEL 4
 #define ZB_TRACE_MASK  0xffffffff
+#else
+#define ZB_TRACE_LEVEL 0
+#define ZB_TRACE_MASK  0
+#endif
 #define ZB_USE_LOGFILE_ROTATE
 
 
 /* Test and debug options */
+#define ZB_MULTITEST_USE_STDIO
 #ifdef DEBUG
 #define ZB_TRAFFIC_DUMP_ON
 #endif /* DEBUG */

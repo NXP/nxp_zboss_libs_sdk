@@ -164,6 +164,13 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Set the number of end device a device is allow to have.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>maximum number of EDs reserved in neighbor table.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>if device is ZED/ZR, <code>value</code> must be &lt; ZB_NEIGHBOR_TABLE_SIZE if device is ZC, <code>value</code> must be &lt;= ZB_NEIGHBOR_TABLE_SIZE</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>RET_OK if successful </dd></dl>
 
 </div>
@@ -177,6 +184,6 @@ Functions</h2></td></tr>
     <a href="http://www.dsr-corporation.com">http://www.dsr-corporation.com</a>
   </div>
 </div>
-<div>ZBOSS documentation. Tue Feb 17 2026.</div>
+<div>ZBOSS documentation. Wed May 27 2026.</div>
 </body>
 </html>

@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2023-2025 NXP
+ * Copyright 2023-2026 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -195,6 +195,7 @@ ZB_HA_DECLARE_LIGHT_CTX(
 #ifdef ZB_MAC_CONFIGURABLE_TX_POWER /* Test API zb_set_tx_power */
 static void tx_power_cb(zb_bufid_t param)
 {
+#ifdef ZB_NXP_WCS_TRACE
   zb_tx_power_params_t *power_params = zb_buf_begin(param);
 
   WCS_TRACE_INFO("%s_tx_power() response %s: channel %d, page %d, power 0x%02x (%d dBm)",
@@ -204,6 +205,7 @@ static void tx_power_cb(zb_bufid_t param)
     power_params->page,
     power_params->tx_power&0xFF,
     power_params->tx_power);
+#endif
 
   zb_buf_free(param);
 }

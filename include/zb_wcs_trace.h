@@ -1,6 +1,6 @@
 /*
  *
- * Copyright 2023-2025 NXP
+ * Copyright 2023-2026 NXP
  *
  * NXP Proprietary.
  * This software is owned or controlled by NXP and may only be used strictly
@@ -18,6 +18,23 @@
 #define ZB_WCS_LOGGER_H 1
 
 #ifndef ZB_MACSPLIT_DEVICE_NXP
+
+
+#if defined ZB_TRACE_TO_FILE
+#define WCS_TRACE_FORMAT_64    TRACE_FORMAT_64
+#define WCS_TRACE_FORMAT_128   TRACE_FORMAT_128
+#define WCS_TRACE_ARG_64(a)    TRACE_ARG_64(a)
+#define WCS_TRACE_ARG_128(a)   TRACE_ARG_128(a)
+#else
+/* In case of zboss binary trace, zboss logs are not string, but wcs trace are, so keep these definition as string */
+#define WCS_TRACE_FORMAT_64    "%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx"
+#define WCS_TRACE_FORMAT_128   "%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx:%02hx"
+#define WCS_TRACE_ARG_64(a)    (zb_uint8_t)((a)[7]),(zb_uint8_t)((a)[6]),(zb_uint8_t)((a)[5]),(zb_uint8_t)((a)[4]),(zb_uint8_t)((a)[3]),(zb_uint8_t)((a)[2]),(zb_uint8_t)((a)[1]),(zb_uint8_t)((a)[0])
+#define WCS_TRACE_ARG_128(a)   (zb_uint8_t)((a)[0]),(zb_uint8_t)((a)[1]),(zb_uint8_t)((a)[2]),(zb_uint8_t)((a)[3]),(zb_uint8_t)((a)[4]),(zb_uint8_t)((a)[5]),(zb_uint8_t)((a)[6]),(zb_uint8_t)((a)[7]),(zb_uint8_t)((a)[8]),(zb_uint8_t)((a)[9]),(zb_uint8_t)((a)[10]),(zb_uint8_t)((a)[11]),(zb_uint8_t)((a)[12]),(zb_uint8_t)((a)[13]),(zb_uint8_t)((a)[14]),(zb_uint8_t)((a)[15])
+#endif
+
+
+#ifdef ZB_NXP_WCS_TRACE
 
 #include "zb_config.h"
 #include "zb_types.h"
@@ -39,6 +56,7 @@ typedef enum {
 
 extern int wcs_out;
 
+/* These macro should uses WCS_TRACE_FORMAT & WCS_TRACE_ARG defined below instead of zboss definition since in case of binary_trace, the definitions are different */
 #define WCS_TRACE_ERROR(format, ...)   do { if(wcs_out) wcs_printf(WCS_LOG_LEVEL_ERROR,   format, ##__VA_ARGS__); } while(0)
 #define WCS_TRACE_WARNING(format, ...) do { if(wcs_out) wcs_printf(WCS_LOG_LEVEL_WARNING, format, ##__VA_ARGS__); } while(0)
 #define WCS_TRACE_NOTICE(format, ...)  do { if(wcs_out) wcs_printf(WCS_LOG_LEVEL_NOTICE,  format, ##__VA_ARGS__); } while(0)
@@ -50,11 +68,8 @@ extern int wcs_out;
 #define WCS_TRACE_DEBUG(format, ...)   do {} while(0)
 #endif
 
-
 void wcs_trace_config(const char *name, char *env);
 
-int wcs_snprintf(char *str, size_t size, const char *format, ...);
-int wcs_vsnprintf(char *str, size_t size, const char *format, va_list ap);
 void wcs_flush_trace(void);
 
 #ifdef ZB_USE_LOGFILE_ROTATE
@@ -79,6 +94,58 @@ void wcs_dump_macsplit_msg(zb_bool_t tx, zb_uint16_t call_type, zb_uint8_t bufid
 void wcs_fill_macsplit_buf(char *line_buf, int line_size, zb_bool_t tx, void *packet);
 #endif
 
+#ifdef ZB_CONFIG_ZEPHYR_MACSPLIT_NXP_HOST
+void zb_macsplit_logs(zb_bool_t enabled);
+#endif
+
+#else /* ZB_NXP_WCS_TRACE */
+
+#define  wcs_config_trace_level(default_level)                         0
+#define wcs_config_trace_mask(default_mask)                            0
+
+
+#define WCS_TRACE_ERROR(format, ...)                                   do {  } while(0)
+#define WCS_TRACE_WARNING(format, ...)                                 do {  } while(0)
+#define WCS_TRACE_NOTICE(format, ...)                                  do {  } while(0)
+#define WCS_TRACE_INFO(format, ...)                                    do {  } while(0)
+#define WCS_TRACE_DBGREL(format, ...)                                  do {  } while(0)
+#define WCS_TRACE_DEBUG(format, ...)                                   do {  } while(0)
+
+#define wcs_trace_config(name, env)                                    do {  } while(0)
+
+#define wcs_flush_trace()                                              do {  } while(0)
+
+#ifdef ZB_USE_LOGFILE_ROTATE
+#define wcs_check_and_rotate_trace_file(force_rotate)                  do {  } while(0)
+#endif
+
+#ifdef ZB_LOGFILE_POST_ROTATE_SH
+#define wcs_trace_post_rotate(path, filename)                          do {  } while(0)
+#endif
+
+#define wcs_printf(level, format, ...)                                 0
+
+#define  wcs_print_buf(buffer, len, format, ...)                       do {  } while(0)
+
+#define wcs_print_signal(sig, status, sg_p)                            do {  } while(0)
+#define wcs_print_error(severity, error_code, additional_info)         do {  } while(0)
+
+#define wcs_print_zdo_data(tx, msg, clusterid)                         do {  } while(0)
+
+#ifdef ZB_MACSPLIT_HOST
+#define wcs_dump_macsplit_msg(tx, call_type, bufid)                    do {  } while(0)
+#define wcs_fill_macsplit_buf(line_buf, line_size, tx, packet)         do {  } while(0)
+#endif
+
+#ifdef ZB_CONFIG_ZEPHYR_MACSPLIT_NXP_HOST
+#define zb_macsplit_logs(enabled)                                      do {} while(0)
+#endif
+
+#endif /* ZB_NXP_WCS_TRACE */
+
+int wcs_snprintf(char *str, size_t size, const char *format, ...);
+int wcs_vsnprintf(char *str, size_t size, const char *format, va_list ap);
+
 char *get_cmd_id_str(zb_bool_t common_command, zb_uint16_t cluster_id, zb_uint8_t cmd_id);
 char *get_endpoint_profile_id_str(zb_uint16_t profile_id);
 char *get_endpoint_device_id_str(zb_uint16_t device_id);
@@ -94,4 +161,5 @@ char *get_zcl_status_str(zb_uint8_t zcl_status);
 char *get_zdp_status_str(zb_uint8_t zdp_status);
 
 #endif /* ZB_MACSPLIT_DEVICE_NXP */
+
 #endif /* ZB_WCS_LOGGER_H */

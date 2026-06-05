@@ -1,15 +1,19 @@
 [Unit]
 Description=ZBOSS Application
+ConditionPathExists=/tmp/zb_environment_vars
 Requires=zb_mux.service
-After=zb_mux.service
+After=zb_config.service zb_mux.service
+BindsTo=zb_config.service
 StartLimitIntervalSec=500
 # Try 5 attempts, if it still fails, systemd will stop trying to start the service
 StartLimitBurst=5
 
 [Service]
-EnvironmentFile=/etc/default/zb_app.env
+Type=simple
 WorkingDirectory=/var/local/zboss
+EnvironmentFile=/tmp/zb_environment_vars
 ExecStart=/usr/sbin/zb_app.sh
+KillMode=mixed
 Restart=on-failure
 RestartSec=1
 #Don"t restart on kill -9:

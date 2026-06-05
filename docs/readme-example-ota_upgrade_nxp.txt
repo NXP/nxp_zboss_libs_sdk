@@ -5,7 +5,7 @@
     www.dsr-corporation.com
     All rights reserved.
 
-    Copyright 2024 NXP
+    Copyright 2024, 2026 NXP
 
     This is unpublished proprietary source code of DSR Corporation
     The copyright notice does not evidence any actual or intended
@@ -35,36 +35,17 @@ The set contains three applications:
 These applications implements Zigbee 3.0 specification, Base Device Behavior specification and Zigbee Cluster Library 7 revision specification.
 By default, the devices work on the 0 page 21 channel.
 
-There is a multi client functionality, with three possible set-ups:
-- 2 ZR OTA Clients
-- 2 ZED OTA Clients
-- 1 ZED and 1 ZR OTA Clients
-
-Run ZC with 2 ZR OTA Clients:
-On IMX #1, run: ./imx-dualpan.sh --ch <channel> --zb ota_server_zc [--fw <IW612-firmware>]
-On IMX #2, run: ./imx-dualpan.sh --ch <channel> --zb ota_client_zr [--fw <IW612-firmware>]
-On IMX #3, run: ./imx-dualpan.sh --ch <channel> --zb ota_client_zr [--fw <IW612-firmware>] --ieee 00:00:00:00:01:00:00:01
-
-Run ZC with 2 ZED OTA Clients:
-On IMX #1, run: ./imx-dualpan.sh --ch <channel> --zb ota_server_zc [--fw <IW612-firmware>]
-On IMX #2, run: ./imx-dualpan.sh --ch <channel> --zb ota_client_zed [--fw <IW612-firmware>]
-On IMX #3, run: ./imx-dualpan.sh --ch <channel> --zb ota_client_zed [--fw <IW612-firmware>] --ieee 00:00:00:00:00:00:00:02
-
-Run ZC with 1 ZR and 1 ZED OTA Clients:
-On IMX #1, run: ./imx-dualpan.sh --ch <channel> --zb ota_server_zc [--fw <IW612-firmware>]
-On IMX #2, run: ./imx-dualpan.sh --ch <channel> --zb ota_client_zr [--fw <IW612-firmware>]
-On IMX #3, run: ./imx-dualpan.sh --ch <channel> --zb ota_client_zed [--fw <IW612-firmware>]
 
 The application set structure
 ------------------------------
 
   - ota_client.h - *Zigbee Router (OTA Upgrade Scenes client) header file*
   - ota_server.h - *Zigbee Coordinator (OTA Upgrade Server) header file*
-  - ota_nxp_definitions.h - *Definitions of file formats*
   - ota_server_zc.c - *Zigbee Coordinator (OTA Upgrade Server) application*
   - ota_client_zr.c - *Zigbee Router (OTA Upgrade Scenes client) application*
   - ota_client_zed.c - *Zigbee End Device (OTA Upgrade Scenes client) application*
   - readme.txt - *This file*
+  - include/zcl/zb_zcl_ota_nxp_definitions.h - *Definitions of image types for NXP*
 
 Zigbee Coordinator (OTA Upgrade Server) application
 ---------------------------------------------------
@@ -81,7 +62,7 @@ Update on it the following fields:
 - zb_folder:      where are imx-dual.sh & zb_mux files
 - zb_apps_folder: update the subfolder where are the prebuild apps
 - zb_apps_files:  update the list of apps
-- iw612_version:  with the firmware version you are using
+- iw61x_version:  with the firmware version you are using
 - fw_folder:      where the firmware files are
 - fw_files:       update the list of firmwares
 

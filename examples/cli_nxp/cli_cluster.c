@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 NXP
+ * Copyright 2024-2026 NXP
  *
  * NXP Proprietary.
  * This software is owned or controlled by NXP and may only be used strictly
@@ -38,9 +38,10 @@
 static zb_uint8_t dummy_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
 
 
-#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
-#include "../ota_upgrade_nxp/ota_nxp_definitions.h"
+#if defined(CLI_HAS_CLUSTER_OTA_UPGRADE_CLT) || defined(CLI_HAS_CLUSTER_OTA_UPGRADE_SRV)
+#include "zcl/zb_zcl_ota_nxp_definitions.h"
 #endif
+
 
 /* Define clusters attributes */
 #include "cli_cluster-defs.c"
@@ -237,7 +238,7 @@ void cluster_init(uint8_t ep_id)
 
   for(int i=0; i<this_ep->cluster_count; i++)
   {
-#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE_SRV
     /* Init OTA Server */
     if(this_ep->cluster_desc_list[i].cluster_id == ZB_ZCL_CLUSTER_ID_OTA_UPGRADE &&
        this_ep->cluster_desc_list[i].role_mask & ZB_ZCL_CLUSTER_SERVER_ROLE)
@@ -263,39 +264,65 @@ static zb_ret_t cluster_print(int argc, char *argv[]);
 
 /* Menu cluster */
 cli_menu_cmd menu_cluster[] = {
-  /* name,                             args,            align, function,                help,              description */
-  { "create", " [endpoint] [cluster] [role] <manuf_code>", "                 ", cluster_create,          help_create,       "\r\n\tcreate a cluster on endpoint id [0-255], cluster [0xCCCC or initials] role [server|client], optional manuf_code <0xMMMM>" },
-  { "bind", " [endpoint] [ieee] [short] [ep] [cluster] [mode]", "            ", cluster_bind,            help_empty,        "\r\n\tbind a cluster on endpoint id [0-255] to a device at addr [IEEE] [0xSSSS] endpoint [0-255] cluster [0xCCCC or initials] mode [ieee|group]" },
-  { "unbind", " [endpoint] [ieee] [short] [ep] [cluster] [mode]", "          ", cluster_unbind,          help_empty,        "\r\n\tunbind a cluster on endpoint id [0-255] to a device at addr [IEEE] [0xSSSS] endpoint [0-255] cluster [0xCCCC or initials] mode [ieee|group]" },
-  { "disc_attr", " [endpoint] [addr] [ep] [cluster] [start] [max]", "        ", cluster_disc_attr,       help_disc_attr,    "\r\n\tdiscover attribute on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] starting attr_id [0xAAAA] max number [0-255]" },
-  { "read_attr", " [endpoint] [addr] [ep] [cluster] [attr]", "               ", cluster_read_attr,       help_empty,        "\r\n\tread attribute on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] attribute [0xAAAA]" },
-  { "write_attr", " [endpoint] [addr] [ep] [cluster] [attr] [type] [val]", " ", cluster_write_attr,      help_empty,        "\r\n\twrite attribute on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] attribute [0xAAAA] type [0xTT] val in hex [VV:VV....VV:VV]" },
-  { "read_local", " [endpoint] [cluster] [role] [attr]", "                   ", cluster_read_local,      help_empty,        "\r\n\tread local attribute on endpoint id [0-255] cluster [0xCCCC or initials] role [client|server] attribute [0xAAAA]" },
-  { "write_local", " [endpoint] [cluster] [role] [attr] [type] [val]", "     ", cluster_write_local,     help_empty,        "\r\n\twrite local attribute on endpoint id [0-255] cluster [0xCCCC or initials] role [client|server] attribute [0xAAAA] type [0xTT] val in hex [VV:VV....VV:VV]" },
-  { "raw_cmd", " [endpoint] [addr] [ep] [cluster] [cmd] <payload>", "        ", cluster_raw_cmd,         help_empty,        "\r\n\tsend ZCL Cluster command on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] command [0xCC] optional payload <P1:P2....Pn>" },
-  { "profile_cmd", " [endpoint] [addr] [ep] [cluster] [cmd] <payload>", "    ", cluster_profile_cmd,     help_empty,        "\r\n\tsend ZCL Profile command on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] command [0xCC] optional payload <P1:P2....Pn>" },
-  { "aps_cmd", " [endpoint] [addr] [ep] [cluster] [type] [cmd] <payload>", " ", cluster_zcl_aps_cmd,     help_empty,        "\r\n\tsend APS ZCL command on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] cmd type [0x00|0x01] command [0xCC] optional payload <P1:P2....Pn>" },
+  /* name,    args,                                                              align, \
+     function,                help, \
+     description */
+  { "create", " [endpoint] [cluster] [role] <manuf_code>", "                         ", \
+    cluster_create,          help_create,\
+    "\r\n\tcreate a cluster on endpoint id [0-255], cluster [0xCCCC or initials] role [server|client], optional manuf_code <0xMMMM>" },
+  { "bind", " [endpoint] [ieee] [short] [ep] [cluster] [mode]", "                    ", \
+    cluster_bind,            help_empty,\
+    "\r\n\tbind a cluster on endpoint id [0-255] to a device at addr [IEEE] [0xSSSS] endpoint [0-255] cluster [0xCCCC or initials] mode [ieee|group]" },
+  { "unbind", " [endpoint] [ieee] [short] [ep] [cluster] [mode]", "                  ", \
+    cluster_unbind,          help_empty,\
+    "\r\n\tunbind a cluster on endpoint id [0-255] to a device at addr [IEEE] [0xSSSS] endpoint [0-255] cluster [0xCCCC or initials] mode [ieee|group]" },
+  { "disc_attr", " [endpoint] [addr] [ep] [cluster] [start] [max]", "                ", \
+    cluster_disc_attr,       help_disc_attr,\
+    "\r\n\tdiscover attribute on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] starting attr_id [0xAAAA] max number [0-255]" },
+  { "read_attr", " [endpoint] [addr] [ep] [cluster] [attr] <manuf>", "               ", \
+    cluster_read_attr,       help_empty,\
+    "\r\n\tread attribute on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] attribute [0xAAAA], optionally manufacturer specific code <0xMMMM>" },
+  { "write_attr", " [endpoint] [addr] [ep] [cluster] [attr] [type] [val] <manuf>", " ", \
+    cluster_write_attr,      help_empty,\
+    "\r\n\twrite attribute on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] attribute [0xAAAA] type [0xTT] val in hex [VV:VV....VV:VV], optionally manufacturer specific code <0xMMMM>" },
+  { "read_local", " [endpoint] [cluster] [role] [attr]", "                           ", \
+    cluster_read_local,      help_empty,\
+    "\r\n\tread local attribute on endpoint id [0-255] cluster [0xCCCC or initials] role [client|server] attribute [0xAAAA]" },
+  { "write_local", " [endpoint] [cluster] [role] [attr] [type] [val]", "             ", \
+    cluster_write_local,     help_empty,\
+    "\r\n\twrite local attribute on endpoint id [0-255] cluster [0xCCCC or initials] role [client|server] attribute [0xAAAA] type [0xTT] val in hex [VV:VV....VV:VV]" },
+  { "raw_cmd", " [endpoint] [addr] [ep] [cluster] [cmd] <payload>", "                ", \
+    cluster_raw_cmd,         help_empty,\
+    "\r\n\tsend ZCL Cluster command on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] command [0xCC] optional payload <P1:P2....Pn>" },
+  { "profile_cmd", " [endpoint] [addr] [ep] [cluster] [cmd] <payload>", "            ", \
+    cluster_profile_cmd,     help_empty,\
+    "\r\n\tsend ZCL Profile command on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] command [0xCC] optional payload <P1:P2....Pn>" },
+  { "aps_cmd", " [endpoint] [addr] [ep] [cluster] [type] [cmd] <payload>", "         ", \
+    cluster_zcl_aps_cmd,     help_empty,\
+    "\r\n\tsend APS ZCL command on endpoint id [0-255] to a device at dest_addr [0xAAAA|AA:AA:AA:AA:AA:AA:AA:AA] dest_ep [0-255] cluster [0xCCCC or initials] cmd type [0x00|0x01] command [0xCC] optional payload <P1:P2....Pn>" },
 #ifdef CLI_HAS_CLUSTER_ONOFF
-  { "onoff_cmd", "", "                                                       ", cluster_onoff_submenu,   help_onoff_cmds,   "SUBMENU ON/OFF Commands" },
+  { "onoff_cmd", "", "      ", cluster_onoff_submenu,   help_onoff_cmds,   "SUBMENU ON/OFF Commands" },
 #endif
 #ifdef CLI_HAS_CLUSTER_IDENTITY
-  { "identify_cmd", "", "                                                    ", cluster_ident_submenu,   help_ident_cmds,   "SUBMENU IDENTIFY Commands" },
+  { "identify_cmd", "", "   ", cluster_ident_submenu,   help_ident_cmds,   "SUBMENU IDENTIFY Commands" },
 #endif
 #ifdef CLI_HAS_CLUSTER_GROUPS
-  { "groups_cmd", "", "                                                      ", cluster_groups_submenu,  help_groups_cmds,  "SUBMENU GROUPS Commands" },
+  { "groups_cmd", "", "     ", cluster_groups_submenu,  help_groups_cmds,  "SUBMENU GROUPS Commands" },
 #endif
 #ifdef CLI_HAS_CLUSTER_SCENES
-  { "scenes_cmd", "", "                                                      ", cluster_scenes_submenu,  help_scenes_cmds,  "SUBMENU SCENES Commands" },
+  { "scenes_cmd", "", "     ", cluster_scenes_submenu,  help_scenes_cmds,  "SUBMENU SCENES Commands" },
 #endif
 #ifdef CLI_HAS_CLUSTER_THERMOSTAT
-  { "thermostat_cmd", "", "                                                  ", cluster_thermo_submenu,  help_thermo_cmds,  "SUBMENU THERMOSTAT Commands" },
+  { "thermostat_cmd", "", " ", cluster_thermo_submenu,  help_thermo_cmds,  "SUBMENU THERMOSTAT Commands" },
 #endif
 #ifdef CLI_HAS_CLUSTER_MANUF_SPE
-  { "custom_nxp_cmd", "", "                                                  ", cluster_custnxp_submenu, help_custnxp_cmds, "SUBMENU CUSTOM NXP Commands" },
+  { "custom_nxp_cmd", "", " ", cluster_custnxp_submenu, help_custnxp_cmds, "SUBMENU CUSTOM NXP Commands" },
 #endif
   /* Cluster OTA Upgrade commands */
-#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE_SRV
   { "ota_server", "", "                                                      ", cluster_ota_srv_submenu, help_ota_srv_cmds, "SUBMENU OTA Upgrade Server" },
+#endif
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE_CLT
   { "ota_client", "", "                                                      ", cluster_ota_clt_submenu, help_ota_clt_cmds, "SUBMENU OTA Upgrade Client" },
 #endif
   { "print", " [endpoint]", "                                                ", cluster_print,           help_empty,        "print the cluster table on endpoint id [0-255]" },
@@ -592,7 +619,7 @@ static void write_attr_cb(zb_uint8_t param)
 /* Static command cluster
  * command write_attr
  *
- * cluster write_attr [endpoint] [addr] [ep] [cluster] [attr] [type] [val]
+ * cluster write_attr [endpoint] [addr] [ep] [cluster] [attr] [type] [val] <manuf>
  */
 static zb_ret_t cluster_write_attr(int argc, char *argv[])
 {
@@ -605,11 +632,12 @@ static zb_ret_t cluster_write_attr(int argc, char *argv[])
   zb_uint8_t dest_attr_type;
   zb_uint_t dest_attr_len;
   zb_uint8_t *dest_attr_val;
+  zb_uint16_t dest_manuf_code = 0xFFFF;
 
   if(!config_is_started())
     return RET_UNAUTHORIZED;
 
-  if(argc != 7)
+  if(argc < 7 || argc > 8)
     return RET_INVALID_PARAMETER;
 
   /*  get [endpoint] */
@@ -649,6 +677,16 @@ static zb_ret_t cluster_write_attr(int argc, char *argv[])
     return RET_INVALID_PARAMETER_7;
   }
 
+  if(argc == 8) {
+    /* get <manuf> */
+    ret = tools_arg_get_uint16(argv, 7, &dest_manuf_code, ARG_HEX);
+    if(ret != RET_OK)
+    {
+      ZB_FREE(dest_attr_val);
+      return RET_INVALID_PARAMETER_8;
+    }
+  }
+
   if (!ZB_JOINED())
   {
     ZB_FREE(dest_attr_val);
@@ -665,7 +703,11 @@ static zb_ret_t cluster_write_attr(int argc, char *argv[])
 
     /* @brief Initialize Read Attribute Request command
        @params buffer, cmd_ptr, direction, def_resp */
-    ZB_ZCL_GENERAL_INIT_WRITE_ATTR_REQ_A(buffer, cmd_ptr, ZB_ZCL_FRAME_DIRECTION_TO_SRV, ZB_ZCL_ENABLE_DEFAULT_RESPONSE);
+    if(dest_manuf_code != 0xFFFF) {
+      ZB_ZCL_GENERAL_INIT_WRITE_ATTR_REQ_MANUF(buffer, cmd_ptr, ZB_ZCL_FRAME_DIRECTION_TO_SRV, ZB_ZCL_ENABLE_DEFAULT_RESPONSE, dest_manuf_code);
+    } else {
+      ZB_ZCL_GENERAL_INIT_WRITE_ATTR_REQ_A(buffer, cmd_ptr, ZB_ZCL_FRAME_DIRECTION_TO_SRV, ZB_ZCL_ENABLE_DEFAULT_RESPONSE);
+    }
     /* @brief Add attribute id to command payload
        @params cmd_ptr, attr_id, attr_type, attr_val */
     ZB_ZCL_GENERAL_ADD_VALUE_WRITE_ATTR_REQ(cmd_ptr, dest_attr_id, dest_attr_type, dest_attr_val);
@@ -717,7 +759,8 @@ static void disc_attr_cb(zb_uint8_t param)
 /* Static command cluster
  * command disc_attr
  *
- * cluster disc_attr [endpoint] [addr] [ep] [cluster] [start] [max] <aps_secured> <disable_aps_ack> <delay>
+ * cluster disc_attr [endpoint] [addr] [ep] [cluster] [start] [max] <manuf>
+ * cluster disc_attr [endpoint] [addr] [ep] [cluster] [start] [max] <manuf> <aps_secured> <disable_aps_ack> <delay>
  */
 static zb_ret_t cluster_disc_attr(int argc, char *argv[])
 {
@@ -728,6 +771,7 @@ static zb_ret_t cluster_disc_attr(int argc, char *argv[])
   zb_cluster_entry *dest_cluster = NULL;
   zb_uint16_t new_start_index;
   zb_uint8_t new_max_number;
+  zb_uint16_t manuf_code = 0xFFFF;
   zb_bool_t use_extra_options = ZB_FALSE;
   zb_uint8_t aps_secured;
   zb_uint8_t disable_aps_ack;
@@ -736,7 +780,7 @@ static zb_ret_t cluster_disc_attr(int argc, char *argv[])
   if(!config_is_started())
     return RET_UNAUTHORIZED;
 
-  if(argc != 6 && argc != 9)
+  if(argc != 6 && argc != 7 && argc != 10)
     return RET_INVALID_PARAMETER;
 
   /*  get [endpoint] */
@@ -757,16 +801,22 @@ static zb_ret_t cluster_disc_attr(int argc, char *argv[])
   /* get [max] */
   TOOLS_GET_ARG(ret, uint8,  argv, 5, &new_max_number);
 
-  if(argc == 9)
+  if(argc >= 7)
+  {
+    /* get [manuf] */
+    TOOLS_GET_ARG(ret, uint16,  argv, 6, &manuf_code);
+  }
+
+  if(argc == 10)
   {
     /* get [aps_secured] */
-    TOOLS_GET_ARG(ret, uint8,  argv, 6, &aps_secured);
+    TOOLS_GET_ARG(ret, uint8,  argv, 7, &aps_secured);
 
     /* get [disable_aps_ack] */
-    TOOLS_GET_ARG(ret, uint8,  argv, 7, &disable_aps_ack);
+    TOOLS_GET_ARG(ret, uint8,  argv, 8, &disable_aps_ack);
 
     /* get [max] */
-    TOOLS_GET_ARG(ret, uint16,  argv, 8, &delay);
+    TOOLS_GET_ARG(ret, uint16,  argv, 9, &delay);
 
     use_extra_options = ZB_TRUE;
   }
@@ -803,8 +853,13 @@ static zb_ret_t cluster_disc_attr(int argc, char *argv[])
                                       disc_attr_cb);
 */
     cmd_ptr = ZB_ZCL_START_PACKET(buffer);
-    ZB_ZCL_CONSTRUCT_GENERAL_COMMAND_REQ_FRAME_CONTROL(cmd_ptr, ZB_ZCL_ENABLE_DEFAULT_RESPONSE);
-    ZB_ZCL_CONSTRUCT_COMMAND_HEADER(cmd_ptr, ZB_ZCL_GET_SEQ_NUM(), ZB_ZCL_CMD_DISC_ATTRIB);
+    if(manuf_code != 0xFFFF) {
+      ZB_ZCL_CONSTRUCT_GENERAL_COMMAND_REQ_FRAME_CONTROL_A(cmd_ptr, ZB_ZCL_FRAME_DIRECTION_TO_SRV, ZB_ZCL_MANUFACTURER_SPECIFIC, ZB_ZCL_ENABLE_DEFAULT_RESPONSE);
+      ZB_ZCL_CONSTRUCT_COMMAND_HEADER_EXT(cmd_ptr, ZB_ZCL_GET_SEQ_NUM(), ZB_ZCL_MANUFACTURER_SPECIFIC, manuf_code, ZB_ZCL_CMD_DISC_ATTRIB);
+    } else {
+      ZB_ZCL_CONSTRUCT_GENERAL_COMMAND_REQ_FRAME_CONTROL(cmd_ptr, ZB_ZCL_ENABLE_DEFAULT_RESPONSE);
+      ZB_ZCL_CONSTRUCT_COMMAND_HEADER(cmd_ptr, ZB_ZCL_GET_SEQ_NUM(), ZB_ZCL_CMD_DISC_ATTRIB);
+    }
     ZB_ZCL_PACKET_PUT_DATA16_VAL(cmd_ptr, new_start_index);
     ZB_ZCL_PACKET_PUT_DATA8(cmd_ptr, new_max_number);
     if(!use_extra_options)
@@ -821,9 +876,13 @@ static zb_ret_t cluster_disc_attr(int argc, char *argv[])
 }
 static zb_ret_t help_disc_attr(void)
 {
-  menu_printf("extra options:  <aps_secured>:     enable  tx option Security transmission");
-  menu_printf("extra options:  <disable_aps_ack>: disable tx option Acknowledged transmission");
-  menu_printf("extra options:  <delay>:           delay the APS request");
+  menu_printf("cluster disc_attr [endpoint] [addr] [ep] [cluster] [start] [max] <manuf>:");
+  menu_printf("\textra options:  <manuf>:           use manufacturer specific (0xFFFF to disable it)");
+  menu_printf("cluster disc_attr [endpoint] [addr] [ep] [cluster] [start] [max] <manuf> <aps_secured> <disable_aps_ack> <delay>:");
+  menu_printf("\textra options:  <manuf>:           use manufacturer specific (0xFFFF to disable it)");
+  menu_printf("\textra options:  <aps_secured>:     enable  tx option Security transmission");
+  menu_printf("\textra options:  <disable_aps_ack>: disable tx option Acknowledged transmission");
+  menu_printf("\textra options:  <delay>:           delay the APS request");
   return RET_OK;
 }
 
@@ -845,7 +904,7 @@ static void read_attr_cb(zb_uint8_t param)
 /* Static command cluster
  * command read_attr
  *
- * cluster read_attr [endpoint] [addr] [ep] [cluster] [attr]
+ * cluster read_attr [endpoint] [addr] [ep] [cluster] [attr] <manuf>
  */
 static zb_ret_t cluster_read_attr(int argc, char *argv[])
 {
@@ -855,11 +914,12 @@ static zb_ret_t cluster_read_attr(int argc, char *argv[])
   zb_af_endpoint_desc_t *this_ep = NULL;
   zb_cluster_entry *dest_cluster = NULL;
   zb_uint16_t dest_attr_id;
+  zb_uint16_t dest_manuf_code = 0xFFFF;
 
   if(!config_is_started())
     return RET_UNAUTHORIZED;
 
-  if(argc != 5)
+  if(argc < 5 || argc > 6)
     return RET_INVALID_PARAMETER;
 
   /*  get [endpoint] */
@@ -877,6 +937,11 @@ static zb_ret_t cluster_read_attr(int argc, char *argv[])
   /* get [attr] */
   TOOLS_GET_ARG_HEXA(ret, uint16,  argv, 4, &dest_attr_id);
 
+  if(argc == 6) {
+    /* get <manuf> */
+    TOOLS_GET_ARG_HEXA(ret, uint16,  argv, 5, &dest_manuf_code);
+  }
+
   if (!ZB_JOINED())
     return RET_UNAUTHORIZED;
 
@@ -890,7 +955,11 @@ static zb_ret_t cluster_read_attr(int argc, char *argv[])
 
     /* @brief Initialize Read Attribute Request command
        @params buffer, cmd_ptr, direction, def_resp */
-    ZB_ZCL_GENERAL_INIT_READ_ATTR_REQ_A(buffer, cmd_ptr, ZB_ZCL_FRAME_DIRECTION_TO_SRV, ZB_ZCL_ENABLE_DEFAULT_RESPONSE);
+    if(dest_manuf_code != 0xFFFF) {
+      ZB_ZCL_GENERAL_INIT_READ_ATTR_REQ_MANUF(buffer, cmd_ptr, ZB_ZCL_FRAME_DIRECTION_TO_SRV, ZB_ZCL_ENABLE_DEFAULT_RESPONSE, dest_manuf_code);
+    } else {
+      ZB_ZCL_GENERAL_INIT_READ_ATTR_REQ_A(buffer, cmd_ptr, ZB_ZCL_FRAME_DIRECTION_TO_SRV, ZB_ZCL_ENABLE_DEFAULT_RESPONSE);
+    }
     /* @brief Add attribute id to command payload
        @params cmd_ptr, attr_id */
     ZB_ZCL_GENERAL_ADD_ID_READ_ATTR_REQ(cmd_ptr, dest_attr_id);

@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2023-2025 NXP
+ * Copyright 2023-2026 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -318,6 +318,7 @@ osif_ipc_handle_t osif_ctrl_pipe_get_handler(osif_control_pipe_t ctrl);
 
 void osif_sleep(zb_uint_t s);
 void osif_usleep(zb_uint_t us);
+#define zb_osif_low_power_config(enable) do {} while(0)
 void zb_osif_wait_ms(zb_uint16_t ms);
 osif_pid_t osif_getpid();
 void osif_srand(unsigned seed);
@@ -352,7 +353,7 @@ typedef osif_func_ret_t (*osif_tread_detached_func_t)(osif_func_arg_t);
 #define OSIF_THREAD_STACK_DEFINE(stack_name, stack_size)
 
 zb_ret_t   osif_start_thread(osif_thread_t *thread, osif_func_t func, void * arg);
-#define    osif_start_thread2(thread, func, arg, stack_name, stack_size)            osif_start_thread(thread, func, arg)
+#define    osif_start_thread2(thread, func, arg, stack_name, stack_size, thread_priority)            osif_start_thread(thread, func, arg)
 zb_ret_t   osif_start_thread_detached(osif_func_t func, void * arg);
 void* osif_thread_join(osif_thread_t *thread);
 zb_uint_t  osif_get_thread_id(ZB_VOID_ARGLIST);

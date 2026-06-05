@@ -1,14 +1,16 @@
 [Unit]
 Description=ZBOSS Configuration
-Before=zb_mux.service
-# This should be replaced by bluetooth.service / network.target if configured on IW612-BT / IW612-WiFi
+ConditionPathExists=/etc/default/zb_mux_app.config
+Before=zb_mux.service zb_app.service
 After=sysinit.target
 Requires=sysinit.target
 
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/sbin/zb_config.sh
+EnvironmentFile=/etc/default/zb_mux_app.config
+ExecStart=/usr/sbin/zb_config.sh start
+ExecStop=/usr/sbin/zb_config.sh stop
 
 [Install]
 WantedBy=multi-user.target

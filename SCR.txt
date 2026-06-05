@@ -1,6 +1,6 @@
 Repository:			nxp_zboss_libs_sdk.git
 
-Version:			019.2601.028-zoi_release-4.2.2.0
+Version:			019.2602.049-zoi_release-4.2.2.0
 Outgoing License:		LA_OPT_Online Code Hosting NXP_Software_License - v1.4 May 2025
 License File:			LICENSE
 Type of content:		Binary, Source Code, Scripts and Documentation

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 NXP
+ * Copyright 2024-2026 NXP
  *
  * NXP Proprietary.
  * This software is owned or controlled by NXP and may only be used strictly
@@ -13,7 +13,7 @@
  */
 
 
-#ifndef CLI_HAS_CLUSTER_OTA_UPGRADE
+#if !defined(CLI_HAS_CLUSTER_OTA_UPGRADE_SRV) && !defined(CLI_HAS_CLUSTER_OTA_UPGRADE_CLT)
 #define pCluster_0019 NULL
 #else
 #define pCluster_0019 &cluster_0019
@@ -160,7 +160,10 @@ static zb_cluster_def cluster_0019 = {
 /* -------------------------------- Cli commands OTA Upgrade --------------------------- */
 
 
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE_SRV
 static zb_ret_t cluster_ota_srv_add_file(int argc, char *argv[]);
+#endif
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE_CLT
 static zb_ret_t cluster_ota_clt_get_file(int argc, char *argv[]);
 static zb_ret_t cluster_ota_clt_accept_file(int argc, char *argv[]);
 static zb_ret_t cluster_ota_clt_status(int argc, char *argv[]);
@@ -168,11 +171,13 @@ static zb_ret_t cluster_ota_clt_status(int argc, char *argv[]);
 static zb_ret_t cluster_ota_clt_auto(int argc, char *argv[]);
 static zb_ret_t cluster_ota_clt_tempo(int argc, char *argv[]);
 #endif
+#endif
 
 
 /* Static command cluster
  * submenu ota_server
  */
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE_SRV
 #ifdef MENU_PRINT_HELP_IF_COMMAND_NOT_FOUND
 static zb_ret_t help_ota_srv_cmds(void);
 #endif
@@ -211,7 +216,9 @@ static zb_ret_t help_ota_srv_cmds_detailed(char *subcommand)
   return RET_OK;
 }
 static zb_ret_t help_ota_srv_cmds(void) { return help_ota_srv_cmds_detailed(NULL); }
+#endif /* CLI_HAS_CLUSTER_OTA_UPGRADE_SRV */
 
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE_CLT
 /* Static command cluster
  * submenu ota_client
  */
@@ -302,11 +309,13 @@ static zb_ret_t help_ota_clt_cmds_detailed(char *subcommand)
   return RET_OK;
 }
 static zb_ret_t help_ota_clt_cmds(void) { return help_ota_clt_cmds_detailed(NULL); }
+#endif /* CLI_HAS_CLUSTER_OTA_UPGRADE_CLT */
 
 
 #define MAX_OTA_CLIENTS 64
 #define MAX_OTA_FILES 20
 
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE_SRV
 typedef struct zb_zcl_ota_srv_file_s
 {
   /* <manufacture code>-<Image Type>-<Version>-<Name>.zigbee */
@@ -323,6 +332,7 @@ typedef struct zb_zcl_ota_srv_file_s
 
 static zb_zcl_ota_srv_file_t ota_srv_files[MAX_OTA_FILES] = {0};
 static zb_uint8_t ota_srv_nb_files = 0;
+
 
 /* Static command cluster
  * command ota_server
@@ -465,7 +475,9 @@ static zb_ret_t cluster_ota_srv_add_file(int argc, char *argv[])
 
   return ret;
 }
+#endif /* CLI_HAS_CLUSTER_OTA_UPGRADE_SRV */
 
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE_CLT
 /* Static command cluster
  * command ota_client
  *
@@ -646,10 +658,10 @@ static zb_ret_t cluster_ota_clt_tempo(int argc, char *argv[])
   return RET_OK;
 }
 #endif
-
+#endif /* CLI_HAS_CLUSTER_OTA_UPGRADE_CLT */
 
 /* -------------------------------- Commands OTA Upgrade --------------------------- */
-
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE_SRV
 static char *get_src_addr(zb_zcl_addr_t *source)
 {
   static char addrStr[128] = "unknown";
@@ -814,40 +826,22 @@ static zb_ret_t cluster_ota_srv_next_data_ind_cb(zb_uint8_t index, zb_zcl_parsed
 
   return RET_OK;
 }
+#endif /* CLI_HAS_CLUSTER_OTA_UPGRADE_SRV */
 
+
+#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE_CLT
 
 typedef struct zb_zcl_ota_clt_file_s
 {
-  /* OTA-FILE-<date>-<time>-<Name> */
-#define OTA_CLT_NAME_MAX      9+6+1+4+1+32
-  char filename[ZB_PATH_MAX+OTA_CLT_NAME_MAX+1];
   size_t written;
   size_t size;
-  FILE *fp;
+  void *dev;
   struct timespec start;
   zb_zcl_ota_upgrade_file_header_t header;
   zb_zcl_ota_upgrade_file_header_optional_t optional;
 } zb_zcl_ota_clt_file_t;
 
 zb_zcl_ota_clt_file_t ota_rx_file;
-
-
-static void create_ota_clt_file_name(zb_zcl_ota_clt_file_t *ota_file)
-{
-  struct timespec ts = {0};
-  struct tm rtm = {0};
-
-  osif_get_clock_realtime(&ts);
-  localtime_r(&ts.tv_sec, &rtm);
-
-  snprintf(ota_file->filename, sizeof(ota_file->filename),"OTA-FILE-%02d%02d%02d-%02d%02d-%s",
-    rtm.tm_mon+1,
-    rtm.tm_mday,
-    rtm.tm_year-100,
-    rtm.tm_hour,
-    rtm.tm_min,
-    ota_file->header.header_string);
-}
 
 static zb_ret_t cluster_ota_clt_device_value_cb(zb_zcl_device_callback_param_t *device_cb_param)
 {
@@ -860,7 +854,7 @@ static zb_ret_t cluster_ota_clt_device_value_cb(zb_zcl_device_callback_param_t *
   {
     case ZB_ZCL_OTA_UPGRADE_STATUS_START:
 
-      menu_printf("Device OTA Value Start: manufacturer %04x, type %04x, version %08x, len %d",
+      menu_printf("Device OTA status Start: manufacturer %04x, type %04x, version %08x, len %d",
         ota_upgrade_value->upgrade.start.manufacturer,
         ota_upgrade_value->upgrade.start.image_type,
         ota_upgrade_value->upgrade.start.file_version,
@@ -869,8 +863,19 @@ static zb_ret_t cluster_ota_clt_device_value_cb(zb_zcl_device_callback_param_t *
       /* Start OTA upgrade. */
       if (g_general_ota_upgrade_attr.image_status == ZB_ZCL_OTA_UPGRADE_IMAGE_STATUS_NORMAL)
       {
-        /* Accept image */
-        ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_OK;
+        /* Check if firmware size is acceptable */
+        if (zb_osif_ota_fw_size_ok(ota_upgrade_value->upgrade.start.file_length))
+        {
+          /* Accept image */
+          ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_OK;
+        }
+        else
+        {
+          /* Image too large */
+          menu_printf("Device OTA status Start: Image size %d not acceptable",
+                      ota_upgrade_value->upgrade.start.file_length);
+          ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_ERROR;
+        }
       }
       else
       {
@@ -885,11 +890,11 @@ static zb_ret_t cluster_ota_clt_device_value_cb(zb_zcl_device_callback_param_t *
         zb_uint8_t *dest = (zb_uint8_t *)&ota_rx_file.header;
         ZB_MEMCPY(dest + ota_upgrade_value->upgrade.receive.file_offset, ota_upgrade_value->upgrade.receive.block_data, ota_upgrade_value->upgrade.receive.data_length);
 
-        menu_printf("Device OTA Value Recv: header @%d (remains %d)",
+        menu_printf("Device OTA status Recv: header @%d (remains %d)",
           ota_upgrade_value->upgrade.receive.file_offset,
           ota_rx_file.header.header_length - ota_upgrade_value->upgrade.receive.file_offset);
       }
-      /* If packet size > header size : Receive header and beginnning of data */
+      /* If packet size > header size : Receive header and beginning of data */
       else if(ota_upgrade_value->upgrade.receive.file_offset == 0 &&
               ota_upgrade_value->upgrade.receive.file_offset + ota_upgrade_value->upgrade.receive.data_length > sizeof(zb_zcl_ota_upgrade_file_header_t))
       {
@@ -897,8 +902,16 @@ static zb_ret_t cluster_ota_clt_device_value_cb(zb_zcl_device_callback_param_t *
 
         ZB_MEMCPY(dest + ota_upgrade_value->upgrade.receive.file_offset, ota_upgrade_value->upgrade.receive.block_data, ota_upgrade_value->upgrade.receive.data_length);
 
-        create_ota_clt_file_name(&ota_rx_file);
-        ota_rx_file.fp = fopen(ota_rx_file.filename,"w+b");
+        zb_osif_ota_config_file_header(&ota_rx_file.header);
+
+        /* Open storage using platform API */
+        ota_rx_file.dev = zb_osif_ota_open_storage();
+        if (ota_rx_file.dev == NULL)
+        {
+          menu_printf("Device OTA status Recv: Failed to open storage");
+          ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_ERROR;
+          break;
+        }
 
         ota_rx_file.written = 0;
         file_offset         = 0;
@@ -906,14 +919,14 @@ static zb_ret_t cluster_ota_clt_device_value_cb(zb_zcl_device_callback_param_t *
         written_size        = ota_upgrade_value->upgrade.receive.data_length - (ota_rx_file.header.header_length - ota_upgrade_value->upgrade.receive.file_offset);
         file_ptr            = ota_upgrade_value->upgrade.receive.block_data + (ota_rx_file.header.header_length - ota_upgrade_value->upgrade.receive.file_offset);            
 
-        menu_printf("Device OTA Value Recv: header @%d (remains %d), %s @%d (remains %d)",
+        menu_printf("Device OTA status Recv: header @%d (remains %d), %s @%d (remains %d)",
           ota_upgrade_value->upgrade.receive.file_offset,
           ota_rx_file.header.header_length - ota_upgrade_value->upgrade.receive.file_offset,
           ota_rx_file.header.header_string,
           file_offset,
           ota_rx_file.size - file_offset);
       }
-      /* If packet size < header size : Receive remaining header and beginnning of data */
+      /* If packet size < header size : Receive remaining header and beginning of data */
       else if(ota_upgrade_value->upgrade.receive.file_offset < ota_rx_file.header.header_length)
       {
         zb_uint8_t *dest = (zb_uint8_t *)&ota_rx_file.header;
@@ -923,11 +936,20 @@ static zb_ret_t cluster_ota_clt_device_value_cb(zb_zcl_device_callback_param_t *
         written_size  = ota_upgrade_value->upgrade.receive.data_length - (ota_rx_file.header.header_length - ota_upgrade_value->upgrade.receive.file_offset);
         file_ptr      = ota_upgrade_value->upgrade.receive.block_data + (ota_rx_file.header.header_length - ota_upgrade_value->upgrade.receive.file_offset);
 
-        create_ota_clt_file_name(&ota_rx_file);
-        ota_rx_file.fp      = fopen(ota_rx_file.filename,"w+b");
-        ota_rx_file.written = 0;
+        zb_osif_ota_config_file_header(&ota_rx_file.header);
 
-        menu_printf("Device OTA Value Recv: header @%d (remains %d), %s @%d (remains %d)",
+        /* Open storage using platform API */
+        ota_rx_file.dev = zb_osif_ota_open_storage();
+        if (ota_rx_file.dev == NULL)
+        {
+          menu_printf("Device OTA status Recv: Failed to open storage");
+          ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_ERROR;
+          break;
+        }
+        ota_rx_file.written = 0;
+        ota_rx_file.size    = ota_rx_file.header.total_image_size - ota_rx_file.header.header_length;
+
+        menu_printf("Device OTA status Recv: header @%d (remains %d), %s @%d (remains %d)",
           ota_upgrade_value->upgrade.receive.file_offset,
           ota_rx_file.header.header_length - ota_upgrade_value->upgrade.receive.file_offset,
           ota_rx_file.header.header_string,
@@ -941,7 +963,7 @@ static zb_ret_t cluster_ota_clt_device_value_cb(zb_zcl_device_callback_param_t *
         size_t percentage, step;
 
         file_offset   = ota_upgrade_value->upgrade.receive.file_offset - ota_rx_file.header.header_length;
-        written_size  = ota_upgrade_value->upgrade.receive.data_length - (ota_rx_file.header.header_length - ota_upgrade_value->upgrade.receive.file_offset);
+        written_size  = ota_upgrade_value->upgrade.receive.data_length;
         file_ptr      = ota_upgrade_value->upgrade.receive.block_data;
 
         percentage = (file_offset * 100) / ota_rx_file.size;
@@ -969,7 +991,7 @@ static zb_ret_t cluster_ota_clt_device_value_cb(zb_zcl_device_callback_param_t *
           eta = (ota_rx_file.size - file_offset)/baud_rate;
 
           zb_zdo_get_diag_data(server_addr, &lqi, &rssi);
-          menu_printf("Device OTA Value Recv: %s @%d (remains %d) %d%%  %dB/s  %02d:%02d, lqi: %hd, rssi: %hd",
+          menu_printf("Device OTA status Recv: %s @%d (remains %d) %d%%  %dB/s  %02d:%02d, lqi: %hd, rssi: %hd",
             ota_rx_file.header.header_string,
             file_offset,
             ota_rx_file.size - file_offset - ota_upgrade_value->upgrade.receive.data_length,
@@ -989,37 +1011,54 @@ static zb_ret_t cluster_ota_clt_device_value_cb(zb_zcl_device_callback_param_t *
 
         if(file_offset != ota_rx_file.written)
         {
-          menu_printf("Device OTA Value Recv: Bad offset %s, should be %d", file_offset, ota_rx_file.written);
+          menu_printf("Device OTA status Recv: Bad offset %d, should be %d", file_offset, ota_rx_file.written);
         }
-        ota_rx_file.written += fwrite(file_ptr, 1, written_size-file_offset, ota_rx_file.fp);
-        if(ota_rx_file.written != written_size)
-        {
-          menu_printf("Device OTA Value Recv: Partial write: %d/%d", ota_rx_file.written, written_size);
-        }
+        zb_osif_ota_write(ota_rx_file.dev, file_ptr, ota_rx_file.written, written_size, ota_rx_file.size);
+        ota_rx_file.written += written_size;
       }
       /* Process image block. */
       ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_OK;
       break;
     case ZB_ZCL_OTA_UPGRADE_STATUS_CHECK:
       /* Downloading is finished, do additional checks if needed etc before Upgrade End Request. */
-      fclose(ota_rx_file.fp);
-      if(ota_rx_file.written == ota_rx_file.size)
-        menu_printf("Device OTA Value Check: file %s OK", ota_rx_file.filename);
-      else
-        menu_printf("Device OTA Value Check: file %s is incomplete, missing %d bytes", ota_rx_file.filename, ota_rx_file.size - ota_rx_file.written);
 
-      ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_OK;
+      /* Verify integrity using platform API */
+      if (zb_osif_ota_verify_integrity(ota_rx_file.dev, ota_rx_file.written))
+      {
+        if(ota_rx_file.written == ota_rx_file.size)
+        {
+          menu_printf("Device OTA status Check: file %s OK", ota_rx_file.header.header_string);
+          ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_OK;
+        }
+        else
+        {
+          menu_printf("Device OTA status Check: file %s is incomplete, missing %d bytes", ota_rx_file.header.header_string, ota_rx_file.size - ota_rx_file.written);
+          ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_ERROR;
+        }
+      }
+      else
+      {
+        menu_printf("Device OTA status Check: Integrity verification failed for %s", ota_rx_file.header.header_string);
+        ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_ERROR;
+      }
+
+      /* Close storage using platform API */
+      zb_osif_ota_close_storage(ota_rx_file.dev);
+      ota_rx_file.dev = NULL;
       break;
     case ZB_ZCL_OTA_UPGRADE_STATUS_APPLY:
-      menu_printf("Device OTA Value Apply");
+      menu_printf("Device OTA status Apply");
       /* Upgrade End Resp is ok, ZCL checks for manufacturer, image type etc are ok.
           Last step before actual upgrade. */
+
+      /* Mark firmware as ready using platform API */
+      zb_osif_ota_mark_fw_ready(ota_rx_file.dev, ota_rx_file.size, ota_rx_file.header.file_version);
       ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_OK;
       break;
     case ZB_ZCL_OTA_UPGRADE_STATUS_FINISH:
-      menu_printf("Device OTA Value Finish");
+      menu_printf("Device OTA status Finish");
       /* It is time to upgrade FW. */
-      /* Restore cluser attributes: */
+      /* Restore cluster attributes: */
       {
         zb_ieee_addr_t default_server = ZB_ZCL_OTA_UPGRADE_SERVER_DEF_VALUE;
 
@@ -1037,15 +1076,21 @@ static zb_ret_t cluster_ota_clt_device_value_cb(zb_zcl_device_callback_param_t *
       }
       break;
     case ZB_ZCL_OTA_UPGRADE_STATUS_SERVER_NOT_FOUND:
-      menu_printf("Device OTA Value Server not found");
+      menu_printf("Device OTA status Server not found");
+      zb_osif_ota_mark_fw_absent();
+      break;
+    case ZB_ZCL_OTA_UPGRADE_STATUS_ABORT:
+      menu_printf("Device OTA status Abort");
       break;
     default:
-      menu_printf("Device OTA Value Unknown device_cb_id %d", ota_upgrade_value->upgrade_status);
+      menu_printf("Device OTA status Unknown device_cb_id %d", ota_upgrade_value->upgrade_status);
       break;
   }
 
   return RET_OK;
 }
+#endif /* CLI_HAS_CLUSTER_OTA_UPGRADE_CLT */
+
 
 static zb_uint8_t cluster_ota_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
 {
@@ -1059,4 +1104,4 @@ static zb_uint8_t cluster_ota_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb
   return ZB_FALSE;
 }
 
-#endif /* CLI_HAS_CLUSTER_OTA_UPGRADE */
+#endif /* !CLI_HAS_CLUSTER_OTA_UPGRADE_SRV && !CLI_HAS_CLUSTER_OTA_UPGRADE_CLT */

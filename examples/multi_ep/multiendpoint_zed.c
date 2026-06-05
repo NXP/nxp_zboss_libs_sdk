@@ -199,6 +199,11 @@ MAIN()
   zb_set_network_ed_role(MULTI_EP_ZED_DEFAULT_APS_CHANNEL_MASK);
   zb_set_rx_on_when_idle(ZB_TRUE);
 
+#ifdef ZB_PLATFORM_ZEPHYR
+  /* Zigbee 3.0 compliant device */
+  zboss_use_r22_behavior();
+#endif
+
   /* Register device ZCL context */
   ZB_AF_REGISTER_DEVICE_CTX(&multiendpoint_zed_device_zcl_ctx);
 

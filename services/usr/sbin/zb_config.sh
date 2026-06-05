@@ -1,91 +1,87 @@
 #!/bin/sh
+#
+#
+# SPDX-License-Identifier: BSD-3-Clause
+# Copyright 2023-2026 NXP
+#
+#
 
-# Create WorkingDirectory
-# Caution: cannot get rid of this since it must exist before running zb_mux/zb_app
-mkdir -p /var/local/zboss
+ZB_ENV_VARS_FILE="/tmp/zb_environment_vars"
 
-# Check if btnxpuart has been setup to generate udev events:
-if [ -f /run/udev/data/btnxpuart:serial0-0.state ]; then
-	btnxpuart_state=`cat ${btnxpuart_state_file} `
-	echo "btnxpuart state file detected, current state: ${btnxpuart_state}"
-else
-	if [ ! -f /etc/udev/rules.d/98-btnxpuart.rules ]; then
-		echo "Create /etc/udev/rules.d/98-btnxpuart.rules"
-		echo "ACTION==\"change\", ENV{BTNXPUART_DEV}==\"*\", ENV{BTNXPUART_STATE}==\"*\", RUN+=\"/etc/udev/scripts/btnxpuart.sh \$env{BTNXPUART_DEV} \$env{BTNXPUART_STATE}\"" > /etc/udev/rules.d/98-btnxpuart.rules
-	fi
+function create_env_file() {
+    echo "#WARNING, this file was created by '\"$(basename $0)"'/' > ${ZB_ENV_VARS_FILE}
+    cat << EOF >> ${ZB_ENV_VARS_FILE}
+SPI_dev=$SPI_dev
+RST_gpiochip_num=$RST_gpiochip_num
+RST_gpiochip_line=$RST_gpiochip_line
+INT_gpiochip_num=$INT_gpiochip_num
+INT_gpiochip_line=$INT_gpiochip_line
+spi_speed="${spi_speed}"
+reset_15_4_mode="${reset_15_4_mode}"
+reset_15_4_threshold="${reset_15_4_threshold}"
+mux_trace="${mux_trace}"
+ZB_MUX_OUT="${ZB_MUX_OUT}"
+DUMP_SPI="${DUMP_SPINEL}"
+ZB_APP_NAME="${ZB_APP_NAME}"
+ZBOSS_OTA_SERVER_DIR="${ZBOSS_OTA_SERVER_DIR}"
+MACSPLIT_CHANNEL="${MACSPLIT_CHANNEL}"
+MACSPLIT_IEEE_ADDR="${MACSPLIT_IEEE_ADDR}"
+MACSPLIT_TTY="${MACSPLIT_TTY}"
+ZB_TRACE_LEVEL="${ZB_TRACE_LEVEL}"
+ZB_TRACE_MASK="${ZB_TRACE_MASK}"
+ZB_APP_OUT="${ZB_APP_OUT}"
+DUMP_TTY="${DUMP_TTY}"
+EOF
+}
 
-	if [ ! -f /etc/udev/scripts/btnxpuart.sh ]; then
-		echo "Create /etc/udev/scripts/btnxpuart.sh"
-		echo "#!/bin/bash"                                                        > /etc/udev/scripts/btnxpuart.sh
-		echo ""                                                                  >> /etc/udev/scripts/btnxpuart.sh
-		echo "BASE_DIR=\"/run/udev/data/btnxpuart\""                             >> /etc/udev/scripts/btnxpuart.sh
-		echo "DEVICE_NAME=\"\$1\""                                               >> /etc/udev/scripts/btnxpuart.sh
-		echo "EVENT_VALUE=\"\$2\""                                               >> /etc/udev/scripts/btnxpuart.sh
-		echo ""                                                                  >> /etc/udev/scripts/btnxpuart.sh
-		echo "if [[ -z \"\$DEVICE_NAME\" || -z \"\$EVENT_VALUE\" ]]; then"       >> /etc/udev/scripts/btnxpuart.sh
-		echo "    echo \"Error: Missing environment variables\" >&2"             >> /etc/udev/scripts/btnxpuart.sh
-		echo "    exit 1"                                                        >> /etc/udev/scripts/btnxpuart.sh
-		echo "fi"                                                                >> /etc/udev/scripts/btnxpuart.sh
-		echo ""                                                                  >> /etc/udev/scripts/btnxpuart.sh
-		echo "chattr -i ${BASE_DIR}:${DEVICE_NAME}.state"                        >> /etc/udev/scripts/btnxpuart.sh
-		echo "# Write the event value to the \"state\" file"                     >> /etc/udev/scripts/btnxpuart.sh
-		echo "echo \"\$EVENT_VALUE\" > \"\${BASE_DIR}:\${DEVICE_NAME}.state\""   >> /etc/udev/scripts/btnxpuart.sh
-		echo "chattr +i ${BASE_DIR}:${DEVICE_NAME}.state"                        >> /etc/udev/scripts/btnxpuart.sh
-		echo "exit 0"                                                            >> /etc/udev/scripts/btnxpuart.sh
-		chmod +x /etc/udev/scripts/btnxpuart.sh
-	fi
-fi
+function detect_gpio() {
+    gpioinfo IWxxx_NB_IND_RST_15_4
+    ret=$?
+    if [ $ret != 0 ]; then
+        echo "#ERROR your Device Tree does not contain GPIO Naming feature, please update it together with the BSP"
+        exit -1
+    fi
+    RST_gpiochip_num=`gpioinfo IWxxx_NB_IND_RST_15_4 2>/dev/null | awk -F" " '{print $1}'`
+    RST_gpiochip_line=`gpioinfo IWxxx_NB_IND_RST_15_4 2>/dev/null | awk -F" " '{print $2}'`
+    INT_gpiochip_num=`gpioinfo IWxxx_NB_SPI_INT 2>/dev/null | awk -F" " '{print $1}'`
+    INT_gpiochip_line=`gpioinfo IWxxx_NB_SPI_INT 2>/dev/null | awk -F" " '{print $2}'`
 
-# Check if btnxpuart has been loaded & started (can blacklisted in /etc//modprobe.d/blacklist.conf)
-res=`lsmod | grep -c "btnxpuart"`
-if [ ${res} -eq 0 ]; then
-	echo "Load btnxpuart"
-	modprobe btnxpuart
-fi
+    spi0=`find /sys/firmware/devicetree/base -name spi@0`
+    if [ -f $spi0/label ] && [ `tr -d '\0' < $spi0/label` = "IWxxx_SPIDEV" ]; then
+        num=$(echo $spi0 | awk -F/ '{print NF}');let num=num-1
+        spi_bus_addr=$(echo $spi0 | cut -d '/' -f$num | cut -d "@" -f2)
+        spi_folder=$(find /sys/devices/platform -type d -name $spi_bus_addr.spi*)
+        SPI_dev=$(find $spi_folder -type d -name spidev*.* | awk -F/ '{print $NF}')
+    fi
 
-sleep 6
+    export SPI_dev=$SPI_dev
+    export RST_gpiochip_num=$RST_gpiochip_num
+    export RST_gpiochip_line=$RST_gpiochip_line
+    export INT_gpiochip_num=$INT_gpiochip_num
+    export INT_gpiochip_line=$INT_gpiochip_line
+}
 
-res=`hciconfig hci0 | grep -c "UP RUNNING"`
-if [ ${res} -eq 0 ]; then
-	echo "Bringup hci0"
-	hciconfig hci0 up
-	# Disable BT Sleep Mode
-	hcitool -i hci0 cmd 3f 23 03 00 00
-fi
+function start() {
+    # Create WorkingDirectory
+    # Caution: cannot get rid of this since it must exist before running zb_mux/zb_app
+    mkdir -p /var/local/zboss
+    detect_gpio
+    create_env_file
+}
 
-# Check if otbr-agent is present & compatible with dualpan
-if [ -e /etc/default/otbr-agent ]; then
-	otbr_enabled=`systemctl status otbr-agent.service | grep "Loaded: " | awk -F"; " '{print $2}'`
-	otbr_dev=`cat /etc/default/otbr-agent | grep "OTBR_AGENT_OPTS" | grep  -v "^#" | awk -F "'" '{print $2}' | awk -F "//" '{print $2}' | awk -F "?" '{print $1}'`
-	echo "OpenThread Border Router agent detected: on device ${otbr_dev}"
-	case ${otbr_dev} in
-		"/tmp/ttyOpenThread")	# DUAL PAN config, do nothing
-			;;
-		"/dev/ttyUSB0")	# SINLE PAN config, update it
-			echo "update OpenThread Border Router agent for DUAL PAN config"
-			sed 's/\/dev\/ttyUSB0?uart-baudrate=115200/\/tmp\/ttyOpenThread/g' -i /etc/default/otbr-agent
-			sed 's/Requires=dbus.socket/Requires=dbus.socket zb_mux.service/g' -i /usr/lib/systemd/system/otbr-agent.service
-			sed 's/After=dbus.socket/After=dbus.socket zb_mux.service/g'       -i /usr/lib/systemd/system/otbr-agent.service
-			# Just in case...
-			sed 's/ExecStartPre=service mdns start/ExecStartPre=systemctl start mdns/g'       -i /usr/lib/systemd/system/otbr-agent.service
-			systemctl daemon-reload
-			if [ "${otbr_enabled}" = "enabled" ]; then
-				# Cannot restart otbr-agent.service here, so check the new device config is ok & reboot
-				new_dev=`cat /etc/default/otbr-agent | grep "OTBR_AGENT_OPTS" | grep  -v "^#" | awk -F "'" '{print $2}' | awk -F "//" '{print $2}' | awk -F "?" '{print $1}'`
-				if [ "${new_dev}" = "/tmp/ttyOpenThread" ]; then
-					# Do this verification to avoid rebooting in loop
-					systemd-notify --status="reboot for otbr-agent new config..."
-					reboot
-				else
-					# error
-					systemd-notify --status="error in otbr-agent config"
-					exit 1
-				fi
-			fi
-			;;
-		*)	# Unknow device
-			echo "Unkown device, disable OpenThread Border Router agent"
-			systemctl disable otbr-agent.service
-			;;
-	esac
-fi
+function stop() {
+    if [ -e ${ZB_ENV_VARS_FILE} ]; then
+        rm -rf ${ZB_ENV_VARS_FILE}
+    fi
+}
+
+case "$1" in
+start)
+    start
+    ;;
+stop)
+    stop
+    ;;
+*)
+    echo "usage: $0 start|stop"
+esac

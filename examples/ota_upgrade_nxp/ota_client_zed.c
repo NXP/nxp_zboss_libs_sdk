@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2024-2025 NXP
+ * Copyright 2024-2026 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -28,17 +28,23 @@
 #include "zboss_api.h"
 
 #include "ota_client.h"
-#include "ota_nxp_definitions.h"
+#include "zcl/zb_zcl_ota_nxp_definitions.h"
 
+#ifdef ZB_CONFIGURABLE_MEM
+#include ZB_VENDOR_MEM_CONFIG
+#endif
+
+#ifdef ZB_PLATFORM_LINUX
 /* Default test config, overwritten by ota-client.cfg */
 /* file content:
  * # comment, ignored
  * <%04X: manufacturer>-<%04X: image_type>-<%08X: version> # any comments/description
  */
 #define OTA_UPGRADE_CONFIG_FILE                "ota-client.cfg"
+#endif
 
 #define OTA_UPGRADE_DEFAULT_MANUFACTURER       ZB_MANUFACTURER_CODE_NXP
-#define OTA_UPGRADE_DEFAULT_IMAGE_TYPE         OTA_UPGRADE_HEADER_IMAGE_TYPE_NXP_SCRIPT_MANUAL_TEST /* 0x1070: imx-dualpan.sh */
+#define OTA_UPGRADE_DEFAULT_IMAGE_TYPE         OTA_UPGRADE_HEADER_IMAGE_TYPE_NXP_APPLI_EXAMPLE_OTA_CLIENT_ED /* 0x140E: ota_client_zed */
 
 
 #define OTA_UPGRADE_DATA_SIZE 64 /* Max value accepted by the stack, refer to ZB_ZCL_OTA_UPGRADE_QUERY_IMAGE_BLOCK_DATA_SIZE_MAX */
@@ -55,12 +61,9 @@ zb_ieee_addr_t g_zed_addr = {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 typedef struct zb_zcl_ota_file_s
 {
-  /* OTA-FILE-<date>-<time>-<Name> */
-#define OTA_NAME_MAX      9+6+1+4+1+32
-  char filename[ZB_PATH_MAX+OTA_NAME_MAX+1];
   size_t written;
   size_t size;
-  FILE *fp;
+  void *dev;
   struct timespec start;
   zb_zcl_ota_upgrade_file_header_t header;
   zb_zcl_ota_upgrade_file_header_optional_t optional;
@@ -123,23 +126,6 @@ ZB_HA_DECLARE_OTA_UPGRADE_CLIENT_EP(ota_upgrade_client_ep, ENDPOINT, ota_upgrade
 /* Declare application's device context for single-endpoint device */
 ZB_HA_DECLARE_OTA_UPGRADE_CLIENT_CTX(ota_upgrade_client_ctx, ota_upgrade_client_ep);
 
-void create_ota_file_name(zb_zcl_ota_file_t *ota_file)
-{
-  struct timespec ts = {0};
-  struct tm rtm = {0};
-
-  osif_get_clock_realtime(&ts);
-  localtime_r(&ts.tv_sec, &rtm);
-
-  snprintf(ota_file->filename, sizeof(ota_file->filename),"OTA-FILE-%02d%02d%02d-%02d%02d-%s",
-    rtm.tm_mon+1,
-    rtm.tm_mday,
-    rtm.tm_year-100,
-    rtm.tm_hour,
-    rtm.tm_min,
-    ota_file->header.header_string);
-}
-
 void test_device_cb(zb_uint8_t param)
 {
   zb_uint32_t file_offset  = 0;
@@ -173,8 +159,27 @@ void test_device_cb(zb_uint8_t param)
           /* Start OTA upgrade. */
           if (image_status == ZB_ZCL_OTA_UPGRADE_IMAGE_STATUS_NORMAL)
           {
-            /* Accept image */
-            ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_OK;
+            /* Check if firmware size is acceptable */
+            if (zb_osif_ota_fw_size_ok(ota_upgrade_value->upgrade.start.file_length))
+            {
+              /* Accept image */
+              ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_OK;
+            }
+            else if(ota_upgrade_value->upgrade.start.manufacturer != manufacturer ||
+                    ota_upgrade_value->upgrade.start.image_type != image_type)
+            {
+              /* Image is not the one requested */
+              WCS_TRACE_INFO("OTA Upgrade Start: Image is not manufacturer %04x, type %04x",
+                            manufacturer, image_type);
+              ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_ERROR;
+            }
+            else
+            {
+              /* Image too large */
+              WCS_TRACE_INFO("OTA Upgrade Start: Image size %d not acceptable",
+                            ota_upgrade_value->upgrade.start.file_length);
+              ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_ERROR;
+            }
           }
           else
           {
@@ -201,8 +206,14 @@ void test_device_cb(zb_uint8_t param)
             
             ZB_MEMCPY(dest + ota_upgrade_value->upgrade.receive.file_offset, ota_upgrade_value->upgrade.receive.block_data, ota_upgrade_value->upgrade.receive.data_length);
 
-            create_ota_file_name(&ota_rx_file);
-            ota_rx_file.fp = fopen(ota_rx_file.filename,"w+b");
+            zb_osif_ota_config_file_header(&ota_rx_file.header);
+            ota_rx_file.dev = zb_osif_ota_open_storage();
+            if (ota_rx_file.dev == NULL)
+            {
+              WCS_TRACE_INFO("OTA Upgrade Recv: Failed to open storage");
+              ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_ERROR;
+              break;
+            }
             
             ota_rx_file.written = 0;
             file_offset         = 0;
@@ -227,8 +238,14 @@ void test_device_cb(zb_uint8_t param)
             written_size  = ota_upgrade_value->upgrade.receive.data_length - (ota_rx_file.header.header_length - ota_upgrade_value->upgrade.receive.file_offset);
             file_ptr      = ota_upgrade_value->upgrade.receive.block_data + (ota_rx_file.header.header_length - ota_upgrade_value->upgrade.receive.file_offset);
 
-            create_ota_file_name(&ota_rx_file);
-            ota_rx_file.fp      = fopen(ota_rx_file.filename,"w+b");
+            zb_osif_ota_config_file_header(&ota_rx_file.header);
+            ota_rx_file.dev = zb_osif_ota_open_storage();
+            if (ota_rx_file.dev == NULL)
+            {
+              WCS_TRACE_INFO("OTA Upgrade Recv: Failed to open storage");
+              ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_ERROR;
+              break;
+            }
             ota_rx_file.written = 0;
 
             WCS_TRACE_INFO("OTA Upgrade Recv: header @%d (remains %d), %s @%d (remains %d)",
@@ -241,13 +258,16 @@ void test_device_cb(zb_uint8_t param)
           /* Receive remaining of data */
           else
           {
+#ifdef ZB_NXP_WCS_TRACE
             static size_t lastlog = 0;
             size_t percentage, step;
+#endif
 
             file_offset   = ota_upgrade_value->upgrade.receive.file_offset - ota_rx_file.header.header_length;
-            written_size  = ota_upgrade_value->upgrade.receive.data_length - (ota_rx_file.header.header_length - ota_upgrade_value->upgrade.receive.file_offset);
+            written_size  = ota_upgrade_value->upgrade.receive.data_length;
             file_ptr      = ota_upgrade_value->upgrade.receive.block_data;
 
+#ifdef ZB_NXP_WCS_TRACE
             percentage = (file_offset * 100) / ota_rx_file.size;
             if(ota_rx_file.size > 1024*1024) step = 1;
             else if(ota_rx_file.size > 1024) step = 10;
@@ -285,6 +305,7 @@ void test_device_cb(zb_uint8_t param)
 
               lastlog = percentage / step;
             }
+#endif
           }
           if(written_size)
           {
@@ -293,31 +314,43 @@ void test_device_cb(zb_uint8_t param)
 
             if(file_offset != ota_rx_file.written)
             {
-              WCS_TRACE_WARNING("Bad offset %s, should be %d", file_offset, ota_rx_file.written);
+              WCS_TRACE_WARNING("Bad offset %d, should be %d", file_offset, ota_rx_file.written);
             }
-            ota_rx_file.written += fwrite(file_ptr, 1, written_size-file_offset, ota_rx_file.fp);
-            if(ota_rx_file.written != written_size)
-            {
-              WCS_TRACE_WARNING("Partial write: %d/%d", ota_rx_file.written, written_size);
-            }
+            zb_osif_ota_write(ota_rx_file.dev, file_ptr, file_offset, written_size, ota_rx_file.size);
+            ota_rx_file.written += written_size;
           }
           /* Process image block. */
           ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_OK;
           break;
         case ZB_ZCL_OTA_UPGRADE_STATUS_CHECK:
           /* Downloading is finished, do additional checks if needed etc before Upgrade End Request. */
-          fclose(ota_rx_file.fp);
-          if(ota_rx_file.written == ota_rx_file.size)
-            WCS_TRACE_INFO("OTA Upgrade Check: file %s OK", ota_rx_file.filename);
+          if (zb_osif_ota_verify_integrity(ota_rx_file.dev, ota_rx_file.written))
+          {
+            if(ota_rx_file.written == ota_rx_file.size)
+            {
+              WCS_TRACE_INFO("OTA Upgrade Check: file %s OK", ota_rx_file.header.header_string);
+              ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_OK;
+            }
+            else
+            {
+              WCS_TRACE_WARNING("OTA Upgrade Check: file %s is incomplete, missing %d bytes", ota_rx_file.header.header_string, ota_rx_file.size - ota_rx_file.written);
+              ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_ERROR;
+            }
+          }
           else
-            WCS_TRACE_WARNING("OTA Upgrade Check: file %s is incomplete, missing %d bytes", ota_rx_file.filename, ota_rx_file.size - ota_rx_file.written);
+          {
+            WCS_TRACE_WARNING("OTA Upgrade Check: Integrity verification failed for %s", ota_rx_file.header.header_string);
+            ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_ERROR;
+          }
 
-          ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_OK;
+          zb_osif_ota_close_storage(ota_rx_file.dev);
+          ota_rx_file.dev = NULL;
           break;
         case ZB_ZCL_OTA_UPGRADE_STATUS_APPLY:
           WCS_TRACE_INFO("OTA Upgrade Apply");
           /* Upgrade End Resp is ok, ZCL checks for manufacturer, image type etc are ok.
              Last step before actual upgrade. */
+          zb_osif_ota_mark_fw_ready(ota_rx_file.dev, ota_rx_file.size, ota_rx_file.header.file_version);
           ota_upgrade_value->upgrade_status = ZB_ZCL_OTA_UPGRADE_STATUS_OK;
           break;
         case ZB_ZCL_OTA_UPGRADE_STATUS_FINISH:
@@ -326,6 +359,7 @@ void test_device_cb(zb_uint8_t param)
           break;
         case ZB_ZCL_OTA_UPGRADE_STATUS_SERVER_NOT_FOUND:
           WCS_TRACE_INFO("OTA Upgrade Server not found");
+          zb_osif_ota_mark_fw_absent();
           break;
         default:
           WCS_TRACE_WARNING("OTA Upgrade unknown device_cb_id %d", ota_upgrade_value->upgrade_status);
@@ -343,6 +377,7 @@ void test_device_cb(zb_uint8_t param)
 }
 
 
+#ifdef ZB_PLATFORM_LINUX
 static zb_bool_t read_test_param(char *config_file)
 {
   zb_bool_t found = ZB_FALSE;
@@ -380,10 +415,12 @@ static zb_bool_t read_test_param(char *config_file)
 
   return found;
 }
+#endif
 
 #ifdef ZB_MAC_CONFIGURABLE_TX_POWER /* Test API zb_set_tx_power */
 static void tx_power_cb(zb_bufid_t param)
 {
+#ifdef ZB_NXP_WCS_TRACE
   zb_tx_power_params_t *power_params = zb_buf_begin(param);
 
   WCS_TRACE_INFO("%s_tx_power() response %s: channel %d, page %d, power 0x%02x (%d dBm)",
@@ -393,6 +430,7 @@ static void tx_power_cb(zb_bufid_t param)
     power_params->page,
     power_params->tx_power&0xFF,
     power_params->tx_power);
+#endif
 
   zb_buf_free(param);
 }
@@ -428,7 +466,9 @@ MAIN()
   /* Global ZBOSS initialization */
   ZB_INIT("ota_client_zed");
 
+#ifdef ZB_PLATFORM_LINUX
   if(ZB_FALSE == read_test_param(OTA_UPGRADE_CONFIG_FILE))
+#endif
   WCS_TRACE_INFO("test default params: manufacturer: %04hX, image_type: %04hX", manufacturer, image_type);
 
   /* Set up defaults for the commissioning */
@@ -438,8 +478,13 @@ MAIN()
 
   /* Set end-device configuration parameters */
   zb_set_ed_timeout(ED_AGING_TIMEOUT_64MIN);
-  zb_set_keepalive_timeout(ZB_MILLISECONDS_TO_BEACON_INTERVAL(3000));
+  zb_set_keepalive_timeout(ZB_MILLISECONDS_TO_BEACON_INTERVAL(1000U / 3U * (64U * 60U) )); /* 64 minutes = 3840 seconds */
   zb_set_rx_on_when_idle(ZB_TRUE);
+
+#ifdef ZB_PLATFORM_ZEPHYR
+  /* Zigbee 3.0 compliant device */
+  zboss_use_r22_behavior();
+#endif
 
   /* Register device ZCL context */
   ZB_AF_REGISTER_DEVICE_CTX(&ota_upgrade_client_ctx);

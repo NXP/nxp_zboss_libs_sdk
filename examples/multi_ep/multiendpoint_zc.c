@@ -136,6 +136,11 @@ MAIN()
   zb_secur_setup_nwk_key((zb_uint8_t *) g_key_nwk, 0);
 /* [zb_secur_setup_preconfigured_key] */
 
+#ifdef ZB_PLATFORM_ZEPHYR
+  /* Zigbee 3.0 compliant device */
+  zboss_use_r22_behavior();
+#endif
+
   /* Register device ZCL context */
   ZB_AF_REGISTER_DEVICE_CTX(&multi_ep_zc_ctx);
 

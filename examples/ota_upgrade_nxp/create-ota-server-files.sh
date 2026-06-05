@@ -19,11 +19,11 @@
 me=$0
 
 # Zboss host (stack 42.20, build 19.2503.001)
-zboss_host_tag=019.2601.028
+zboss_host_tag=019.2602.049
 zboss_stack=zoi_release-4.2.2.0
 
 # Firmware (stack 18.99, build 3p23.0)
-iw612_version=18.99.3p23.0
+iw61x_version=18.99.3p23.0
 
 # Please update the following according to your configuration
 
@@ -36,7 +36,7 @@ zb_apps_files="on_off_output_zc on_off_switch_zed simple_gw"
 
 
 fw_folder=~/iw612-firmware
-fw_files="uartspi_n61x_v1-${iw612_version}.bin uartspi_n61x_v1-${iw612_version}.prod.bin.se"
+fw_files="uartspi_n61x_v1-${iw61x_version}.bin uartspi_n61x_v1-${iw61x_version}.prod.bin.se"
 
 
 function get_zb_version()
@@ -68,7 +68,7 @@ function get_fw_version()
 {
 	local version=$1
 
-	# iw612_version is <stack_rel>.<stack_bld>.<appli_rel>p<appli_bld>.x
+	# iw61x_version is <stack_rel>.<stack_bld>.<appli_rel>p<appli_bld>.x
 	local stack_rel=`echo ${version} | awk -F "." '{print $1}'`
 	local stack_bld=`echo ${version} | awk -F "." '{print $2}'`
 	local appli_rel=`echo ${version} | awk -F "." '{print $3}' | awk -F "p" '{print $1}'`
@@ -167,8 +167,8 @@ function create_ota_file()
 zb_version=$(get_zb_version ${zboss_stack} ${zboss_host_tag})
 echo "zb_version: ${zb_version} (stack: ${zboss_stack}, appli: ${zboss_host_tag})"
 
-fw_version=$(get_fw_version ${iw612_version})
-echo "fw_version: ${fw_version} (iw612: ${iw612_version})"
+fw_version=$(get_fw_version ${iw61x_version})
+echo "fw_version: ${fw_version} (iw612: ${iw61x_version})"
 
 # Create common mux & script
 if [ -f ${zb_folder}/zb_mux ]; then

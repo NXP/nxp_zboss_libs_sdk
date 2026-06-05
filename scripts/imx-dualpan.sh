@@ -312,7 +312,7 @@ else
 fi
 
 echo "me:       ${me} ${me_5sum}"
-echo "version:  release 019.2601.028"
+echo "version:  release 019.2602.049"
 echo "channel:  ${channel}"
 echo "first:    ${first}"
 echo "second:   ${second}"
@@ -473,9 +473,15 @@ function detect_config()
 			i.MX8MM|i.MX8MN|i.MX8MP)
 				spi_dev="/dev/spidev1.0"
 				;;
-			i.MX93|i.MX91)
+			i.MX91)
 				spi_dev="/dev/spidev0.0"
 				;;
+			i.MX93)
+				if [[ ${kernel_maj} -eq 6  && ${kernel_min} -ge 18 ]] || [ ${kernel_maj} -gt 6 ]; then
+					spi_dev="/dev/spidev2.0"
+				else
+					spi_dev="/dev/spidev0.0"
+				fi
 		esac
 		echo "manual spi_dev:            ${spi_dev}"
 	fi
@@ -721,6 +727,11 @@ function reset_device()
 				gpioset ${option} ${iw612_gpio_ind_rst_dev} ${iw612_gpio_ind_rst_lin}=0 &
 				sleep 0.5 # Wait action to be done
 				killall gpioset &> /dev/null
+				if [[ ${kernel_maj} -eq 6  && ${kernel_min} -ge 18 ]] || [ ${kernel_maj} -gt 6 ]; then
+				# Reset Murata I2C IO Expender to reconfigure SPI_ENA
+					echo 0-0020 > /sys/bus/i2c/drivers/pca953x/unbind
+					echo 0-0020 > /sys/bus/i2c/drivers/pca953x/bind
+				fi
 			fi
 			;;
 		none)

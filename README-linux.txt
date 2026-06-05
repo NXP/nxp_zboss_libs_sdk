@@ -19,9 +19,9 @@
 Versioning:
 ===========
 
-Date:    Thu, 12 Feb 2026 07:57:46 +0000
-Version: 019.2601.028
-Sha1:    5f065b8
+Date:    Tue, 12 May 2026 11:52:52 +0000
+Version: 019.2602.049
+Sha1:    2929807
 Zboss:   zoi_release-4.2.2.0
 
 
@@ -68,11 +68,10 @@ output
 ├── README.txt                   => This document
 ├── scripts
 │   └── imx-dualpan.sh           => Script to start ZibBee-OpenThread application(s) on IMX-IW612 manually
-├── services                     => Services to start a ZibBee application on IMX-IW612 automatically
+├── services                     => Services to start a ZibBee application on i.MX-IW61x automatically
 │   ├── etc
 │   │   └── default
-│   │       ├── zb_app
-│   │       └── zb_mux
+│   │       └── zb_mux_app.config
 │   ├── usr
 │   |   └──lib
 │   │      └── systemd
@@ -191,7 +190,7 @@ To start automatically zigbee application, 3 systemd services are provided:
 
 zb_config is composed of 2 files:
 /usr/lib/systemd/system/zb_config.service: defines configuration of the service
-/usr/sbin/zb_config.sh:                script configuring /etc/default/zb_mux
+/usr/sbin/zb_config.sh:                   script creating env file /tmp/zb_environment_vars based on zb_mux_app.config
 
 zb_mux & zb_app is composed of 3 files:
 /etc/default/zb_<mux|app>.env:            defines environment of the service
@@ -213,36 +212,34 @@ ssh root@${IMX_IPADDR} vi /etc/default/zb_app.env
   Comment:   ZB_APP_NAME=simple_gw
   Uncomment: ZB_APP_NAME=<zboss application name>
 => Update correct firmware in /lib/firmware/nxp:
-  sduart_nw61x_v1.bin.se: iw612 WiFi|Combo firmware
-  sduartspi_iw610.bin.se: iw610 WiFi|Combo firmware
-  uartspi_iw610.bin:      iw610 Bt unsecured firmware
-  uartspi_iw610.bin.se:   iw610 Bt secured firmware
-  uartspi_iw610.bin.se:   iw612 Bt firmware
+  sduart_nw61x_v1_zb_dual_pan.bin.se: iw612 WiFi|Combo firmware
+  uartspi_n61x_v1_zb_dual_pan.bin.se: iw612 Bt firmware
+  sduartspi_iw610.bin.se:             iw610 WiFi|Combo firmware
+  uartspi_iw610.bin.se:               iw610 Bt firmware
 
 
 zb_config service:
 ------------------
 
-This service configures /etc/default/zb_mux according to the socid and create
-/var/local/zboss working directory.
-It also loads btnxpuart (load fimware in IW612 if needed) & brings up hci
+This service creates an environment file required by mux and app: /tmp/zb_environment_vars
+It also creates /var/local/zboss working directory.
 
+/tmp/zb_environment_vars will be the configuration file used to run the service, which is based on zb_mux_app.config.
+Using the generated file allows you to perform configuration testing without modifying zb_mux_app.config.
+Please note that /tmp/zb_environment_vars is generated every time the service is started.
+Once the configuration is validated and the user wants to make it persistent, zb_mux_app.config should be updated accordingly.
 
 zb_mux service:
 ---------------
 
 This service requires to have zb_config service started.
-It can be done either by loading wifi driver or bluetooth driver.
 
 Its working directory is /var/local/zboss that contains:
  - zb_mux.log (configured by mux_trace)
  - zb_mux.console (configured by ZB_MUX_OUT, may also contains debug information)
 
-Its setting configure:
- - spi_speed, in Hz
- - mux_trace
- - debug information (console log file,  debug PSI or SPINEL data, if configured)
-
+It will start zb_mux based on config created by config service.
+It can load btnxpuart driver(load fimware in IW61x if needed)
 
 zb_app service:
 ---------------
@@ -254,12 +251,7 @@ Its working directory is /var/local/zboss that contains:
  - <zboss application name>.console (configured by ZB_APP_OUT, may also contains debug information)
  - <zboss application name>.nvram (factory config)
 
-Its setting configure:
- - channel
- - ieee_addr
- - ZB_TRACE level (in $ZB_APP_NAME.log)
- - debug information (console log file,  debug TTY data, if configured)
-
+It will clean working directory, perform factory reset if required and start application.
 
 run & check services:
 --------------------
@@ -319,21 +311,8 @@ tail -f /var/local/zboss/<zboss application name>.<console|log>
 Note:
 -----
 
-The zigbee or openthread is running on the same CPU of IW612 as the bluetooth.
-To improve performance, the bluetooth driver btnxpuart need to be loaded and hci device started.
-
-
-Note:
------
-
-In dual pan context using otbr-agent compiled over uart, its service should updated with
-the following:
-
-  configuration:
-    Requires=zb_mux.service
-    After=zb_mux.service
-  settings:
-    OTBR_AGENT_OPTS="... 'spinel+hdlc+uart://tmp/ttyOpenThread' ..."
+In dual pan context otbr-agent is running over UART (through through /dev/ttyopenthread created by zb_mux) while directly over SPI on standalone.
+otbr-agent service will automatically detect whether config service is running and start otbr-agent with appropriate command line parameters.
 
 
 Run Zigbee application manually:
@@ -453,13 +432,32 @@ On-Off-On-Off-...
 ota_upgrade_nxp usecase (ZC, ZR):
 ---------------------------------
 
+There is a multi client functionality, with three possible set-ups:
+- 2 ZR OTA Clients
+- 2 ZED OTA Clients
+- 1 ZED and 1 ZR OTA Clients
+
+Run ZC with 2 ZR OTA Clients:
 On IMX #1, run: ./imx-dualpan.sh --ch <channel> --zb ota_server_zc [--fw <IW612-firmware>]
 On IMX #2, run: ./imx-dualpan.sh --ch <channel> --zb ota_client_zr [--fw <IW612-firmware>]
+On IMX #3, run: ./imx-dualpan.sh --ch <channel> --zb ota_client_zr [--fw <IW612-firmware>] --ieee 00:00:00:00:01:00:00:01
+
+Run ZC with 2 ZED OTA Clients:
+On IMX #1, run: ./imx-dualpan.sh --ch <channel> --zb ota_server_zc [--fw <IW612-firmware>]
+On IMX #2, run: ./imx-dualpan.sh --ch <channel> --zb ota_client_zed [--fw <IW612-firmware>]
+On IMX #3, run: ./imx-dualpan.sh --ch <channel> --zb ota_client_zed [--fw <IW612-firmware>] --ieee 00:00:00:00:00:00:00:02
+
+Run ZC with 1 ZR and 1 ZED OTA Clients:
+On IMX #1, run: ./imx-dualpan.sh --ch <channel> --zb ota_server_zc [--fw <IW612-firmware>]
+On IMX #2, run: ./imx-dualpan.sh --ch <channel> --zb ota_client_zr [--fw <IW612-firmware>]
+On IMX #3, run: ./imx-dualpan.sh --ch <channel> --zb ota_client_zed [--fw <IW612-firmware>]
+
 Hit <Enter> after resetting the IW612 (in case of firmware download)
 Hit <Enter> to remove the NVRAM file and perform a factory reset (in case of previous run)
 
 Hit <Enter> on IMX #1 to start first ota_server_zc (ZC)
-Hit <Enter> on IMX #2 to start second ota_client_zr (ZR)
+Hit <Enter> on IMX #2 to start second ota_client_zr|zed (ZR|ZED)
+Hit <Enter> on IMX #3 to start second ota_client_zr|zed (ZR|ZED)
 
 
 light_sample usecase (ZC, ZR, ZED):

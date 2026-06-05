@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2024 NXP
+ * Copyright 2024-2026 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -654,6 +654,21 @@ zb_ret_t zb_osif_nvram_write(zb_uint8_t page, zb_uint32_t pos, void *buf, zb_uin
 zb_ret_t zb_osif_nvram_write_memory(zb_uint32_t address, zb_uint32_t len, zb_uint8_t *buf);
 
 /**
+ * @brief Move on NVRAM page
+ * Move some bytes on NVRAM
+ *
+ * @param src_page - NVRAM page
+ * @param src_pos - Start position
+ * @param dst_page - NVRAM page
+ * @param dst_pos - Start position
+ * @param buf - buffer contains data for write
+ * @param len - count bytes for write data
+ *
+ * @return RET_OK if success or code error
+ */
+zb_ret_t zb_osif_nvram_move(zb_uint8_t src_page, zb_uint32_t src_pos, zb_uint8_t dst_page, zb_uint32_t dst_pos, void *buf, zb_uint16_t len );
+
+/**
  * @brief Erase NVRAM directly, by address
  *
  * @param address - NVRAM address
@@ -720,6 +735,17 @@ void zb_osif_nvram_flush(void);
 #define OTA_UPGRADE_TRAILING_DATA                                       \
   (2 /* hash tag Id */ + 4 /* hash length */ + OTA_UPGRADE_HASH_SIZE /* Hash */)
 
+/**
+ * Forward zb_zcl_ota_upgrade_file_header_t declaration
+ */
+typedef struct zb_zcl_ota_upgrade_file_header_s zb_zcl_ota_upgrade_file_header_t;
+
+/**
+   Configure the file header for OTA image
+
+   @param header ota upgrade file header
+ */
+void zb_osif_ota_config_file_header(zb_zcl_ota_upgrade_file_header_t *header);
 
 /**
    Open device to be used for OTA image write or read.

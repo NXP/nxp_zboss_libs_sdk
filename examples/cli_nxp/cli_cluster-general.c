@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 NXP
+ * Copyright 2024-2026 NXP
  *
  * NXP Proprietary.
  * This software is owned or controlled by NXP and may only be used strictly
@@ -1713,7 +1713,7 @@ static zb_ret_t cluster_scenes_srv_device_value_cb(zb_zcl_device_callback_param_
 #ifdef CLI_HAS_CLUSTER_ONOFF_SWITCH
           case ZB_ZCL_CLUSTER_ID_ON_OFF_SWITCH_CONFIG: my_cluster_attr_len = sizeof(g_general_on_off_switch_attr); break;
 #endif
-#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
+#if defined CLI_HAS_CLUSTER_OTA_UPGRADE_SRV || defined CLI_HAS_CLUSTER_OTA_UPGRADE_CLT
           case ZB_ZCL_CLUSTER_ID_OTA_UPGRADE:          my_cluster_attr_len = sizeof(g_general_ota_upgrade_attr);   break;
 #endif
 #ifdef CLI_HAS_CLUSTER_THERMOSTAT
@@ -1825,7 +1825,7 @@ static zb_ret_t cluster_scenes_srv_device_value_cb(zb_zcl_device_callback_param_
 #ifdef CLI_HAS_CLUSTER_ONOFF_SWITCH
           case ZB_ZCL_CLUSTER_ID_ON_OFF_SWITCH_CONFIG: ZB_MEMCPY(this_efs->data, &g_general_on_off_switch_attr, this_efs->len); break;
 #endif
-#ifdef CLI_HAS_CLUSTER_OTA_UPGRADE
+#if defined CLI_HAS_CLUSTER_OTA_UPGRADE_SRV || defined CLI_HAS_CLUSTER_OTA_UPGRADE_CLT
           case ZB_ZCL_CLUSTER_ID_OTA_UPGRADE:          ZB_MEMCPY(this_efs->data, &g_general_ota_upgrade_attr,   this_efs->len); break;
 #endif
 #ifdef CLI_HAS_CLUSTER_THERMOSTAT

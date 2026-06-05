@@ -1,5 +1,5 @@
 
- Copyright 2024-2025 NXP
+ Copyright 2024-2026 NXP
 
  NXP Proprietary.
  This software is owned or controlled by NXP and may only be used strictly
@@ -41,6 +41,7 @@ Summary:
 - SEQUENCE FOR PAN CHANNEL
 - SEQUENCE FOR DISCOVERY & FRAGMENTATION
 - SEQUENCE FOR CHANNEL CHANGE
+- SEQUENCE FOR SLEEPY ZED
 
 
 BASIC EXAMPLE:
@@ -183,7 +184,7 @@ cluster create 10 GB server
 cluster create 10 GOF client
 config ieee_addr 00:00:00:00:00:00:00:01
 config role end_device
-config ed_timeout 8
+config ed_timeout 300000
 config channel 21
 nvram erase_at_start 1
 config start
@@ -1683,4 +1684,23 @@ config channel_change 19
 # ZR send OFF cmd on channel 19
 cluster onoff_cmd off 10 0x0000 5
 sleep 2
+
+
+SEQUENCE FOR SLEEPY ZED:
+========================
+
+# (if applicable)
+
+endpoint create 10 HA MT 0
+cluster create 10 GB server
+cluster create 10 GOF client
+config ieee_addr 00:00:00:00:00:00:00:01
+config role end_device
+config channel 21
+config sleepy
+nvram erase_at_start 1
+config start
+sleep 2
+network join centralized
+sleep 4
 

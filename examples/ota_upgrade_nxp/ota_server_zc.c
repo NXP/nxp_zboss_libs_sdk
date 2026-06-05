@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2024-2025 NXP
+ * Copyright 2024-2026 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -30,7 +30,11 @@
 #include "zboss_api.h"
 
 #include "ota_server.h"
-#include "ota_nxp_definitions.h"
+#include "zcl/zb_zcl_ota_nxp_definitions.h"
+
+#ifdef ZB_CONFIGURABLE_MEM
+#include ZB_VENDOR_MEM_CONFIG
+#endif
 
 /* Use fake time in case the IMX is not synchronized by NTP */
 #define OTA_UPGRADE_TEST_CURRENT_TIME       0x12345678  /* indicates the current time of the OTA server */
@@ -101,6 +105,7 @@ ZB_HA_DECLARE_OTA_UPGRADE_SERVER_EP(ota_upgrade_server_ep, ENDPOINT, ota_upgrade
 /* Declare application's device context for single-endpoint device */
 ZBOSS_DECLARE_DEVICE_CTX_1_EP(ota_upgrade_server_ctx, ota_upgrade_server_ep);
 
+#ifdef ZB_NXP_WCS_TRACE
 static void dump_ota_file(zb_zcl_ota_file_t *ota_file, char *msg)
 {
   if(ota_file->header.manufacturer_code == ZB_MANUFACTURER_CODE_NXP)
@@ -127,24 +132,24 @@ static void dump_ota_file(zb_zcl_ota_file_t *ota_file, char *msg)
         (ota_file->header.file_version>>16)&0x03FF,
         ota_file->size);
     }
-    else if(ota_file->header.image_type  >= IMAGE_TYPE_NXP_IW612_OFFSET && ota_file->header.image_type  <= IMAGE_TYPE_NXP_IW612_MAX_OFFSET)
+    else if(ota_file->header.image_type  >= IMAGE_TYPE_NXP_IW61X_OFFSET && ota_file->header.image_type  <= IMAGE_TYPE_NXP_IW61X_MAX_OFFSET)
     {
       char *type = "unknown";
       char *signature = "unknown";
 
-           if(ota_file->header.image_type < IMAGE_TYPE_NXP_IW612_SD_UART_OFFSET)   type = "WiFi";
-      else if(ota_file->header.image_type < IMAGE_TYPE_NXP_IW612_UART_UART_OFFSET) type = "Wifi&Bt";
-      else if(ota_file->header.image_type < IMAGE_TYPE_NXP_IW612_UART_SPI_OFFSET)  type = "Bt:Uart&15.4:Uart";
-      else if(ota_file->header.image_type < IMAGE_TYPE_NXP_IW612_MAX_OFFSET)       type = "Bt:Uart&15.4:Spi";
+           if(ota_file->header.image_type < IMAGE_TYPE_NXP_IW61X_SD_UART_OFFSET)   type = "WiFi";
+      else if(ota_file->header.image_type < IMAGE_TYPE_NXP_IW61X_UART_UART_OFFSET) type = "Wifi&Bt";
+      else if(ota_file->header.image_type < IMAGE_TYPE_NXP_IW61X_UART_SPI_OFFSET)  type = "Bt:Uart&15.4:Uart";
+      else if(ota_file->header.image_type < IMAGE_TYPE_NXP_IW61X_MAX_OFFSET)       type = "Bt:Uart&15.4:Spi";
 
-      switch(ota_file->header.image_type & IMAGE_TYPE_NXP_IW612_SIGNATURE_MASK)
+      switch(ota_file->header.image_type & IMAGE_TYPE_NXP_IW61X_SIGNATURE_MASK)
       {
-        case IMAGE_TYPE_NXP_IW612_SIGNED_PROD_OFFSET: signature = "prod"; break;
-        case IMAGE_TYPE_NXP_IW612_SIGNED_ENG_OFFSET:  signature = "dev";  break;
-        case IMAGE_TYPE_NXP_IW612_UNSIGNED_OFFSET:    signature = "none"; break;
+        case IMAGE_TYPE_NXP_IW61X_SIGNED_PROD_OFFSET: signature = "prod"; break;
+        case IMAGE_TYPE_NXP_IW61X_SIGNED_ENG_OFFSET:  signature = "dev";  break;
+        case IMAGE_TYPE_NXP_IW61X_UNSIGNED_OFFSET:    signature = "none"; break;
       }
  
-      WCS_TRACE_INFO("%s IW612 %s, signature %s, %s firmware version %x.%x.%xp%x, size %d",
+      WCS_TRACE_INFO("%s dev %s, signature %s, %s firmware version %x.%x.%xp%x, size %d",
         msg,
         type,
         signature,
@@ -155,13 +160,40 @@ static void dump_ota_file(zb_zcl_ota_file_t *ota_file, char *msg)
         (ota_file->header.file_version>>16)&0xFF,
         ota_file->size);
     }
+    else if(ota_file->header.image_type  >= IMAGE_TYPE_NXP_ZBOSS_MCXW71_OFFSET && ota_file->header.image_type  <= IMAGE_TYPE_NXP_ZBOSS_MCXW71_OFFSET + 0xFFF)
+    {
+      WCS_TRACE_INFO("%s NXP MCXW71 image: type %04X, name %s, version %08X, size: %d",
+        msg,
+        ota_file->header.image_type,
+        ota_file->header.header_string,
+        ota_file->header.file_version,
+        ota_file->size);
+    }
+    else if(ota_file->header.image_type  >= IMAGE_TYPE_NXP_ZBOSS_MCXW72_OFFSET && ota_file->header.image_type  <= IMAGE_TYPE_NXP_ZBOSS_MCXW72_OFFSET + 0xFFF)
+    {
+      WCS_TRACE_INFO("%s NXP MCXW72 image: type %04X, name %s, version %08X, size: %d",
+        msg,
+        ota_file->header.image_type,
+        ota_file->header.header_string,
+        ota_file->header.file_version,
+        ota_file->size);
+    }
+    else if(ota_file->header.image_type  >= IMAGE_TYPE_NXP_ZBOSS_RW612_OFFSET  && ota_file->header.image_type  <= IMAGE_TYPE_NXP_ZBOSS_RW612_OFFSET  + 0xFFF)
+    {
+      WCS_TRACE_INFO("%s NXP RW612 image: type %04X, name %s, version %08X, size: %d",
+        msg,
+        ota_file->header.image_type,
+        ota_file->header.header_string,
+        ota_file->header.file_version,
+        ota_file->size);
+    }
     else
     {
-      WCS_TRACE_WARNING("%s NXP Unknown: type %04X, version %08X, name %s, size: %d",
+      WCS_TRACE_WARNING("%s NXP Unknown: type %04X, name %s, version %08X, size: %d",
         msg,
-        ota_file->header.image_type, 
-        ota_file->header.file_version, 
+        ota_file->header.image_type,
         ota_file->header.header_string,
+        ota_file->header.file_version,
         ota_file->size);
     }
   }
@@ -176,6 +208,9 @@ static void dump_ota_file(zb_zcl_ota_file_t *ota_file, char *msg)
       ota_file->size);
   }
 }
+#else
+#define dump_ota_file(ota_file, msg) do {  } while(0)
+#endif
 
 /* Create the image table */
 static int create_ota_file(void)
@@ -357,6 +392,10 @@ zb_ret_t next_data_ind_cb(zb_uint8_t index,
   zb_uint8_t *file_ptr = NULL;
   size_t read;
 
+#ifndef ZB_NXP_WCS_TRACE
+  ZVUNUSED(zcl_hdr);
+#endif
+
   if(index >= ota_nb_files)
   {
     WCS_TRACE_ERROR("next_data_ind_cb(%d, ...) invalid index (max %d)", index, ota_nb_files);
@@ -419,12 +458,16 @@ zb_ret_t next_data_ind_cb(zb_uint8_t index,
   /* Get remaining of data */
   else
   {
+#ifdef ZB_NXP_WCS_TRACE
     static size_t lastlog = 0;
     size_t percentage, step;
+#endif
+
     file_offset    = offset - ota_file->header.header_length;
     size_to_read   = size;
     file_ptr       = ota_file->bufptr;
 
+#ifdef ZB_NXP_WCS_TRACE
     percentage = (file_offset * 100) / ota_file->size;
     if(ota_file->size > 1024*1024) step = 1;
     else if(ota_file->size > 1024) step = 10;
@@ -466,6 +509,7 @@ zb_ret_t next_data_ind_cb(zb_uint8_t index,
 
       lastlog = percentage / step;
     }
+#endif
   }
 
   if(size_to_read > 0)
@@ -495,6 +539,7 @@ zb_ret_t next_data_ind_cb(zb_uint8_t index,
 #ifdef ZB_MAC_CONFIGURABLE_TX_POWER /* Test API zb_set_tx_power */
 static void tx_power_cb(zb_bufid_t param)
 {
+#ifdef ZB_NXP_WCS_TRACE
   zb_tx_power_params_t *power_params = zb_buf_begin(param);
 
   WCS_TRACE_INFO("%s_tx_power() response %s: channel %d, page %d, power 0x%02x (%d dBm)",
@@ -504,6 +549,7 @@ static void tx_power_cb(zb_bufid_t param)
     power_params->page,
     power_params->tx_power&0xFF,
     power_params->tx_power);
+#endif
 
   zb_buf_free(param);
 }
@@ -548,6 +594,11 @@ MAIN()
   zb_set_nvram_erase_at_start(ZB_FALSE);
   zb_nwk_set_max_ed_capacity(MAX_OTA_CLIENTS);
   zb_secur_setup_nwk_key(g_key, 0);
+
+#ifdef ZB_PLATFORM_ZEPHYR
+  /* Zigbee 3.0 compliant device */
+  zboss_use_r22_behavior();
+#endif
 
   /* Register device ZCL context */
   ZB_AF_REGISTER_DEVICE_CTX(&ota_upgrade_server_ctx);

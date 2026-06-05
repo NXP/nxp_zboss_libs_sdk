@@ -122,7 +122,10 @@ static zb_ret_t config_concentrator(int argc, char *argv[]);  static zb_ret_t he
 static zb_ret_t config_channel_change(int argc, char *argv[]);static zb_ret_t help_channel_change(void);
 #endif
 #if defined(ZB_ED_ROLE)
-static zb_ret_t config_ed_timeout(int argc, char *argv[]);    static zb_ret_t help_ed_timeout(void);
+static zb_ret_t config_ed_timeout(int argc, char *argv[]);
+#if defined(CLI_HAS_SLEEPY_END_DEVICE)
+static zb_ret_t config_sleepy(int argc, char *argv[]);        static zb_ret_t help_sleepy(void);
+#endif
 #endif
 #ifdef ZB_MAC_CONFIGURABLE_TX_POWER
 static zb_ret_t config_tx_power(int argc, char *argv[]);      static zb_ret_t help_tx_power(void);
@@ -179,7 +182,10 @@ cli_menu_cmd menu_config[] = {
   { "concentrator", " [time] [radius]", "   ", config_concentrator,  help_concentrator,  "configure device as concentrator, time: the time in seconds between concentrator route discoveries [0x0~0xFFFFFFFF], radius the hop count radius for concentrator route discoveries [0-255]" },
 #endif
 #if defined(ZB_ED_ROLE)
-  { "ed_timeout", " [timeout]", "           ", config_ed_timeout,    help_ed_timeout,    "configure network end device timeout [0-14] according to Requested Timeout enumerated values [10 sec ~ 16384 min]" },
+  { "ed_timeout", " [timeout]", "           ", config_ed_timeout,    help_empty,         "configure network end device timeout [milliseconds]" },
+#if defined(CLI_HAS_SLEEPY_END_DEVICE)
+  { "sleepy", "", "<interval> <turbo>       ", config_sleepy,        help_sleepy,        "configure sleepy end device, optional interval period <ms>, turbo <0-1>" },
+#endif
 #endif
 #ifdef ZB_MAC_CONFIGURABLE_TX_POWER
   { "tx_power", " <power_value>", "         ", config_tx_power,      help_tx_power,      "configure or read tx power: [-20, 22] dBm" },
@@ -348,7 +354,7 @@ zb_cfg_state_e config_get_state(void)
   return config.state;
 }
 
-#ifdef DEBUG
+#if defined(DEBUG) && defined(ZB_NXP_WCS_TRACE)
 static char *stateStr(zb_cfg_state_e state)
 {
   char *str = "???";
@@ -557,7 +563,7 @@ zb_bool_t config_update(zb_uint8_t channel, zb_uint16_t panid, zb_ext_pan_id_t e
   menu_printf("config panid 0x%04x", panid);
   zb_set_pan_id(panid);
 
-  menu_printf("config expanid "TRACE_FORMAT_64, TRACE_ARG_64(ext_panid));
+  menu_printf("config expanid "WCS_TRACE_FORMAT_64, WCS_TRACE_ARG_64(ext_panid));
   zb_set_extended_pan_id(ext_panid);
 
   return config.nwk_distrib;
@@ -949,6 +955,11 @@ static zb_ret_t config_max_children(int argc, char *argv[])
   /* get [nb] */
   TOOLS_GET_ARG(ret, uint8, argv, 0, &new_max_children);
 
+#ifdef ZB_MAX_ED_CAPACITY_DEFAULT
+  if(new_max_children > ZB_MAX_ED_CAPACITY_DEFAULT)
+    return RET_INVALID_PARAMETER_1;
+#endif
+
   config.max_children = new_max_children;
 
   ret = zb_nwk_set_max_ed_capacity(config.max_children);
@@ -1120,46 +1131,98 @@ static zb_ret_t help_concentrator(void)
 static zb_ret_t config_ed_timeout(int argc, char *argv[])
 {
   zb_ret_t ret;
-  zb_uint8_t new_timeout;
-  static const zb_uint32_t ed_timeout_sec[] = {
-      [ED_AGING_TIMEOUT_10SEC]    = 10,      /* 10 seconds */
-      [ED_AGING_TIMEOUT_2MIN]     = 120,     /* 2 minutes */
-      [ED_AGING_TIMEOUT_4MIN]     = 240,     /* 4 minutes */
-      [ED_AGING_TIMEOUT_8MIN]     = 480,     /* 8 minutes */
-      [ED_AGING_TIMEOUT_16MIN]    = 960,     /* 16 minutes */
-      [ED_AGING_TIMEOUT_32MIN]    = 1920,    /* 32 minutes */
-      [ED_AGING_TIMEOUT_64MIN]    = 3840,    /* 64 minutes */
-      [ED_AGING_TIMEOUT_128MIN]   = 7680,    /* 128 minutes */
-      [ED_AGING_TIMEOUT_256MIN]   = 15360,   /* 256 minutes */
-      [ED_AGING_TIMEOUT_512MIN]   = 30720,   /* 512 minutes */
-      [ED_AGING_TIMEOUT_1024MIN]  = 61440,   /* 1024 minutes */
-      [ED_AGING_TIMEOUT_2048MIN]  = 122880,  /* 2048 minutes */
-      [ED_AGING_TIMEOUT_4096MIN]  = 245760,  /* 4096 minutes */
-      [ED_AGING_TIMEOUT_8192MIN]  = 491520,  /* 8192 minutes */
-      [ED_AGING_TIMEOUT_16384MIN] = 983040   /* 16384 minutes */
-  };
+  zb_uint32_t new_timeout;
+  zb_uint32_t new_timeout_seconds;
+  zb_uint8_t new_ed_aging_timeout;
 
   if(argc != 1)
     return RET_INVALID_PARAMETER;
 
   /* get [timeout] */
-  TOOLS_GET_ARG(ret, uint8, argv, 0, &new_timeout);
+  TOOLS_GET_ARG(ret, uint32, argv, 0, &new_timeout);
+  new_timeout_seconds = new_timeout / 1000U;
 
-  if(new_timeout > ED_AGING_TIMEOUT_16384MIN)
-    return RET_INVALID_PARAMETER;
+  if(new_timeout_seconds < 10)            new_ed_aging_timeout = ED_AGING_TIMEOUT_10SEC;
+  else if(new_timeout_seconds < 120)      new_ed_aging_timeout = ED_AGING_TIMEOUT_2MIN;
+  else if(new_timeout_seconds < 240)      new_ed_aging_timeout = ED_AGING_TIMEOUT_4MIN;
+  else if(new_timeout_seconds < 480)      new_ed_aging_timeout = ED_AGING_TIMEOUT_8MIN;
+  else if(new_timeout_seconds < 960)      new_ed_aging_timeout = ED_AGING_TIMEOUT_16MIN;
+  else if(new_timeout_seconds < 1920)     new_ed_aging_timeout = ED_AGING_TIMEOUT_32MIN;
+  else if(new_timeout_seconds < 3840)     new_ed_aging_timeout = ED_AGING_TIMEOUT_64MIN;
+  else if(new_timeout_seconds < 7680)     new_ed_aging_timeout = ED_AGING_TIMEOUT_128MIN;
+  else if(new_timeout_seconds < 15360)    new_ed_aging_timeout = ED_AGING_TIMEOUT_256MIN;
+  else if(new_timeout_seconds < 30720)    new_ed_aging_timeout = ED_AGING_TIMEOUT_512MIN;
+  else if(new_timeout_seconds < 61440)    new_ed_aging_timeout = ED_AGING_TIMEOUT_1024MIN;
+  else if(new_timeout_seconds < 122880)   new_ed_aging_timeout = ED_AGING_TIMEOUT_2048MIN;
+  else if(new_timeout_seconds < 245760)   new_ed_aging_timeout = ED_AGING_TIMEOUT_4096MIN;
+  else if(new_timeout_seconds < 491520)   new_ed_aging_timeout = ED_AGING_TIMEOUT_8192MIN;
+  else if(new_timeout_seconds < 983040)   new_ed_aging_timeout = ED_AGING_TIMEOUT_16384MIN;
+  else return RET_INVALID_PARAMETER_1;
 
   /* Configure ED timeout, and send by default 3 keep alive messages during the ED timeout period */
-  zb_set_ed_timeout(new_timeout);
-  zb_set_keepalive_timeout(ZB_MILLISECONDS_TO_BEACON_INTERVAL(1000U / 3U * ed_timeout_sec[new_timeout]));
+
+
+  /* Configure field 'Request Timeout Enumeration' of radio frame 'End-Device-Timeout-Request':
+   * => tell the parent when to remove this child from its neighbor table (if no activity from this child within this timeout)
+   */
+  zb_set_ed_timeout(new_ed_aging_timeout);
+
+  /* Configure how often 'End Device Timeout Request' is sent */
+  zb_set_keepalive_timeout(ZB_MILLISECONDS_TO_BEACON_INTERVAL(new_timeout));
 
   return RET_OK;
 }
-static zb_ret_t help_ed_timeout(void)
+
+
+#if defined(CLI_HAS_SLEEPY_END_DEVICE)
+/* Static command config
+ * command config sleepy
+ *
+ * config sleepy <interval> <turbo>
+ */
+static zb_ret_t config_sleepy(int argc, char *argv[])
 {
-  menu_printf("pre-start OPTIONAL config with default value 256 min (8) (if not configured)");
+  zb_ret_t ret;
+  zb_uint16_t new_interval = 5000; /* Default value: 5 sec, refer ZB_PIM_DEFAULT_LONG_POLL_INTERVAL */
+  zb_uint8_t new_turbo = ZB_FALSE; /* Default value */
+
+  ZVUNUSED(argv);
+
+  if(argc > 2)
+    return RET_INVALID_PARAMETER;
+
+  if(argc >= 1) {
+    /* get <interval> */
+    TOOLS_GET_ARG(ret, uint16, argv, 0, &new_interval);
+
+    if(argc == 2) {
+      /* get <turbo> */
+      TOOLS_GET_ARG(ret, uint8, argv, 1, &new_turbo);
+    }
+  }
+
+  /* Act as Sleepy End Device */
+  zb_set_rx_on_when_idle(ZB_FALSE);
+
+  /* Configure poll requests interval */
+  if(new_interval != 5000)
+    zb_zdo_pim_set_long_poll_interval(new_interval);
+
+  /* Configure turbo poll requests */
+  if(new_turbo != ZB_FALSE)
+    zb_zdo_pim_permit_turbo_poll(ZB_TRUE);
+
   return RET_OK;
 }
-#endif
+static zb_ret_t help_sleepy(void)
+{
+  menu_printf("pre-start OPTIONAL config sleepy end device");
+  menu_printf("if optional param <interval> is provided, it is reset during join");
+  return RET_OK;
+}
+#endif /* CLI_HAS_SLEEPY_END_DEVICE */
+
+#endif /* ZB_ED_ROLE */
 
 
 #ifdef ZB_MAC_CONFIGURABLE_TX_POWER
@@ -1412,7 +1475,7 @@ static zb_ret_t config_print(int argc, char *argv[])
   menu_printf("Host version:     %s", zb_get_version(HOST_VERSION));
   menu_printf("Stack version:    %s", zb_get_version(STACK_VERSION));
   menu_printf("Firmware version: %s", zb_get_version(FIRMWARE_VERSION));
-  menu_printf("ieee_addr:        "TRACE_FORMAT_64, TRACE_ARG_64(config.ieee_addr));
+  menu_printf("ieee_addr:        "WCS_TRACE_FORMAT_64, WCS_TRACE_ARG_64(config.ieee_addr));
   menu_printf("role:             %s",               config_get_role_str(config.role));
   if(config.channel.type == CHANNEL_TYPE_NUMBER)
     menu_printf("channel num:      %u",             config.channel.val.number);
@@ -1431,13 +1494,13 @@ static zb_ret_t config_print(int argc, char *argv[])
   menu_printf("current channel:  %u",               zb_get_current_channel());
   menu_printf("behavior:         %s",               config_get_behavior_str(config.behavior));
   menu_printf("nwk_distrib:      %u",               config.nwk_distrib);
-  menu_printf("nwk_key 0:        "TRACE_FORMAT_128, TRACE_ARG_128(config.nwk_key[0]));
-  menu_printf("nwk_key 1:        "TRACE_FORMAT_128, TRACE_ARG_128(config.nwk_key[1]));
-  menu_printf("nwk_key 2:        "TRACE_FORMAT_128, TRACE_ARG_128(config.nwk_key[2]));
-  menu_printf("nwk_key 3:        "TRACE_FORMAT_128, TRACE_ARG_128(config.nwk_key[3]));
+  menu_printf("nwk_key 0:        "WCS_TRACE_FORMAT_128, WCS_TRACE_ARG_128(config.nwk_key[0]));
+  menu_printf("nwk_key 1:        "WCS_TRACE_FORMAT_128, WCS_TRACE_ARG_128(config.nwk_key[1]));
+  menu_printf("nwk_key 2:        "WCS_TRACE_FORMAT_128, WCS_TRACE_ARG_128(config.nwk_key[2]));
+  menu_printf("nwk_key 3:        "WCS_TRACE_FORMAT_128, WCS_TRACE_ARG_128(config.nwk_key[3]));
 #if defined(ZB_COORDINATOR_ROLE) || defined(ZB_ROUTER_ROLE)
   menu_printf("panid:            0x%x",               config.panid);
-  menu_printf("extpanid:         "TRACE_FORMAT_64, TRACE_ARG_64(config.extpanid));
+  menu_printf("extpanid:         "WCS_TRACE_FORMAT_64, WCS_TRACE_ARG_64(config.extpanid));
   menu_printf("max_children:     %u",               config.max_children);
   menu_printf("concentrator:     %s", (config.concentrator)?("enabled"):("disabled"));
 #endif
@@ -1490,6 +1553,13 @@ static zb_ret_t config_start(int argc, char *argv[])
 
     config.got_error = RET_OK;
     zb_error_register_app_handler(config_got_error);
+
+#ifdef ZB_PLATFORM_ZEPHYR
+     if(config.behavior == behavior_undef) {
+      /* Zigbee 3.0 compliant device */
+      zboss_use_r22_behavior();
+    }
+#endif
 
     /* Entry point for endpoints & clusters declaration to the stack */
     ZB_AF_REGISTER_DEVICE_CTX(&cli_ctx);
@@ -1983,6 +2053,7 @@ static zb_ret_t help_trace(void)
 }
 #endif
 
+#if defined(ZB_TRACE_TO_FILE)
 /* Static stack callback function
  * response for zb_trace_handler_setup
  */
@@ -1998,7 +2069,7 @@ static zb_ret_t redirect_trace_cb(const zb_trace_handler_info_t *info, const zb_
   //return RET_IGNORE; /* In this case, the message is handled by the stack. */
 }
 
-#if defined(ZB_TRACE_TO_FILE)
+
 /* Static command config
  * command redirect_trace
  *
@@ -2058,7 +2129,6 @@ static zb_ret_t config_dbgtty(int argc, char *argv[])
     sprintf(dumpTtyVal, "%hhu", new_dbgtty);
     setenv("DUMP_TTY", dumpTtyVal, 1);
 #elif defined(ZB_PLATFORM_ZEPHYR)
-extern void zb_macsplit_logs(zb_bool_t enabled);
     zb_macsplit_logs(new_dbgtty > 0);
 #endif
 

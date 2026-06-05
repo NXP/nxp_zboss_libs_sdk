@@ -158,6 +158,11 @@ MAIN()
   zb_zdo_pim_set_long_poll_interval(2000U);
 #endif
 
+#ifdef ZB_PLATFORM_ZEPHYR
+  /* Zigbee 3.0 compliant device */
+  zboss_use_r22_behavior();
+#endif
+
   /** [REGISTER] */
   /* Register device ZCL context */
   ZB_AF_REGISTER_DEVICE_CTX(&on_off_switch_ctx);

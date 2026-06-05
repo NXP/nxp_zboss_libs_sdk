@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2025 NXP
+ * Copyright 2025-2026 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -120,6 +120,8 @@
 #define ZB_ZCL_ENABLE_WWAH_SERVER
 #define ZB_PARENT_CLASSIFICATION
 
+/* OTA support */
+#define ZB_USE_OSIF_OTA_ROUTINES
 
 /* TSN support */
 #define ZBOSS_ZDO_APP_TSN_ENABLE
@@ -160,7 +162,6 @@
 #define ZB_CERTIFICATION_HACKS
 #define ZB_STACK_REGRESSION_TESTING_API
 
-#define ZB_MULTITEST_USE_STDIO
 #define ZB_LIMIT_VISIBILITY
 #define ZB_CONFIGURABLE_RETRIES
 

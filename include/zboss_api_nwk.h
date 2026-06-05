@@ -969,6 +969,11 @@ zb_ret_t zb_nwk_nbr_iterator_next(zb_uint8_t bufid, zb_callback_t cb);
 /**
    Set the number of end device a device is allow to have.
 
+   @param value maximum number of EDs reserved in neighbor table.
+
+   @note if device is ZED/ZR, @p value must be < ZB_NEIGHBOR_TABLE_SIZE
+         if device is ZC, @p value must be <= ZB_NEIGHBOR_TABLE_SIZE
+
    @return RET_OK if successful
  */
 zb_ret_t zb_nwk_set_max_ed_capacity(zb_uint8_t value);

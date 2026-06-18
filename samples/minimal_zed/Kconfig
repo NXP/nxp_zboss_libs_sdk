@@ -17,6 +17,14 @@ config SUPPORT_WIFI
 	int "Support WiFi"
 	default 0
 
+config ZBOSS_LOGS_ON_UART
+	bool "Enable zboss logs"
+	default n
+
+config ZIGBEE_CHANNEL
+	int "Zigbee channel number"
+	default 21
+
 source "Kconfig.zephyr"
 module = ZBOSS_APPLICATION
 module-str = zboss_main

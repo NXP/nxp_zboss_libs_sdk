@@ -1,11 +1,11 @@
-From 97b56f4c240d35212383ac12578e6e80c16e753f Mon Sep 17 00:00:00 2001
+From 5da462290d04d4079a0594f03fd17f65810e739e Mon Sep 17 00:00:00 2001
 From: Guillaume Legoupil <guillaume.legoupil@nxp.com>
-Date: Fri, 31 Oct 2025 08:56:13 +0100
+Date: Wed, 10 Jun 2026 13:36:04 +0200
 Subject: mcux: middleware: ieee_802_15_4: add debug rpmsg trace
 
 
 diff --git a/mcux/middleware/mcux-sdk-middleware-ieee_802.15.4/ieee_802_15_4/mac/source/App/mac_intf_rpmsg.c b/mcux/middleware/mcux-sdk-middleware-ieee_802.15.4/ieee_802_15_4/mac/source/App/mac_intf_rpmsg.c
-index 39e624994..511d6ccae 100644
+index 90309c4e8..edc898d13 100644
 --- a/mcux/middleware/mcux-sdk-middleware-ieee_802.15.4/ieee_802_15_4/mac/source/App/mac_intf_rpmsg.c
 +++ b/mcux/middleware/mcux-sdk-middleware-ieee_802.15.4/ieee_802_15_4/mac/source/App/mac_intf_rpmsg.c
 @@ -76,6 +76,8 @@ extern const uint8_t gUseRtos_c;
@@ -86,7 +86,7 @@ index 39e624994..511d6ccae 100644
      } while (0);
  
      PLATFORM_RemoteActiveRel();
-@@ -570,6 +592,7 @@ resultType_t MAC_Proxy_PLME_SapHandler(macToPlmeMessage_t * pMsg, instanceId_t m
+@@ -572,6 +594,7 @@ resultType_t MAC_Proxy_PLME_SapHandler(macToPlmeMessage_t * pMsg, instanceId_t m
  
      if (!mac_intf_init_done)
      {
@@ -94,7 +94,7 @@ index 39e624994..511d6ccae 100644
          return gInvalidParameter_c;
      }
  
-@@ -595,16 +618,20 @@ resultType_t MAC_Proxy_PLME_SapHandler(macToPlmeMessage_t * pMsg, instanceId_t m
+@@ -597,16 +620,20 @@ resultType_t MAC_Proxy_PLME_SapHandler(macToPlmeMessage_t * pMsg, instanceId_t m
  
          if (HAL_RpmsgSend((hal_rpmsg_handle_t)mac_rpmsg_handle, (uint8_t *)pMsg, sizeof(macToPlmeMessage_t)) != kStatus_HAL_RpmsgSuccess)
          {
@@ -115,7 +115,7 @@ index 39e624994..511d6ccae 100644
          }
      } while (0);
  
-@@ -622,6 +649,7 @@ resultType_t MAC_Plat_Cmd(macPlatMessage_t *pMsg, instanceId_t macInstanceId)
+@@ -624,6 +651,7 @@ resultType_t MAC_Plat_Cmd(macPlatMessage_t *pMsg, instanceId_t macInstanceId)
  
      if (!mac_intf_init_done)
      {
@@ -123,7 +123,7 @@ index 39e624994..511d6ccae 100644
          return gInvalidParameter_c;
      }
  
-@@ -647,9 +675,11 @@ resultType_t MAC_Plat_Cmd(macPlatMessage_t *pMsg, instanceId_t macInstanceId)
+@@ -649,9 +677,11 @@ resultType_t MAC_Plat_Cmd(macPlatMessage_t *pMsg, instanceId_t macInstanceId)
  
          if (HAL_RpmsgSend((hal_rpmsg_handle_t)mac_rpmsg_handle, (uint8_t *)pMsg, sizeof(macPlatMessage_t) + pMsg->data_len) != kStatus_HAL_RpmsgSuccess)
          {
@@ -135,7 +135,7 @@ index 39e624994..511d6ccae 100644
  
          if (pMsg->is_get)
          {
-@@ -666,6 +696,7 @@ resultType_t MAC_Plat_Cmd(macPlatMessage_t *pMsg, instanceId_t macInstanceId)
+@@ -668,6 +698,7 @@ resultType_t MAC_Plat_Cmd(macPlatMessage_t *pMsg, instanceId_t macInstanceId)
                  memcpy((uint8_t *)pMsg + sizeof(macPlatMessage_t), (uint8_t *)plat_get_rsp + sizeof(macPlatMessage_t), pMsg->data_len);
  
                  MSG_Free(plat_get_rsp);
@@ -144,7 +144,7 @@ index 39e624994..511d6ccae 100644
          }
      } while (0);
 diff --git a/mcux/middleware/mcux-sdk-middleware-ieee_802.15.4/ieee_802_15_4/phy/source/SerialDevice/Phy.c b/mcux/middleware/mcux-sdk-middleware-ieee_802.15.4/ieee_802_15_4/phy/source/SerialDevice/Phy.c
-index 5dc084074..8dcd4172b 100644
+index 9815a1132..e12bc1106 100644
 --- a/mcux/middleware/mcux-sdk-middleware-ieee_802.15.4/ieee_802_15_4/phy/source/SerialDevice/Phy.c
 +++ b/mcux/middleware/mcux-sdk-middleware-ieee_802.15.4/ieee_802_15_4/phy/source/SerialDevice/Phy.c
 @@ -74,6 +74,9 @@ static bool_t phy_intf_init_ongoing = FALSE;
@@ -181,7 +181,7 @@ index 5dc084074..8dcd4172b 100644
          return gPhyInvalidParameter_c;
      }
  
-@@ -340,9 +346,11 @@ phyStatus_t MAC_PLME_SapHandler(macToPlmeMessage_t *pMsg, instanceId_t phyInstan
+@@ -338,9 +344,11 @@ phyStatus_t MAC_PLME_SapHandler(macToPlmeMessage_t *pMsg, instanceId_t phyInstan
  
          if (HAL_RpmsgSend((hal_rpmsg_handle_t)phyRpmsgHandle, (uint8_t *)pMsg, sizeof(macToPlmeMessage_t)) != kStatus_HAL_RpmsgSuccess)
          {
@@ -191,17 +191,17 @@ index 5dc084074..8dcd4172b 100644
          }
 +        wcs_trace_rpmsg_phy(true, pMsg->msgType, pMsg, phyInstance, ret);
  
-         if (pMsg->msgType == gPlmeGetReq_c)
+         if (pMsg->msgType == gPlmeGetReq_c || pMsg->msgType == gPlmeGetTxPowerCapabilities)
          {
-@@ -350,6 +358,7 @@ phyStatus_t MAC_PLME_SapHandler(macToPlmeMessage_t *pMsg, instanceId_t phyInstan
+@@ -348,6 +356,7 @@ phyStatus_t MAC_PLME_SapHandler(macToPlmeMessage_t *pMsg, instanceId_t phyInstan
              wait_phy_rsp = FALSE;
  
-             pMsg->msgData.getReq.PibAttributeValue = phy_get_rsp.PibAttributeValue;
+             pMsg->msgData = response.msgData;
 +            wcs_trace_rpmsg_phy(false, pMsg->msgType, pMsg, phyInstance, ret);
          }
      } while(0);
  
-@@ -376,6 +385,7 @@ phyStatus_t MAC_PD_SapHandler(macToPdDataMessage_t *pMsg, instanceId_t phyInstan
+@@ -374,6 +383,7 @@ phyStatus_t MAC_PD_SapHandler(macToPdDataMessage_t *pMsg, instanceId_t phyInstan
  
      if (!phy_intf_init_done)
      {
@@ -209,7 +209,7 @@ index 5dc084074..8dcd4172b 100644
          return gPhyInvalidParameter_c;
      }
  
-@@ -398,9 +408,11 @@ phyStatus_t MAC_PD_SapHandler(macToPdDataMessage_t *pMsg, instanceId_t phyInstan
+@@ -396,9 +406,11 @@ phyStatus_t MAC_PD_SapHandler(macToPdDataMessage_t *pMsg, instanceId_t phyInstan
  
          if (HAL_RpmsgSend((hal_rpmsg_handle_t)phyRpmsgHandle, (uint8_t *)pMsg, len) != kStatus_HAL_RpmsgSuccess)
          {
@@ -221,7 +221,7 @@ index 5dc084074..8dcd4172b 100644
      } while (0);
  
      PLATFORM_RemoteActiveRel();
-@@ -457,6 +469,7 @@ void PHY_ext_cmd(phyMessageHeader_t *msg, instanceId_t phy_instance)
+@@ -455,6 +467,7 @@ void PHY_ext_cmd(phyMessageHeader_t *msg, instanceId_t phy_instance)
  
      if (!phy_intf_init_done || (msg->msgType != gPhyExtCmd))
      {
@@ -229,7 +229,7 @@ index 5dc084074..8dcd4172b 100644
          return;
      }
  
-@@ -476,8 +489,10 @@ void PHY_ext_cmd(phyMessageHeader_t *msg, instanceId_t phy_instance)
+@@ -474,8 +487,10 @@ void PHY_ext_cmd(phyMessageHeader_t *msg, instanceId_t phy_instance)
  
          if (HAL_RpmsgSend((hal_rpmsg_handle_t)phyRpmsgHandle, (uint8_t *)msg, len) != kStatus_HAL_RpmsgSuccess)
          {

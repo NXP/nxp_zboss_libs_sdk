@@ -18,7 +18,7 @@ if(${CONFIG_BOARD} STREQUAL "frdm_mcxw72")
     )
 endif()
 if(${CONFIG_BOARD} STREQUAL "frdm_rw612")
-    set(CHIP_TYPE rw61x)
+    set(CHIP_TYPE rw612)
     add_library(libieee.mac STATIC IMPORTED GLOBAL)
     set_target_properties(libieee.mac PROPERTIES IMPORTED_LOCATION
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../hal/nxp/zephyr/blobs/rw61x/libieee/libieee-802.15.4_MAC_intf.a
@@ -26,7 +26,7 @@ if(${CONFIG_BOARD} STREQUAL "frdm_rw612")
 endif()
 
 # Add zboss library
-if(${DEVICE_TYPE} STREQUAL "zc" OR ${DEVICE_TYPE} STREQUAL "zr")
+if(${DEVICE_TYPE} STREQUAL "zc" OR ${DEVICE_TYPE} STREQUAL "zr" OR ${DEVICE_TYPE} STREQUAL "zczr")
     add_library(libzboss STATIC IMPORTED GLOBAL)
     set_target_properties(libzboss PROPERTIES IMPORTED_LOCATION
         ${CMAKE_CURRENT_SOURCE_DIR}/../../libs/${CHIP_TYPE}/libzboss.a

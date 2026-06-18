@@ -222,6 +222,7 @@ zb_ret_t osif_unlock_mutex(osif_mutex_t *mutex);
 
 void osif_sched_yield();
 
+void zb_osif_advance_timer_after_sleep(zb_time_t slept_bi);
 void zb_osif_update_timer(void);
 
 #define ZB_CHECK_TIMER_IS_ON() 1 /*!< always on in linux */

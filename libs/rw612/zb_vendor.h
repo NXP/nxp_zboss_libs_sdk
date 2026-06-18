@@ -21,11 +21,11 @@
  * with the terms contained in a written agreement between you and
  * DSR.
  */
-/* PURPOSE: ZBOSS stack configuration file for MCXW71 host build
+/* PURPOSE: ZBOSS stack configuration file for RW612 host build
 */
 
-#ifndef ZB_VENDOR_CFG_MCXW71_HOST_H
-#define ZB_VENDOR_CFG_MCXW71_HOST_H 1
+#ifndef ZB_VENDOR_CFG_RW612_HOST_H
+#define ZB_VENDOR_CFG_RW612_HOST_H 1
 
 /* NXP features */
 //#define NXP_DUALPAN_SENSE_PAN_CHANNEL
@@ -34,7 +34,7 @@
 
 /* Memory options */
 #define ZB_CONFIGURABLE_MEM /* MANDATORY */
-#define ZB_VENDOR_MEM_CONFIG "zb_mem_config_mcxw71.h"
+#define ZB_VENDOR_MEM_CONFIG "zb_mem_config_rw612.h"
 #if defined(ZB_CONFIGURABLE_MEM) && defined(ZB_CONFIG_DEFAULT_KERNEL_DEFINITION)
 /* Default memory storage configuration - to be used if user does not include any of zb_mem_config_xxx.h */
 #define ZB_CONFIG_OVERALL_NETWORK_SIZE 64
@@ -75,15 +75,8 @@
 #define ZB_TRACE_LEVEL 0
 #define ZB_TRACE_MASK  0
 #endif
-#define ZB_BINARY_TRACE
 //#define ZB_USE_LOGFILE_ROTATE
-
-/* Test and debug options */
-
-/* SW Crypto options */
-#define ZB_USE_CORTEX_SW_SECURITY
-#define ZB_CORTEX_M 33
 
 #include "zb_cfg_macsplit_nxp.h"
 
-#endif /* ZB_VENDOR_CFG_MCXW71_HOST_H */
+#endif /* ZB_VENDOR_CFG_RW612_HOST_H */

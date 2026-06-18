@@ -19,9 +19,9 @@
 Versioning:
 ===========
 
-Date:    Wed, 22 Apr 2026 14:58:22 +0000
-Version: 019.2602.045
-Sha1:    b4be159
+Date:    Wed, 01 Jul 2026 10:55:09 +0000
+Version: 019.2603.029
+Sha1:    00d403f
 Zboss:   zoi_release-4.2.2.0
 
 
@@ -54,37 +54,13 @@ modules/zboss/
 │   │   └── src
 │   │       └── *.c/*.h
 │   │
-│   ├── cli_nxp_zed                  => Sample of Command Line Interface
-│   │   ├── ...                      => Zephyr Application project
-│   │   ├── doc                      => Zboss Application documentation
-│   │   └── src
-│   │       └── *.c/*.h              => Zboss Application Command Line Interface End Device
-│   │
-│   ├── on_off_switch_zed            => Sample of OnOff cluster
-│   │   ├── ...                      => Zephyr Application project
-│   │   ├── doc                      => Zboss Application documentation
-│   │   └── src
-│   │       └── on_off_switch_zed.c  => Zboss Application OnOff cluster End Device
-│   │
+│   ├── cli_nxp_zed                  => Sample of Command Line Interface End Device
+│   ├── cli_nxp_zczr                 => Sample of Command Line Interface Coordinator / Router
+│   ├── on_off_switch_zed            => Sample of OnOff cluster End Device
+│   ├── on_off_output_zc             => Sample of OnOff cluster Coordinator
 │   ├── minimal_zed                  => Sample of Minimal application
-│   │   ├── ...                      => Zephyr Application project
-│   │   ├── doc                      => Zboss Application documentation
-│   │   └── src
-│   │       └── minimal_zed.c        => Zboss Application Minimal End Device
-│   │
 │   ├── multi_ep_zed                 => Sample of Multiple Endpoints application
-│   │   ├── ...                      => Zephyr Application project
-│   │   ├── doc                      => Zboss Application documentation
-│   │   └── src
-│   │       ├── multiendpoint_zed.c  => Zboss Application Multiple Endpoints End Device
-│   │       └── multiendpoint_zed.h  => Zboss Definition Multiple Endpoints End Device
-│   │
 │   └── ota_client_zed               => Sample of Ota Upgrade cluster
-│       ├── ...                      => Zephyr Application project
-│       ├── doc                      => Zboss Application documentation
-│       └── src
-│           ├── ota_client.h         => Zboss Definition Ota Upgrade cluster End Device
-│           └── ota_client_zed.c     => Zboss Application Ota Upgrade cluster End Device
 ...
 └── zboss-api-user-guide
     └── index.html                   => Zboss Api documentation (html format)
@@ -101,7 +77,6 @@ Overview:
 - Zigbee examples
 	- Configuration
 	- Compilation
-	- MCUBoot
 	- Deployment & execution
 	- Debugging
 	- Low power
@@ -128,16 +103,18 @@ https://docs.zephyrproject.org/4.2.0/boards/nxp/frdm_mcxw71/doc/index.html
 FRDM-MCXW72 — Zephyr Project Documentation:
 https://docs.zephyrproject.org/4.2.0/boards/nxp/frdm_mcxw72/doc/index.html
 
+FRDM-RW612 — Zephyr Project Documentation:
+https://docs.zephyrproject.org/latest/boards/nxp/frdm_rw612/doc/index.html
 
-SPSDK (flash NBU):
+SPSDK (flash MCXW7x NBU):
 https://spsdk.readthedocs.io/en/latest/examples/_knowledge_base/installation_guide.html
 
 
 Install tools:
 ==============
 
-SPSDK (flash NBU):
-------------------
+SPSDK (flash MCXW7x NBU):
+-------------------------
 
 Linux:
     python3 -m venv venvsource venv/bin/activate
@@ -211,14 +188,27 @@ If this version has not been installed:
 Zigbee samples:
 ===============
 
-The modules/zboss/samples folder provides source examples of Zigbee End device.
+The modules/zboss/samples folder provides source examples of Zigbee application.
 
+sample's scope:
+---------------
+                        +--------+--------+--------+
+                        | MCXW71 | MCXW72 | RW612  |
+    +-------------------+--------+--------+--------+
+    | cli_nxp_zczr      |        |        |    y   |
+    | cli_nxp_zed       |    y   |    y   |    y   |
+    | minimal_zed       |    y   |    y   |    y   |
+    | multi_ep_zed      |    y   |    y   |    y   |
+    | on_off_output_zc  |        |        |    y   |
+    | on_off_switch_zed |    y   |    y   |    y   |
+    | ota_client_zed    |    y   |    y   |        |
+    +-------------------+--------+--------+--------+
 
 Configuration:
 --------------
 
-The channel is configured by the API, zb_set_network_ed_role(1l<<channel_number) in the MAIN() function
-
+The channel is configured by the API, zb_set_network_ed_role(1l<<CONFIG_ZIGBEE_CHANNEL) in the MAIN() function
+where CONFIG_ZIGBEE_CHANNEL is defined in the prj.conf of the application
 
 Compilation:
 ------------
@@ -227,6 +217,7 @@ Go to Zephyr, activate it:
     source ~/zephyrproject/.venv/bin/activate
 
 Update hal_nxp blobs (for libieee & nbu firmware):
+    rm -rf modules/hal/nxp/zephyr/blobs
     west blobs fetch hal_nxp
 
 Configure Zephyr SDK to use:
@@ -236,38 +227,13 @@ Configure Zephyr SDK to use:
 Compile sample application:
     west build -b frdm_mcxw71 modules/zboss/samples/<app_name> -d _build/frdm_mcxw71/<app_name> -p
     west build -b frdm_mcxw72 modules/zboss/samples/<app_name> -d _build/frdm_mcxw72/<app_name> -p
-
-
-MCUboot:
---------
-
-Note: MCXW71 allows application image max size limited to 424KB.
-In case your application is bigger, external flash needs to be used, allowing image size upto the slot1_partition size,
-refer to modules/zboss/samples/<app_name>/boards/frdm_<board>.overlay.
-For that, MCUboot needs to use mcuboot_mcxw71_ext_flash.overlay and application needs to use app_mcxw71_ext_flash.overlay.
-Internal flash can be used by recompiled ZBOSS libs without NXP nor ZBOSS traces.
-In that case, MCUboot needs to use mcuboot_mcxw71.overlay and application needs to use app_mcxw71.overlay.
-
-MCU Boot compilation:
-
-MCXW71
-with external flash (default):
-    west build -b frdm_mcxw71 bootloader/mcuboot/boot/zephyr -d _build/frdm_mcxw71/mcuboot -p \
-      -- -DCONFIG_SPI_NOR_FLASH_LAYOUT_PAGE_SIZE=8192 -DDTC_OVERLAY_FILE=../../../../modules/zboss/mcuboot/mcuboot_mcxw71_ext_flash.overlay
-with internal flash:
-    west build -b frdm_mcxw71 bootloader/mcuboot/boot/zephyr -d _build/frdm_mcxw71/mcuboot -p \
-      -- -DCONFIG_SPI_NOR_FLASH_LAYOUT_PAGE_SIZE=8192 -DDTC_OVERLAY_FILE=../../../../modules/zboss/mcuboot/mcuboot_mcxw71.overlay
-
-MCXW72
-with internal flash (default):
-    west build -b frdm_mcxw72 bootloader/mcuboot/boot/zephyr -d _build/frdm_mcxw72/mcuboot -p \
-      -- -DCONFIG_SPI_NOR_FLASH_LAYOUT_PAGE_SIZE=8192 -DDTC_OVERLAY_FILE=../../../../modules/zboss/mcuboot/mcuboot_mcxw72.overlay
+    west build -b frdm_rw612  modules/zboss/samples/<app_name> -d _build/frdm_rw612/<app_name>  -p
 
 
 Deployment & execution:
 -----------------------
 
-Flash NBU:
+Flash MCXW7x NBU:
   To flash the NBU, the board needs to be rebooted in ISP (in-system programming) mode:
     press & hold BOOT_CONFIG (SW3)
     press & release RESET (SW1)
@@ -279,26 +245,36 @@ Flash NBU:
     # device is COM#: device "JLink CDC UART Port"
 
   MCXW71:
-    # Firmware is modules/hal/nxp/zephyr/blobs/mcxw71/mcxw71_nbu_ble_15_4_dyn_mac.sb3
+    # Firmware is modules/hal/nxp/zephyr/blobs/mcxw71/mcxw71_nbu_dyn_reduced.sb3
     blhost -p <device> -- get-property 1
-    blhost -p <device> flash-erase-all 2
-    blhost -p <device> receive-sb-file mcxw71_nbu_ble_15_4_dyn_mac.sb3
+    blhost -p <device> receive-sb-file mcxw71_nbu_dyn_reduced.sb3
 
   MCXW72:
-    # Firmware is modules/hal/nxp/zephyr/blobs/mcxw72/mcxw72_nbu_ble_15_4_dyn_mac.bin
+    # Firmware is modules/hal/nxp/zephyr/blobs/mcxw72/mcxw72_nbu_dyn_reduced.bin
     blhost -p <device> -- get-property 1
     blhost -p <device> flash-erase-all 2
-    blhost -p <device> write-memory 0x48800000 mcxw72_nbu_ble_15_4_dyn_mac.bin
+    blhost -p <device> write-memory 0x48800000 mcxw72_nbu_dyn_reduced.bin
+
+    Note: if the write-memory command with a .bin NBU fails directly (0%), the chip is likely in "Closed NBU" state.
+      This prevents unsigned firmware from being flashed. That means .bin cannot be flashed;
+      the chip requires an sb3 file using the same procedure as the mcxw71.
+      To contain NBU image in SB3 format with custom keys using the MCUXpresso Secure Provisioning Tool, refer to the following link:
+      https://docs.mcuxpresso.nxp.com/secure/latest/06_processor_specific_workflow.html#update-nbu-firmware-using-custom-sb-file
+      CAUTION: On the final step, the software implicitly burns fuses with the keys of the image that was generated, this operation cannot be undone.
+      Make sure the used keys are saved.
+
+
+Flash RW612 NBU:
+  NBU firmware is linked inside the MCU image and is flashed by the MCU during its initialization.
 
 
 Flash & control MCU:
-  Note: if the low power (CONFIG_PM) is enabled on the prj.conf of the application, JLinkExe cannot connect,
-        please enter to ISP Mode to be able to connect
 
-  JLinkExe (enter ISP Mode if CONFIG_PM=y)
+  JLinkExe
     connect
       Device>   specify MCXW716 (for FRDM-MCXW71)
       Device>   specify MCXW727C_M33_0 (for FRDM-MCXW72)
+      Device>   specify RW612 (for FRDM-RW612)
       TIF>      specify S: SWD
       JTAGConf> specify default
       Speed>    specify default
@@ -307,19 +283,11 @@ Flash & control MCU:
     reset
     go
 
-  Note:
-  In case MCUBoot is involved, we do not flash _build/frdm_<board>/<zb_app>/zephyr/zephyr.elf anymore:
-  - MCUBoot is flashed in boot_partition
-  - zb_app_signed is flashed in slot0_partition
-  Partitions' offset are defined by zephyr/boards/nxp/frdm_<board>/frdm_<board>.dts -> flash -> partitions
-
-  MCXW71:
-    loadfile _build/frdm_<board>/mcuboot/zephyr/zephyr.bin         0x00000000
-    loadfile _build/frdm_<board>/<zb_app>/zephyr/zephyr.signed.bin 0x00010000
-
-  MCXW72:
-    loadfile _build/frdm_<board>/mcuboot/zephyr/zephyr.bin         0x00000000
-    loadfile _build/frdm_<board>/<zb_app>/zephyr/zephyr.signed.bin 0x00014000
+  Note concerning MCXW72:
+    In case of:
+      - Closed NBU (.sb3): method of flashing is the same as MCXW71.
+      - Open NBU  (.bin): JLink's erase command erases the NBU, so it needs to be reflashed as well:
+          loadbin modules/hal/nxp/zephyr/blobs/mcxw72/mcxw72_nbu_dyn_reduced.bin 0x48800000
 
 
 Erase Flash:
@@ -327,10 +295,10 @@ Erase Flash:
         blhost -p </dev/ttyACM|COM># flash-erase-all 0
 
 
-Debugging:
-----------
+Debugging MCXW7x:
+-----------------
 
-Exchange between the host and the NBU can be monitored using patch modules/zboss/libs/hal_nxp_debug_libieee.patch:
+Exchange between the host and the MCXW7x-NBU can be monitored using patch modules/zboss/libs/hal_nxp_debug_libieee.patch:
   cd hal/nxp
   patch -p1 < ../../../../zboss/libs/hal_nxp_debug_libieee.patch
 => the recompile the application.
@@ -357,10 +325,7 @@ Zboss Logs:
 -----------
 
 The Zboss stack provides logs in binary format on second uart, it is disabled by default.
-To enable it, in modules/zboss/platform/osif/zb_osif_serial.c, change 
-  #undef SEND_ZBOSS_LOGS_ON_UART 
-by 
-  #define SEND_ZBOSS_LOGS_ON_UART
+Zboss logs are enabled by setting the value of CONFIG_ZBOSS_LOGS_ON_UART in prj.conf
 
 CAUTON: The Zboss logs slow down the execution of the stack (need to wait for the data to be sent over the uart).
         It impacts performance of the stack.
@@ -402,10 +367,10 @@ Run Zigbee application:
 cli_nxp usecase (ZC/ZR, ZED):
 -----------------------------
 
-Start a Zigbee Coordinator and open the network
-Start MCXW7x board
+Start RW612 board running cli_nxp_zczr or start a Zigbee Coordinator and open the network
+Start NXP board running cli_nxp_zed or start a Zigbee End Device and join the network
 
-Each MCXW7x prompts "zbcli>"
+Each NXP board prompts "zbcli>"
 
 Refer to docs/readme-example-cli_nxp.txt
 
@@ -417,7 +382,7 @@ minimal usecase (ZED):
 ----------------------
 
 Start a Zigbee Coordinator and open the network
-Start MCXW7x board
+Start NXP board
 
 Minimal application just associate
 
@@ -426,39 +391,54 @@ multiple endpoints usecase (ZED):
 ---------------------------------
 
 Start a Zigbee Coordinator and open the network
-Start MCXW7x board
+Start NXP board
 
 Multiple endpoints application associate and provide a layout
 with multiple endpoints and include some manufacturer specific
 attributes
 
 
-onoff_server usecase (ZED):
----------------------------
+onoff_server usecase (ZC/ZED):
+------------------------------
 
-Start a Zigbee Coordinator and open the network
-Start MCXW7x board
+Start RW612 board running on_off_output_zc or start a Zigbee Coordinator and open the network
+Start NXP board running on_off_switch_zed or start a Zigbee End Device and join the network
 
 Once Switch (ZED) is discovered, Output (ZC) starts periodical 
 On-Off-On-Off-...
 
 
+Note: to make this application quiet (no activity, just Data Request & End Device Timeout Request):
+update at the beginning of modules/zboss/samples/on_off_switch_zed/src/on_off_switch_zed.c:
+- SEND_TOOGLE_PERIOD -1:     don't send ON/OFF toogle
+- LONG_POLL_INTERVAL 60000U: send Data Request every 60000ms (1 min)
+- KEEP_ALIVE_TIMEOUT 180000: send End Device Timeout Request every 180000ms (3 min)
+
+
 ota_upgrade_nxp usecase (ZED):
 ------------------------------
 
-Flash MCUBoot zephyr.elf and signed ota_client_zed on MCXW7x board
-
 Start a Zigbee Coordinator or Router with OTA Server cluster
-Start MCXW7x board
+Start NXP board
 
 Once OTA client (ZED) has joined NWK, it sends Query Next Image Request to OTA server (ZC) and the OTA upgrade is started.
 When completed, the ZED switches to the new image on the next auto-reboot of the board.
 
-Supports two image formats:
-- MCUboot signed images: For updating the application core (MCU) via MCUboot
-- SB3.1 secure containers: For updating the radio core (NBU) via NXP ROM bootloader
+Supports SB3.1 secure containers: For updating the radio core (NBU) or the application core (MCU) via NXP ROM bootloader.
+This means that any image sent over the air needs to be signed in sb3 format with matching keys.
 
-Note: On MCXW71, external flash overlay is used, refer to MCUBoot compilation note.
+To sign your application core or radio core with the appropriate keys, please use NXP's MCUXpresso Secure Provisioning Tool, "build image" button (https://nxp.com/sec).
+MCXW716C profile: Plain signed image running on on-chip flash FRDM_MCXW71 keys
+MCXW727C profile: Plain signed image running on on-chip flash
+
+- App core (MCU):
+  If *.elf is used, start address is automatically detected.
+
+- Radio core (NBU):
+  MCXW71 start address: 0x48800000
+  MCXW72 start address: 0x48800000
+
+Note: MCXW71 allows a signed application image max size limited to 488KB, so an external flash overlay is used.
 
 Note: On ZC side, the OTA Server shall have the following manufacturer - image_type:
 - 1037 - 240E: ota_client_zed signed.bin for MCXW71
@@ -498,4 +478,80 @@ If one is registered, then there is 2 possiblities:
 -return TRUE: It means that stack will not do anything and it's up to the app to handle command.
 
 CAUTION: In case TRUE is returned, any allocated buffer used to process and to handle commands must be freed after used, if not, it leads to buf memory leak.
+
+
+Production config:
+------------------
+
+Production config is splitted in 3 sections that is read by Zboss stack unsing nvmem APIs,
+refer to structure hw_param in modules/zboss/platform/osif/zb_osif_prod_cfg.c
+
+The 3 sections are ieee802154_eui64, zb_settings & zb_secured:
+
+    +-----------+------------------------------------------------+
+    | Size      | Description                                    |
+    +-----------+------------------------------------------------+
+    | ieee802154_eui64:                                          |
+    |   8 bytes | IEEE 802.15.4 MAC Address                      |
+    +-----------+------------------------------------------------+
+    | zb_settings:                                               |
+    |   8 bytes | header (crc: 32bits, len: 16bits, ver: 16bits) |
+    |  40 bytes | Channel masks (10 x 4-byte masks)              |
+    | 270 bytes | TX power values (one per channel)              |
+    |   1 byte  | Options byte                                   |
+    |  18 bytes | Install code                                   |
+    +-----------+------------------------------------------------+
+    | zb_secured:                                                |
+    |  18 bytes | Install code                                   |
+    |   4 bytes | Passcode                                       |
+    +-----------+------------------------------------------------+
+
+All these parameters are used by the stack in a structure zb_production_config_ver_4_t
+(refer to modules/zboss/include/zboss_api.h), where hdr.crc is calculated on the rest
+of the data structure.
+
+
+Storage location:
+
+    +-----------+-----------------------+-----------------------+-----------------------+
+    | Target    | ieee802154_eui64 addr | zb_settings addr      | zb_secured addr       |
+    +-----------+-----------------------+-----------------------+-----------------------+
+    | MCXW71    | IFR0: 0x2002000       | IFR0: 0x2002010       | IFR0: 0x2002200       |
+    | MCXW72    | IFR0: 0x2002000       | IFR0: 0x2002010       | IFR0: 0x2002200       |
+    +-----------+-----------------------+-----------------------+-----------------------+
+
+Example config:
+
+    IEEE Address:   11 22 33 44 55 66 77 88
+    Channel Mask:   00 00 08 00
+    TX Power:       7 dBm (all 270 values)
+    Options:        0x00
+    Install Code:   0000000000000000... (18 bytes)
+    Passcode:       00 00 00 00
+    Header.Version: 0x0004
+    Header.Length:  349 bytes (0x015D)
+    Header.CRC:     0xAC705E91 calculated on 345 bytes
+
+
+Example commands for MCXW72:
+
+    # Pre-config: Erase IFR0 sector
+    blhost -p /dev/ttyACMx -- flash-erase-region 0x2002000 8192
+
+    # Step 1: Write ieee802154_eui64 at 0x2002000
+    blhost -p /dev/ttyACMx -- write-memory 0x2002000 "{{11 22 33 44 55 66 77 88 00 00 00 00 00 00 00 00}}"
+
+    # Step 2: Write zb_settings at 0x2002010
+    blhost -p /dev/ttyACMx -- write-memory 0x2002010 "{{91 5E 70 AC 5D 01 04 00 00 00 08 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}}"
+
+    # Step 3: Write zb_secured at 0x2002200
+    blhost -p /dev/ttyACMx -- write-memory 0x2002200 "{{00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}}"
+
+    # Post config: Reset device
+    blhost -p /dev/ttyACMx -- reset
+
+On next restart, you should have: "signal 23: ZDO PRODUCTION_CONFIG_READY, status 0" in your app:
+- read production config is ok
+- production config header has a valid version, len and CRC
+
 

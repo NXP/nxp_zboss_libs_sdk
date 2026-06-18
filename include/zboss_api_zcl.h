@@ -450,6 +450,10 @@ typedef enum zb_zcl_device_callback_id_e
   /** Inform user about attribute value modification */
   ZB_ZCL_SET_ATTR_VALUE_CB_ID = 0,
 /** @cond DOXYGEN_INTERNAL_DOC */
+  /** Inform user about received attribute value */
+  ZB_ZCL_READ_ATTR_RESP_CB_ID,
+  /** Inform user about sent attribute value */
+  ZB_ZCL_WRITE_ATTR_RESP_CB_ID,
   /** Inform user about received attribute report */
   ZB_ZCL_REPORT_ATTR_CB_ID,
   /** Inform user that report was not received during defined time interval */

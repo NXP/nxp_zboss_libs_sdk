@@ -19,3 +19,4 @@ tests:
     platform_allow:
       - frdm_mcxw71
       - frdm_mcxw72
+      - frdm_rw612

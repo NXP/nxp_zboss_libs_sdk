@@ -49,7 +49,10 @@
 
 #define OTA_UPGRADE_DATA_SIZE 64 /* Max value accepted by the stack, refer to ZB_ZCL_OTA_UPGRADE_QUERY_IMAGE_BLOCK_DATA_SIZE_MAX */
 
-
+/* default ZIGBEE channel */
+#ifndef CONFIG_ZIGBEE_CHANNEL
+#define CONFIG_ZIGBEE_CHANNEL 21
+#endif
 
 /* Used endpoint */
 #define ENDPOINT  10
@@ -473,7 +476,7 @@ MAIN()
 
   /* Set up defaults for the commissioning */
   zb_set_long_address(g_zed_addr);
-  zb_set_network_ed_role(1l<<21);
+  zb_set_network_ed_role(1l<<CONFIG_ZIGBEE_CHANNEL);
   zb_set_nvram_erase_at_start(ZB_FALSE);
 
   /* Set end-device configuration parameters */

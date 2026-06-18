@@ -1,0 +1,78 @@
+/*
+ * Copyright 2026 NXP
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/ {
+	aliases {
+		log-uart = &flexcomm0;
+	};
+};
+
+/ {
+	chosen {
+		zephyr,code-partition = &slot0_partition;
+	};
+};
+
+&flexcomm0 {
+	compatible = "nxp,lpc-usart";
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-0 = <&pinmux_flexcomm0_usart>;
+	pinctrl-names = "default";
+};
+
+/* Delete all existing partitions */
+/delete-node/ &boot_partition;
+/delete-node/ &slot0_partition;
+/delete-node/ &slot1_partition;
+/delete-node/ &storage_partition;
+
+&flexspi {
+
+	/* Winbond external flash */
+	ext_flash_ctrl: flash-controller@0 {
+
+		w25q512jvfiq: flash@0 {
+
+			/delete-node/ partitions;
+
+			partitions {
+				compatible = "fixed-partitions";
+				#address-cells = <1>;
+				#size-cells = <1>;
+
+				slot0_partition: partition@0 {
+					label = "image-0";
+					reg = <0x00000000 DT_SIZE_M(3)>;
+				};
+
+				/*
+				* slot1 is a bit larger than slot0 to account
+				* for the overhead introduced by SB3.1 format.
+				*/
+				slot1_partition: partition@300000 {
+					label = "image-1";
+					reg = <0x00300000 DT_SIZE_K(3200)>;
+				};
+	
+				storage_partition: partition@620000 {
+					label = "storage";
+					reg = <0x00620000 (DT_SIZE_M(58) - DT_SIZE_K(128) - DT_SIZE_K(32) - DT_SIZE_K(8))>;
+				};
+	
+				zb_nvram: partition@3ff6000 {
+					label = "zb-nvram";
+					reg = <0x03FF6000 DT_SIZE_K(32)>;
+				};
+	
+				hw_params_partition: partition@3ffe000 {
+					label = "hw-parameters";
+					reg = <0x003ffe000 DT_SIZE_K(8)>;
+				};
+			};
+		};
+	};
+};

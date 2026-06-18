@@ -42,6 +42,20 @@
 #error define ZB_ED_ROLE to compile ze tests
 #endif
 
+#define SEND_TOOGLE_PERIOD 7 /* 7 seconds by default */
+//#define SEND_TOOGLE_PERIOD -1 /* don't send toogle */
+
+#define LONG_POLL_INTERVAL 2000U /* 2 seconds by default */
+//#define LONG_POLL_INTERVAL 60000U  /* test 60 seconds */
+
+#define KEEP_ALIVE_TIMEOUT 3000 /* 3 seconds by default */
+//#define KEEP_ALIVE_TIMEOUT 180000 /* test 180 seconds */
+
+// default ZIGBEE channel
+#ifndef CONFIG_ZIGBEE_CHANNEL
+#define CONFIG_ZIGBEE_CHANNEL 21
+#endif
+
 /**
  * Global variables definitions
  */
@@ -65,7 +79,9 @@ zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
 void on_off_read_attr_resp_handler(zb_bufid_t cmd_buf);
 void test_restart_join_nwk(zb_uint8_t param);
 
+#if SEND_TOOGLE_PERIOD != -1
 void send_toggle_req(zb_uint8_t param);
+#endif
 void button_press_handler(zb_uint8_t param);
 
 /** [COMMON_DECLARATION] */
@@ -137,7 +153,7 @@ MAIN()
   /* Set up defaults for the commissioning */
   zb_set_long_address(g_ed_addr);
 #ifndef ZB_APP_ENABLE_SUBGHZ_MODE
-     zb_set_network_ed_role(1l<<21);
+     zb_set_network_ed_role(1l<<CONFIG_ZIGBEE_CHANNEL);
 #else
   {
     zb_channel_list_t channel_list;
@@ -150,12 +166,12 @@ MAIN()
 
   /* Set end-device configuration parameters */
   zb_set_ed_timeout(ED_AGING_TIMEOUT_64MIN);
-  zb_set_keepalive_timeout(ZB_MILLISECONDS_TO_BEACON_INTERVAL(3000));
+  zb_set_keepalive_timeout(ZB_MILLISECONDS_TO_BEACON_INTERVAL(KEEP_ALIVE_TIMEOUT));
   zb_set_rx_on_when_idle(ZB_FALSE);
 
 #ifdef TEST_WITHOUT_TURBO_POLL
   zb_zdo_pim_permit_turbo_poll(ZB_FALSE);
-  zb_zdo_pim_set_long_poll_interval(2000U);
+  zb_zdo_pim_set_long_poll_interval(LONG_POLL_INTERVAL);
 #endif
 
 #ifdef ZB_PLATFORM_ZEPHYR
@@ -239,6 +255,7 @@ zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
 }
 
 
+#if SEND_TOOGLE_PERIOD != -1
 void send_toggle_req(zb_uint8_t param)
 {
   zb_uint16_t addr = 0;
@@ -265,6 +282,7 @@ void send_toggle_req(zb_uint8_t param)
     zb_buf_free(param);
   }
 }
+#endif
 
 /* [system_server_discovery_cb] */
 static void system_server_discovery_req_cb(zb_uint8_t param)
@@ -282,6 +300,11 @@ static void system_server_discovery_req_cb(zb_uint8_t param)
               (FMT__D_D, resp->status, resp->server_mask));
   }
   zb_buf_free(param);
+
+#if LONG_POLL_INTERVAL != 2000U
+  zb_zdo_pim_permit_turbo_poll(ZB_FALSE);
+  zb_zdo_pim_set_long_poll_interval(LONG_POLL_INTERVAL);
+#endif
 }
 /* [system_server_discovery_cb] */
 
@@ -485,6 +508,7 @@ static void send_node_desc_req(zb_bufid_t buf)
 }
 /* [send_node_desc_req] */
 
+#if SEND_TOOGLE_PERIOD != -1
 void send_toggle_req_and_schedule_alarm(zb_uint8_t param)
 {
   if (!param)
@@ -498,10 +522,11 @@ void send_toggle_req_and_schedule_alarm(zb_uint8_t param)
     if (work_via_alarm)
     {
       /* Do not have buttons in simulator - just start periodic on/off sending */
-      ZB_SCHEDULE_APP_ALARM(send_toggle_req_and_schedule_alarm, 0, 7 * ZB_TIME_ONE_SECOND);
+      ZB_SCHEDULE_APP_ALARM(send_toggle_req_and_schedule_alarm, 0, SEND_TOOGLE_PERIOD * ZB_TIME_ONE_SECOND);
     }
   }
 }
+#endif
 
 void button_press_handler(zb_uint8_t param)
 {
@@ -514,7 +539,9 @@ void button_press_handler(zb_uint8_t param)
   {
     TRACE_MSG(TRACE_APP1, "button_press_handler %hd", (FMT__H, param));
     work_via_alarm = ZB_FALSE;
+#if SEND_TOOGLE_PERIOD != -1
     send_toggle_req(param);
+#endif
   }
 }
 
@@ -646,8 +673,14 @@ void zboss_signal_handler(zb_uint8_t param)
         TRACE_MSG(TRACE_APP1, "Device RESTARTED OK", (FMT__0));
         /* Start periodic on/off sending */
         cmd_in_progress = ZB_FALSE;
+#if SEND_TOOGLE_PERIOD != -1
         ZB_SCHEDULE_APP_ALARM_CANCEL(send_toggle_req_and_schedule_alarm, ZB_ALARM_ANY_PARAM);
-        ZB_SCHEDULE_APP_ALARM(send_toggle_req_and_schedule_alarm, 0, 7 * ZB_TIME_ONE_SECOND);
+        ZB_SCHEDULE_APP_ALARM(send_toggle_req_and_schedule_alarm, 0, SEND_TOOGLE_PERIOD * ZB_TIME_ONE_SECOND);
+#endif
+#if LONG_POLL_INTERVAL != 2000U
+        zb_zdo_pim_permit_turbo_poll(ZB_FALSE);
+        zb_zdo_pim_set_long_poll_interval(LONG_POLL_INTERVAL);
+#endif
         break;
 /* [signal_reboot] */
 /* [zb_bdb_finding_binding_initiator] */
@@ -672,8 +705,10 @@ void zboss_signal_handler(zb_uint8_t param)
                                                                 * requests usage */
         /* Start periodic on/off sending */
         cmd_in_progress = ZB_FALSE;
+#if SEND_TOOGLE_PERIOD != -1
         ZB_SCHEDULE_APP_ALARM_CANCEL(send_toggle_req_and_schedule_alarm, ZB_ALARM_ANY_PARAM);
-        ZB_SCHEDULE_APP_ALARM(send_toggle_req_and_schedule_alarm, 0, 7 * ZB_TIME_ONE_SECOND);
+        ZB_SCHEDULE_APP_ALARM(send_toggle_req_and_schedule_alarm, 0, SEND_TOOGLE_PERIOD * ZB_TIME_ONE_SECOND);
+#endif
       }
       break;
 
@@ -701,6 +736,10 @@ void zboss_signal_handler(zb_uint8_t param)
 
       case ZB_BDB_SIGNAL_TC_REJOIN_DONE:
         TRACE_MSG(TRACE_APP1, "TC rejoin is completed successfully", (FMT__0));
+#if LONG_POLL_INTERVAL != 2000U
+        zb_zdo_pim_permit_turbo_poll(ZB_FALSE);
+        zb_zdo_pim_set_long_poll_interval(LONG_POLL_INTERVAL);
+#endif
         break; /* ZB_BDB_SIGNAL_TC_REJOIN_DONE */
 
       default:

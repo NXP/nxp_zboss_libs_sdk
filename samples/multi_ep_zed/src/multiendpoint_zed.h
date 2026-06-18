@@ -30,8 +30,13 @@
 /* Bulb IEEE address */
 #define MULTI_EP_ZED_IEEE_ADDRESS {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 
+// default ZIGBEE channel
+#ifndef CONFIG_ZIGBEE_CHANNEL
+#define CONFIG_ZIGBEE_CHANNEL 21
+#endif
+
 /* Default channel */
-#define MULTI_EP_ZED_DEFAULT_APS_CHANNEL_MASK (1l<<21)
+#define MULTI_EP_ZED_DEFAULT_APS_CHANNEL_MASK (1l<<CONFIG_ZIGBEE_CHANNEL)
 /* Used endpoint number */
 #define HA_DIMMABLE_LIGHT_ENDPOINT 10
 

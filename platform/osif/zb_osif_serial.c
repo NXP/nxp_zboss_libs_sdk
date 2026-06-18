@@ -29,18 +29,16 @@
 
 #include <zephyr/drivers/uart.h>
 
+// backward compatibility if CONFIG_ZBOSS_LOGS_ON_UART is not in prj.conf
+#ifdef CONFIG_ZBOSS_LOGS_ON_UART
+#define SEND_ZBOSS_LOGS_ON_UART
+#else
 #undef SEND_ZBOSS_LOGS_ON_UART
+#endif
 
 #ifdef SEND_ZBOSS_LOGS_ON_UART
-const struct device *uart_rtos_dev = DEVICE_DT_GET(DT_NODELABEL(lpuart0));
-
-struct uart_config uart_rtos_cfg = {
-  .baudrate = 115200,
-  .parity = UART_CFG_PARITY_NONE,
-  .stop_bits = UART_CFG_STOP_BITS_1,
-  .data_bits = UART_CFG_DATA_BITS_8,
-  .flow_ctrl = UART_CFG_FLOW_CTRL_NONE,
-};
+#define LOG_UART_NODE DT_ALIAS(log_uart)
+static const struct device *uart_rtos_dev = DEVICE_DT_GET(LOG_UART_NODE);
 #endif /* SEND_ZBOSS_LOGS_ON_UART */
 
 void zb_osif_serial_init(void)
@@ -48,11 +46,6 @@ void zb_osif_serial_init(void)
 #ifdef SEND_ZBOSS_LOGS_ON_UART
   if (!device_is_ready(uart_rtos_dev)) {
     WCS_TRACE_ERROR("%s() uart not ready", __FUNCTION__);
-    return;
-  }
-
-  if (uart_configure(uart_rtos_dev, &uart_rtos_cfg) != 0) {
-    WCS_TRACE_ERROR("%s() uart config failed", __FUNCTION__);
     return;
   }
 #endif /* SEND_ZBOSS_LOGS_ON_UART */

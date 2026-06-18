@@ -3,17 +3,35 @@
                   +---------------------------------+
 
 
+2026-Q3:
+--------
+
+Zboss host: 019.2603.029
+Zboss libs: 4.2.2.0
+
+- Zephyr mcxw72 RFP
+- Zephyr rw612 EAR
+- Zephyr mcxw71 is no longer supported
+- Add BSP 6.18.20 support (toolchain)
+- Misc Zephyr Improvements
+- Zephyr Production Config read by nvmem (stored in IFR0 for mcxw7x)
+- Zephyr Use NXP bootROM only for OTA
+- Zephyr add cli_nxp & onoff_server Coordinator for rw612
+- zboss libs: fix discover attribute response
+- Update cli_nxp:
+  - Update config ed_timeout (timeout in milliseconds)
+
+
 2026-Q2:
 --------
 
-Zboss host: v019.2602.045
+Zboss host: v019.2602.049
 Zboss libs: 4.2.2.0
 
-- Zephyr mcxw71 & mcxw72 RFP-RC1
 - set r22 behavior for Zigbee 3.0 compliant device
 - cli_nxp allow attr_disc|read|write for manufacturer code
 - zboss libs: allow manufacturer attributes in range 0x8xxx
-- OTA support for MCU & NBU
+- Zephyr OTA support for MCU & NBU
 - NVRAM uses NVS instead of LittleFs
 - Add production_config on flash hw_params_partition
 - Zephyr mcxw71 PRC

@@ -49,9 +49,8 @@
 #include <zephyr/storage/flash_map.h>
 #include <zephyr/kvss/nvs.h>
 
-#define ZB_NVRAM_ID       FIXED_PARTITION_ID(zb_nvram)
-#define ZB_NVRAM_DEV      FIXED_PARTITION_DEVICE(zb_nvram)
-#define ZB_NVRAM_OFF      FIXED_PARTITION_OFFSET(zb_nvram)
+#define ZB_NVRAM_DEV      PARTITION_DEVICE(zb_nvram)
+#define ZB_NVRAM_OFF      PARTITION_OFFSET(zb_nvram)
 
 
 /*! \addtogroup ZB_OSIF */
@@ -86,9 +85,9 @@ typedef ZB_PACKED_PRE struct zb_nvram_dataset_info_s {
   zb_uint8_t  reserved;
 } ZB_PACKED_STRUCT zb_nvram_dataset_info_t;
 
-/* Last 2 indexes will store ZB_NVRAM_DATA_SET_TYPE_PAGE_HDR of each page */
+/* Last 'ZB_NVRAM_PAGE_COUNT' indexes will store ZB_NVRAM_DATA_SET_TYPE_PAGE_HDR of each page */
 /* index is used for nvsId, datasetInfo is stored in MAX_DATASETS nvsId */
-#define MAX_DATASETS              ZB_NVRAM_DATASET_NUMBER+2
+#define MAX_DATASETS              ZB_NVRAM_DATASET_NUMBER+ZB_NVRAM_PAGE_COUNT
 zb_nvram_dataset_info_t datasetInfo[MAX_DATASETS] = {0};
 
 
@@ -102,7 +101,6 @@ static zephyr_flash_t gc_flash_nvram = {
     .flash_device = ZB_NVRAM_DEV,
     .offset       = ZB_NVRAM_OFF,
   },
-  .id    = ZB_NVRAM_ID
 };
 
 static zb_bool_t nvram_inited = ZB_FALSE;
@@ -164,6 +162,10 @@ void zb_osif_nvram_init(const zb_char_t *name)
     .file_id                = ZB_TRACE_FILE_ID,
     .caller_additional_info = NULL,
   };
+  zb_uint8_t  curPage = 0;
+  zb_uint32_t curPos = 0;
+  zb_uint16_t nvsId   = 0;
+  zb_nvram_dataset_hdr_t datasetHeader;
 
   ZVUNUSED(name);
 
@@ -176,58 +178,66 @@ void zb_osif_nvram_init(const zb_char_t *name)
     zb_error_raise(ZB_ERROR_SEVERITY_FATAL, RET_NO_RESOURCES, &add_info);
   }
 
-  /* Read table mapping beween position & nvs_id */
-  ret = nvs_read(&gc_flash_nvram.fs, MAX_DATASETS, datasetInfo, sizeof(datasetInfo));
-  if(ret != sizeof(datasetInfo)) {
-    zb_uint8_t p;
+  localNvsSize += LOCAL_BUF_ALLOC_SIZE;
+  localNvsBuf = ZB_MALLOC(localNvsSize);
 
+  /* Rebuild table mapping between position & nvs_id */
+  for(nvsId = ZB_NVRAM_DATASET_NUMBER; nvsId < MAX_DATASETS; nvsId++) {
+    ret = nvs_read(&gc_flash_nvram.fs, nvsId, &datasetHeader, sizeof(datasetHeader));
+    if(ret > 0 && ret >= sizeof(datasetHeader)) {
+      datasetInfo[nvsId].page = nvsId - ZB_NVRAM_DATASET_NUMBER;
+      datasetInfo[nvsId].pos  = 0;
+      datasetInfo[nvsId].len  = datasetHeader.data_len;
+      datasetInfo[nvsId].ver  = datasetHeader.data_set_version;
 #ifdef DEBUG_NVS
-    WCS_TRACE_DEBUG("READ <<datasetInfo>> err %d nvs_delete(--, %d)", ret, MAX_DATASETS);
+      WCS_TRACE_WARNING("%s() rebuild page %d, pos 0x%04x, len 0x%04x (%s), ver %d for %s",
+        __FUNCTION__,
+        datasetInfo[nvsId].page, datasetInfo[nvsId].pos,
+        datasetHeader.data_len, (ret == datasetHeader.data_len)?("ok"):("BAD LEN"), datasetHeader.data_set_version,
+        get_nvram_dataset_str(ZB_NVRAM_DATA_SET_TYPE_PAGE_HDR));
 #endif
-    nvs_delete(&gc_flash_nvram.fs, MAX_DATASETS);
-    for(p=0;p<ZB_NVRAM_PAGE_COUNT;p++)
-    {
-      zb_osif_nvram_erase_async(p);
+    } else {
+      nvs_delete(&gc_flash_nvram.fs, nvsId);
     }
   }
-  else
-  {
-    zb_uint32_t next_pos = datasetInfo[ZB_NVRAM_DATASET_NUMBER].pos + datasetInfo[ZB_NVRAM_DATASET_NUMBER].len;
 
+  curPage  = 0;
+  curPos = datasetInfo[ZB_NVRAM_DATASET_NUMBER+curPage].pos + datasetInfo[ZB_NVRAM_DATASET_NUMBER+curPage].len;
+  if(curPos != 0) {
+    /* We found pages header, so there can be some other datasets */
+    for(nvsId = 0; nvsId < ZB_NVRAM_DATASET_NUMBER; nvsId++) {
+      ret = nvs_read(&gc_flash_nvram.fs, nvsId, &datasetHeader, sizeof(datasetHeader));
+      if(ret > 0 && ret >= sizeof(datasetHeader)) {
+        datasetInfo[nvsId].page = curPage;
+        datasetInfo[nvsId].pos  = curPos;
+        datasetInfo[nvsId].len  = datasetHeader.data_len;
+        datasetInfo[nvsId].ver  = datasetHeader.data_set_version;
 #ifdef DEBUG_NVS
-    WCS_TRACE_DEBUG("READ <<datasetInfo>> nvs_read(--, %d, --, %d) ret %d", MAX_DATASETS, sizeof(datasetInfo), ret);
-    //if(ret == sizeof(datasetInfo))
-    //  DEBUG_PRINT_BUFFER(datasetInfo, sizeof(datasetInfo), "%s-nvs_read(--, %d, --, %d)", __FUNCTION__, MAX_DATASETS, sizeof(datasetInfo));
+        WCS_TRACE_WARNING("%s() rebuild page %d, pos 0x%04x, len 0x%04x (%s), ver %d for %s",
+          __FUNCTION__,
+          datasetInfo[nvsId].page, datasetInfo[nvsId].pos,
+          datasetHeader.data_len, (ret == datasetHeader.data_len)?("ok"):("BAD LEN"), datasetHeader.data_set_version,
+          get_nvram_dataset_str(nvsId));
 #endif
-
-    /* Fake all datasets on continous positions in page 0 (starting by PAGE_HDR on each page) */
-    for(zb_uint16_t idx = 0; idx < ZB_NVRAM_DATASET_NUMBER; idx++) {
-      if(datasetInfo[idx].len == 0)
-        continue;
-
-#ifdef DEBUG_DATA
-      WCS_TRACE_DEBUG("READ <<dataset>> [%02d]: page %d, pos %d moveTo %d, len %d => %s",
-        idx,
-        datasetInfo[idx].page,
-        datasetInfo[idx].pos, next_pos,
-        datasetInfo[idx].len,
-        get_nvram_dataset_str((idx < ZB_NVRAM_DATASET_NUMBER)?(idx):(ZB_NVRAM_DATA_SET_TYPE_PAGE_HDR)));
-#endif
-
-      datasetInfo[idx].pos = next_pos;
-      datasetInfo[idx].page = 0;
-      next_pos += datasetInfo[idx].len;
-
-      ZB_ASSERT(next_pos < ZB_NVRAM_PAGE_SIZE);
+        curPos += datasetHeader.data_len;
+        /* Switch to next page if needed */
+        if(curPos + sizeof(datasetHeader) > ZB_NVRAM_PAGE_SIZE) {
+          curPage++;
+          if(curPage >= ZB_NVRAM_PAGE_COUNT) {
+            add_info.line_number = __LINE__;
+            zb_error_raise(ZB_ERROR_SEVERITY_FATAL, RET_OUT_OF_RANGE, &add_info);
+          }
+          curPos = datasetInfo[ZB_NVRAM_DATASET_NUMBER+curPage].pos + datasetInfo[ZB_NVRAM_DATASET_NUMBER+curPage].len;
+        }
+      } else {
+        nvs_delete(&gc_flash_nvram.fs, nvsId);
+      }
     }
   }
 
 #ifdef ZB_PRODUCTION_CONFIG
   zb_osif_prod_cfg_init();
 #endif
-
-  localNvsSize += LOCAL_BUF_ALLOC_SIZE;
-  localNvsBuf = ZB_MALLOC(localNvsSize);
 
   nvram_inited = ZB_TRUE;
 }
@@ -340,20 +350,12 @@ static zb_uint16_t build_dataset_info(zb_uint8_t page, zb_uint32_t pos, zb_uint8
 
     if(infoUpdated)
     {
-      int ret;
-
       if(relocateDataset != (zb_uint16_t)-1)
         ZB_MEMCPY(&relocateOldInfo, &datasetInfo[idx], sizeof(relocateOldInfo));
       datasetInfo[idx].page = page;
       datasetInfo[idx].pos  = pos;
       datasetInfo[idx].ver  = dataset->data_set_version;
       datasetInfo[idx].len  = dataset->data_len;
-
-      ret = nvs_write(&gc_flash_nvram.fs, MAX_DATASETS, datasetInfo, sizeof(datasetInfo));
-#ifdef DEBUG_NVS
-    WCS_TRACE_DEBUG("WRITE <<datasetInfo>> nvs_write(--, %d, --, %d) ret %d", MAX_DATASETS, sizeof(datasetInfo), ret);
-//    DEBUG_PRINT_BUFFER(datasetInfo, sizeof(datasetInfo), "%s-nvs_write(--, %d, --, %d)", __FUNCTION__, MAX_DATASETS, sizeof(datasetInfo));
-#endif
     }
   }
   
@@ -407,7 +409,7 @@ static int do_localNvs_read(zb_uint16_t nvsId, zb_uint16_t oldLen)
   int ret = 0;
   zb_uint16_t readLen = (oldLen)?(oldLen):(datasetInfo[nvsId].len);
 
-  if(localNvsId != nvsId) {
+  if((localNvsId != nvsId) || (localNvsSize < datasetInfo[nvsId].len)) {
     /* In case we change the dataset before doing the write tail (that trigs the write) */
     do_localNvs_write();
 
@@ -651,12 +653,6 @@ zb_ret_t zb_osif_nvram_erase_async(zb_uint8_t page)
   i = ZB_NVRAM_DATASET_NUMBER+page;
   nvs_delete(&gc_flash_nvram.fs, i);
   memset(&datasetInfo[i], 0, sizeof(datasetInfo[i]));
-
-  i = nvs_write(&gc_flash_nvram.fs, MAX_DATASETS, datasetInfo, sizeof(datasetInfo));
-#ifdef DEBUG_NVS
-    WCS_TRACE_DEBUG("ERASE <<datasetInfo>> nvs_write(--, %d, --, %d) ret %d", MAX_DATASETS, sizeof(datasetInfo), i);
-    DEBUG_PRINT_BUFFER(datasetInfo, sizeof(datasetInfo), "%s-nvs_write(--, %d, --, %d)", __FUNCTION__, MAX_DATASETS, sizeof(datasetInfo));
-#endif
 
   /* Clear localNvsBuf */
   if(localNvsBuf)

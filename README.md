@@ -1,6 +1,6 @@
 # NXP Zboss SDK for Zephyr
 
-The NXP Zboss SDK for Zephyr provides pre-built Zigbee R23 libraries to develop applications based on NXP MCXW71 SoC. 
+The NXP Zboss SDK for Zephyr provides pre-built Zigbee libraries to develop applications based on NXP SoC.
 
 ## Pre-requirements
 

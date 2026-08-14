@@ -155,7 +155,7 @@ static zb_ret_t network_open(int argc, char *argv[])
   request->permit_duration = duration;
   request->tc_significance = 1;
   tsnRet = zb_zdo_mgmt_permit_joining_req(param, network_open_cb);
-  if(tsnRet == ZB_ZDO_INVALID_TSN || zb_buf_get_status(param) != RET_OK)
+  if(tsnRet == ZB_ZDO_INVALID_TSN) /* only free if ZDO rejected the request */
   {
     zb_buf_free(param);
     return RET_OPERATION_FAILED;

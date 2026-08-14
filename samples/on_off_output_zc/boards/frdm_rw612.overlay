@@ -60,17 +60,12 @@
 	
 				storage_partition: partition@620000 {
 					label = "storage";
-					reg = <0x00620000 (DT_SIZE_M(58) - DT_SIZE_K(128) - DT_SIZE_K(32) - DT_SIZE_K(8))>;
+					reg = <0x00620000 (DT_SIZE_M(58) - DT_SIZE_K(128) - DT_SIZE_K(32))>;
 				};
 	
-				zb_nvram: partition@3ff6000 {
+				zb_nvram: partition@3ff8000 {
 					label = "zb-nvram";
-					reg = <0x03FF6000 DT_SIZE_K(32)>;
-				};
-	
-				hw_params_partition: partition@3ffe000 {
-					label = "hw-parameters";
-					reg = <0x003ffe000 DT_SIZE_K(8)>;
+					reg = <0x03FF8000 DT_SIZE_K(32)>;
 				};
 			};
 		};

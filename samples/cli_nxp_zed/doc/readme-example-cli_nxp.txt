@@ -242,6 +242,20 @@ SubMenu cluster scenes_cmd:
 
 Restrictions: do not use group_id: 0x0000 and scene_id: 0x00
 
+SubMenu cluster pollctrl_cmd:
+-----------------------------
+
+- cluster pollctrl_cmd check_in [endpoint] [start]:
+        send ZCL Poll Control Command CHECK_IN from endpoint [0-255] start [0|1]
+        Note: sent from server role endpoint
+- cluster pollctrl_cmd fast_poll_stop [endpoint] [dest_addr] [dest_ep]:
+        send ZCL Poll Control Command FAST_POLL_STOP from endpoint [0-255] to a specific device at dest_addr [0xAAAA] endpoint [0-255]
+- cluster pollctrl_cmd set_long_poll_interval [endpoint] [dest_addr] [dest_ep] [interval]:
+        send ZCL Poll Control Command SET_LONG_POLL_INTERVAL from endpoint [0-255] to a specific device at dest_addr [0xAAAA] endpoint [0-255] interval [0-4294967295] in quarter-seconds (e.g. 20 = 5s)
+- cluster pollctrl_cmd set_short_poll_interval [endpoint] [dest_addr] [dest_ep] [interval]:
+        send ZCL Poll Control Command SET_SHORT_POLL_INTERVAL from endpoint [0-255] to a specific device at dest_addr [0xAAAA] endpoint [0-255] interval [0-65535] in quarter-seconds (e.g. 4 = 1s)
+
+
 SubMenu cluster thermostat_cmd:
 -------------------------------
 

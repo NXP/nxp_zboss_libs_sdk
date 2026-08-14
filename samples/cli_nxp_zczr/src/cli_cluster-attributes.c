@@ -129,6 +129,14 @@ void cluster_attributes_cb(zb_uint8_t param)
     }
     break;
 #endif /* CLI_HAS_CLUSTER_SCENES */
+#ifdef CLI_HAS_CLUSTER_POLL_CONTROL
+  case ZB_ZCL_POLL_CONTROL_CHECK_IN_CLI_CB_ID:
+    {
+      /* Enable fast polling after Check-in */
+      device_cb_params->status = cluster_poll_control_device_value_cb(device_cb_params, param);
+    }
+    break;
+#endif
 
   default:
     menu_print_cluster_attributes(device_cb_params, this_ep);

@@ -1,5 +1,9 @@
 var NAVTREEINDEX32 =
 {
+"structzb__zcl__color__control__step__hue__req__s.html#a0e02a9d4d6f8ca3ed1caaec2c96001f3":[2,0,2,5,2,3,0],
+"structzb__zcl__color__control__step__hue__req__s.html#a39005166242984bcc7468d7873e17795":[2,0,2,5,2,3,1],
+"structzb__zcl__color__control__step__hue__req__s.html#aa8794ac973b2a030289614c0eb2e48bd":[2,0,2,5,2,3,2],
+"structzb__zcl__color__control__step__saturation__req__s.html":[2,0,2,5,2,6],
 "structzb__zcl__color__control__step__saturation__req__s.html#ab6c4fd76b5fc20f3f196eeb5d8080064":[2,0,2,5,2,6,1],
 "structzb__zcl__color__control__step__saturation__req__s.html#ad5e40858584f7c3dff391e84bb98e79c":[2,0,2,5,2,6,2],
 "structzb__zcl__color__control__step__saturation__req__s.html#af842f8d24680905507ae1b77e6b15988":[2,0,2,5,2,6,0],
@@ -245,9 +249,5 @@ var NAVTREEINDEX32 =
 "structzb__zcl__events__clear__event__log__request__s.html#a621bfcbe3305597917223093dc0c7ff5":[2,0,12,3,5,0,1,0],
 "structzb__zcl__events__clear__event__log__response__s.html":[2,0,12,3,5,0,5],
 "structzb__zcl__events__clear__event__log__response__s.html#a28ac1ff1519a46df58dda247d519fe64":[2,0,12,3,5,0,5,0],
-"structzb__zcl__events__get__event__log__payload__s.html":[2,0,12,3,5,0,0],
-"structzb__zcl__events__get__event__log__payload__s.html#a3b725667f3d65b29308c234e2048b354":[2,0,12,3,5,0,0,5],
-"structzb__zcl__events__get__event__log__payload__s.html#a85a465f16d5291bf64b434e207e2d184":[2,0,12,3,5,0,0,0],
-"structzb__zcl__events__get__event__log__payload__s.html#a8cc03578fda6217903b4f988daa2e350":[2,0,12,3,5,0,0,1],
-"structzb__zcl__events__get__event__log__payload__s.html#ac39eef90649ecdb8e3cf3e27491dd53f":[2,0,12,3,5,0,0,2]
+"structzb__zcl__events__get__event__log__payload__s.html":[2,0,12,3,5,0,0]
 };

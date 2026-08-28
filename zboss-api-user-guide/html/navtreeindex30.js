@@ -1,5 +1,9 @@
 var NAVTREEINDEX30 =
 {
+"r23_new_features.html#r23_clearallbind":[0,6,4,2,1],
+"r23_new_features.html#r23_codebase_features":[0,6,0],
+"r23_new_features.html#r23_decommis":[0,6,4,2,0],
+"r23_new_features.html#r23_details":[0,6,3],
 "r23_new_features.html#r23_dev_interview":[0,6,3,1],
 "r23_new_features.html#r23_dev_interview_joiner":[0,6,3,1,1],
 "r23_new_features.html#r23_dev_interview_tc":[0,6,3,1,0],
@@ -245,9 +249,5 @@ var NAVTREEINDEX30 =
 "structzb__secur__ic__entry__s.html":[2,0,8,2,2],
 "structzb__secur__ic__entry__s.html#a3d70a5e7fdd94080ba4e42a52351fa50":[2,0,8,2,2,3],
 "structzb__secur__ic__entry__s.html#a6658b331441d37b675a9fb0cbec030b7":[2,0,8,2,2,0],
-"structzb__secur__ic__entry__s.html#a7cf4e93efe2d01305ca96eb96e92df4b":[2,0,8,2,2,2],
-"structzb__secur__ic__entry__s.html#ac765c76fc8b69a66c7b9b72a1b4a3e74":[2,0,8,2,2,1],
-"structzb__secur__ic__get__by__idx__req__s.html":[2,0,8,2,3],
-"structzb__secur__ic__get__by__idx__req__s.html#a4a602b89d2372568a9ddc34d9be0be32":[2,0,8,2,3,1],
-"structzb__secur__ic__get__by__idx__req__s.html#aa77440356381bf635b627e94c1c827aa":[2,0,8,2,3,0]
+"structzb__secur__ic__entry__s.html#a7cf4e93efe2d01305ca96eb96e92df4b":[2,0,8,2,2,2]
 };

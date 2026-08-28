@@ -1,5 +1,9 @@
 var NAVTREEINDEX38 =
 {
+"structzb__zdo__get__configuration__resp__param__s.html#aed6d53fb5b9badd956fa9e16d46e91bd":[2,0,0,1,2,17],
+"structzb__zdo__get__diag__data__req__params__s.html":[2,0,3,0,2],
+"structzb__zdo__get__diag__data__req__params__s.html#a8cb898dd6cb72196ffd21eb5f8316fba":[2,0,3,0,2,0],
+"structzb__zdo__get__diag__data__resp__params__s.html":[2,0,3,0,3],
 "structzb__zdo__get__diag__data__resp__params__s.html#a03d85b6d4e5062875d0cceaed62c7686":[2,0,3,0,3,0],
 "structzb__zdo__get__diag__data__resp__params__s.html#a75183013ff59f67d022c0659085be9e6":[2,0,3,0,3,3],
 "structzb__zdo__get__diag__data__resp__params__s.html#a7fdceac59c03543dd237448378fe4968":[2,0,3,0,3,2],
@@ -245,9 +249,5 @@ var NAVTREEINDEX38 =
 "structzb__zdo__signal__device__authorized__params__s.html#a3cd97ecdba8e65c3913ee11c0e8b417f":[2,0,9,3,18,1],
 "structzb__zdo__signal__device__authorized__params__s.html#a41bac4bb71cdd8a725ab8b50df788243":[2,0,9,3,18,0],
 "structzb__zdo__signal__device__authorized__params__s.html#a5219578c04849b8dc1704d11f7e41b83":[2,0,9,3,18,3],
-"structzb__zdo__signal__device__ready__for__interview__params__s.html":[2,0,9,3,17],
-"structzb__zdo__signal__device__ready__for__interview__params__s.html#ab524cbcbdb1e73c2431c4692cfc2a35f":[2,0,9,3,17,0],
-"structzb__zdo__signal__device__ready__for__interview__params__s.html#ab5be1e61d6d6fa710bd7ca26e7e8529a":[2,0,9,3,17,1],
-"structzb__zdo__signal__device__update__params__s.html":[2,0,9,3,16],
-"structzb__zdo__signal__device__update__params__s.html#a3019210fa80bc76d63d50df3da73fa27":[2,0,9,3,16,0]
+"structzb__zdo__signal__device__ready__for__interview__params__s.html":[2,0,9,3,17]
 };

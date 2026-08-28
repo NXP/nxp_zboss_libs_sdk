@@ -80,7 +80,7 @@ zb_cluster_entry table_clusters[] = {
   { 0x0012, "General",             "Multistate Input",                    "GMI", "   ", NULL          },
   { 0x0013, "General",             "Multistate Output",                   "GMO", "   ", NULL          },
   { 0x0014, "General",             "Multistate Value",                    "GMV", "   ", NULL          },
-  { 0x0020, "General",             "Poll Control",                        "GPLC", "  ", NULL          },
+  { 0x0020, "General",             "Poll Control",                        "GPLC", "  ", pCluster_0020 },
   { 0x0025, "General",             "Keep Alive",                          "GKA", "   ", NULL          },
   { 0x001A, "General",             "Power Profile",                       "GPP", "   ", NULL          },
   { 0x001C, "General",             "Pulse Width Modulation",              "GPWM", "  ", NULL          },
@@ -244,6 +244,7 @@ void cluster_init(uint8_t ep_id)
        this_ep->cluster_desc_list[i].role_mask & ZB_ZCL_CLUSTER_SERVER_ROLE)
       zb_zcl_ota_upgrade_init_server(ep_id, cluster_ota_srv_next_data_ind_cb);
 #endif
+
   }
 }
 
@@ -311,6 +312,9 @@ cli_menu_cmd menu_cluster[] = {
 #endif
 #ifdef CLI_HAS_CLUSTER_SCENES
   { "scenes_cmd", "", "     ", cluster_scenes_submenu,  help_scenes_cmds,  "SUBMENU SCENES Commands" },
+#endif
+#ifdef CLI_HAS_CLUSTER_POLL_CONTROL
+  { "pollctrl_cmd", "", "  ", cluster_pollctrl_submenu, help_pollctrl_cmds,"SUBMENU POLL CONTROL Commands" },
 #endif
 #ifdef CLI_HAS_CLUSTER_THERMOSTAT
   { "thermostat_cmd", "", " ", cluster_thermo_submenu,  help_thermo_cmds,  "SUBMENU THERMOSTAT Commands" },

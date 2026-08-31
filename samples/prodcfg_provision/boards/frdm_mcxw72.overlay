@@ -1,0 +1,30 @@
+/*
+ * Copyright 2026 NXP
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * prodcfg_provision overlay for frdm_mcxw72.
+ *
+ * The app programs IFR0 at runtime via the Zephyr flash API. The flash DEVICE
+ * is the MSF1 flash controller (label "fmu", compatible "nxp,msf1"), which is
+ * "disabled" by default in the SoC dtsi and must be enabled here so its device
+ * instance (soc_flash_mcux / CONFIG_SOC_FLASH_MCUX) is built. The "ifr0" region
+ * node itself has no driver; it is enabled only so the region is described.
+ * The child nvmem cells' read-only property does not gate flash_erase/write on
+ * the controller, so they are left as-is.
+ */
+
+/ {
+	aliases {
+		log-uart = &lpuart0;
+	};
+};
+
+/* Enable the MSF1 flash controller: this is the device flash_read/erase/write
+ * operate on (DEVICE_DT_GET(DT_PARENT(ifr0))). */
+&fmu {
+	status = "okay";
+};
+
+&ifr0 {
+	status = "okay";
+};

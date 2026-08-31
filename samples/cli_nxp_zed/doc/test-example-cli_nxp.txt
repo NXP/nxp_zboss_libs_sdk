@@ -28,6 +28,7 @@ Summary:
 - SEQUENCE FOR IDENTIFY commands
 - SEQUENCE FOR GROUPS commands
 - SEQUENCE FOR SCENES commands
+- SEQUENCE FOR POLL CONTROL commands
 - SEQUENCE FOR THERMOSTAT commands
 - SEQUENCE FOR DISCOVER/READ/WRITE attribute
 - SEQUENCE FOR 20 ENDPOINTS
@@ -36,6 +37,7 @@ Summary:
 - SEQUENCE FOR ENERGY SCAN
 - SEQUENCE FOR CONCENTRATOR + SOURCE ROUTE ACCESS
 - SEQUENCE FOR INSTALL CODE
+- SEQUENCE FOR PASSCODE
 - SEQUENCE FOR NVRAM APP STORAGE
 - SEQUENCE FOR PRIVATE PROFILE, CLUSTER
 - SEQUENCE FOR PAN CHANNEL
@@ -741,6 +743,62 @@ cluster groups_cmd remove 10 0x0000 5 all
 #cluster groups_cmd remove 10 0x0000 5 0x3616
 
 
+SEQUENCE FOR POLL CONTROL commands:
+==================================
+
+# ZC as POLL CONTROL Client:
+endpoint create 5 HA MT 0
+cluster create 5 GB server
+cluster create 5 GPLC client
+config ieee_addr aa:aa:aa:aa:aa:aa:aa:aa
+config role coordinator
+config panid 0xcafe
+config channel 21
+config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
+nvram erase_at_start 1
+config start
+sleep 2
+network form centralized
+sleep 2
+network open 180
+
+# ZED as POLL CONTROL Server:
+endpoint create 10 HA MT 0
+cluster create 10 GB server
+cluster create 10 GPLC server
+config ieee_addr 00:00:00:00:00:00:00:01
+config role end_device
+config channel 21
+config sleepy
+nvram erase_at_start 1
+config start
+sleep 2
+network join centralized
+sleep 4
+
+# ZC Binds Poll Control cluster to ZED: Trigger periodic check-in
+cluster bind 5 00:00:00:00:00:00:00:01 0x<SED_short_addr> 10 GPLC ieee
+
+# ZC Modifies ZED's check-in interval to 480 quarter-seconds (120 seconds)
+cluster write_attr 5 0x<SED_short_addr> 10 GPLC 0x0000 0x23 E0:01:00:00
+sleep 2
+cluster read_attr 5 0x<SED_short_addr> 10 GPLC 0x0000
+
+# ZC client sets short poll interval on ZED server to 4 quarter seconds (1 second)
+cluster pollctrl_cmd set_short_poll_interval 5 0x<SED_short_addr> 10 1
+sleep 2
+
+# ZC client sets long poll interval on ZED server to 60 quarter-seconds (15 seconds)
+cluster pollctrl_cmd set_long_poll_interval 5 0x<SED_short_addr> 10 60
+
+# ZC sets fast poll timeout to 0x0028 quarter seconds (10 seconds)
+cluster write_local 5 GPLC client 0x0003 0x21 28:00
+
+# ZC client stops fast polling on ZED server
+cluster pollctrl_cmd fast_poll_stop 5 0x<SED_short_addr> 10
+sleep 2
+
+
 SEQUENCE FOR THERMOSTAT commands:
 =================================
 
@@ -1401,6 +1459,69 @@ config start
 sleep 2
 network join centralized
 sleep 4
+
+
+SEQUENCE FOR PASSCODE :
+=======================
+
+# R23 passcode (4 bytes, no CRC). On the ZC the passcode is added per joiner
+# with "installcode add passcode ...", on the joiner it is set with
+# "installcode set passcode ...".
+
+# ZC as ON/OFF Server:
+endpoint create 5 HA MT 0
+cluster create 5 GB server
+cluster create 5 GOF server
+cluster create 5 GOF client
+config ieee_addr aa:aa:aa:aa:aa:aa:aa:aa
+config role coordinator
+config panid 0xcafe
+config channel 21
+config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
+nvram erase_at_start 1
+installcode policy enable
+config start
+sleep 2
+network form centralized
+sleep 2
+# add the joiner's passcode (4 bytes) for its ieee address
+installcode add passcode 11:22:33:44 00:00:00:00:00:00:00:01
+sleep 2
+installcode list
+sleep 2
+network open 180
+sleep 5
+
+# ZED as ON/OFF Client, correct passcode -> JOIN DONE:
+endpoint create 10 HA MT 0
+cluster create 10 GB server
+cluster create 10 GOF client
+config ieee_addr 00:00:00:00:00:00:00:01
+config role end_device
+config channel 21
+nvram erase_at_start 1
+# set the passcode (4 bytes, no CRC)
+installcode set passcode 11:22:33:44
+config start
+sleep 2
+network join centralized
+sleep 4
+
+# ZED as ON/OFF Client, wrong passcode -> ZDO LEAVE:
+endpoint create 10 HA MT 0
+cluster create 10 GB server
+cluster create 10 GOF client
+config ieee_addr 00:00:00:00:00:00:00:01
+config role end_device
+config channel 21
+nvram erase_at_start 1
+# wrong passcode
+installcode set passcode aa:bb:cc:dd
+config start
+sleep 2
+network join centralized
+sleep 4
+quit
 
 
 SEQUENCE FOR NVRAM APP STORAGE:

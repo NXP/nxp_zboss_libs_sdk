@@ -1707,6 +1707,9 @@ static zb_ret_t cluster_scenes_srv_device_value_cb(zb_zcl_device_callback_param_
 #ifdef CLI_HAS_CLUSTER_SCENES
           case ZB_ZCL_CLUSTER_ID_SCENES:               my_cluster_attr_len = sizeof(g_general_scenes_attr);        break;
 #endif
+#ifdef CLI_HAS_CLUSTER_POLL_CONTROL
+          case ZB_ZCL_CLUSTER_ID_POLL_CONTROL:         my_cluster_attr_len = sizeof(g_general_poll_control_attr);  break;
+#endif
 #ifdef CLI_HAS_CLUSTER_ONOFF
           case ZB_ZCL_CLUSTER_ID_ON_OFF:               my_cluster_attr_len = sizeof(g_general_on_off_attr);        break;
 #endif
@@ -1819,6 +1822,9 @@ static zb_ret_t cluster_scenes_srv_device_value_cb(zb_zcl_device_callback_param_
 #ifdef CLI_HAS_CLUSTER_SCENES
           case ZB_ZCL_CLUSTER_ID_SCENES:               ZB_MEMCPY(this_efs->data, &g_general_scenes_attr,        this_efs->len); break;
 #endif
+#ifdef CLI_HAS_CLUSTER_POLL_CONTROL
+          case ZB_ZCL_CLUSTER_ID_POLL_CONTROL:         ZB_MEMCPY(this_efs->data, &g_general_poll_control_attr,  this_efs->len); break;
+#endif
 #ifdef CLI_HAS_CLUSTER_ONOFF
           case ZB_ZCL_CLUSTER_ID_ON_OFF:               ZB_MEMCPY(this_efs->data, &g_general_on_off_attr,        this_efs->len); break;
 #endif
@@ -1898,6 +1904,9 @@ static zb_ret_t cluster_scenes_srv_device_value_cb(zb_zcl_device_callback_param_
 #endif
 #ifdef CLI_HAS_CLUSTER_SCENES
           case ZB_ZCL_CLUSTER_ID_SCENES:               ZB_MEMCPY(&g_general_scenes_attr,        this_efs->data, this_efs->len); break;
+#endif
+#ifdef CLI_HAS_CLUSTER_POLL_CONTROL
+          case ZB_ZCL_CLUSTER_ID_POLL_CONTROL:         ZB_MEMCPY(&g_general_poll_control_attr,  this_efs->data, this_efs->len); break;
 #endif
 #ifdef CLI_HAS_CLUSTER_ONOFF
           case ZB_ZCL_CLUSTER_ID_ON_OFF:               ZB_MEMCPY(&g_general_on_off_attr,        this_efs->data, this_efs->len); break;
@@ -2653,7 +2662,429 @@ static zb_cluster_def cluster_0007 = {
  *                                  CLUSTER Poll Control
  *
  * ----------------------------------------------------------------------------------- */
+#ifndef CLI_HAS_CLUSTER_POLL_CONTROL
+#define pCluster_0020 NULL
+#else
+#define pCluster_0020 &cluster_0020
+static zb_uint8_t pollctrl_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
 
+/* variable hidden  in macro ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION */
+static zb_uint16_t cluster_revision_pollctrl_attr_list = ZB_ZCL_POLL_CONTROL_CLUSTER_REVISION_DEFAULT;
+
+static zb_zcl_attr_t cluster_attr_0020[] = {
+  /* Mandatory attributes */
+  { ZB_ZCL_ATTR_GLOBAL_CLUSTER_REVISION_ID,                ZB_ZCL_ATTR_TYPE_U16,  ACC_READ_ONLY,   NO_MANUF_SPE, (void*)&cluster_revision_pollctrl_attr_list },
+  { ZB_ZCL_ATTR_POLL_CONTROL_CHECKIN_INTERVAL_ID,          ZB_ZCL_ATTR_TYPE_U32,  ACC_READ_WRITE,  NO_MANUF_SPE, (void*)&g_general_poll_control_attr.checkin_interval },
+  { ZB_ZCL_ATTR_POLL_CONTROL_LONG_POLL_INTERVAL_ID,        ZB_ZCL_ATTR_TYPE_U32,  ACC_READ_ONLY,   NO_MANUF_SPE, (void*)&g_general_poll_control_attr.long_poll_interval },
+  { ZB_ZCL_ATTR_POLL_CONTROL_SHORT_POLL_INTERVAL_ID,       ZB_ZCL_ATTR_TYPE_U16,  ACC_READ_ONLY,   NO_MANUF_SPE, (void*)&g_general_poll_control_attr.short_poll_interval },
+  { ZB_ZCL_ATTR_POLL_CONTROL_FAST_POLL_TIMEOUT_ID,         ZB_ZCL_ATTR_TYPE_U16,  ACC_READ_WRITE,  NO_MANUF_SPE, (void*)&g_general_poll_control_attr.fast_poll_timeout },
+
+  /* Optional attributes */
+  { ZB_ZCL_ATTR_POLL_CONTROL_MIN_CHECKIN_INTERVAL_ID,      ZB_ZCL_ATTR_TYPE_U32,  ACC_READ_ONLY,   NO_MANUF_SPE, (void*)&g_general_poll_control_attr.checkin_interval_min },
+  { ZB_ZCL_ATTR_POLL_CONTROL_LONG_POLL_MIN_INTERVAL_ID,    ZB_ZCL_ATTR_TYPE_U32,  ACC_READ_ONLY,   NO_MANUF_SPE, (void*)&g_general_poll_control_attr.long_poll_interval_min },
+  { ZB_ZCL_ATTR_POLL_CONTROL_FAST_POLL_MAX_TIMEOUT_ID,     ZB_ZCL_ATTR_TYPE_U16,  ACC_READ_ONLY,   NO_MANUF_SPE, (void*)&g_general_poll_control_attr.fast_poll_timeout_max },
+
+  /* Non-Spec attributes */
+  { ZB_ZCL_ATTR_POLL_CONTROL_STATUS_DATA_ID,             ZB_ZCL_ATTR_TYPE_NULL,  ACC_INTERNAL,    NO_MANUF_SPE, (void*)&pollctrl_client_status },
+  { ZB_ZCL_ATTR_POLL_CONTROL_ADDR_DATA_ID,               ZB_ZCL_ATTR_TYPE_NULL,  ACC_INTERNAL,    NO_MANUF_SPE, (void*)&pollctrl_srv_cfg_data  },
+
+  /* End of table */
+  { ZB_ZCL_NULL_ID,                                        0,                     0,               NO_MANUF_SPE, NULL }
+};
+
+
+static zb_cluster_def cluster_0020 = {
+  cluster_attr_0020,
+  sizeof(cluster_attr_0020)/sizeof(zb_zcl_attr_t),
+  zb_zcl_poll_control_init_server,                         /* Can be replaced by our implementation to configure zb_zcl_cluster_write_attr_hook_t */
+  zb_zcl_poll_control_init_client,                         /* Can be replaced by our implementation to configure zb_zcl_cluster_write_attr_hook_t */
+  pollctrl_commands_handler,
+};
+
+
+/* -------------------------------- Cli commands Poll Control --------------------------- */
+
+
+/* Static stack callback function
+ * response for pollctrl_cmd
+ */
+static void pollctrl_cmd_cb(zb_uint8_t param)
+{
+  zb_zcl_command_send_status_t *cmd_send_status = ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);;
+
+  menu_printf("pollctrl_cmd_cb() %s", wcs_get_error_str(cmd_send_status->status));
+
+  zb_buf_free(param);
+}
+
+static zb_ret_t cluster_pollctrl_cmd_arg_grid(enum zb_zcl_poll_control_resp_cmd_e new_command, int argc, char *argv[]);
+static zb_ret_t cluster_pollctrl_cmd_check_in(int argc, char *argv[]);
+
+
+/* Static command cluster
+ * command pollctrl_server
+ */
+#ifdef MENU_PRINT_HELP_IF_COMMAND_NOT_FOUND
+static zb_ret_t help_pollctrl_cmds(void);
+#endif
+static zb_ret_t help_pollctrl_cmds_detailed(char *subcommand);
+static zb_ret_t cluster_pollctrl_submenu(int argc, char *argv[])
+{
+  zb_ret_t ret;
+  zb_uint8_t command_id;
+  cli_tools_strval cmd_table[] = {
+    { "check_in",                ZB_ZCL_CMD_POLL_CONTROL_CHECK_IN_ID                },
+    { "fast_poll_stop",          ZB_ZCL_CMD_POLL_CONTROL_FAST_POLL_STOP_ID          },
+    { "set_long_poll_interval",  ZB_ZCL_CMD_POLL_CONTROL_SET_LONG_POLL_INTERVAL_ID  },
+    { "set_short_poll_interval", ZB_ZCL_CMD_POLL_CONTROL_SET_SHORT_POLL_INTERVAL_ID },
+  };
+
+  if(argc < 1)
+    return RET_INVALID_PARAMETER;
+
+  if(tools_arg_help(argc, argv, 1) == RET_OK)
+    return help_pollctrl_cmds_detailed(argv[0]);
+
+  /* Search submenu */
+  TOOLS_GET_ARG_STRVAL(ret, argv, 0, cmd_table, &command_id);
+  if(ret == RET_OK)
+  {
+    switch(command_id)
+    {
+      case ZB_ZCL_CMD_POLL_CONTROL_CHECK_IN_ID:
+        return cluster_pollctrl_cmd_check_in(argc-1, &argv[1]);
+      case ZB_ZCL_CMD_POLL_CONTROL_FAST_POLL_STOP_ID:
+      case ZB_ZCL_CMD_POLL_CONTROL_SET_LONG_POLL_INTERVAL_ID:
+      case ZB_ZCL_CMD_POLL_CONTROL_SET_SHORT_POLL_INTERVAL_ID:
+        return cluster_pollctrl_cmd_arg_grid(command_id, argc-1, &argv[1]);
+    }
+  }
+  /* ... */
+
+  /* not found, print help */
+  menu_printf("cluster pollctrl %s: unknown command", argv[0]);
+#ifdef MENU_PRINT_HELP_IF_COMMAND_NOT_FOUND
+  menu_printf("");
+  help_pollctrl_cmds();
+#endif
+
+  return RET_NO_MATCH;
+}
+static zb_ret_t help_pollctrl_cmds(void) { return help_pollctrl_cmds_detailed(NULL); }
+static zb_ret_t help_pollctrl_cmds_detailed(char *subcommand)
+{
+  if(!subcommand || !strcmp(subcommand, "check_in"))
+  {
+    menu_printf("cluster pollctrl_cmd check_in [endpoint] [start]:");
+    menu_printf("\tsend ZCL Command CHECK_IN from endpoint [0-255] start [0|1]");
+  }
+  if(!subcommand || !strcmp(subcommand, "fast_poll_stop"))
+  {
+    menu_printf("cluster pollctrl_cmd fast_poll_stop [endpoint] [dest_addr] [dest_ep]:");
+    menu_printf("\tsend ZCL Command FAST_POLL_STOP from endpoint [0-255] to dest_addr [0xAAAA] endpoint [0-255]");
+  }
+  if(!subcommand || !strcmp(subcommand, "set_long_poll_interval"))
+  {
+    menu_printf("cluster pollctrl_cmd set_long_poll_interval [endpoint] [dest_addr] [dest_ep] [interval]:");
+    menu_printf("\tsend ZCL Command SET_LONG_POLL_INTERVAL from endpoint [0-255] to dest_addr [0xAAAA] endpoint [0-255] interval [0-4294967295]");
+  }
+  if(!subcommand || !strcmp(subcommand, "set_short_poll_interval"))
+  {
+    menu_printf("cluster pollctrl_cmd set_short_poll_interval [endpoint] [dest_addr] [dest_ep] [interval]:");
+    menu_printf("\tsend ZCL Command SET_SHORT_POLL_INTERVAL from endpoint [0-255] to dest_addr [0xAAAA] endpoint [0-255] interval [0-65535]");
+  }
+  return RET_OK;
+}
+
+/* Static command cluster
+ * command pollctrl_cmd
+ *
+ * cluster pollctrl_cmd fast_poll_stop         [endpoint] [dest_addr] [dest_ep]
+ * cluster pollctrl_cmd set_long_poll_interval [endpoint] [dest_addr] [dest_ep] [interval]
+ * cluster pollctrl_cmd set_short_poll_interval[endpoint] [dest_addr] [dest_ep] [interval]
+ */
+static zb_ret_t cluster_pollctrl_cmd_arg_grid(enum zb_zcl_poll_control_resp_cmd_e new_command, int argc, char *argv[])
+{
+  zb_ret_t ret;
+  zb_uint16_t dest_short_addr;
+  zb_uint8_t dest_ep_id;
+  zb_af_endpoint_desc_t *this_ep = NULL;
+
+  if(!config_is_started())
+    return RET_UNAUTHORIZED;
+
+  /* validate minimum common args: [endpoint] [dest_addr] [dest_ep] */
+  if(argc < 3)
+    return RET_INVALID_PARAMETER;
+
+  /* validate per-command expected argc */
+  switch(new_command) {
+    case ZB_ZCL_CMD_POLL_CONTROL_FAST_POLL_STOP_ID:
+      if(argc != 3) return RET_INVALID_PARAMETER;
+      break;
+    case ZB_ZCL_CMD_POLL_CONTROL_SET_LONG_POLL_INTERVAL_ID:
+    case ZB_ZCL_CMD_POLL_CONTROL_SET_SHORT_POLL_INTERVAL_ID:
+      if(argc != 4) return RET_INVALID_PARAMETER;
+      break;
+    default:
+      return RET_ILLEGAL_REQUEST;
+  }
+
+  /* get [endpoint] & validate it has cluster poll control client */
+  TOOLS_GET_ARG_ENDPOINT_W_CL(ret, argv, 0, &this_ep, ZB_ZCL_CLUSTER_ID_POLL_CONTROL, ZB_ZCL_CLUSTER_CLIENT_ROLE);
+
+  /* get [dest_addr] */
+  TOOLS_GET_ARG_HEXA(ret, uint16, argv, 1, &dest_short_addr);
+
+  /* get [dest_ep] */
+  TOOLS_GET_ARG(ret, uint8, argv, 2, &dest_ep_id);
+
+  if(!ZB_JOINED())
+    return RET_UNAUTHORIZED;
+
+  /* Do it */
+  {
+    zb_bufid_t buffer = ZB_BUF_INVALID;
+    buffer = zb_buf_get_out();
+
+    switch(new_command) {
+      case ZB_ZCL_CMD_POLL_CONTROL_FAST_POLL_STOP_ID:
+        /** @brief Send Fast Poll Stop command
+            @params buffer, addr, dst_addr_mode, dst_ep, ep, prfl_id, def_resp, cb */
+        ZB_ZCL_POLL_CONTROL_SEND_FAST_POLL_STOP_REQ(buffer, dest_short_addr, ZB_APS_ADDR_MODE_16_ENDP_PRESENT, dest_ep_id, this_ep->ep_id, this_ep->profile_id, ZB_FALSE, pollctrl_cmd_cb);
+        break;
+
+      case ZB_ZCL_CMD_POLL_CONTROL_SET_LONG_POLL_INTERVAL_ID:
+        {
+          zb_uint32_t interval;
+
+          /* get [interval] */
+          TOOLS_GET_ARG(ret, uint32, argv, 3, &interval);
+
+          /** @brief Send Set Long Poll Interval command
+              @params buffer, addr, dst_addr_mode, dst_ep, ep, prfl_id, def_resp, cb, interval */
+          ZB_ZCL_POLL_CONTROL_SEND_SET_LONG_POLL_INTERVAL_REQ(buffer, dest_short_addr, ZB_APS_ADDR_MODE_16_ENDP_PRESENT, dest_ep_id, this_ep->ep_id, this_ep->profile_id, ZB_FALSE, pollctrl_cmd_cb, interval);
+        }
+        break;
+
+      case ZB_ZCL_CMD_POLL_CONTROL_SET_SHORT_POLL_INTERVAL_ID:
+        {
+          zb_uint16_t interval;
+
+          /* get [interval] */
+          TOOLS_GET_ARG(ret, uint16, argv, 3, &interval);
+
+          /** @brief Send Set Short Poll Interval command
+              @params buffer, addr, dst_addr_mode, dst_ep, ep, prfl_id, def_resp, cb, interval */
+          ZB_ZCL_POLL_CONTROL_SEND_SET_SHORT_POLL_INTERVAL_REQ(buffer, dest_short_addr, ZB_APS_ADDR_MODE_16_ENDP_PRESENT, dest_ep_id, this_ep->ep_id, this_ep->profile_id, ZB_FALSE, pollctrl_cmd_cb, interval);
+        }
+        break;
+
+      default:
+        /* should not occur */
+        return RET_ILLEGAL_REQUEST;
+    }
+  }
+
+  return RET_OK;
+}
+
+/* Static command cluster
+ * command pollctrl_cmd
+ *
+ * cluster pollctrl_cmd check_in [endpoint] [start]
+ */
+static zb_ret_t cluster_pollctrl_cmd_check_in(int argc, char *argv[])
+{
+  zb_ret_t ret;
+  zb_uint8_t start = 0;
+  zb_af_endpoint_desc_t *this_ep = NULL;
+
+  if(!config_is_started())
+    return RET_UNAUTHORIZED;
+
+  if(argc != 2)
+    return RET_INVALID_PARAMETER;
+
+  /* get [endpoint] & validate it has cluster poll control server */
+  TOOLS_GET_ARG_ENDPOINT_W_CL(ret, argv, 0, &this_ep, ZB_ZCL_CLUSTER_ID_POLL_CONTROL, ZB_ZCL_CLUSTER_SERVER_ROLE);
+
+  /* get [start] */
+  TOOLS_GET_ARG(ret, uint8, argv, 1, &start);
+
+  /* Do it */
+  {
+    if (start == 1)
+    {
+      zb_bufid_t buffer = ZB_BUF_INVALID;
+      buffer = zb_buf_get_out();
+      zb_zcl_poll_control_start(buffer, this_ep->ep_id);
+    }
+    else if (start == 0)
+    {
+      zb_zcl_poll_control_stop();
+    }
+  }
+
+  return RET_OK;
+}
+
+/* -------------------------------- Handler commands Poll Control --------------------------- */
+
+static zb_ret_t cluster_poll_control_device_value_cb(zb_zcl_device_callback_param_t *device_cb_param, zb_uint8_t param)
+{
+  zb_uint8_t endpoint;
+  zb_zcl_attr_t *attr_desc;
+  zb_uint16_t fast_poll_timeout;
+  device_cb_param->status = RET_NOT_IMPLEMENTED;
+
+  ZVUNUSED(param);
+
+  /* Getting here we are sure the cluster has been created */
+  switch(device_cb_param->device_cb_id) {
+    case ZB_ZCL_POLL_CONTROL_CHECK_IN_CLI_CB_ID:
+    {
+      endpoint = get_endpoint_by_cluster(ZB_ZCL_CLUSTER_ID_POLL_CONTROL, ZB_ZCL_CLUSTER_CLIENT_ROLE);
+      attr_desc = zb_zcl_get_attr_desc_a(endpoint,
+          ZB_ZCL_CLUSTER_ID_POLL_CONTROL, ZB_ZCL_CLUSTER_CLIENT_ROLE, ZB_ZCL_ATTR_POLL_CONTROL_FAST_POLL_TIMEOUT_ID);
+      ZB_ASSERT(attr_desc);
+      fast_poll_timeout = ZB_ZCL_GET_ATTRIBUTE_VAL_16(attr_desc);
+
+      zb_zcl_set_fast_poll_timeout(endpoint, fast_poll_timeout);
+      device_cb_param->status = RET_OK;
+    }
+    break;
+
+  default:
+    break;
+  }
+
+  return device_cb_param->status;
+}
+
+static zb_uint8_t pollctrl_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+{
+  /* This is just for information, let the stack manage it */
+  zb_uint8_t ret = ZB_FALSE;
+  zb_zcl_parse_status_t status;
+
+  switch(cmd_info->cmd_id) {
+    case ZB_ZCL_CMD_POLL_CONTROL_CHECK_IN_RESPONSE_ID:
+      {
+        zb_zcl_poll_control_check_in_res_t check_in_res = {0};
+
+        ZB_ZCL_POLL_CONTROL_GET_CHECK_IN_RES(&check_in_res, param, status);
+
+        if(status == ZB_ZCL_PARSE_STATUS_SUCCESS)
+          menu_printf("%s() recv from 0x%04x endpoint %u: CHECK_IN_RESPONSE is_start: %u, timeout: %u",
+            __FUNCTION__,
+            ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).source.u.short_addr,
+            ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).src_endpoint,
+            check_in_res.is_start,
+            check_in_res.timeout);
+        else
+          menu_printf("\tERROR: cannot extract check_in_res");
+      }
+      break;
+
+    case ZB_ZCL_CMD_POLL_CONTROL_FAST_POLL_STOP_ID:
+      {
+        menu_printf("%s() recv from 0x%04x endpoint %u: FAST_POLL_STOP",
+          __FUNCTION__,
+          ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).source.u.short_addr,
+          ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).src_endpoint);
+      }
+      break;
+
+    case ZB_ZCL_CMD_POLL_CONTROL_SET_LONG_POLL_INTERVAL_ID:
+      {
+        zb_zcl_poll_control_set_long_poll_interval_t set_long_poll_req = {0};
+
+        ZB_ZCL_POLL_CONTROL_GET_SET_LONG_POLL_INTERVAL_REQ(&set_long_poll_req, param, status);
+
+        if(status == ZB_ZCL_PARSE_STATUS_SUCCESS)
+        {
+          menu_printf("%s() recv from 0x%04x endpoint %u: SET_LONG_POLL_INTERVAL interval: %u",
+            __FUNCTION__,
+            ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).source.u.short_addr,
+            ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).src_endpoint,
+            set_long_poll_req.interval);
+
+          /* Convert quarter-seconds to milliseconds and apply */
+          zb_zdo_pim_set_long_poll_interval(set_long_poll_req.interval * 250);
+          g_general_poll_control_attr.long_poll_interval = set_long_poll_req.interval;
+        }
+        else
+          menu_printf("\tERROR: cannot extract set_long_poll_interval_req");
+      }
+      break;
+
+    case ZB_ZCL_CMD_POLL_CONTROL_SET_SHORT_POLL_INTERVAL_ID:
+      {
+        zb_zcl_poll_control_set_short_poll_interval_t set_short_poll_req = {0};
+
+        ZB_ZCL_POLL_CONTROL_GET_SET_SHORT_POLL_INTERVAL_REQ(&set_short_poll_req, param, status);
+
+        if(status == ZB_ZCL_PARSE_STATUS_SUCCESS)
+          menu_printf("%s() recv from 0x%04x endpoint %u: SET_SHORT_POLL_INTERVAL interval: %u",
+            __FUNCTION__,
+            ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).source.u.short_addr,
+            ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).src_endpoint,
+            set_short_poll_req.interval);
+        else
+          menu_printf("\tERROR: cannot extract set_short_poll_interval_req");
+      }
+      break;
+
+    default:
+      menu_printf("%s() recv from 0x%04x endpoint %u to %u:%s: unknown cmd 0x%04x, call dummy handler",
+        __FUNCTION__,
+        ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).source.u.short_addr,
+        ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).src_endpoint,
+        ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).dst_endpoint,
+        (cmd_info->cmd_direction == ZB_ZCL_FRAME_DIRECTION_TO_CLI)?("CLIENT"):("SERVER"),
+        cmd_info->cmd_id);
+        dummy_commands_handler(cmd_info, param);
+      break;
+  }
+
+  return ret;
+}
+
+static zb_uint8_t pollctrl_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+{
+  zb_uint8_t ret = ZB_FALSE;
+
+  switch(cmd_info->cmd_id) {
+    case ZB_ZCL_CMD_POLL_CONTROL_CHECK_IN_ID:
+      {
+        menu_printf("%s() recv from 0x%04x endpoint %u: CHECK_IN",
+          __FUNCTION__,
+          ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).source.u.short_addr,
+          ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).src_endpoint);
+      }
+      break;
+
+    default:
+      menu_printf("%s() recv from 0x%04x endpoint %u to %u:%s: unknown cmd 0x%04x, call dummy handler",
+        __FUNCTION__,
+        ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).source.u.short_addr,
+        ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).src_endpoint,
+        ZB_ZCL_PARSED_HDR_SHORT_DATA(cmd_info).dst_endpoint,
+        (cmd_info->cmd_direction == ZB_ZCL_FRAME_DIRECTION_TO_CLI)?("CLIENT"):("SERVER"),
+        cmd_info->cmd_id);
+        dummy_commands_handler(cmd_info, param);
+      break;
+  }
+
+  return ret;
+}
+
+static zb_uint8_t pollctrl_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+{
+  return (cmd_info->cmd_direction == ZB_ZCL_FRAME_DIRECTION_TO_CLI)?(pollctrl_client_commands_handler(cmd_info, param)):(pollctrl_server_commands_handler(cmd_info, param));
+}
+#endif /* CLI_HAS_CLUSTER_POLL_CONTROL */
 
 /* -----------------------------------------------------------------------------------
  *

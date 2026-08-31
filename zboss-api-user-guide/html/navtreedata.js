@@ -1,24 +1,26 @@
 /*
-@licstart  The following is the entire license notice for the
-JavaScript code in this file.
+ @licstart  The following is the entire license notice for the JavaScript code in this file.
 
-Copyright (C) 1997-2019 by Dimitri van Heesch
+ The MIT License (MIT)
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of version 2 of the GNU General Public License as published by
-the Free Software Foundation
+ Copyright (C) 1997-2020 by Dimitri van Heesch
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ and associated documentation files (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ The above copyright notice and this permission notice shall be included in all copies or
+ substantial portions of the Software.
 
-@licend  The above is the entire license notice
-for the JavaScript code in this file
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ @licend  The above is the entire license notice for the JavaScript code in this file
 */
 var NAVTREE =
 [
@@ -66,19 +68,19 @@ var NAVTREEINDEX =
 "group__nwk__common__constants.html#ga3ae8a331e2f38980e17cff453a6d01de",
 "group__se__secur.html#gaa930f763a4b82fe98dba1bba75cafafb",
 "group__zb__general__set.html#ga4268b37fa68f97e40073b979215a0685",
-"group__zb__zcl__common__types.html#ga40f403bfcf8d2376da1ac77d5c2c8801",
-"group__zdo__disc.html#ga0b5c9e417d29f287995177ced2bff903",
-"r23_new_features.html#r23_dev_interview",
-"structzb__secur__ic__get__by__idx__resp__s.html",
-"structzb__zcl__color__control__step__saturation__req__s.html#ab6c4fd76b5fc20f3f196eeb5d8080064",
-"structzb__zcl__events__get__event__log__payload__s.html#ac5b70a1fad376eb4d37eb192975d7e17",
-"structzb__zcl__metering__attrs__s.html",
-"structzb__zcl__ota__upgrade__server__variable__s.html",
-"structzb__zcl__price__get__price__matrix__payload__s.html#a1f31ed11cf21aa9d9e2d21adef3b52e6",
-"structzb__zcl__scenes__view__scene__res__fixed__size__s.html",
-"structzb__zdo__get__diag__data__resp__params__s.html#a03d85b6d4e5062875d0cceaed62c7686",
-"structzb__zdo__signal__device__update__params__s.html#a3399ce1d6cda7083c4af796583281184",
-"structzbd__zvd__comm__service__params__t.html#abe8a2d970ea93ea040d820b30b388b5b"
+"group__zb__zcl__common__types.html#ga3c736088d4d23ca3a70a0b6c6e6d9ca8",
+"group__zdo__bind.html#gadc3d68bc365cddbfefb0472fb726f39d",
+"r23_new_features.html#r23_clearallbind",
+"structzb__secur__ic__entry__s.html#ac765c76fc8b69a66c7b9b72a1b4a3e74",
+"structzb__zcl__color__control__step__hue__req__s.html#a0e02a9d4d6f8ca3ed1caaec2c96001f3",
+"structzb__zcl__events__get__event__log__payload__s.html#a3b725667f3d65b29308c234e2048b354",
+"structzb__zcl__messaging__message__confirm__payload__s.html#a1e45108d22bdcfaf96eba3b6c7bea081",
+"structzb__zcl__ota__upgrade__server__insert__file__s.html#afd48204affd629ce1d0919c521ee1e8c",
+"structzb__zcl__price__get__credit__payment__payload__s.html#adc80c1a10b64bebc81cafd9b3a7f8e2c",
+"structzb__zcl__scenes__store__scene__res__s.html#ae4f43289c82eef5a14d6b69ef79fcf90",
+"structzb__zdo__get__configuration__resp__param__s.html#aed6d53fb5b9badd956fa9e16d46e91bd",
+"structzb__zdo__signal__device__ready__for__interview__params__s.html#ab524cbcbdb1e73c2431c4692cfc2a35f",
+"structzbd__zvd__comm__service__params__t.html#a9d94b26ee403ce1254dc5cf1aeb5d867"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

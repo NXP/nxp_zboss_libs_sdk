@@ -77,9 +77,10 @@ static const struct nvmem_cell zb_secured_cell  = NVMEM_CELL_GET_BY_NAME(DT_NODE
 #define ZBOSS_INSTALLCODE_LEN      36                   // => 36
 #define ZBOSS_PASSCODE_LEN         8                    // => 44
 // padding 4: size becomes 48
+// crypto_overhead: 0x10: size becomes 64
 // extra padding for futur consideration:
-// expadding 80: size becomes 128 (0x80)
-#define ZB_SECURED_PADDING 84
+// expadding 64: size becomes 128 (0x80)
+#define ZB_SECURED_PADDING 68
 
 
 typedef ZB_PACKED_PRE struct hw_params_s
@@ -100,11 +101,11 @@ typedef ZB_PACKED_PRE struct hw_params_s
     uint8_t padding[ZB_SETTINGS_PADDING];
   } zb_settings;
 
-  /* Created for Zboss, to be stored in blobs */
+  /* Created for Zboss, stored in plaintext in IFR0 (no encryption).
+   * Layout matches the flashed zb_secured cell: installcode(18)+passcode(4). */
   struct {
-    uint8_t installcode[ZBOSS_INSTALLCODE_LEN];
-    uint8_t passcode[ZBOSS_PASSCODE_LEN];
-    uint8_t padding[ZB_SECURED_PADDING];
+    uint8_t installcode[ZBOSS_INSTALLCODE_UNS_LEN];
+    uint8_t passcode[ZBOSS_PASSCODE_UNS_LEN];
   } zb_secured;
 } ZB_PACKED_STRUCT hw_params_t;
 
@@ -124,7 +125,7 @@ zb_bool_t zb_osif_prod_cfg_check_presence()
 {
   if(!gc_prod_cfg_presence) {
     int ret;
-    hw_params_t *hw_params =ZB_MALLOC(sizeof(hw_params_t));
+    hw_params_t *hw_params = ZB_MALLOC(sizeof(hw_params_t));
 
     if(!hw_params)
       return ZB_FALSE;
@@ -143,6 +144,7 @@ zb_bool_t zb_osif_prod_cfg_check_presence()
         return ZB_FALSE;
     }
 
+    /* zb_secured (install code + passcode) is stored in plaintext in IFR0. */
     ret = nvmem_cell_read(&zb_secured_cell, &hw_params->zb_secured, 0, sizeof(hw_params->zb_secured));
     if(ret != 0) {
         WCS_TRACE_WARNING("read cell hw_params->zb_secured error: %d", ret);
@@ -159,14 +161,16 @@ zb_bool_t zb_osif_prod_cfg_check_presence()
     ZB_MEMCPY(&gc_prod_cfg.extended_address,     hw_params->ieee802154_eui64.mac_addr,    MAC_ADDRESS_LEN);
     ZB_MEMCPY(gc_prod_cfg.mac_tx_power,          hw_params->zb_settings.tx_power,   ZBOSS_TXPOWER_LEN);
     ZB_MEMCPY(&gc_prod_cfg.options,              hw_params->zb_settings.options,    ZBOSS_OPTIONS_LEN);
-    // TODO: uncrypt installcode
     ZB_MEMCPY(gc_prod_cfg.install_code,          hw_params->zb_secured.installcode, ZBOSS_INSTALLCODE_UNS_LEN);
-    // TODO: uncrypt passcode
     ZB_MEMCPY(gc_prod_cfg.passcode,              hw_params->zb_secured.passcode,    ZBOSS_PASSCODE_UNS_LEN);
 
-    WCS_TRACE_INFO("read hw_params: zboss ver 0x%04x (len 0x%04x), ieee_addr "WCS_TRACE_FORMAT_64,
-      gc_prod_cfg.hdr.version, gc_prod_cfg.hdr.len,
-      WCS_TRACE_ARG_64(gc_prod_cfg.extended_address));
+    if (gc_prod_cfg.hdr.version != 0xFFFFU) {
+      WCS_TRACE_INFO("hw_params: zboss prod ver 0x%04x (len 0x%04x), ieee_addr "WCS_TRACE_FORMAT_64
+                     ", channel_mask: %08x",
+        gc_prod_cfg.hdr.version, gc_prod_cfg.hdr.len,
+        WCS_TRACE_ARG_64(gc_prod_cfg.extended_address),
+        gc_prod_cfg.aps_channel_mask_list[0]);
+    }
 
     gc_prod_cfg_presence = ZB_TRUE;
 
@@ -199,6 +203,7 @@ zb_ret_t zb_osif_prod_cfg_read(zb_uint8_t *buffer, zb_uint16_t len, zb_uint16_t 
   return RET_OK;
 }
 #endif
+/*! @} */
 
 #else /* CONFIG_BOARD_FRDM_RW612 */
 
@@ -321,9 +326,13 @@ zb_bool_t zb_osif_prod_cfg_check_presence()
     ZB_MEMCPY(gc_prod_cfg.install_code,          hw_params->zboss_installcode, ZBOSS_INSTALLCODE_LEN);
     ZB_MEMCPY(gc_prod_cfg.passcode,              hw_params->zboss_passcode,    ZBOSS_PASSCODE_LEN);
 
-    WCS_TRACE_INFO("read hw_params: zboss ver %d (len %d), ieee_addr "WCS_TRACE_FORMAT_64,
-      gc_prod_cfg.hdr.version, gc_prod_cfg.hdr.len,
-      WCS_TRACE_ARG_64(gc_prod_cfg.extended_address));
+    if (gc_prod_cfg.hdr.version != 0xFFFFU) {
+      WCS_TRACE_INFO("hw_params: zboss prod ver 0x%04x (len 0x%04x), ieee_addr "WCS_TRACE_FORMAT_64
+                     ", channel_mask: %08x",
+        gc_prod_cfg.hdr.version, gc_prod_cfg.hdr.len,
+        WCS_TRACE_ARG_64(gc_prod_cfg.extended_address),
+        gc_prod_cfg.aps_channel_mask_list[0]);
+    }
 
     gc_hw_params.presence = ZB_TRUE;
 
@@ -356,6 +365,5 @@ zb_ret_t zb_osif_prod_cfg_read(zb_uint8_t *buffer, zb_uint16_t len, zb_uint16_t 
   return RET_OK;
 }
 #endif
-
-#endif /* CONFIG_BOARD_FRDM_RW612 */
 /*! @} */
+#endif /* CONFIG_BOARD_FRDM_RW612 */

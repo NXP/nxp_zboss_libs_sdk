@@ -1,5 +1,9 @@
 var NAVTREEINDEX31 =
 {
+"structzb__secur__ic__entry__s.html#ac765c76fc8b69a66c7b9b72a1b4a3e74":[2,0,8,2,2,1],
+"structzb__secur__ic__get__by__idx__req__s.html":[2,0,8,2,3],
+"structzb__secur__ic__get__by__idx__req__s.html#a4a602b89d2372568a9ddc34d9be0be32":[2,0,8,2,3,1],
+"structzb__secur__ic__get__by__idx__req__s.html#aa77440356381bf635b627e94c1c827aa":[2,0,8,2,3,0],
 "structzb__secur__ic__get__by__idx__resp__s.html":[2,0,8,2,4],
 "structzb__secur__ic__get__by__idx__resp__s.html#a3504077146a6a9cbe6f03d03978f6d08":[2,0,8,2,4,2],
 "structzb__secur__ic__get__by__idx__resp__s.html#a53133cae1857f3edb7a284a5d9f7568f":[2,0,8,2,4,0],
@@ -245,9 +249,5 @@ var NAVTREEINDEX31 =
 "structzb__zcl__color__control__step__color__temp__req__s.html#a4d5cb5ea307bf234b2711f615ec2105f":[2,0,2,5,2,19,2],
 "structzb__zcl__color__control__step__color__temp__req__s.html#ab91479418b4e2922fcfa07a78ac3fb25":[2,0,2,5,2,19,0],
 "structzb__zcl__color__control__step__color__temp__req__s.html#ac8510a0151f4ae9943fd894c421dfa00":[2,0,2,5,2,19,3],
-"structzb__zcl__color__control__step__hue__req__s.html":[2,0,2,5,2,3],
-"structzb__zcl__color__control__step__hue__req__s.html#a0e02a9d4d6f8ca3ed1caaec2c96001f3":[2,0,2,5,2,3,0],
-"structzb__zcl__color__control__step__hue__req__s.html#a39005166242984bcc7468d7873e17795":[2,0,2,5,2,3,1],
-"structzb__zcl__color__control__step__hue__req__s.html#aa8794ac973b2a030289614c0eb2e48bd":[2,0,2,5,2,3,2],
-"structzb__zcl__color__control__step__saturation__req__s.html":[2,0,2,5,2,6]
+"structzb__zcl__color__control__step__hue__req__s.html":[2,0,2,5,2,3]
 };

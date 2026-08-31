@@ -1,5 +1,9 @@
 var NAVTREEINDEX37 =
 {
+"structzb__zcl__scenes__store__scene__res__s.html#ae4f43289c82eef5a14d6b69ef79fcf90":[2,0,2,5,21,16,0],
+"structzb__zcl__scenes__view__scene__req__s.html":[2,0,2,5,21,3],
+"structzb__zcl__scenes__view__scene__req__s.html#a908a7e0b238f368f4625c5f548b73be1":[2,0,2,5,21,3,0],
+"structzb__zcl__scenes__view__scene__req__s.html#acdf01cbbaac2887c5c511028167c8b6f":[2,0,2,5,21,3,1],
 "structzb__zcl__scenes__view__scene__res__fixed__size__s.html":[2,0,2,5,21,13],
 "structzb__zcl__scenes__view__scene__res__fixed__size__s.html#a263457110856237666c66d46353ae6eb":[2,0,2,5,21,13,4],
 "structzb__zcl__scenes__view__scene__res__fixed__size__s.html#a5323ed9846917d00bfc203a9089f1645":[2,0,2,5,21,13,0],
@@ -245,9 +249,5 @@ var NAVTREEINDEX37 =
 "structzb__zdo__get__configuration__resp__param__s.html#ae0ac7263aed318f8c4ba02d2cf2b3038":[2,0,0,1,2,10],
 "structzb__zdo__get__configuration__resp__param__s.html#ae1208541a87a0d1fa18888e1d0a4b1ed":[2,0,0,1,2,7],
 "structzb__zdo__get__configuration__resp__param__s.html#ae537f49451bfc6cdbe06ba9513bc86db":[2,0,0,1,2,6],
-"structzb__zdo__get__configuration__resp__param__s.html#ae81c05701850b219eece792234dd42e4":[2,0,0,1,2,15],
-"structzb__zdo__get__configuration__resp__param__s.html#aed6d53fb5b9badd956fa9e16d46e91bd":[2,0,0,1,2,17],
-"structzb__zdo__get__diag__data__req__params__s.html":[2,0,3,0,2],
-"structzb__zdo__get__diag__data__req__params__s.html#a8cb898dd6cb72196ffd21eb5f8316fba":[2,0,3,0,2,0],
-"structzb__zdo__get__diag__data__resp__params__s.html":[2,0,3,0,3]
+"structzb__zdo__get__configuration__resp__param__s.html#ae81c05701850b219eece792234dd42e4":[2,0,0,1,2,15]
 };

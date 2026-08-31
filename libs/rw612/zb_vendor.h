@@ -77,6 +77,19 @@
 #endif
 //#define ZB_USE_LOGFILE_ROTATE
 
+/* Hw Crypto */
+#if 0 /*  not yet available, target zephyr-v4.5 */
+#define ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
+#define ZB_RANDOM_HARDWARE
+#endif
+
+
 #include "zb_cfg_macsplit_nxp.h"
+// for the time being, rw612 disable production_config
+#undef ZB_PRODUCTION_CONFIG
+#ifndef ZB_PRODUCTION_CONFIG
+/* ZB_PROD_CFG_xxx should not be used outside ZB_PRODUCTION_CONFIG */
+#define ZB_PROD_CFG_MAC_TX_POWER_CHANNEL_N 27U
+#endif
 
 #endif /* ZB_VENDOR_CFG_RW612_HOST_H */

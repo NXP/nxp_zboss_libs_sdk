@@ -1205,7 +1205,8 @@ static zb_ret_t config_sleepy(int argc, char *argv[])
     zb_zdo_pim_set_long_poll_interval(new_interval);
 
   /* Configure turbo poll requests */
-  zb_zdo_pim_permit_turbo_poll(new_turbo);
+  if(argc >= 1)
+    zb_zdo_pim_permit_turbo_poll(new_turbo);
 
   return RET_OK;
 }

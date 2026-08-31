@@ -88,6 +88,7 @@ typedef ZB_PACKED_PRE struct zb_nvram_dataset_info_s {
 /* Last 'ZB_NVRAM_PAGE_COUNT' indexes will store ZB_NVRAM_DATA_SET_TYPE_PAGE_HDR of each page */
 /* index is used for nvsId, datasetInfo is stored in MAX_DATASETS nvsId */
 #define MAX_DATASETS              ZB_NVRAM_DATASET_NUMBER+ZB_NVRAM_PAGE_COUNT
+#define NVSID_TO_DATASETTYPE(idx) (idx < ZB_NVRAM_DATASET_NUMBER)?(idx):(ZB_NVRAM_DATA_SET_TYPE_PAGE_HDR)
 zb_nvram_dataset_info_t datasetInfo[MAX_DATASETS] = {0};
 
 
@@ -102,6 +103,15 @@ static zephyr_flash_t gc_flash_nvram = {
     .offset       = ZB_NVRAM_OFF,
   },
 };
+
+#ifdef ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
+/* Expose the mounted NVS instance so the ELE driver can persist the master-key
+ * blob in the same partition. Valid only after zb_osif_nvram_open(). */
+struct nvs_fs *zb_osif_nvram_get_fs(void)
+{
+  return &gc_flash_nvram.fs;
+}
+#endif
 
 static zb_bool_t nvram_inited = ZB_FALSE;
 
@@ -118,6 +128,14 @@ zb_nvram_dataset_info_t relocateOldInfo = {0};
 zb_uint32_t             relocateOffset  = 0;
 zb_uint16_t             relocateLen     = 0;
 
+
+#ifdef ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
+static zb_uint8_t *localEncBuf = NULL;
+/* Defined in zb_ele_s200_driver.c; header not delivered in this tree. */
+extern zb_ret_t zb_ele_master_key_boot(void);
+extern zb_ret_t zb_ele_master_key_erase(void);
+extern zb_ret_t zb_ele_master_key_reset(void);
+#endif
 
 static int zb_osif_nvram_open(zephyr_flash_t *flash)
 {
@@ -138,7 +156,12 @@ static int zb_osif_nvram_open(zephyr_flash_t *flash)
     return -1;
   }
   flash->fs.sector_size = info.size;
-  flash->fs.sector_count = ZB_NVRAM_PAGE_SIZE/info.size;
+  /* The single NVS filesystem must span the whole zb_nvram partition, i.e. all
+   * ZB_NVRAM_PAGE_COUNT logical pages (each ZB_NVRAM_PAGE_SIZE). Using only
+   * ZB_NVRAM_PAGE_SIZE/info.size mounts just the first page, so the ZBOSS core
+   * (told via zb_get_nvram_page_length()*count that it has the full size)
+   * addresses the 2nd page outside the mount -> OUT_OF_RANGE at init. */
+  flash->fs.sector_count = (ZB_NVRAM_PAGE_SIZE * ZB_NVRAM_PAGE_COUNT) / info.size;
 
   ret = nvs_mount(&flash->fs);
   if(ret != 0) {
@@ -180,6 +203,9 @@ void zb_osif_nvram_init(const zb_char_t *name)
 
   localNvsSize += LOCAL_BUF_ALLOC_SIZE;
   localNvsBuf = ZB_MALLOC(localNvsSize);
+#ifdef ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
+  localEncBuf = ZB_MALLOC(localNvsSize + zb_nvram_crypto_overhead());
+#endif
 
   /* Rebuild table mapping between position & nvs_id */
   for(nvsId = ZB_NVRAM_DATASET_NUMBER; nvsId < MAX_DATASETS; nvsId++) {
@@ -234,6 +260,15 @@ void zb_osif_nvram_init(const zb_char_t *name)
       }
     }
   }
+
+#ifdef ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
+  /* NVS is mounted now: provision or restore the ELE master key before any
+   * encrypted dataset is decrypted. Crypto HW was brought up by zb_ele_init(). */
+  if (zb_ele_master_key_boot() != RET_OK) {
+    add_info.line_number = __LINE__;
+    zb_error_raise(ZB_ERROR_SEVERITY_FATAL, RET_ERROR, &add_info);
+  }
+#endif
 
 #ifdef ZB_PRODUCTION_CONFIG
   zb_osif_prod_cfg_init();
@@ -380,22 +415,43 @@ static int do_localNvs_write(void)
   int ret = 0;
 
   if(localNvsFlush) {
-    ret = nvs_write(&gc_flash_nvram.fs, localNvsId, localNvsBuf, datasetInfo[localNvsId].len);
-    if(ret < datasetInfo[localNvsId].len && ret >= 0)
+    zb_uint8_t *writeBuf = localNvsBuf;
+    zb_uint16_t writeLen = datasetInfo[localNvsId].len;
+
+#ifdef ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
+    if(zb_nvram_dataset_is_encrypted(NVSID_TO_DATASETTYPE(localNvsId))) {
+      writeBuf = localEncBuf;
+      writeLen = zb_nvram_dataset_encrypt(localNvsBuf, datasetInfo[localNvsId].len,
+                                          writeBuf, localNvsSize + zb_nvram_crypto_overhead(),
+                                          sizeof(zb_nvram_dataset_hdr_t));
+      if(writeLen != datasetInfo[localNvsId].len + zb_nvram_crypto_overhead()) {
+        ZB_ASSERT(false);
+      }
+#ifdef DEBUG_NVS
+      WCS_TRACE_DEBUG("dataset %s encrypt %d -> %d",
+        get_nvram_dataset_str(NVSID_TO_DATASETTYPE(localNvsId)),
+        datasetInfo[localNvsId].len, writeLen);
+      DEBUG_PRINT_BUFFER(localNvsBuf, datasetInfo[localNvsId].len, "%s-encrypt()", __FUNCTION__, datasetInfo[localNvsId].len);
+#endif
+    }
+#endif
+
+    ret = nvs_write(&gc_flash_nvram.fs, localNvsId, writeBuf, writeLen);
+    if(ret < writeLen && ret >= 0)
     {
 #ifdef DEBUG_NVS
     WCS_TRACE_ERROR("dataset %s nvs_write(--, %d, --, %d) ret %d, should be %d, DELETE IT!",
-      get_nvram_dataset_str((localNvsId < ZB_NVRAM_DATASET_NUMBER)?(localNvsId):(ZB_NVRAM_DATA_SET_TYPE_PAGE_HDR)),
-      localNvsId, datasetInfo[localNvsId].len, ret, datasetInfo[localNvsId].len);
+      get_nvram_dataset_str(NVSID_TO_DATASETTYPE(localNvsId)),
+      localNvsId, writeLen, ret, writeLen);
 #endif
       nvs_delete(&gc_flash_nvram.fs, localNvsId);
-      ret = nvs_write(&gc_flash_nvram.fs, localNvsId, localNvsBuf, datasetInfo[localNvsId].len);
+      ret = nvs_write(&gc_flash_nvram.fs, localNvsId, writeBuf, writeLen);
     }
 #ifdef DEBUG_NVS
     WCS_TRACE_DEBUG("dataset %s nvs_write(--, %d, --, %d) ret %d",
-      get_nvram_dataset_str((localNvsId < ZB_NVRAM_DATASET_NUMBER)?(localNvsId):(ZB_NVRAM_DATA_SET_TYPE_PAGE_HDR)),
-      localNvsId, datasetInfo[localNvsId].len, ret);
-    DEBUG_PRINT_BUFFER(localNvsBuf, datasetInfo[localNvsId].len, "%s-nvs_write(--, %d, --, %d)", __FUNCTION__, localNvsId, datasetInfo[localNvsId].len);
+      get_nvram_dataset_str(NVSID_TO_DATASETTYPE(localNvsId)),
+      localNvsId, writeLen, ret);
+    DEBUG_PRINT_BUFFER(writeBuf, writeLen, "%s-nvs_write(--, %d, --, %d)", __FUNCTION__, localNvsId, writeLen);
 #endif
 
     localNvsFlush = ZB_FALSE;
@@ -407,9 +463,11 @@ static int do_localNvs_write(void)
 static int do_localNvs_read(zb_uint16_t nvsId, zb_uint16_t oldLen)
 {
   int ret = 0;
-  zb_uint16_t readLen = (oldLen)?(oldLen):(datasetInfo[nvsId].len);
 
   if((localNvsId != nvsId) || (localNvsSize < datasetInfo[nvsId].len)) {
+    zb_uint8_t *readBuf = localNvsBuf;
+    zb_uint16_t readLen = (oldLen)?(oldLen):(datasetInfo[nvsId].len);
+
     /* In case we change the dataset before doing the write tail (that trigs the write) */
     do_localNvs_write();
 
@@ -419,25 +477,54 @@ static int do_localNvs_read(zb_uint16_t nvsId, zb_uint16_t oldLen)
       /* When allocating at runtime (not at init), we faced issue "heap corruption" elsewhere...  */
       localNvsSize += LOCAL_BUF_ALLOC_SIZE;
       localNvsBuf = ZB_REALLOC(localNvsBuf, localNvsSize);
+#ifdef ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
+      localEncBuf = ZB_REALLOC(localEncBuf, localNvsSize + zb_nvram_crypto_overhead());
+#endif
     }
 
-    ret = nvs_read(&gc_flash_nvram.fs, localNvsId, localNvsBuf, readLen);
+#ifdef ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
+    if(zb_nvram_dataset_is_encrypted(NVSID_TO_DATASETTYPE(localNvsId))) {
+      readBuf = localEncBuf;
+      readLen += zb_nvram_crypto_overhead();
+    }
+#endif
+
+    ret = nvs_read(&gc_flash_nvram.fs, localNvsId, readBuf, readLen);
 #ifdef DEBUG_NVS
     WCS_TRACE_DEBUG("dataset %s nvs_read(--, %d, --, %d) ret %d",
-      get_nvram_dataset_str((localNvsId < ZB_NVRAM_DATASET_NUMBER)?(localNvsId):(ZB_NVRAM_DATA_SET_TYPE_PAGE_HDR)),
+      get_nvram_dataset_str(NVSID_TO_DATASETTYPE(localNvsId)),
       localNvsId, readLen, ret);
-    DEBUG_PRINT_BUFFER(localNvsBuf, readLen, "%s-nvs_read(--, %d, --, %d)", __FUNCTION__, localNvsId, readLen);
+    DEBUG_PRINT_BUFFER(readBuf, readLen, "%s-nvs_read(--, %d, --, %d)", __FUNCTION__, localNvsId, readLen);
 #endif
     if(ret < readLen) {
         if(ret < 0) ret = 0;
         /* Not found, fake an empty data */
-        ZB_MEMSET(localNvsBuf/*+ret*/, 0xFF, datasetInfo[localNvsId].len/* - ret*/);
+        ZB_MEMSET(readBuf/*+ret*/, 0xFF, datasetInfo[localNvsId].len/* - ret*/);
     }
+#ifdef ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
+    else if(zb_nvram_dataset_is_encrypted(NVSID_TO_DATASETTYPE(localNvsId))) {
+      zb_uint16_t decLen = 0;
+
+      decLen = zb_nvram_dataset_decrypt(readBuf, readLen, localNvsBuf, localNvsSize, sizeof(zb_nvram_dataset_hdr_t));
+      if(decLen != readLen - zb_nvram_crypto_overhead()) {
+        /* Decrypt failed, fake an empty data */
+        ZB_MEMSET(localNvsBuf, 0xFF, datasetInfo[localNvsId].len);
+        decLen = readLen - zb_nvram_crypto_overhead();
+      }
+#ifdef DEBUG_NVS
+      WCS_TRACE_DEBUG("dataset %s decrypt %d -> %d",
+        get_nvram_dataset_str(NVSID_TO_DATASETTYPE(localNvsId)),
+        readLen, decLen);
+      DEBUG_PRINT_BUFFER(localNvsBuf, decLen, "%s-decrypt()", __FUNCTION__);
+#endif
+      readLen = decLen;
+    }
+#endif
     if(readLen != datasetInfo[localNvsId].len) {
       /* Dataset len will change, delete it */
 #ifdef DEBUG_NVS
     WCS_TRACE_DEBUG("dataset %s len changed, nvs_delete(--, %d) ret %d",
-      get_nvram_dataset_str((localNvsId < ZB_NVRAM_DATASET_NUMBER)?(localNvsId):(ZB_NVRAM_DATA_SET_TYPE_PAGE_HDR)),
+      get_nvram_dataset_str(NVSID_TO_DATASETTYPE(localNvsId)),
       localNvsId, ret);
 #endif
       nvs_delete(&gc_flash_nvram.fs, nvsId);
@@ -460,7 +547,7 @@ static char *get_dataset_section_str(zb_uint16_t idx, zb_uint32_t offset, zb_uin
     return "NOT FOUND";
   }
 
-  data_set_type = (idx < ZB_NVRAM_DATASET_NUMBER)?(idx):(ZB_NVRAM_DATA_SET_TYPE_PAGE_HDR);
+  data_set_type = NVSID_TO_DATASETTYPE(idx);
   dataLen = datasetInfo[idx].len - sizeof(zb_nvram_dataset_hdr_t) - sizeof(zb_nvram_dataset_tail_t);
 
   if(offset < sizeof(zb_nvram_dataset_hdr_t))
@@ -653,6 +740,16 @@ zb_ret_t zb_osif_nvram_erase_async(zb_uint8_t page)
   i = ZB_NVRAM_DATASET_NUMBER+page;
   nvs_delete(&gc_flash_nvram.fs, i);
   memset(&datasetInfo[i], 0, sizeof(datasetInfo[i]));
+
+#ifdef ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
+  /* Refresh the ELE master key on factory reset / erase-at-start. The blob
+   * (NVS id 0x5A00) lives above the datasets, so the loop above skips it.
+   * erase_async() runs once per page; refresh only on the last page, so all
+   * pages are wiped and a valid new key is ready for the datasets re-written next. */
+  if (page == (ZB_NVRAM_PAGE_COUNT - 1)) {
+    (void)zb_ele_master_key_reset();
+  }
+#endif
 
   /* Clear localNvsBuf */
   if(localNvsBuf)

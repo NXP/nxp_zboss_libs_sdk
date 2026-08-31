@@ -84,6 +84,10 @@
 #define ZB_USE_CORTEX_SW_SECURITY
 #define ZB_CORTEX_M 33
 
+/* Hw Crypto */
+#define ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
+#define ZB_RANDOM_HARDWARE
+
 #include "zb_cfg_macsplit_nxp.h"
 
 #endif /* ZB_VENDOR_CFG_MCXW72_HOST_H */

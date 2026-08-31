@@ -1,5 +1,9 @@
 var NAVTREEINDEX35 =
 {
+"structzb__zcl__ota__upgrade__server__insert__file__s.html#afd48204affd629ce1d0919c521ee1e8c":[2,0,2,5,17,6,3],
+"structzb__zcl__ota__upgrade__server__remove__file__s.html":[2,0,2,5,17,7],
+"structzb__zcl__ota__upgrade__server__remove__file__s.html#a09a797491836f47416aefe67acbbbe3c":[2,0,2,5,17,7,0],
+"structzb__zcl__ota__upgrade__server__remove__file__s.html#aeacb328b824730b218bfcf84a5965ae3":[2,0,2,5,17,7,1],
 "structzb__zcl__ota__upgrade__server__variable__s.html":[2,0,2,5,17,9],
 "structzb__zcl__ota__upgrade__server__variable__s.html#a38bd9b630bb584c1bac16cfb97afd59a":[2,0,2,5,17,9,2],
 "structzb__zcl__ota__upgrade__server__variable__s.html#a686b4c8ae2ddfe39616eeb35e544fd48":[2,0,2,5,17,9,1],
@@ -245,9 +249,5 @@ var NAVTREEINDEX35 =
 "structzb__zcl__price__get__conversion__factor__payload__s.html#ab122a1355be9fa769a4ba8858086f9bb":[2,0,2,5,31,1,5,2],
 "structzb__zcl__price__get__conversion__factor__payload__s.html#ac27fa4f3faed920c34f8f5295a0b36ab":[2,0,2,5,31,1,5,1],
 "structzb__zcl__price__get__credit__payment__payload__s.html":[2,0,2,5,31,1,15],
-"structzb__zcl__price__get__credit__payment__payload__s.html#aced5fd3ad5db6466d0c2b9692c9f3cfd":[2,0,2,5,31,1,15,0],
-"structzb__zcl__price__get__credit__payment__payload__s.html#adc80c1a10b64bebc81cafd9b3a7f8e2c":[2,0,2,5,31,1,15,1],
-"structzb__zcl__price__get__current__price__payload__s.html":[2,0,2,5,31,1,2],
-"structzb__zcl__price__get__current__price__payload__s.html#a46460219442031790b09da48400e7b3b":[2,0,2,5,31,1,2,0],
-"structzb__zcl__price__get__price__matrix__payload__s.html":[2,0,2,5,31,1,8]
+"structzb__zcl__price__get__credit__payment__payload__s.html#aced5fd3ad5db6466d0c2b9692c9f3cfd":[2,0,2,5,31,1,15,0]
 };

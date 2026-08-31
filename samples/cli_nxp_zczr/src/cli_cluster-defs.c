@@ -253,6 +253,47 @@ static zb_zcl_general_on_off_switch_attr_t g_general_on_off_switch_attr = {
  *
  * ----------------------------------------------------------------------------------- */
 
+/* Poll Control cluster attributes */
+
+#define ZB_ZCL_POLL_CONTROL_NXP_MIN_CHECKIN_INTERVAL         0x10  /* 16 quarterseconds == 4 sec  */
+#define ZB_ZCL_POLL_CONTROL_NXP_CHECKIN_INTERVAL             0x50  /* 80 quarterseconds == 20 sec */
+#define ZB_ZCL_POLL_CONTROL_NXP_MIN_LONG_POLL_INTERVAL      4
+#define ZB_ZCL_POLL_CONTROL_NXP_FAST_POLL_MAX_TIMEOUT_DEFAULT_VALUE 300 /* 300 quarterseconds == 75 seconds */
+
+typedef struct zb_zcl_general_poll_control_attr_s
+{
+  zb_uint32_t checkin_interval;
+  zb_uint32_t long_poll_interval;
+  zb_uint16_t short_poll_interval;
+  zb_uint16_t fast_poll_timeout;
+  zb_uint32_t checkin_interval_min;
+  zb_uint32_t long_poll_interval_min;
+  zb_uint16_t fast_poll_timeout_max;
+}
+zb_zcl_general_poll_control_attr_t;
+
+static zb_zcl_general_poll_control_attr_t g_general_poll_control_attr = {
+  .checkin_interval       = ZB_ZCL_POLL_CONTROL_NXP_CHECKIN_INTERVAL,
+  .long_poll_interval     = ZB_ZCL_POLL_CONTROL_LONG_POLL_INTERVAL_DEFAULT_VALUE,
+  .short_poll_interval    = ZB_ZCL_POLL_CONTROL_SHORT_POLL_INTERVAL_DEFAULT_VALUE,
+  .fast_poll_timeout      = ZB_ZCL_POLL_CONTROL_FAST_POLL_TIMEOUT_DEFAULT_VALUE,
+  .checkin_interval_min   = ZB_ZCL_POLL_CONTROL_NXP_MIN_CHECKIN_INTERVAL,
+  .long_poll_interval_min = ZB_ZCL_POLL_CONTROL_NXP_MIN_LONG_POLL_INTERVAL,
+  .fast_poll_timeout_max  = ZB_ZCL_POLL_CONTROL_NXP_FAST_POLL_MAX_TIMEOUT_DEFAULT_VALUE,
+};
+
+static zb_zcl_poll_control_client_status_t pollctrl_client_status = {
+  .is_poll_mode      = ZB_TRUE,
+  .fast_poll_timeout = ZB_ZCL_POLL_CONTROL_FAST_POLL_TIMEOUT_DEFAULT_VALUE,
+};
+
+static zb_zcl_poll_control_srv_cfg_data_t pollctrl_srv_cfg_data = {
+  .poll_addr      = ZB_ZCL_POLL_CTRL_INVALID_ADDR,
+  .poll_ep        = ZB_ZCL_POLL_INVALID_EP,
+  .sending_cmd    = 0,
+  .fast_poll_mode = 0,
+};
+
 
 /* -----------------------------------------------------------------------------------
  *

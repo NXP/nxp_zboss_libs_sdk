@@ -1,5 +1,9 @@
 var NAVTREEINDEX34 =
 {
+"structzb__zcl__messaging__message__confirm__payload__s.html#a1e45108d22bdcfaf96eba3b6c7bea081":[2,0,2,5,32,0,2,1],
+"structzb__zcl__messaging__message__confirm__payload__s.html#aa05e7a7be983b53bb63f2a494cba110a":[2,0,2,5,32,0,2,0],
+"structzb__zcl__messaging__message__confirm__payload__s.html#ac47d33c023a67ed4913297ece64d5ef0":[2,0,2,5,32,0,2,2],
+"structzb__zcl__messaging__message__confirm__payload__s.html#aefcd002150eb9c4f0103bd0c266f061c":[2,0,2,5,32,0,2,3],
 "structzb__zcl__metering__attrs__s.html":[2,0,2,5,14,3],
 "structzb__zcl__metering__attrs__s.html#a3fce057c0b7940034ece0f7cf874944c":[2,0,2,5,14,3,1],
 "structzb__zcl__metering__attrs__s.html#a8f191b5bdbb4c9a427a90e62a83b11b6":[2,0,2,5,14,3,3],
@@ -245,9 +249,5 @@ var NAVTREEINDEX34 =
 "structzb__zcl__ota__upgrade__server__insert__file__s.html#a40ce1aaa5f5a6e588ba56bd21d19b1d6":[2,0,2,5,17,6,4],
 "structzb__zcl__ota__upgrade__server__insert__file__s.html#a706a8f18fc27419d0cd33a40b74391de":[2,0,2,5,17,6,0],
 "structzb__zcl__ota__upgrade__server__insert__file__s.html#a8969732e968fd9cb18827170db1cccfc":[2,0,2,5,17,6,1],
-"structzb__zcl__ota__upgrade__server__insert__file__s.html#aa52b31dd26e4e290b2c6590c579cf5d3":[2,0,2,5,17,6,2],
-"structzb__zcl__ota__upgrade__server__insert__file__s.html#afd48204affd629ce1d0919c521ee1e8c":[2,0,2,5,17,6,3],
-"structzb__zcl__ota__upgrade__server__remove__file__s.html":[2,0,2,5,17,7],
-"structzb__zcl__ota__upgrade__server__remove__file__s.html#a09a797491836f47416aefe67acbbbe3c":[2,0,2,5,17,7,0],
-"structzb__zcl__ota__upgrade__server__remove__file__s.html#aeacb328b824730b218bfcf84a5965ae3":[2,0,2,5,17,7,1]
+"structzb__zcl__ota__upgrade__server__insert__file__s.html#aa52b31dd26e4e290b2c6590c579cf5d3":[2,0,2,5,17,6,2]
 };

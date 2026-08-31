@@ -19,9 +19,9 @@
 Versioning:
 ===========
 
-Date:    Wed, 01 Jul 2026 10:55:09 +0000
-Version: 019.2603.029
-Sha1:    00d403f
+Date:    Thu, 20 Aug 2026 14:52:36 +0000
+Version: 019.2603.065
+Sha1:    6b7be4e
 Zboss:   zoi_release-4.2.2.0
 
 
@@ -58,6 +58,11 @@ modules/zboss/
 │   ├── cli_nxp_zczr                 => Sample of Command Line Interface Coordinator / Router
 │   ├── on_off_switch_zed            => Sample of OnOff cluster End Device
 │   ├── on_off_output_zc             => Sample of OnOff cluster Coordinator
+│   ├── light_control                => Sample of Light End Device
+│   ├── bulb                         => Sample of Light Router
+│   ├── light_zc                     => Sample of Light Coordinator
+│   ├── ias_zone_sensor              => Sample of Intruder Alarm System zone sensor device
+│   ├── simple_gw                    => Sample of Coordinator
 │   ├── minimal_zed                  => Sample of Minimal application
 │   ├── multi_ep_zed                 => Sample of Multiple Endpoints application
 │   └── ota_client_zed               => Sample of Ota Upgrade cluster
@@ -87,6 +92,8 @@ Overview:
 	- multi_ep_zed
 	- onoff_server
 	- ota_upgrade_nxp
+	- light_sample
+	- simple_gw & ias_zone_sensor
 - Tools setup
 	- Wireshark
 - Misc topics
@@ -96,9 +103,6 @@ Overview:
 
 Documentation:
 ==============
-
-FRDM-MCXW71 — Zephyr Project Documentation:
-https://docs.zephyrproject.org/4.2.0/boards/nxp/frdm_mcxw71/doc/index.html
 
 FRDM-MCXW72 — Zephyr Project Documentation:
 https://docs.zephyrproject.org/4.2.0/boards/nxp/frdm_mcxw72/doc/index.html
@@ -192,17 +196,27 @@ The modules/zboss/samples folder provides source examples of Zigbee application.
 
 sample's scope:
 ---------------
-                        +--------+--------+--------+
-                        | MCXW71 | MCXW72 | RW612  |
-    +-------------------+--------+--------+--------+
-    | cli_nxp_zczr      |        |        |    y   |
-    | cli_nxp_zed       |    y   |    y   |    y   |
-    | minimal_zed       |    y   |    y   |    y   |
-    | multi_ep_zed      |    y   |    y   |    y   |
-    | on_off_output_zc  |        |        |    y   |
-    | on_off_switch_zed |    y   |    y   |    y   |
-    | ota_client_zed    |    y   |    y   |        |
-    +-------------------+--------+--------+--------+
+                               +--------+--------+
+                               | MCXW72 | RW612  |
+    +-------------------+------+--------+--------+
+    | cli_nxp_zczr      | ZCZR |    y   |    y   |
+    | cli_nxp_zed       | xED* |    y   |    y   |
+    | minimal_zed       | SED  |    y   |    y   |
+    | multi_ep_zed      | ZED  |    y   |    y   |
+    | on_off_output_zc  | ZC   |        |    y   |
+    | on_off_switch_zed | SED  |    y   |    y   |
+    | ota_client_zed    | ZED  |    y   |        |
+    | light_zc          | ZC   |        |    y   |
+    | bulb              | ZR   |    y   |    y   |
+    | light_control     | ZED  |    y   |    y   |
+    | simple_gw         | ZC   |        |    y   |
+    | ias_zone_sensor   | SED  |    y   |    y   |
+    +-------------------+------+--------+--------+
+
+Notes:
+- SED: Sleepy End Device has the extra option low power (CONFIG_PM) in their prj.conf.
+- xED*: cli_nxp can do SED but wihout CONFIG_PM enabled since it gets commands from the uart.
+
 
 Configuration:
 --------------
@@ -225,7 +239,6 @@ Configure Zephyr SDK to use:
     export ZEPHYR_SDK_INSTALL_DIR=/opt/zephyr-sdk/zephyr-sdk-`cat zephyr/SDK_VERSION`
 
 Compile sample application:
-    west build -b frdm_mcxw71 modules/zboss/samples/<app_name> -d _build/frdm_mcxw71/<app_name> -p
     west build -b frdm_mcxw72 modules/zboss/samples/<app_name> -d _build/frdm_mcxw72/<app_name> -p
     west build -b frdm_rw612  modules/zboss/samples/<app_name> -d _build/frdm_rw612/<app_name>  -p
 
@@ -244,20 +257,19 @@ Flash MCXW7x NBU:
   Windows:
     # device is COM#: device "JLink CDC UART Port"
 
-  MCXW71:
-    # Firmware is modules/hal/nxp/zephyr/blobs/mcxw71/mcxw71_nbu_dyn_reduced.sb3
-    blhost -p <device> -- get-property 1
-    blhost -p <device> receive-sb-file mcxw71_nbu_dyn_reduced.sb3
-
   MCXW72:
     # Firmware is modules/hal/nxp/zephyr/blobs/mcxw72/mcxw72_nbu_dyn_reduced.bin
     blhost -p <device> -- get-property 1
     blhost -p <device> flash-erase-all 2
     blhost -p <device> write-memory 0x48800000 mcxw72_nbu_dyn_reduced.bin
 
+    # Secured binary: 
+    blhost -p <device> -- get-property 1
+    blhost -p <device> receive-sb-file PATH_TO_MCXW72_SECURED_BIN_GENERATED
+
     Note: if the write-memory command with a .bin NBU fails directly (0%), the chip is likely in "Closed NBU" state.
       This prevents unsigned firmware from being flashed. That means .bin cannot be flashed;
-      the chip requires an sb3 file using the same procedure as the mcxw71.
+      the chip requires an sb3 file using the "Secured binary" procedure.
       To contain NBU image in SB3 format with custom keys using the MCUXpresso Secure Provisioning Tool, refer to the following link:
       https://docs.mcuxpresso.nxp.com/secure/latest/06_processor_specific_workflow.html#update-nbu-firmware-using-custom-sb-file
       CAUTION: On the final step, the software implicitly burns fuses with the keys of the image that was generated, this operation cannot be undone.
@@ -272,7 +284,6 @@ Flash & control MCU:
 
   JLinkExe
     connect
-      Device>   specify MCXW716 (for FRDM-MCXW71)
       Device>   specify MCXW727C_M33_0 (for FRDM-MCXW72)
       Device>   specify RW612 (for FRDM-RW612)
       TIF>      specify S: SWD
@@ -285,7 +296,7 @@ Flash & control MCU:
 
   Note concerning MCXW72:
     In case of:
-      - Closed NBU (.sb3): method of flashing is the same as MCXW71.
+      - Closed NBU (.sb3): method of flashing is "Secured binary".
       - Open NBU  (.bin): JLink's erase command erases the NBU, so it needs to be reflashed as well:
           loadbin modules/hal/nxp/zephyr/blobs/mcxw72/mcxw72_nbu_dyn_reduced.bin 0x48800000
 
@@ -310,15 +321,6 @@ When done, remove the patch:
 This patch will log RPMSG (MAC & PHY) on the console.
 
 Note: this patch increase significatly the number of logs and slow down the execution.
-
-
-Low power:
-----------
-
-By default, Zephyr Low Power is disabled.
-To enable it, please uncomment "CONFIG_PM=y" in prj.conf of modules/zboss/samples/<app_name>
-
-Low power does allow JLinkExe connection, refer to "Flash & control MCU"
 
 
 Zboss Logs:
@@ -428,21 +430,42 @@ Supports SB3.1 secure containers: For updating the radio core (NBU) or the appli
 This means that any image sent over the air needs to be signed in sb3 format with matching keys.
 
 To sign your application core or radio core with the appropriate keys, please use NXP's MCUXpresso Secure Provisioning Tool, "build image" button (https://nxp.com/sec).
-MCXW716C profile: Plain signed image running on on-chip flash FRDM_MCXW71 keys
 MCXW727C profile: Plain signed image running on on-chip flash
 
 - App core (MCU):
   If *.elf is used, start address is automatically detected.
 
 - Radio core (NBU):
-  MCXW71 start address: 0x48800000
   MCXW72 start address: 0x48800000
 
-Note: MCXW71 allows a signed application image max size limited to 488KB, so an external flash overlay is used.
-
 Note: On ZC side, the OTA Server shall have the following manufacturer - image_type:
-- 1037 - 240E: ota_client_zed signed.bin for MCXW71
 - 1037 - 340E: ota_client_zed signed.bin for MCXW72
+
+
+light_sample usecase (ZC, ZR, ZED):
+-----------------------------------
+
+Start RW612 board running light_zc
+Start NXP board running bulb
+Wait for 10 seconds
+Start NXP board running light_control
+
+Once Dimmable Light is discovered, Light Control (ZED) starts periodical
+On-Off-On-Off-...
+Command is sending with 15 seconds timeout to bulb (ZR)
+
+
+simple_gw & ias_zone_sensor usecase (ZC, ZR):
+---------------------------------------------
+
+Start RW612 board running simple_gw
+Start NXP board running izs_device
+
+After a couple Zone Status Change Notifications:
+Restart board running izs_device (ZED)
+Once IAS Zone device (ZED) is reconnected to Simple Gateway (ZC), starts periodical Zone Status Change Notifications...
+Restart RW612 board simpe_gw (ZC)
+Once IAS Zone device (ZED) is reconnected to Simple Gateway (ZC), starts periodical Zone Status Change Notifications...
 
 
 Tools setup:
@@ -499,7 +522,6 @@ The 3 sections are ieee802154_eui64, zb_settings & zb_secured:
     |  40 bytes | Channel masks (10 x 4-byte masks)              |
     | 270 bytes | TX power values (one per channel)              |
     |   1 byte  | Options byte                                   |
-    |  18 bytes | Install code                                   |
     +-----------+------------------------------------------------+
     | zb_secured:                                                |
     |  18 bytes | Install code                                   |
@@ -516,7 +538,6 @@ Storage location:
     +-----------+-----------------------+-----------------------+-----------------------+
     | Target    | ieee802154_eui64 addr | zb_settings addr      | zb_secured addr       |
     +-----------+-----------------------+-----------------------+-----------------------+
-    | MCXW71    | IFR0: 0x2002000       | IFR0: 0x2002010       | IFR0: 0x2002200       |
     | MCXW72    | IFR0: 0x2002000       | IFR0: 0x2002010       | IFR0: 0x2002200       |
     +-----------+-----------------------+-----------------------+-----------------------+
 
@@ -526,11 +547,18 @@ Example config:
     Channel Mask:   00 00 08 00
     TX Power:       7 dBm (all 270 values)
     Options:        0x00
-    Install Code:   0000000000000000... (18 bytes)
+    Install Code:   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+                    ^ If an install code is defined, a CRC-16-CCITT (poly 0x1021,
+                      init 0xFFFF, reflected 0x8408, XorOut 0xFFFF) is computed
+                      over the raw code bytes and appended little-endian.
     Passcode:       00 00 00 00
     Header.Version: 0x0004
     Header.Length:  349 bytes (0x015D)
-    Header.CRC:     0xAC705E91 calculated on 345 bytes
+    Header.CRC:     0x72CB7E72
+                    ^ CRC-32 (zlib/ISO 3309) over the 345-byte config body:
+                      len(2) + version(2) + channel_masks(40) + ieee_addr(8) +
+                      tx_power(270) + options(1) + install_code(18) + passcode(4).
+                      Stored little-endian at offset 0 of zb_settings.
 
 
 Example commands for MCXW72:
@@ -542,7 +570,7 @@ Example commands for MCXW72:
     blhost -p /dev/ttyACMx -- write-memory 0x2002000 "{{11 22 33 44 55 66 77 88 00 00 00 00 00 00 00 00}}"
 
     # Step 2: Write zb_settings at 0x2002010
-    blhost -p /dev/ttyACMx -- write-memory 0x2002010 "{{91 5E 70 AC 5D 01 04 00 00 00 08 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}}"
+    blhost -p /dev/ttyACMx -- write-memory 0x2002010 "{{72 7E CB 72 5D 01 04 00 00 00 08 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}}"
 
     # Step 3: Write zb_secured at 0x2002200
     blhost -p /dev/ttyACMx -- write-memory 0x2002200 "{{00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}}"
@@ -553,5 +581,51 @@ Example commands for MCXW72:
 On next restart, you should have: "signal 23: ZDO PRODUCTION_CONFIG_READY, status 0" in your app:
 - read production config is ok
 - production config header has a valid version, len and CRC
+
+
+Provisioning the production config:
+-----------------------------------
+
+Two helpers are provided to write the plaintext production config into IFR0.
+Both compute the header CRC-32 and the install-code CRC-16 automatically, so the
+config values are given as plaintext and no CRC is entered by hand.
+
+1. Host tool (blhost command generator) - build_commands.py
+
+   Reads config.txt (in the same folder) and generates the blhost write-memory
+   commands (written to resulted_commands.txt). Edit config.txt with your values:
+
+       IEEE Address   : 11 22 33 44 55 66 77 88
+       Channel Mask   : 00 08 00 00        # little-endian; 00 08 00 00 = channel 11
+       TX Power       : 7 dBm
+       Options        : 0x43               # low 2 bits = IC type (set automatically
+                                           # from the code length); set bit 6 (0x40)
+                                           # when a passcode is provided. IC+passcode
+                                           # 128-bit -> 0x43
+       Install Code   : 01 02 20 33 30 44 01 02 20 33 30 44 01 02 20 33  # 6/8/12/16 raw code bytes
+       Passcode       : 01 02 03 04
+       Header.Version : 0x0004
+
+   The IC type (options low 2 bits) is derived from the install-code length
+   (6/8/12/16 bytes -> 48/64/96/128-bit) and the CRC-16 is appended for you.
+   Set TARGET / PORT at the top of the script, then:
+
+       python3 build_commands.py
+       # run the generated blhost commands (resulted_commands.txt) against the board
+
+2. On-target Zephyr app - prodcfg_provision
+
+   Standalone one-shot Zephyr firmware app that writes the same plaintext config
+   into IFR0 at runtime via the flash API (no blhost, no host connection needed).
+   Edit the values in the "USER CONFIGURATION" section at the top of src/main.c
+   (ieee_addr, CHANNEL, TXPOWER_DBM, options, install_code, passcode), then build
+   and flash it as a normal Zephyr sample:
+
+       west build -b frdm_mcxw72 modules/zboss/samples/prodcfg_provision \
+            -d _build/frdm_mcxw72/prodcfg_provision -p
+
+   Flash and run it once (see the "OK: IFR0 provisioned ..." console message),
+   then reset the board and load your Zigbee firmware. See the app's
+   readme-prodcfg_provision.txt for details.
 
 

@@ -2,6 +2,10 @@
 
 cmake_minimum_required(VERSION 3.20.0)
 
+# Add lowpower feature config fragment
+get_filename_component(ZBOSS_CONFIG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../config REALPATH)
+set(EXTRA_CONF_FILE ${ZBOSS_CONFIG_DIR}/add_lowpower.conf)
+
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 project(on_off_switch_zed)
 

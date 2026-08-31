@@ -42,7 +42,7 @@ manifest:
     - name: zephyr
       remote: nxp_zephyr_upstream
       repo-path: zephyr
-      revision: 40b11eca7004d47234607903470b2087f2a71ce9
+      revision: 78eca6237dacf71c1d7429c799dc72bb38278b5a
       path: zephyr
       west-commands: scripts/west-commands.yml
       import:
@@ -52,6 +52,13 @@ manifest:
           - mcuboot
           - mbedtls
           - tf-psa-crypto
+
+    - name: hal_nxp
+      remote: nxp_zephyr_upstream
+      revision: 0c8f49a767b205c25e63da24a801bdbeb3e2293b
+      path: modules/hal/nxp
+      groups:
+        - hal
 
   self:
       path: modules/zboss

@@ -49,6 +49,7 @@
     __ASSERT_NO_MSG(0); \
   } while(0)
 
+#define ZB_CALLBACK
 
 #define ZB_SDCC_BANKED
 
@@ -184,6 +185,17 @@ void zb_osif_goto_idle(void);
 void zephyr_low_power_config(uint8_t enable);
 void zephyr_low_power_off(void);
 void zephyr_low_power_on(void);
+
+#ifdef ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
+void zb_ele_init(void);
+void zb_ele_deinit(void);
+
+zb_uint16_t zb_nvram_crypto_overhead(void);
+zb_bool_t   zb_nvram_dataset_is_encrypted(zb_uint16_t dataset_type);
+zb_uint16_t zb_nvram_dataset_encrypt(zb_uint8_t *inBuf, zb_uint16_t inLen, zb_uint8_t *outBuf, zb_uint16_t outSize, zb_uint16_t headerLen);
+zb_uint16_t zb_nvram_dataset_decrypt(zb_uint8_t *inBuf, zb_uint16_t inLen, zb_uint8_t *outBuf, zb_uint16_t outSize, zb_uint16_t headerLen);
+#endif /* ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE */
+
 
 uint8_t zephyr_ota_get_partition_id(const char *partition_name);
 const struct device *zephyr_ota_get_device_pointer(const char *partition_name, uint32_t *offset, uint32_t *size);

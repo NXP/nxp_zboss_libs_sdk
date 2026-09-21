@@ -92,7 +92,7 @@ config stop:                            RO  stop ZigBee stack
 config channel_change [channel]:        RO  configure channel change to channel number [11-26]
 config concentrator [time] [radius]:    RO  configure device as concentrator, time: the time in seconds between concentrator route discoveries [0x0~0xFFFFFFFF], radius the hop count radius for concentrator route discoveries [0-255].
 config ed_timeout [timeout]:            RO  configure network end device timeout [milliseconds]
-config sleepy <interval> <turbo>:       CO  configure sleepy end device (if applicable)
+config sleepy <interval>:               CO  configure sleepy end device, optional interval period <ms> with turbo polling enabled if it is provided
 config pan_channel [get|set] <ch>:      RO  get or set the pan channel (shared with OpenThread)
 config power_capa:                      RO  get tx power capabilities
 config rx_sensitivity:                  RO  get rx sensitivity

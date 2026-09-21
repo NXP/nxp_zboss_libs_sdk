@@ -95,11 +95,11 @@ var group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s =
     [ "zb_zcl_daily_schedule_type_e", "group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#gabfb4b0bc990b1672b9f075f1e285ac0c", [
       [ "ZB_ZCL_DAILY_SCHEDULE_TYPE_LINKY_SCHEDULE", "group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#ggabfb4b0bc990b1672b9f075f1e285ac0ca59206929d808b7496b5d0df00403978a", null ]
     ] ],
-    [ "zb_zcl_daily_schedule_send_cmd_cancel_all_schedules", "group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#ga23322f5209a130fe582dd0a9944e09fc", null ],
-    [ "zb_zcl_daily_schedule_send_cmd_cancel_schedule", "group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#ga756e687778847e3c2fe0070e63428e42", null ],
-    [ "zb_zcl_daily_schedule_send_cmd_get_day_profile", "group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#ga30769be7ea296ef88ba3d5fa603714da", null ],
-    [ "zb_zcl_daily_schedule_send_cmd_get_schedule", "group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#ga8543d34585823c2af573aec9d0d95335", null ],
-    [ "zb_zcl_daily_schedule_send_cmd_get_schedule_cancellation", "group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#gaf4654c5280c9d7ebfd51426d0edc40f7", null ],
-    [ "zb_zcl_daily_schedule_send_cmd_publish_day_profile", "group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#ga288b9c76ea13758494fe5e8c6b6ee99e", null ],
-    [ "zb_zcl_daily_schedule_send_cmd_publish_schedule", "group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#gab89f6dbdb08af64ab960a860ab18aa21", null ]
+    [ "zb_zcl_daily_schedule_send_cmd_cancel_all_schedules", "group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#gaa914271394baedfe3793444087a18ba8", null ],
+    [ "zb_zcl_daily_schedule_send_cmd_cancel_schedule", "group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#ga718034096a52707b2315fed814e03659", null ],
+    [ "zb_zcl_daily_schedule_send_cmd_get_day_profile", "group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#ga420946d2e4df69958bf9c9c91d128385", null ],
+    [ "zb_zcl_daily_schedule_send_cmd_get_schedule", "group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#ga428466436d86f3467a39f25074fa22c7", null ],
+    [ "zb_zcl_daily_schedule_send_cmd_get_schedule_cancellation", "group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#gaa348e82d6235ab6bfc2b2a44a22bf91b", null ],
+    [ "zb_zcl_daily_schedule_send_cmd_publish_day_profile", "group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#ga5c6f2270614d01392621a513c97c9de6", null ],
+    [ "zb_zcl_daily_schedule_send_cmd_publish_schedule", "group___z_b___z_c_l___d_a_i_l_y___s_c_h_e_d_u_l_e___c_o_m_m_a_n_d_s.html#ga8aa2d3cd09270f6e0565df601693da1e", null ]
 ];

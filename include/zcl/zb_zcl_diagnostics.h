@@ -333,7 +333,7 @@ enum zb_zcl_diagnostics_attr_e
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_DIAGNOSTICS_MAC_RX_UCAST_ID(data_ptr) \
 {                                                               \
-  ZB_ZCL_ATTR_DIAGNOSTICS_MAC_TX_BCAST_ID,                      \
+  ZB_ZCL_ATTR_DIAGNOSTICS_MAC_RX_UCAST_ID,                      \
   ZB_ZCL_ATTR_TYPE_U32,                                         \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                 \
   (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                           \
@@ -351,7 +351,7 @@ enum zb_zcl_diagnostics_attr_e
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_DIAGNOSTICS_MAC_TX_UCAST_RETRY_ID(data_ptr) \
 {                                                               \
-  ZB_ZCL_ATTR_DIAGNOSTICS_MAC_TX_UCAST_ID,                      \
+  ZB_ZCL_ATTR_DIAGNOSTICS_MAC_TX_UCAST_RETRY_ID,                \
   ZB_ZCL_ATTR_TYPE_U16,                                         \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                 \
   (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                           \
@@ -360,7 +360,7 @@ enum zb_zcl_diagnostics_attr_e
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_DIAGNOSTICS_MAC_TX_UCAST_FAIL_ID(data_ptr) \
 {                                                               \
-  ZB_ZCL_ATTR_DIAGNOSTICS_MAC_TX_UCAST_ID,                      \
+  ZB_ZCL_ATTR_DIAGNOSTICS_MAC_TX_UCAST_FAIL_ID,                 \
   ZB_ZCL_ATTR_TYPE_U16,                                         \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                 \
   (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                           \
@@ -663,7 +663,7 @@ void zb_zcl_diagnostics_init_client(void);
  * @param cb_param - a parameter of users callback
  * @param cb - users callback
  */
-zb_ret_t zb_zcl_diagnostics_sync_counters(zb_uint8_t cb_param, zb_callback_t cb);
+zb_ret_t zb_zcl_diagnostics_sync_counters(zb_cb_param_t cb_param, zb_callback_t cb);
 
 #define ZB_ZCL_CLUSTER_ID_DIAGNOSTICS_SERVER_ROLE_INIT zb_zcl_diagnostics_init_server
 #define ZB_ZCL_CLUSTER_ID_DIAGNOSTICS_CLIENT_ROLE_INIT zb_zcl_diagnostics_init_client

@@ -7,6 +7,7 @@ var group___z_b___z_c_l___k_e_e_p___a_l_i_v_e =
     [ "ZB_ZCL_ATTR_KEEP_ALIVE_TC_KEEP_ALIVE_BASE_DEFAULT_VALUE", "group___z_b___z_c_l___k_e_e_p___a_l_i_v_e.html#ga87522ddeb546097c7c5821c686845a96", null ],
     [ "ZB_ZCL_ATTR_KEEP_ALIVE_TC_KEEP_ALIVE_JITTER_DEFAULT_VALUE", "group___z_b___z_c_l___k_e_e_p___a_l_i_v_e.html#ga70b5ca648c589a1107fba198410c27c1", null ],
     [ "ZB_ZCL_DECLARE_KEEP_ALIVE_ATTR_LIST", "group___z_b___z_c_l___k_e_e_p___a_l_i_v_e.html#ga267c9d6fdc9d56729e6063db8ee0956d", null ],
+    [ "ZB_ZCL_DECLARE_KEEP_ALIVE_ATTRS_AND_LIST", "group___z_b___z_c_l___k_e_e_p___a_l_i_v_e.html#gafe6020569c3270f9bd6f1771b6b12d00", null ],
     [ "ZB_ZCL_KEEP_ALIVE_CLUSTER_REVISION_DEFAULT", "group___z_b___z_c_l___k_e_e_p___a_l_i_v_e.html#gad6f0430281ae49d48b074991265cde70", null ],
     [ "zb_zcl_keep_alive_attrs_t", "group___z_b___z_c_l___k_e_e_p___a_l_i_v_e.html#ga84a207bcce9d9f8b47bfa63adcf1c48e", null ],
     [ "zb_zcl_keep_alive_attr_e", "group___z_b___z_c_l___k_e_e_p___a_l_i_v_e.html#ga84327c0283c654589540faf8210348bd", [

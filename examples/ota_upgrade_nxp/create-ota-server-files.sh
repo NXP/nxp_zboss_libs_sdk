@@ -19,8 +19,8 @@
 me=$0
 
 # Zboss host (stack 42.20, build 19.2503.001)
-zboss_host_tag=019.2602.049
-zboss_stack=zoi_release-4.2.2.0
+zboss_host_tag=020.2603.014
+zboss_stack=zoi-ZBOSS-5.0.4.1
 
 # Firmware (stack 18.99, build 3p23.0)
 iw61x_version=18.99.3p23.0
@@ -57,7 +57,7 @@ function get_zb_version()
 	local appli_rel=$(printf "%02x" ${appli_yearQ} )
 	local appli_bld=$(printf "%02x" ${appli_index})
 
-	# zboss_stack is zoi_release-4.2.2.0 & up
+	# zboss_stack is zoi-ZBOSS-5.0.3.1 & up
 	local stack_rel=`echo ${stack} | awk -F "-" '{print $2}' | awk -F "." '{print $1$2}'`
 	local stack_bld=`echo ${stack} | awk -F "-" '{print $2}' | awk -F "." '{print $3$4}'`
 	

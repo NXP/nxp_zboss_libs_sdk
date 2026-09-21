@@ -71,10 +71,10 @@ var group___z_b___z_c_l___d_r_l_c___c_o_m_m_a_n_d_s___s_t_r_u_c_t_u_r_e_s___a_n_
       [ "ZB_ZCL_DRLC_SRV_CMD_CANCEL_LOAD_CONTROL_EVENT", "group___z_b___z_c_l___d_r_l_c___c_o_m_m_a_n_d_s___s_t_r_u_c_t_u_r_e_s___a_n_d___d_e_f_i_n_i_t_i_o_n_s.html#ggac96cac6bc57eb7f3a4ecf37c6099e962abb018f5b2136e07d6c6377fdbf4ea2ed", null ],
       [ "ZB_ZCL_DRLC_SRV_CMD_CANCEL_ALL_LOAD_CONTROL_EVENTS", "group___z_b___z_c_l___d_r_l_c___c_o_m_m_a_n_d_s___s_t_r_u_c_t_u_r_e_s___a_n_d___d_e_f_i_n_i_t_i_o_n_s.html#ggac96cac6bc57eb7f3a4ecf37c6099e962a24fb17ed41123ba2775806973b5e6431", null ]
     ] ],
-    [ "zb_drlc_client_send_get_scheduled_events", "group___z_b___z_c_l___d_r_l_c___c_o_m_m_a_n_d_s___s_t_r_u_c_t_u_r_e_s___a_n_d___d_e_f_i_n_i_t_i_o_n_s.html#ga735fb034da03654f4ab1bd541660d454", null ],
-    [ "zb_drlc_client_send_report_event_status", "group___z_b___z_c_l___d_r_l_c___c_o_m_m_a_n_d_s___s_t_r_u_c_t_u_r_e_s___a_n_d___d_e_f_i_n_i_t_i_o_n_s.html#ga073176879172876fa88548bc06473024", null ],
-    [ "zb_drlc_client_send_report_event_status_tsn", "group___z_b___z_c_l___d_r_l_c___c_o_m_m_a_n_d_s___s_t_r_u_c_t_u_r_e_s___a_n_d___d_e_f_i_n_i_t_i_o_n_s.html#gabf5577d421b5e59ad16c722c4dcc299b", null ],
-    [ "zb_drlc_server_send_cancel_all_load_control_events", "group___z_b___z_c_l___d_r_l_c___c_o_m_m_a_n_d_s___s_t_r_u_c_t_u_r_e_s___a_n_d___d_e_f_i_n_i_t_i_o_n_s.html#ga75c703f8408e552d5b94ad692a1b3f29", null ],
-    [ "zb_drlc_server_send_cancel_load_control_event", "group___z_b___z_c_l___d_r_l_c___c_o_m_m_a_n_d_s___s_t_r_u_c_t_u_r_e_s___a_n_d___d_e_f_i_n_i_t_i_o_n_s.html#ga0c21e00ecd20cbbc76e85c646391c0cb", null ],
-    [ "zb_drlc_server_send_load_control_event", "group___z_b___z_c_l___d_r_l_c___c_o_m_m_a_n_d_s___s_t_r_u_c_t_u_r_e_s___a_n_d___d_e_f_i_n_i_t_i_o_n_s.html#gae2802d0cc9cb098b7daf60866eb5df34", null ]
+    [ "zb_drlc_client_send_get_scheduled_events", "group___z_b___z_c_l___d_r_l_c___c_o_m_m_a_n_d_s___s_t_r_u_c_t_u_r_e_s___a_n_d___d_e_f_i_n_i_t_i_o_n_s.html#ga8a36ae32ebfb9f18b4833709b3b53fa9", null ],
+    [ "zb_drlc_client_send_report_event_status", "group___z_b___z_c_l___d_r_l_c___c_o_m_m_a_n_d_s___s_t_r_u_c_t_u_r_e_s___a_n_d___d_e_f_i_n_i_t_i_o_n_s.html#ga0fcb86f4e62ff6ec9038d5b1d0719a1f", null ],
+    [ "zb_drlc_client_send_report_event_status_tsn", "group___z_b___z_c_l___d_r_l_c___c_o_m_m_a_n_d_s___s_t_r_u_c_t_u_r_e_s___a_n_d___d_e_f_i_n_i_t_i_o_n_s.html#ga715ff219886433069d257b0be2ced725", null ],
+    [ "zb_drlc_server_send_cancel_all_load_control_events", "group___z_b___z_c_l___d_r_l_c___c_o_m_m_a_n_d_s___s_t_r_u_c_t_u_r_e_s___a_n_d___d_e_f_i_n_i_t_i_o_n_s.html#gabcc1d68f2da21df76c86a49e3c3f1b2d", null ],
+    [ "zb_drlc_server_send_cancel_load_control_event", "group___z_b___z_c_l___d_r_l_c___c_o_m_m_a_n_d_s___s_t_r_u_c_t_u_r_e_s___a_n_d___d_e_f_i_n_i_t_i_o_n_s.html#ga89a2660c179153cfc5b7b0d5bff01664", null ],
+    [ "zb_drlc_server_send_load_control_event", "group___z_b___z_c_l___d_r_l_c___c_o_m_m_a_n_d_s___s_t_r_u_c_t_u_r_e_s___a_n_d___d_e_f_i_n_i_t_i_o_n_s.html#gad88ef74d0c6658a5e306f2ccfa9a7afa", null ]
 ];

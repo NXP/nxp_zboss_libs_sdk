@@ -40,6 +40,11 @@
 void assert_indication_cb(zb_uint16_t file_id, zb_int_t line_number);
 #endif
 
+#if defined ZB_GPPB_CERTIFICATION_DUT && defined ZB_PLATFORM_NRF52
+#define SP_BUTTON_TO_FACTORY_RESET 3
+void button_handler_to_erase_nvram(zb_cb_param_t param);
+#endif /* ZB_GPPB_CERTIFICATION_DUT && ZB_PLATFORM_NRF52 */
+
 /* In current implementation, the network is re-opened after each device announce */
 #define ZB_EXAMPLE_REOPEN_ZIGBEE_NETWORK
 
@@ -59,6 +64,11 @@ simple_gw_device_ctx_t g_device_ctx;
 /* NWK key for the device */
 static const zb_uint8_t g_key_nwk[16] = { 0xab, 0xcd, 0xef, 0x01, 0x23, 0x45, 0x67, 0x89, 0, 0, 0, 0, 0, 0, 0, 0};
 /* [zb_secur_setup_preconfigured_key_value] */
+
+zb_ieee_addr_t g_zr_addr = {0x96, 0x39, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+zb_ieee_addr_t g_ed_addr = {0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00};
+zb_ieee_addr_t g_ed_bulb_addr = {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
 
 /**
  * Declaring attributes for each cluster
@@ -83,11 +93,19 @@ zb_uint16_t attr_identify_time = 0;
 
 ZB_ZCL_DECLARE_IDENTIFY_ATTRIB_LIST(identify_attr_list, &attr_identify_time);
 
+/* Keep-Alive cluster attributes */
+ZB_ZCL_DECLARE_KEEP_ALIVE_ATTRS_AND_LIST(g_attrs_keep_alive, keep_alive_attr_list);
+
+/* Poll control cluster attributes */
+ZB_ZCL_DECLARE_POLL_CONTROL_ATTRIB_LIST_CLIENT(poll_control_attr_list);
+
 /* Declare cluster list for a device */
 ZB_HA_DECLARE_SIMPLE_GW_CLUSTER_LIST(simple_gw_clusters,
                                      switch_cfg_attr_list,
+                                     keep_alive_attr_list,
                                      basic_attr_list,
-                                     identify_attr_list);
+                                     identify_attr_list,
+                                     poll_control_attr_list);
 
 /* Declare endpoint */
 ZB_HA_DECLARE_SIMPLE_GW_EP(simple_gw_ep, SIMPLE_GW_ENDPOINT, simple_gw_clusters);
@@ -113,6 +131,12 @@ MAIN()
 
   /* Global ZBOSS initialization */
   ZB_INIT("simple_gw");
+
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
+
 #if defined ZB_EXTERNAL_MAC
   /* 12/08/2017 EE CR:MAJOR Very bad solution to expose here, in the test included into every SDK, vendor-specific stuff.
      Define some macro to call argv parser if you need it.
@@ -169,6 +193,11 @@ MAIN()
 #ifdef ZB_ASSERT_SEND_NWK_REPORT
   zb_register_zboss_callback(ZB_ASSERT_INDICATION_CB, SET_ZBOSS_CB(assert_indication_cb));
 #endif
+
+#if defined ZB_GPPB_CERTIFICATION_DUT && defined ZB_PLATFORM_NRF52
+  zb_button_register_handler(SP_BUTTON_TO_FACTORY_RESET, 0, button_handler_to_erase_nvram);
+  zb_set_installcode_policy(ZB_INSTALL_CODE_NOT_REQUIRED);
+#endif /* ZB_GPPB_CERTIFICATION_DUT && ZB_PLATFORM_NRF52 */
 
   /* Initiate the stack start with starting the commissioning */
   if (zboss_start_no_autostart() != RET_OK)
@@ -285,7 +314,7 @@ void simple_gw_leave_indication(zb_ieee_addr_t dev_addr)
 }
 
 /* Callback which will be called on incoming ZCL packet. */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_bufid_t zcl_cmd_buf = param;
   zb_zcl_parsed_hdr_t *cmd_info = ZB_BUF_GET_PARAM(zcl_cmd_buf, zb_zcl_parsed_hdr_t);
@@ -394,13 +423,15 @@ zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
   return cmd_processed;
 }
 
-void find_onoff_device_delayed(zb_uint8_t idx)
+void find_onoff_device_delayed(zb_cb_param_t idx)
 {
   zb_buf_get_out_delayed_ext(find_onoff_device, idx, 0);
 }
 
-void find_onoff_device(zb_uint8_t param, zb_uint16_t dev_idx)
+void find_onoff_device(zb_cb_param_t cb_param)
 {
+  zb_bufid_t param = ZB_UNPACK_BUF_REF(cb_param);
+  zb_uint16_t dev_idx = ZB_UNPACK_USER_PARAM(cb_param);
   zb_bufid_t buf = param;
   zb_zdo_match_desc_param_t *req;
 
@@ -429,7 +460,7 @@ void find_onoff_device(zb_uint8_t param, zb_uint16_t dev_idx)
   TRACE_MSG(TRACE_APP1, "<< find_onoff_device %hd", (FMT__H, param));
 }
 
-void find_onoff_device_cb(zb_uint8_t param)
+void find_onoff_device_cb(zb_cb_param_t param)
 {
   zb_bufid_t buf = param;
   zb_zdo_match_desc_resp_t *resp = (zb_zdo_match_desc_resp_t*)zb_buf_begin(buf);
@@ -460,7 +491,7 @@ void find_onoff_device_cb(zb_uint8_t param)
                 (FMT__D_H_H, g_device_ctx.devices[dev_idx].short_addr, g_device_ctx.devices[dev_idx].endpoint, dev_idx));
 
       /* Next step is to resolve the IEEE address of the bulb */
-        ZB_SCHEDULE_APP_CALLBACK2(device_ieee_addr_req, param, dev_idx);
+        ZB_SCHEDULE_APP_CALLBACK(device_ieee_addr_req, ZB_PACK_2_U16_IN_U32(param, dev_idx));
         param = 0;
     }
     else
@@ -493,8 +524,10 @@ void find_onoff_device_cb(zb_uint8_t param)
 }
 
 /* [zb_zdo_ieee_addr_req_snippet] */
-void device_ieee_addr_req(zb_uint8_t param, zb_uint16_t dev_idx)
+void device_ieee_addr_req(zb_cb_param_t cb_param)
 {
+  zb_bufid_t param = ZB_UNPACK_BUF_REF(cb_param);
+  zb_uint16_t dev_idx = ZB_UNPACK_USER_PARAM(cb_param);
   zb_bufid_t  buf = param;
   zb_zdo_ieee_addr_req_param_t *req_param;
 \
@@ -515,7 +548,7 @@ void device_ieee_addr_req(zb_uint8_t param, zb_uint16_t dev_idx)
   }
 }
 
-void device_ieee_addr_req_cb(zb_uint8_t param)
+void device_ieee_addr_req_cb(zb_cb_param_t param)
 {
   zb_bufid_t buf = param;
   zb_zdo_nwk_addr_resp_head_t *resp;
@@ -541,7 +574,7 @@ void device_ieee_addr_req_cb(zb_uint8_t param)
       g_device_ctx.devices[dev_idx].dev_state = CONFIGURE_BINDING;
 
       /* The next step is to bind the Light control to the bulb */
-      ZB_SCHEDULE_APP_CALLBACK2(bind_device, param, dev_idx);
+      ZB_SCHEDULE_APP_CALLBACK(bind_device, ZB_PACK_2_U16_IN_U32(param, dev_idx));
       param = 0;
     }
     else
@@ -560,8 +593,10 @@ void device_ieee_addr_req_cb(zb_uint8_t param)
 /* [zb_zdo_ieee_addr_req_snippet] */
 
 /* [zb_zdo_bind_req_snippet] */
-void bind_device(zb_uint8_t param, zb_uint16_t dev_idx)
+void bind_device(zb_cb_param_t cb_param)
 {
+  zb_bufid_t param = ZB_UNPACK_BUF_REF(cb_param);
+  zb_uint16_t dev_idx = ZB_UNPACK_USER_PARAM(cb_param);
   zb_bufid_t buf = param;
   zb_zdo_bind_req_param_t *req;
 
@@ -589,7 +624,7 @@ void bind_device(zb_uint8_t param, zb_uint16_t dev_idx)
   TRACE_MSG(TRACE_APP2, "<< bind_device", (FMT__0));
 }
 
-void bind_device_cb(zb_uint8_t param)
+void bind_device_cb(zb_cb_param_t param)
 {
   zb_bufid_t buf = param;
   zb_zdo_bind_resp_t *bind_resp = (zb_zdo_bind_resp_t*)zb_buf_begin(buf);
@@ -602,7 +637,7 @@ void bind_device_cb(zb_uint8_t param)
     {
       g_device_ctx.devices[dev_idx].dev_state = CONFIGURE_REPORTING;
 
-      ZB_SCHEDULE_APP_CALLBACK2(configure_reporting, param, dev_idx);
+      ZB_SCHEDULE_APP_CALLBACK(configure_reporting, ZB_PACK_2_U16_IN_U32(param, dev_idx));
       param = 0;
     }
   }
@@ -614,8 +649,10 @@ void bind_device_cb(zb_uint8_t param)
 }
 /* [zb_zdo_bind_req_snippet] */
 
-void configure_reporting(zb_uint8_t param, zb_uint16_t dev_idx)
+void configure_reporting(zb_cb_param_t cb_param)
 {
+  zb_bufid_t param = ZB_UNPACK_BUF_REF(cb_param);
+  zb_uint16_t dev_idx = ZB_UNPACK_USER_PARAM(cb_param);
   zb_bufid_t buf = param;
   zb_uint8_t *cmd_ptr;
 
@@ -646,7 +683,7 @@ void configure_reporting(zb_uint8_t param, zb_uint16_t dev_idx)
 }
 
 
-void configure_reporting_cb(zb_uint8_t param)
+void configure_reporting_cb(zb_cb_param_t param)
 {
   zb_bufid_t buf = param;
   /* Uncomment to use APSDE-DATA.confirm parameters. */
@@ -677,7 +714,7 @@ void configure_reporting_cb(zb_uint8_t param)
   TRACE_MSG(TRACE_APP2, "<< configure_reporting_cb", (FMT__0));
 }
 
-void send_toggle_req_cb(zb_uint8_t param)
+void send_toggle_req_cb(zb_cb_param_t param)
 {
   zb_zcl_command_send_status_t *cmd_send_status = ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);
   zb_uint8_t idx = SIMPLE_GW_INVALID_DEV_INDEX;
@@ -715,8 +752,10 @@ void send_toggle_req_cb(zb_uint8_t param)
   TRACE_MSG(TRACE_APP2, "<< send_toggle_req_cb g_active_cmds %hd", (FMT__H, g_active_cmds));
 }
 
-void send_toggle_req(zb_uint8_t param, zb_uint16_t dev_idx)
+void send_toggle_req(zb_cb_param_t cb_param)
 {
+  zb_bufid_t param = ZB_UNPACK_BUF_REF(cb_param);
+  zb_uint16_t dev_idx = ZB_UNPACK_USER_PARAM(cb_param);
   zb_bufid_t buf = param;
 
   ZB_ASSERT(param);
@@ -746,7 +785,7 @@ void send_toggle_req(zb_uint8_t param, zb_uint16_t dev_idx)
   TRACE_MSG(TRACE_APP2, "<< send_toggle_req g_active_cmds %hd", (FMT__H, g_active_cmds));
 }
 
-void send_toggle_req_delayed(zb_uint8_t dev_idx)
+void send_toggle_req_delayed(zb_cb_param_t dev_idx)
 {
   zb_buf_get_out_delayed_ext(send_toggle_req, dev_idx, 0);
 }
@@ -805,7 +844,7 @@ zb_ret_t simple_gw_nvram_write_app_data(zb_uint8_t page, zb_uint32_t pos)
 
 #endif  /* ZB_USE_NVRAM */
 
-void find_onoff_device_tmo(zb_uint8_t dev_idx)
+void find_onoff_device_tmo(zb_cb_param_t dev_idx)
 {
   TRACE_MSG(TRACE_APP1, "find_onoff_device_tmo: dev_idx %hd", (FMT__H, dev_idx));
 
@@ -883,8 +922,11 @@ void simple_gw_send_leave_req(zb_uint8_t param, zb_uint16_t short_addr, zb_bool_
   }
 /* [address_by_short] */
 
-void simple_gw_leave_device(zb_uint8_t param, zb_uint16_t short_addr)
+void simple_gw_leave_device(zb_cb_param_t cb_param)
 {
+  zb_bufid_t param = ZB_UNPACK_BUF_REF(cb_param);
+  zb_uint16_t short_addr = ZB_UNPACK_USER_PARAM(cb_param);
+
   TRACE_MSG(TRACE_APP1, ">> simple_gw_leave_device param %hd short_addr %d", (FMT__H_D, param, short_addr));
 
   if (!param)
@@ -899,8 +941,11 @@ void simple_gw_leave_device(zb_uint8_t param, zb_uint16_t short_addr)
   TRACE_MSG(TRACE_APP1, "<< simple_gw_leave_device", (FMT__0));
 }
 
-void simple_gw_leave_and_rejoin_device(zb_uint8_t param, zb_uint16_t short_addr)
+void simple_gw_leave_and_rejoin_device(zb_cb_param_t cb_param)
 {
+  zb_bufid_t param = ZB_UNPACK_BUF_REF(cb_param);
+  zb_uint16_t short_addr = ZB_UNPACK_USER_PARAM(cb_param);
+
   TRACE_MSG(TRACE_APP1, ">> simple_gw_leave_and_rejoin_device param %hd short_addr %d", (FMT__H_D, param, short_addr));
 
   if (!param)
@@ -925,7 +970,7 @@ void simple_gw_remove_device(zb_uint8_t idx)
 #endif
 }
 
-void simple_gw_remove_and_rejoin_device_delayed(zb_uint8_t idx)
+void simple_gw_remove_and_rejoin_device_delayed(zb_cb_param_t idx)
 {
   TRACE_MSG(TRACE_APP1, "simple_gw_remove_and_rejoin_device_delayed: short_addr 0x%x", (FMT__D, g_device_ctx.devices[idx].short_addr));
 
@@ -933,7 +978,7 @@ void simple_gw_remove_and_rejoin_device_delayed(zb_uint8_t idx)
   simple_gw_remove_device(idx);
 }
 
-void simple_gw_remove_device_delayed(zb_uint8_t idx)
+void simple_gw_remove_device_delayed(zb_cb_param_t idx)
 {
   TRACE_MSG(TRACE_APP1, "simple_gw_remove_device_delayed: short_addr 0x%x", (FMT__D, g_device_ctx.devices[idx].short_addr));
 
@@ -941,7 +986,7 @@ void simple_gw_remove_device_delayed(zb_uint8_t idx)
   simple_gw_remove_device(idx);
 }
 
-void toggle_bulbs(zb_uint8_t param)
+void toggle_bulbs(zb_cb_param_t param)
 {
   zb_uint8_t i;
   ZVUNUSED(param);
@@ -967,7 +1012,7 @@ void toggle_bulbs(zb_uint8_t param)
 }
 
 #ifdef ZB_EXAMPLE_REOPEN_ZIGBEE_NETWORK
-static void send_permit_joining_req(zb_bufid_t param)
+static void send_permit_joining_req(zb_cb_param_t param)
 {
   zb_zdo_mgmt_permit_joining_req_param_t *request;
 
@@ -1006,7 +1051,7 @@ static void start_concentrator_mode(zb_uint8_t radius, zb_uint32_t disc_time)
 #endif /* ZB_EXAMPLE_CONCENTRATOR_MODE_ENABLE */
 
 /* Callback which will be called on startup procedure complete (successful or not). */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
 #ifdef ZB_EXAMPLE_REOPEN_ZIGBEE_NETWORK
   zb_uint8_t status = ZB_GET_APP_SIGNAL_STATUS(param);
@@ -1028,6 +1073,11 @@ void zboss_signal_handler(zb_uint8_t param)
       break;
 #endif
       case ZB_ZDO_SIGNAL_SKIP_STARTUP:
+#ifndef ZB_GPPB_CERTIFICATION_DUT
+        zb_secur_ic_add(g_zr_addr, ZB_IC_TYPE_PASSCODE, g_passcode, NULL);
+        zb_secur_ic_add(g_ed_addr, ZB_IC_TYPE_PASSCODE, g_passcode, NULL);
+        zb_secur_ic_add(g_ed_bulb_addr, ZB_IC_TYPE_PASSCODE, g_passcode, NULL);
+#endif /* !ZB_GPPB_CERTIFICATION_DUT */
         zboss_start_continue();
         break;
 
@@ -1146,3 +1196,14 @@ void zboss_signal_handler(zb_uint8_t param)
     zb_buf_free(param);
   }
 }
+
+#if defined ZB_GPPB_CERTIFICATION_DUT && defined ZB_PLATFORM_NRF52
+void button_handler_to_erase_nvram(zb_cb_param_t param)
+{
+  ZVUNUSED(param);
+#ifdef ZB_USE_NVRAM
+  (void)zb_nvram_erase();
+#endif
+  zb_reset(0);
+}
+#endif /* ZB_GPPB_CERTIFICATION_DUT && ZB_PLATFORM_NRF52 */

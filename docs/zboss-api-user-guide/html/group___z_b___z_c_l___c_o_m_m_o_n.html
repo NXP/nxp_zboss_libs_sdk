@@ -96,12 +96,21 @@ Modules</h2></td></tr>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structzb__zcl__command__send__status__s.html">zb_zcl_command_send_status_s</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structzb__zcl__set__attr__value__param__s.html">zb_zcl_set_attr_value_param_s</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Declare for change attribute for User Application.  <a href="structzb__zcl__set__attr__value__param__s.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:gaccac844ddab16d2937644439c7f71efc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___z_c_l___c_o_m_m_o_n.html#gaccac844ddab16d2937644439c7f71efc">ZB_ZCL_FIX_ENDIAN</a>(data_ptr,  data_type)</td></tr>
 <tr class="memdesc:gaccac844ddab16d2937644439c7f71efc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fix data endian, if needed, and store it in the same buffer.  <a href="group___z_b___z_c_l___c_o_m_m_o_n.html#gaccac844ddab16d2937644439c7f71efc">More...</a><br /></td></tr>
 <tr class="separator:gaccac844ddab16d2937644439c7f71efc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3dacf9b81eca118133a3e677e66b3ac2"><td class="memItemLeft" align="right" valign="top"><a id="ga3dacf9b81eca118133a3e677e66b3ac2"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ZB_ZCL_PROCESS_COMMAND_FINISH</b>(buffer,  pcmd_info,  status)&#160;&#160;&#160;<a class="el" href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga29212ca456628e59b44ecd3fb54a7b6c">zb_zcl_process_command_finish</a>(buffer, pcmd_info, status)</td></tr>
+<tr class="separator:ga3dacf9b81eca118133a3e677e66b3ac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6b6af1ea0dabe2ca383ad72e158f26ae"><td class="memItemLeft" align="right" valign="top"><a id="ga6b6af1ea0dabe2ca383ad72e158f26ae"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ZB_ZCL_PROCESS_COMMAND_FINISH_NEW</b>(buffer,  pcmd_info,  status)&#160;&#160;&#160;zb_zcl_process_command_finish_new(buffer, pcmd_info, status)</td></tr>
+<tr class="separator:ga6b6af1ea0dabe2ca383ad72e158f26ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -119,6 +128,9 @@ Typedefs</h2></td></tr>
 <tr class="memitem:ga47ee18d3901717c7e68922874d76c4ef"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga47ee18d3901717c7e68922874d76c4ef">zb_zcl_peer_revision_cb_t</a>) (<a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_addr, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> cluster_id, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> cluster_role, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> endpoint)</td></tr>
 <tr class="memdesc:ga47ee18d3901717c7e68922874d76c4ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get peer Cluster revision callback.  <a href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga47ee18d3901717c7e68922874d76c4ef">More...</a><br /></td></tr>
 <tr class="separator:ga47ee18d3901717c7e68922874d76c4ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0fe76b9dc5253fc8e8284ac6169da2d1"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structzb__zcl__set__attr__value__param__s.html">zb_zcl_set_attr_value_param_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga0fe76b9dc5253fc8e8284ac6169da2d1">zb_zcl_set_attr_value_param_t</a></td></tr>
+<tr class="memdesc:ga0fe76b9dc5253fc8e8284ac6169da2d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Declare for change attribute for User Application.  <a href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga0fe76b9dc5253fc8e8284ac6169da2d1">More...</a><br /></td></tr>
+<tr class="separator:ga0fe76b9dc5253fc8e8284ac6169da2d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -183,14 +195,20 @@ Functions</h2></td></tr>
 <tr class="memitem:ga63b3b1c3e65feaa0a5c1147ccc3ba153"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__zb__zcl__common__types.html#ga336a95f44b283dba38a47f605382be05">zb_zcl_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga63b3b1c3e65feaa0a5c1147ccc3ba153">zb_zcl_set_attr_val</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> ep, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> cluster_id, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> cluster_role, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> attr_id, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> *value, <a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> check_access)</td></tr>
 <tr class="memdesc:ga63b3b1c3e65feaa0a5c1147ccc3ba153"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets attribute value, perform all needed checks before and after setting new value.  <a href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga63b3b1c3e65feaa0a5c1147ccc3ba153">More...</a><br /></td></tr>
 <tr class="separator:ga63b3b1c3e65feaa0a5c1147ccc3ba153"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaedf8fcff9e036d76a4e0214dfba40e39"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___z_c_l___c_o_m_m_o_n.html#gaedf8fcff9e036d76a4e0214dfba40e39">zb_zcl_register_cb</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param, <a class="el" href="group__sched.html#gac77cf2f969243abf27172c7ddb0f376d">zb_callback_t</a> cb)</td></tr>
-<tr class="memdesc:gaedf8fcff9e036d76a4e0214dfba40e39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register callback that should be called when APS acknowledge is received for ZCL command.  <a href="group___z_b___z_c_l___c_o_m_m_o_n.html#gaedf8fcff9e036d76a4e0214dfba40e39">More...</a><br /></td></tr>
-<tr class="separator:gaedf8fcff9e036d76a4e0214dfba40e39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaedb59f54b2903d65723d2b055886990f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___z_c_l___c_o_m_m_o_n.html#gaedb59f54b2903d65723d2b055886990f">zb_zcl_ack_callback</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param)</td></tr>
-<tr class="memdesc:gaedb59f54b2903d65723d2b055886990f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call callback on receiving APS acknowledge for ZCL command.  <a href="group___z_b___z_c_l___c_o_m_m_o_n.html#gaedb59f54b2903d65723d2b055886990f">More...</a><br /></td></tr>
-<tr class="separator:gaedb59f54b2903d65723d2b055886990f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5a4cf1064a12601583296abb7b1ead88"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga5a4cf1064a12601583296abb7b1ead88">zb_zcl_check_accept_command</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param)</td></tr>
-<tr class="separator:ga5a4cf1064a12601583296abb7b1ead88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1aeec14f51f2f868f9eb708fbc334d28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga1aeec14f51f2f868f9eb708fbc334d28">zb_zcl_register_cb</a> (<a class="el" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a> param, <a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a> cb)</td></tr>
+<tr class="memdesc:ga1aeec14f51f2f868f9eb708fbc334d28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register callback that should be called when APS acknowledge is received for ZCL command.  <a href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga1aeec14f51f2f868f9eb708fbc334d28">More...</a><br /></td></tr>
+<tr class="separator:ga1aeec14f51f2f868f9eb708fbc334d28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga97b4f2bb3e6849e43f4e14ed12d42b11"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga97b4f2bb3e6849e43f4e14ed12d42b11">zb_zcl_ack_callback</a> (<a class="el" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a> param)</td></tr>
+<tr class="memdesc:ga97b4f2bb3e6849e43f4e14ed12d42b11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call callback on receiving APS acknowledge for ZCL command.  <a href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga97b4f2bb3e6849e43f4e14ed12d42b11">More...</a><br /></td></tr>
+<tr class="separator:ga97b4f2bb3e6849e43f4e14ed12d42b11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0efc617cab558376319ceea374bfe24e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga0efc617cab558376319ceea374bfe24e">zb_zcl_check_accept_command</a> (<a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> param)</td></tr>
+<tr class="separator:ga0efc617cab558376319ceea374bfe24e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga29212ca456628e59b44ecd3fb54a7b6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga29212ca456628e59b44ecd3fb54a7b6c">zb_zcl_process_command_finish</a> (<a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> buffer, const <a class="el" href="group__zb__zcl__common__frame.html#ga066695d1a2029480e467634a00de734e">zb_zcl_parsed_hdr_t</a> *pcmd_info, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> status)</td></tr>
+<tr class="memdesc:ga29212ca456628e59b44ecd3fb54a7b6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Common continue command.  <a href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga29212ca456628e59b44ecd3fb54a7b6c">More...</a><br /></td></tr>
+<tr class="separator:ga29212ca456628e59b44ecd3fb54a7b6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacde692985b846796aeb20609a8bd63a9"><td class="memItemLeft" align="right" valign="top"><a id="gacde692985b846796aeb20609a8bd63a9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_zcl_process_command_finish_new</b> (<a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> buffer, <a class="el" href="group__zb__zcl__common__frame.html#ga066695d1a2029480e467634a00de734e">zb_zcl_parsed_hdr_t</a> *pcmd_info, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> status)</td></tr>
+<tr class="separator:gacde692985b846796aeb20609a8bd63a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab5ca37a581d41e73b8f308eac2e8562f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___z_c_l___c_o_m_m_o_n.html#gab5ca37a581d41e73b8f308eac2e8562f">zb_zcl_set_backward_comp_mode</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> mode)</td></tr>
 <tr class="memdesc:gab5ca37a581d41e73b8f308eac2e8562f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set ZCL backward compatibility modes.  <a href="group___z_b___z_c_l___c_o_m_m_o_n.html#gab5ca37a581d41e73b8f308eac2e8562f">More...</a><br /></td></tr>
 <tr class="separator:gab5ca37a581d41e73b8f308eac2e8562f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -343,6 +361,23 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>peer Cluster revision attribute value, 0xFFFF - if the revision is unknown </dd></dl>
+
+</div>
+</div>
+<a id="ga0fe76b9dc5253fc8e8284ac6169da2d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0fe76b9dc5253fc8e8284ac6169da2d1">&#9670;&nbsp;</a></span>zb_zcl_set_attr_value_param_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structzb__zcl__set__attr__value__param__s.html">zb_zcl_set_attr_value_param_s</a> <a class="el" href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga0fe76b9dc5253fc8e8284ac6169da2d1">zb_zcl_set_attr_value_param_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Declare for change attribute for User Application. </p>
+<dl class="section note"><dt>Note</dt><dd>Size of values must be twice as large as maximum size of a possible attribute </dd></dl>
 
 </div>
 </div>
@@ -517,8 +552,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gaedb59f54b2903d65723d2b055886990f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaedb59f54b2903d65723d2b055886990f">&#9670;&nbsp;</a></span>zb_zcl_ack_callback()</h2>
+<a id="ga97b4f2bb3e6849e43f4e14ed12d42b11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga97b4f2bb3e6849e43f4e14ed12d42b11">&#9670;&nbsp;</a></span>zb_zcl_ack_callback()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -526,7 +561,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zb_zcl_ack_callback </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a>&#160;</td>
           <td class="paramname"><em>param</em></td><td>)</td>
           <td></td>
         </tr>
@@ -544,8 +579,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ga5a4cf1064a12601583296abb7b1ead88"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga5a4cf1064a12601583296abb7b1ead88">&#9670;&nbsp;</a></span>zb_zcl_check_accept_command()</h2>
+<a id="ga0efc617cab558376319ceea374bfe24e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0efc617cab558376319ceea374bfe24e">&#9670;&nbsp;</a></span>zb_zcl_check_accept_command()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -553,7 +588,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> zb_zcl_check_accept_command </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a>&#160;</td>
           <td class="paramname"><em>param</em></td><td>)</td>
           <td></td>
         </tr>
@@ -615,7 +650,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check if attribute value is valid or not. </p>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000031">Deprecated:</a></b></dt><dd>This function will be removed in the next Major release after February 2023 Use <a class="el" href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga9c4af4aa23fb0555ffbf9294934e7c82">zb_zcl_check_attr_value_manuf</a> instead</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cluster_id</td><td>- cluster ID </td></tr>
@@ -1161,6 +1195,51 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ga29212ca456628e59b44ecd3fb54a7b6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga29212ca456628e59b44ecd3fb54a7b6c">&#9670;&nbsp;</a></span>zb_zcl_process_command_finish()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zb_zcl_process_command_finish </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a>&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__zb__zcl__common__frame.html#ga066695d1a2029480e467634a00de734e">zb_zcl_parsed_hdr_t</a> *&#160;</td>
+          <td class="paramname"><em>pcmd_info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramname"><em>status</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Common continue command. </p>
+<p>DOXYGEN_INTERNAL_DOC Usually use after invoke User App. If invoke User App finished with error (status!=RET_OK), send error response, else if not disabled default response send it or free buffer</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>- buffer for send response </td></tr>
+    <tr><td class="paramname">pcmd_info</td><td>- pointer of cmd_info (see <a class="el" href="structzb__zcl__parsed__hdr__s.html">zb_zcl_parsed_hdr_s</a>) </td></tr>
+    <tr><td class="paramname">status</td><td>- status of operation (see <a class="el" href="group__zb__zcl__common__types.html#ga336a95f44b283dba38a47f605382be05">zb_zcl_status_t</a>) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="gaf6702fc1c25da9ec33af5abc4f8bd694"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaf6702fc1c25da9ec33af5abc4f8bd694">&#9670;&nbsp;</a></span>zb_zcl_put_value_to_packet()</h2>
 
@@ -1205,8 +1284,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gaedf8fcff9e036d76a4e0214dfba40e39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaedf8fcff9e036d76a4e0214dfba40e39">&#9670;&nbsp;</a></span>zb_zcl_register_cb()</h2>
+<a id="ga1aeec14f51f2f868f9eb708fbc334d28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1aeec14f51f2f868f9eb708fbc334d28">&#9670;&nbsp;</a></span>zb_zcl_register_cb()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1214,13 +1293,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zb_zcl_register_cb </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a>&#160;</td>
           <td class="paramname"><em>param</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__sched.html#gac77cf2f969243abf27172c7ddb0f376d">zb_callback_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a>&#160;</td>
           <td class="paramname"><em>cb</em>&#160;</td>
         </tr>
         <tr>
@@ -1583,6 +1662,6 @@ RET_OUT_OF_RANGE if parameter is out of range </dd></dl>
     <a href="http://www.dsr-corporation.com">http://www.dsr-corporation.com</a>
   </div>
 </div>
-<div>ZBOSS documentation. Wed May 27 2026.</div>
+<div>ZBOSS documentation. Mon Sep 21 2026.</div>
 </body>
 </html>

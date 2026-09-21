@@ -5,6 +5,8 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
+ * Copyright 2026 NXP
+ *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
  * publication of such source code.
@@ -28,6 +30,7 @@
 
 
 zb_ieee_addr_t g_zr_addr = MULTI_EP_ZED_IEEE_ADDRESS; /* IEEE address of the device */
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
 
 /* Declare "zb_af_simple_desc_#num_in_#num_out_t" */
 ZB_DECLARE_SIMPLE_DESC(3, 0);
@@ -195,6 +198,11 @@ MAIN()
   /* Global ZBOSS initialization */
   ZB_INIT("multiendpoint_zed");
 
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
+
   zb_set_long_address(g_zr_addr);
   zb_set_network_ed_role(MULTI_EP_ZED_DEFAULT_APS_CHANNEL_MASK);
   zb_set_rx_on_when_idle(ZB_TRUE);
@@ -206,6 +214,8 @@ MAIN()
 
   /* Register device ZCL context */
   ZB_AF_REGISTER_DEVICE_CTX(&multiendpoint_zed_device_zcl_ctx);
+
+  zb_secur_ic_set(ZB_IC_TYPE_PASSCODE, g_passcode);
 
   /* Initiate the stack start with starting the commissioning */
   if (zboss_start() != RET_OK)
@@ -230,7 +240,7 @@ MAIN()
 #define ZC_EP3  23
 #define ZC_EP4  24
 
-void configure_reporting_locally(zb_bufid_t param)
+void configure_reporting_locally(zb_cb_param_t param)
 {
   zb_zcl_reporting_info_t rep_info;
 
@@ -260,8 +270,10 @@ void configure_reporting_locally(zb_bufid_t param)
 }
 
 
-void toggle_on_off(zb_uint8_t on_off_state)
+void toggle_on_off(zb_cb_param_t param)
 {
+  zb_uint8_t on_off_state = (zb_uint8_t)param;
+
   TRACE_MSG(TRACE_APP1, ">> toggle_on_off on_off_state %hd ", (FMT__H, on_off_state));
 
   if (on_off_state == ZB_ZCL_ON_OFF_IS_ON)
@@ -283,7 +295,7 @@ void toggle_on_off(zb_uint8_t on_off_state)
   TRACE_MSG(TRACE_APP1, "<< toggle_on_off on_off_state %hd ", (FMT__H, on_off_state));
 }
 
-void configure_local_binding_completed(zb_bufid_t param)
+void configure_local_binding_completed(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, ">> configure_local_binding_completed", (FMT__0));
 
@@ -295,7 +307,7 @@ void configure_local_binding_completed(zb_bufid_t param)
   TRACE_MSG(TRACE_APP1, "<< configure_local_binding_completed", (FMT__0));
 }
 
-void configure_local_binding(zb_bufid_t param)
+void configure_local_binding(zb_cb_param_t param)
 {
   zb_zdo_bind_req_param_t *req;
 
@@ -330,7 +342,7 @@ void configure_local_binding(zb_bufid_t param)
 }
 
 /* Callback to handle the stack events */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   /* Get application signal from the buffer */
   zb_zdo_app_signal_type_t sig = zb_get_app_signal(param, NULL);

@@ -257,7 +257,7 @@ zb_zcl_tunnel_transfer_data_resp_t;
 /** Callback to inform user about tx operation status or rx data;
  * @param param - param is reference to a buffer;
  * zb_zcl_tunnel_io_param_t is stored as buffer parameter */
-typedef void (ZB_CODE * zb_zcl_tunnel_cb_t)(zb_uint8_t param);
+typedef void (ZB_CODE * zb_zcl_tunnel_cb_t)(zb_cb_param_t param);
 
 /** Tunnel operation status
  */
@@ -278,7 +278,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_tunnel_io_param_s
   zb_uint16_t peer_addr;
   zb_uint8_t  peer_ep;
   zb_uint8_t  src_ep;
-  zb_uint8_t  next_buf; /* pointer to the next buf for fragmented data */
+  zb_bufid_t  next_buf; /* pointer to the next buf for fragmented data */
   zb_zcl_tunnel_op_status_t op_status;
   zb_uint8_t seq;
 }
@@ -295,11 +295,11 @@ void zb_zcl_tunnel_register_cb(zb_zcl_tunnel_cb_t tunnel_cb);
 /** Start user data transmit. buf_param is a reference to a buffer;
  * zb_zcl_tunnel_io_param_t is stored as a buffer parameter;
  * data to be transmitted is stored as buffer data */
-zb_ret_t zb_zcl_tunnel_transmit_data(zb_uint8_t buf_param);
+zb_ret_t zb_zcl_tunnel_transmit_data(zb_bufid_t buf_param);
 
 /** Default user application
  * Contain default handle (usually free buffer) for different Tunnel Status command  */
-void zb_zcl_tunnel_default_user_app(zb_uint8_t param);
+void zb_zcl_tunnel_default_user_app(zb_bufid_t param);
 
 /*! @} */ /* Tunnel cluster commands */
 
@@ -338,21 +338,21 @@ typedef struct zb_zcl_tunnel_context_s
   zb_zcl_tunnel_cb_t tunnel_cb; /* user callback - should be registered */
   /* store reference to i/o buffer: tx or rx;
    * zb_zcl_tunnel_io_param_t is stored as buffer parameter to keep status info */
-  zb_uint8_t tunnel_io_slot[ZB_ZCL_TUNNEL_MAX_IO_SLOT_NUMBER];
+  zb_bufid_t tunnel_io_slot[ZB_ZCL_TUNNEL_MAX_IO_SLOT_NUMBER];
 }
 zb_zcl_tunnel_context_t;
 
-zb_ret_t zb_zcl_tunnel_transfer_data_req_handler(zb_uint8_t buf_param);
-zb_ret_t zb_zcl_tunnel_transfer_data_resp_handler(zb_uint8_t buf_param);
-void zb_zcl_tunnel_transfer_data_resp_send(zb_uint8_t param, zb_uint16_t endpoint16);
+zb_ret_t zb_zcl_tunnel_transfer_data_req_handler(zb_bufid_t buf_param);
+zb_ret_t zb_zcl_tunnel_transfer_data_resp_handler(zb_bufid_t buf_param);
+void zb_zcl_tunnel_transfer_data_resp_send(zb_cb_param_t cb_param);
 
-void zb_zcl_tunnel_send_fist_block(zb_uint8_t param, zb_uint16_t index16);
-void zb_zcl_tunnel_timeout(zb_uint8_t index);
+void zb_zcl_tunnel_send_fist_block(zb_cb_param_t cb_param);
+void zb_zcl_tunnel_timeout(zb_cb_param_t index);
 void zb_zcl_tunnel_invoke_user_app(zb_uint8_t param);
 
-zb_ret_t zb_zcl_process_tunnel_default_response_commands(zb_uint8_t param);
+zb_ret_t zb_zcl_process_tunnel_default_response_commands(zb_bufid_t param);
 
-zb_bool_t zb_zcl_process_tunnel_specific_commands(zb_uint8_t param);
+zb_bool_t zb_zcl_process_tunnel_specific_commands(zb_bufid_t param);
 
 /*! @} */ /* addtogroup */
 

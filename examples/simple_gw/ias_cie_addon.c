@@ -32,9 +32,9 @@
 extern simple_gw_device_ctx_t g_device_ctx;
 extern zb_ieee_addr_t g_zc_addr;
 
-void simple_gw_remove_device_delayed(zb_uint8_t idx);
+void simple_gw_remove_device_delayed(zb_cb_param_t idx);
 
-void find_ias_zone_device_tmo(zb_uint8_t dev_idx)
+void find_ias_zone_device_tmo(zb_cb_param_t dev_idx)
 {
   TRACE_MSG(TRACE_APP1, "find_ias_zone_device_tmo", (FMT__0));
 
@@ -46,13 +46,15 @@ void find_ias_zone_device_tmo(zb_uint8_t dev_idx)
   }
 }
 
-void find_ias_zone_device_delayed(zb_uint8_t idx)
+void find_ias_zone_device_delayed(zb_cb_param_t idx)
 {
   zb_buf_get_out_delayed_ext(find_ias_zone_device, g_device_ctx.devices[idx].short_addr, 0);
 }
 
-void find_ias_zone_device(zb_uint8_t param, zb_uint16_t short_addr)
+void find_ias_zone_device(zb_cb_param_t cb_param)
 {
+  zb_bufid_t param = ZB_UNPACK_BUF_REF(cb_param);
+  zb_uint16_t short_addr = ZB_UNPACK_USER_PARAM(cb_param);
   zb_bufid_t buf = param;
   zb_zdo_match_desc_param_t *req;
 
@@ -73,7 +75,7 @@ void find_ias_zone_device(zb_uint8_t param, zb_uint16_t short_addr)
   TRACE_MSG(TRACE_APP1, "<< find_ias_zone_device %hd", (FMT__H, param));
 }
 
-void find_ias_zone_device_cb(zb_uint8_t param)
+void find_ias_zone_device_cb(zb_cb_param_t param)
 {
   zb_bufid_t buf = param;
   zb_zdo_match_desc_resp_t *resp = (zb_zdo_match_desc_resp_t*)zb_buf_begin(buf);
@@ -106,7 +108,7 @@ void find_ias_zone_device_cb(zb_uint8_t param)
                 (FMT__D_H_H, g_device_ctx.devices[dev_idx].short_addr, g_device_ctx.devices[dev_idx].endpoint, dev_idx));
 
       /* Next step is to send CIE address */
-      ZB_SCHEDULE_APP_CALLBACK2(write_cie_addr, param, dev_idx);
+      ZB_SCHEDULE_APP_CALLBACK(write_cie_addr, ZB_PACK_2_U16_IN_U32(param, dev_idx));
         param = 0;
     }
     else
@@ -132,9 +134,11 @@ void find_ias_zone_device_cb(zb_uint8_t param)
   TRACE_MSG(TRACE_APP1, "<< find_ias_zone_device_cb", (FMT__0));
 }
 
-void write_cie_addr(zb_uint8_t param, zb_uint16_t dev_idx)
+void write_cie_addr(zb_cb_param_t cb_param)
 {
   zb_uint8_t *cmd_ptr;
+  zb_bufid_t param = ZB_UNPACK_BUF_REF(cb_param);
+  zb_uint16_t dev_idx = ZB_UNPACK_USER_PARAM(cb_param);
 
   g_device_ctx.devices[dev_idx].dev_state = COMPLETED_NO_TOGGLE;
 

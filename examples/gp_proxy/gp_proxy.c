@@ -33,17 +33,25 @@
 zb_ieee_addr_t g_zr_addr = {0xa2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 zb_uint8_t g_key_nwk[16] = { 0xab, 0xcd, 0xef, 0x01, 0x23, 0x45, 0x67, 0x89, 0, 0, 0, 0, 0, 0, 0, 0};
 
-zb_uint8_t test_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t test_specific_cluster_cmd_handler(zb_cb_param_t param);
 
 MAIN()
 {
   ARGV_UNUSED;
 
+  /* Trace enable */
+  ZB_SET_TRACE_ON();
+  /* Traffic dump enable */
   ZB_SET_TRAF_DUMP_ON();
   ZB_SET_TRACE_MASK(TRACE_SUBSYSTEM_APP | TRACE_SUBSYSTEM_TEST);
   ZB_SET_TRACE_LEVEL(1);
 
   ZB_INIT("zr_proxy");
+
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
 
   /* use well-known key to simplify decrypt in Wireshark */
   zb_secur_setup_nwk_key(g_key_nwk, 0);
@@ -51,7 +59,7 @@ MAIN()
   zb_set_long_address(g_zr_addr);
   /*zb_set_network_router_role(ZB_TRANSCEIVER_ALL_CHANNELS_MASK);*/
   zb_set_network_router_role(1l<<21);
-  zb_set_nvram_erase_at_start(ZB_TRUE);
+  zb_set_nvram_erase_at_start(ZB_FALSE);
 
   if (zboss_start() != RET_OK)
   {
@@ -73,7 +81,7 @@ MAIN()
 
    @param - buffer with event
  */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_type_t sig = zb_get_app_signal(param, NULL);
 

@@ -38,6 +38,6 @@ var group___z_b___z_c_l___e_n_e_r_g_y___m_a_n_a_g_e_m_e_n_t___c_o_m_m_a_n_d_s =
     [ "zb_zcl_energy_management_srv_cmd_e", "group___z_b___z_c_l___e_n_e_r_g_y___m_a_n_a_g_e_m_e_n_t___c_o_m_m_a_n_d_s.html#ga299a9bb1ee7c59911279f40501b8f809", [
       [ "ZB_ZCL_ENERGY_MANAGEMENT_SRV_CMD_REPORT_EVENT_STATUS", "group___z_b___z_c_l___e_n_e_r_g_y___m_a_n_a_g_e_m_e_n_t___c_o_m_m_a_n_d_s.html#gga299a9bb1ee7c59911279f40501b8f809aea138ce1f5c693ec22c99ca2649d1b7c", null ]
     ] ],
-    [ "zb_zcl_energy_management_client_send_manage_event", "group___z_b___z_c_l___e_n_e_r_g_y___m_a_n_a_g_e_m_e_n_t___c_o_m_m_a_n_d_s.html#gae7307362b83426afe815437b665a2fd1", null ],
-    [ "zb_zcl_energy_management_server_send_report_event_status", "group___z_b___z_c_l___e_n_e_r_g_y___m_a_n_a_g_e_m_e_n_t___c_o_m_m_a_n_d_s.html#ga3fa9b1d3c2c55b6b5de74926e7fa1aba", null ]
+    [ "zb_zcl_energy_management_client_send_manage_event", "group___z_b___z_c_l___e_n_e_r_g_y___m_a_n_a_g_e_m_e_n_t___c_o_m_m_a_n_d_s.html#gaa52547f27226ceed46706b57dc421969", null ],
+    [ "zb_zcl_energy_management_server_send_report_event_status", "group___z_b___z_c_l___e_n_e_r_g_y___m_a_n_a_g_e_m_e_n_t___c_o_m_m_a_n_d_s.html#ga0e3c835b6595601e2188fde1fa409480", null ]
 ];

@@ -53,6 +53,42 @@
 int osif_is_term_sig_received(void);
 #define ZB_OSIF_IS_EXIT() osif_is_term_sig_received()
 
+typedef void (*osif_deinit_callback_t)(void);
+
+zb_ret_t osif_deinit_callback_add(osif_deinit_callback_t cb);
+
+/**
+ * Signal handler is supposed to be called for any signals that
+ * the platform (the implementation of osif platform actually)
+ * may provide.
+ *
+ * Note: signal handler is executed in the context of the signal
+ * so it is async to other run flow of the application
+ * and shouldn't do heavy operations, ideally just setting a flag.
+ */
+typedef void (*osif_signal_handler_t)(int);
+
+/**
+  Add a signal handler
+
+   @param new_handler - signal handler that should be added
+
+   @return RET_OK in case of success, otherwise the error:
+
+           RET_ALREADY_EXISTS in case this handler is already added
+           RET_NO_MEMORY in case there's no room to place the new handler
+ */
+zb_ret_t osif_signal_handler_add(osif_signal_handler_t new_handler);
+
+/**
+  Remove a signal handler
+
+   @param handler - signal handler that should be removed
+ */
+void osif_signal_handler_remove(osif_signal_handler_t handler);
+
+#define ZB_PATH_MAX PATH_MAX
+
 #ifndef UNIX_DOMAIN_SOCKETS_DIR
 #define UNIX_DOMAIN_SOCKETS_DIR "/tmp/"
 #endif
@@ -85,8 +121,6 @@ typedef struct zb_file_config_item_s
 #define ZB_FILE_CONFIG_EXISTS(config) ((config)[0] != '\0')
 zb_ret_t zb_file_config_read(const char * config_file_name, int items_count, zb_file_config_item_t *items);
 zb_ret_t zb_file_config_update(const char * config_file_name, int items_count, zb_file_config_item_t *items);
-
-#define ZB_PATH_MAX PATH_MAX
 
 #ifdef ZB_FILE_PATH_MGMNT
 #ifdef ZB_MNTFS_FOR_TRACE_LOGS
@@ -149,17 +183,25 @@ void zb_file_path_init_from_config(const char * process_path, const char * base_
 #endif /* ZB_FILE_PATH_MGMNT */
 
 typedef FILE zb_osif_file_t;
+#if defined __GNUC__ && __WORDSIZE == 64 /* If gcc and 64bit */
+typedef zb_uint64_t zb_minimal_vararg_t;
+#else
 typedef zb_uint32_t zb_minimal_vararg_t;
+#endif
 
 #ifdef ZB_THREADS
 void zb_osif_global_lock();
 void zb_osif_global_unlock();
 #define ZB_OSIF_GLOBAL_LOCK()   TRACE_MSG(TRACE_MACLL4, "lock", (FMT__0)); zb_osif_global_lock()
 #define ZB_OSIF_GLOBAL_UNLOCK() TRACE_MSG(TRACE_MACLL4, "unlock", (FMT__0)); zb_osif_global_unlock()
-void zb_osif_time_lock(void);
-void zb_osif_time_unlock(void);
-#define ZB_OSIF_TIME_LOCK()   zb_osif_time_lock()
-#define ZB_OSIF_TIME_UNLOCK() zb_osif_time_unlock()
+void zb_osif_time_w_lock(void);
+void zb_osif_time_w_unlock(void);
+void zb_osif_time_r_lock(void);
+void zb_osif_time_r_unlock(void);
+#define ZB_OSIF_TIME_W_LOCK()   zb_osif_time_w_lock()
+#define ZB_OSIF_TIME_W_UNLOCK() zb_osif_time_w_unlock()
+#define ZB_OSIF_TIME_R_LOCK()   zb_osif_time_r_lock()
+#define ZB_OSIF_TIME_R_UNLOCK() zb_osif_time_r_unlock()
 #else
 #define ZB_OSIF_GLOBAL_LOCK() (void)0
 #define ZB_OSIF_GLOBAL_UNLOCK() (void)0
@@ -181,7 +223,7 @@ void zb_osif_time_unlock(void);
 
 #define ZB_MEMCPY memcpy
 #define ZB_MEMMOVE memmove
-#define ZB_MEMSET memset
+#define ZB_MEMSET(buf, ch, count) (void)memset((void*)(buf), (zb_int32_t)(ch), (count))
 #define ZB_MEMCMP memcmp
 #define ZB_MEMCHR memchr
 
@@ -210,9 +252,11 @@ void zb_osif_time_unlock(void);
 #define ZB_BZERO2(s) ZB_BZERO(s, 2)
 
 void zb_unix_platform_init(void);
+void zb_unix_platform_deinit(void);
 void zb_osif_init_timer(void);
 
 #define ZB_PLATFORM_INIT() zb_unix_platform_init()
+#define ZB_PLATFORM_DEINIT() zb_unix_platform_deinit()
 
 #define ZB_TIMER_INIT() zb_osif_init_timer()
 #define ZB_CHECK_TIMER_IS_ON() 1 /*!< always on in linux */
@@ -247,9 +291,12 @@ void zb_scheduler_wakeup(void);
 
 void zb_osif_platform_io_iteration(zb_bool_t block);
 
-#if defined ZB_COMPILE_MAC_MONOLITHIC
+#if defined ZB_COMPILE_MAC_MONOLITHIC && defined ZB_NSNG
 #define ZB_TRANSPORT_BLOCK() zb_nsng_io_iteration(ZB_TRUE)
 #define ZB_TRANSPORT_NONBLOCK_ITERATION() zb_nsng_io_iteration(ZB_FALSE)
+#elif defined ZB_COMPILE_MAC_MONOLITHIC && defined ZB_DSIM
+#define ZB_TRANSPORT_BLOCK() zb_dsim_api_io_iteration()
+#define ZB_TRANSPORT_NONBLOCK_ITERATION() zb_dsim_api_io_iteration()
 #else
 #define ZB_TRANSPORT_BLOCK() zb_osif_platform_io_iteration(ZB_TRUE)
 #define ZB_TRANSPORT_NONBLOCK_ITERATION() zb_osif_platform_io_iteration(ZB_FALSE)
@@ -261,6 +308,7 @@ void zb_unix_platform_init(void);
 void osif_net_init();
 char *osif_getenv(char *key, char *def);
 void osif_gettime_us(zb_uint64_t *time_us);
+void osif_get_clock_monotonic(struct timespec *t);
 void osif_get_clock_monotonic_raw(struct timespec *t);
 zb_uint64_t osif_get_clock_delta_ns(struct timespec *t_old, struct timespec *t_new);
 zb_uint64_t osif_get_clock_delta_us(struct timespec *t_old, struct timespec *t_new);
@@ -361,11 +409,11 @@ zb_ret_t   osif_detach_thread(osif_thread_t *handle);
 void       osif_thread_exit(void *retval);
 
 zb_ret_t osif_init_mutex(osif_mutex_t *mutex);
+zb_ret_t osif_init_mutex_shared(osif_mutex_t *mutex);
 zb_ret_t osif_deinit_mutex(osif_mutex_t *mutex);
 zb_ret_t osif_lock_mutex(osif_mutex_t *mutex);
 zb_ret_t osif_trylock_mutex(osif_mutex_t *mutex);
 zb_ret_t osif_unlock_mutex(osif_mutex_t *mutex);
-
 
 zb_ret_t osif_init_cond(osif_cond_t *cond);
 zb_ret_t osif_init_cond_with_attr(osif_cond_t *cond, osif_condattr_t *condattr);
@@ -437,6 +485,7 @@ void zb_osif_daemonize_complete(zb_osif_daemon_wait_t *w, zb_ret_t ret);
 
  */
 zb_ret_t zb_osif_daemonize(zb_osif_daemon_wait_t *w);
+
 
 /* READLINE */
 
@@ -614,6 +663,140 @@ zb_ret_t zb_spi_transfer(osif_ipc_handle_t fd, const uint8_t *tx_buf, size_t tx_
                          const uint8_t *rx_buf, size_t rx_len,
                          zb_uint32_t speed, zb_uint32_t cs_delay);
 
+
+zb_ret_t osif_ipc_shm_init(zb_char_t *shm_name, zb_size_t len, void **addr);
+
+zb_ret_t osif_ipc_shm_deinit(void);
+
+zb_ret_t osif_ipc_shm_close(void);
+
+
+#ifdef ZB_FUTEX
+
+/* Amount of bits that  futex interface uses.
+   Maximal amount is 128 (limited by futex_waitv syscall).
+   If this value will be increased, osif_futex_t should be increased too */
+#define FUTEX_IPC_LIST_SIZE   32U
+
+typedef _Atomic zb_uint32_t osif_futex_t;
+
+/**
+ * @brief Init initernal context to wait on futexes.
+ *
+ */
+void zb_osif_futex_ipc_init(void);
+
+/**
+ * @brief Attach to futex to wait on.
+ *        This function stores address of futex in internal ctx
+ *         in order to form waitv structure later using mask: inside zb_osif_futex_setup_wait call.
+ *
+ * @param bitmask bitmask that will correspond to the futex_ptr.
+ *                Ony one bit can be set.
+ * @param futex_ptr Pointer to futex that will be used for waiting later.
+ * @return zb_ret_t RET_OK if futex has been stored.
+ *                  RET_NO_MEMORY if there is not enough slots to store new futex.
+ *                  RET_ALREADY_EXISTS if a futex was previously attached using the same mask.
+ *                                     It should be removed first.
+ */
+zb_ret_t zb_osif_futex_attach(zb_uint32_t bitmask, osif_futex_t *futex_ptr);
+
+/**
+ * @brief Detach from futex to wait on.
+ *        This function removes address of futex from internal ctx.
+ *         So, all futexes, pointed by bitmask, won't be used for waiting later.
+ *
+ * @param bitmask Mask of futexes that will be removed.
+ * @return zb_ret_t RET_OK at least one futex successfully removed from internal ctx
+ *                  RET_NOT_FOUND if there are no futexes corresponding to mask in internal ctx.
+ */
+zb_ret_t zb_osif_futex_detach(zb_uint32_t bitmask);
+
+
+/**
+ * @brief Detach from all futexes attached earlier.
+ *
+ * @return zb_ret_t RET_OK (operation can't fail now)
+ */
+zb_ret_t zb_osif_futex_detach_all(void);
+
+
+/**
+ * @brief Wake up all waiters who are waiting on futexes (corresponding to mask).
+ *
+ * @param mask Mask that will be used to wake up all devices.
+ * @return zb_ret_t RET_OK if wake has been called for the last device in a mask.
+ *                  RET_NOT_FOUND if no devices were added by calling zb_osif_futex_attach.
+ *                  System error code otherwise.
+ */
+zb_ret_t zb_osif_futex_wake(zb_uint32_t mask);
+
+
+/**
+ * @brief Wake up all waiters who are waiting on futex_ptr.
+ *
+ * @param futex_ptr Pointer to futex that will be used
+ *                  to wake up all devices.
+ * @return zb_ret_t RET_OK if devices were successfully woken up.
+ *                  System error code otherwise.
+ */
+zb_ret_t zb_osif_futex_wake_by_ptr(osif_futex_t *futex_ptr);
+
+/**
+ * @brief Setup wait structure in internal ctx using provided list.
+ *        This function saves current values of all futexes
+ *          that were previously saved into internal context
+ *          using zb_osif_futex_attach call.
+ *        In order to wait on this structure that
+ *         is generated as a result of this call, use zb_osif_futex_waitv func.
+ *
+ * @param wait_mask Bitmask of futexes to wait on (that were added by zb_osif_futex_attach call).
+ * @return zb_ret_t RET_OK if at least one futex exists in internal ctx.
+ *                  RET_EMPTY if there are no futexes in internal context.
+ */
+zb_ret_t zb_osif_futex_setup_wait(zb_uint32_t wait_bitmask);
+
+/**
+ * @brief Wait for wake up on the list of futexes
+ *         that was setup using zb_osif_futex_setup_wait call
+ *         for at most delay_us useconds.
+ *        This function blocks code execution.
+ *
+ * @param delay_us Timeout in microseconds to wait on futexes for.
+ *                 Use 0 value to wait indefinitely.
+ * @return zb_ret_t RET_OK device has been awoken by other process.
+ */
+zb_ret_t zb_osif_futex_waitv(zb_uint32_t delay_us);
+
+/**
+ * @brief This function checks current values of all futexes
+ *
+ * @return zb_ret_t RET_AGAIN device has been awoken by other process.
+ *                  RET_OK no updates on the values are detected.
+ */
+zb_ret_t zb_osif_futex_check_values(void);
+
+#ifdef ZB_FUTEX_ENABLE_STATISTICS
+typedef struct zb_osif_futex_stat_s
+{
+  zb_uint32_t bitmask_calls_ctr[FUTEX_IPC_LIST_SIZE];
+  zb_uint32_t pointer_calls_ctr;
+} zb_osif_futex_stat_t;
+
+zb_ret_t zb_osif_futex_dump_statistics(zb_osif_futex_stat_t *out_stat_ptr);
+#endif /* ZB_FUTEX_ENABLE_STATISTICS */
+
+#endif /* ZB_FUTEX */
+
+/**
+ * @brief Get index of the first bit set from value.
+ *
+ * @param val         value to get first bit from.
+ * @return zb_uint_t  0 if no bit set, bit index starting from 1, otherwise.
+ */
+zb_uint_t osif_ffsll(zb_uint64_t val);
+
+void zb_osif_file_max_buf(zb_osif_file_t *f);
 /**
    Add a wake-up signature on SPI frame
 

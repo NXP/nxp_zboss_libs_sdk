@@ -129,8 +129,8 @@ zb_uint16_t multi_ep_zc_associate_cb(zb_uint16_t short_addr);
 void multi_ep_zc_dev_annce_cb(zb_uint16_t short_addr);
 void multi_ep_zc_leave_indication(zb_ieee_addr_t dev_addr);
 
-void device_ieee_addr_req(zb_uint8_t param, zb_uint16_t dev_idx);
-void device_ieee_addr_req_cb(zb_uint8_t param);
+void device_ieee_addr_req(zb_cb_param_t cb_param);
+void device_ieee_addr_req_cb(zb_cb_param_t param);
 
 /* Devices management routines */
 zb_uint8_t multi_ep_zc_get_dev_index_by_state(zb_uint8_t dev_state);
@@ -138,11 +138,11 @@ zb_uint8_t multi_ep_zc_get_dev_index_by_short_addr(zb_uint16_t short_addr);
 zb_uint8_t multi_ep_zc_get_dev_index_by_ieee_addr(zb_ieee_addr_t ieee_addr);
 zb_uint8_t multi_ep_zc_get_ep_idx_by_short_addr_and_ep_id(zb_uint16_t short_addr, zb_uint8_t ep_id);
 
-void multi_ep_zc_remove_and_rejoin_device_delayed(zb_uint8_t idx);
-void multi_ep_zc_remove_device_delayed(zb_uint8_t idx);
+void multi_ep_zc_remove_and_rejoin_device_delayed(zb_cb_param_t idx);
+void multi_ep_zc_remove_device_delayed(zb_cb_param_t idx);
 
 /* Handler for specific zcl commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 
 /* Macros for cluster definition */
 
@@ -155,13 +155,22 @@ zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
 
 /* EP1: Basic, On/Off, Level Control */
 #define MULTI_EP_ZC_ENDPOINT_EP1 21
-#define EP1_IN_CLUSTERS_NUM 0
-#define EP1_OUT_CLUSTERS_NUM 3
+#define EP1_IN_CLUSTERS_NUM 1
+#define EP1_OUT_CLUSTERS_NUM 4
 
 #define ZB_HA_DECLARE_MULTI_EP_ZC_CLUSTER_LIST_EP1(                         \
-      cluster_list_name)                                                    \
+      cluster_list_name,                                                    \
+      keep_alive_attr_list,                                                 \
+      poll_ctrl_attr_list)                                                  \
       zb_zcl_cluster_desc_t cluster_list_name[] =                           \
       {                                                                     \
+        ZB_ZCL_CLUSTER_DESC(                                                \
+          ZB_ZCL_CLUSTER_ID_KEEP_ALIVE,                                     \
+          ZB_ZCL_ARRAY_SIZE(keep_alive_attr_list, zb_zcl_attr_t),           \
+          (keep_alive_attr_list),                                           \
+          ZB_ZCL_CLUSTER_SERVER_ROLE,                                       \
+          ZB_ZCL_MANUF_CODE_INVALID                                         \
+        ),                                                                  \
         ZB_ZCL_CLUSTER_DESC(                                                \
           ZB_ZCL_CLUSTER_ID_BASIC,                                          \
           0,                                                                \
@@ -182,11 +191,19 @@ zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
           NULL,                                                             \
           ZB_ZCL_CLUSTER_CLIENT_ROLE,                                       \
           ZB_ZCL_MANUF_CODE_INVALID                                         \
+        ),                                                                  \
+        ZB_ZCL_CLUSTER_DESC(                                                \
+          ZB_ZCL_CLUSTER_ID_POLL_CONTROL,                                   \
+          ZB_ZCL_ARRAY_SIZE(poll_ctrl_attr_list, zb_zcl_attr_t),            \
+          (poll_ctrl_attr_list),                                            \
+          ZB_ZCL_CLUSTER_CLIENT_ROLE,                                       \
+          ZB_ZCL_MANUF_CODE_INVALID                                         \
         )                                                                   \
     }
 
 
 #define ZB_ZCL_DECLARE_MULTI_EP_ZC_SIMPLE_DESC_EP1(ep_name, ep_id, in_clust_num, out_clust_num) \
+  ZB_DECLARE_SIMPLE_DESC(in_clust_num, out_clust_num);                                          \
   ZB_AF_SIMPLE_DESC_TYPE(in_clust_num, out_clust_num) simple_desc_##ep_name =                   \
   {                                                                                             \
     ep_id,                                                                                      \
@@ -197,9 +214,11 @@ zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
     in_clust_num,                                                                               \
     out_clust_num,                                                                              \
     {                                                                                           \
+      ZB_ZCL_CLUSTER_ID_KEEP_ALIVE,                                                             \
       ZB_ZCL_CLUSTER_ID_BASIC,                                                                  \
       ZB_ZCL_CLUSTER_ID_ON_OFF,                                                                 \
       ZB_ZCL_CLUSTER_ID_LEVEL_CONTROL,                                                          \
+      ZB_ZCL_CLUSTER_ID_POLL_CONTROL                                                            \
     }                                                                                           \
   }
 

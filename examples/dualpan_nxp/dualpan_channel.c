@@ -32,7 +32,7 @@
 
 #include "dualpan.h"
 
-static void set_pan_channel_cb(zb_bufid_t param)
+static void set_pan_channel_cb(zb_cb_param_t param)
 {
 //  zb_set_pan_channel_params_t *channel_params = ZB_BUF_GET_PARAM(param, zb_set_pan_channel_params_t);
   zb_set_pan_channel_params_t *channel_params = zb_buf_begin(param);
@@ -49,7 +49,7 @@ static void set_pan_channel_cb(zb_bufid_t param)
   zb_buf_free(param);
 }
 
-static void get_pan_channel_cb(zb_bufid_t param)
+static void get_pan_channel_cb(zb_cb_param_t param)
 {
 //  zb_get_pan_channel_params_t *channel_params = ZB_BUF_GET_PARAM(param, zb_get_pan_channel_params_t);
   zb_get_pan_channel_params_t *channel_params = zb_buf_begin(param);
@@ -118,7 +118,7 @@ static void get_pan_channel_cb(zb_bufid_t param)
     zb_buf_free(param);
 }
 
-void zb_get_pan_channel(zb_bufid_t param)
+void zb_get_pan_channel(zb_cb_param_t param)
 {
   /* Get from firmware dualpan_channel config */
   zb_get_pan_channel_params_t *channel_params;

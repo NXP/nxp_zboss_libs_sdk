@@ -108,10 +108,10 @@ var group__zdo__disc =
     [ "zb_zdo_system_server_discovery_param_t", "group__zdo__disc.html#ga3c6dee310c7321ff978d367088c8c7fd", null ],
     [ "zb_zdo_system_server_discovery_req_t", "group__zdo__disc.html#gabe2af61d8e2d5eab7e2850883829fe3f", null ],
     [ "zb_zdo_system_server_discovery_resp_t", "group__zdo__disc.html#ga55da16ecbc65cd7aed7c912a9bea19c0", null ],
-    [ "zb_zdo_active_ep_req", "group__zdo__disc.html#ga0b5c9e417d29f287995177ced2bff903", null ],
-    [ "zb_zdo_match_desc_req", "group__zdo__disc.html#ga0d31f0e0c17f783f700af04c74b7fee2", null ],
-    [ "zb_zdo_node_desc_req", "group__zdo__disc.html#gae179c83cdc7e323c2a94bb88e1bcd441", null ],
-    [ "zb_zdo_power_desc_req", "group__zdo__disc.html#ga6279746054993856eaea64651d371b22", null ],
-    [ "zb_zdo_simple_desc_req", "group__zdo__disc.html#ga9a1ef4139b1db331b183baa1c9350eb9", null ],
-    [ "zb_zdo_system_server_discovery_req", "group__zdo__disc.html#ga982b5aca4cd3cf4a3bb6751fc6546dde", null ]
+    [ "zb_zdo_active_ep_req", "group__zdo__disc.html#gaef78fa3079760e490f7a8876643bd884", null ],
+    [ "zb_zdo_match_desc_req", "group__zdo__disc.html#gaac4df2eb1d5352a0ca48ecdbda7c4ac3", null ],
+    [ "zb_zdo_node_desc_req", "group__zdo__disc.html#ga89d13e85571870dadd0278f2d7747c80", null ],
+    [ "zb_zdo_power_desc_req", "group__zdo__disc.html#ga60a15065ec37766b48dfe8daacc23308", null ],
+    [ "zb_zdo_simple_desc_req", "group__zdo__disc.html#gaa2b4e38596f2e08ffd9c182e9bfda377", null ],
+    [ "zb_zdo_system_server_discovery_req", "group__zdo__disc.html#ga47d9f28e51af0a0d2904a4e8976c7392", null ]
 ];

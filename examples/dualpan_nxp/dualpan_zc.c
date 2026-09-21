@@ -71,7 +71,7 @@ ZBOSS_DECLARE_DEVICE_CTX_1_EP(dualpan_ctx, dualpan_ep);
 
 
 #ifdef ZB_EXAMPLE_REOPEN_ZIGBEE_NETWORK
-static void send_permit_joining_req(zb_bufid_t param)
+static void send_permit_joining_req(zb_cb_param_t param)
 {
   zb_zdo_mgmt_permit_joining_req_param_t *request;
 
@@ -130,7 +130,7 @@ MAIN()
 }
 
 /* Callback to handle the stack events */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   /* Get application signal from the buffer */
   zb_zdo_app_signal_hdr_t *sg_p = NULL;

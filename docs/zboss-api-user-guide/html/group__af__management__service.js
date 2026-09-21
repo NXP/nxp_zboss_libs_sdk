@@ -1,7 +1,5 @@
 var group__af__management__service =
 [
-    [ "ZB_AF_DECLARE_DEVICE_CTX", "group__af__management__service.html#gacbee25165d37425b813a79e78141cfaf", null ],
-    [ "ZB_AF_DECLARE_DEVICE_CTX_NO_REP", "group__af__management__service.html#ga9cc25b4ace700e96c2aefbbc4c3a9f8a", null ],
     [ "ZB_AF_DECLARE_ENDPOINT_DESC", "group__af__management__service.html#gaf9c9c7852e40d7139579c74aed41a1a7", null ],
     [ "ZB_AF_FINISH_DECLARE_ENDPOINT_LIST", "group__af__management__service.html#ga3ada82a1d4115b7eb833e4922351524f", null ],
     [ "ZB_AF_IS_EP_REGISTERED", "group__af__management__service.html#gabb0030c68fe86f4768bf6d812c0857be", null ],
@@ -17,13 +15,12 @@ var group__af__management__service =
     [ "ZBOSS_DECLARE_DEVICE_CTX_4_EP", "group__af__management__service.html#ga3d8345835674be21c1b22c5e19aae8c2", null ],
     [ "ZBOSS_DEVICE_DECLARE_LEVEL_CONTROL_CTX", "group__af__management__service.html#ga19cf0f339cd763a74d77a25984104b7f", null ],
     [ "ZBOSS_DEVICE_DECLARE_REPORTING_CTX", "group__af__management__service.html#gac6013d8f9989270486e38b4c0beb1daa", null ],
-    [ "zb_af_transmission_res_cb_t", "group__af__management__service.html#gae3b8b2d2063e983d595030a0979f36ab", null ],
-    [ "zb_device_handler_t", "group__af__management__service.html#ga4d58cf3d0e6c159c9c63bc2e9d88887c", null ],
+    [ "zb_af_transmission_res_cb_t", "group__af__management__service.html#ga646c8d2270f689cf1eac23bf140430cf", null ],
+    [ "zb_device_handler_t", "group__af__management__service.html#ga9157103e490d4fe22a32202afce07003", null ],
     [ "zb_af_get_endpoint_desc", "group__af__management__service.html#ga08fadcf1f2a48fc5bef52300d0071729", null ],
     [ "zb_af_set_data_indication", "group__af__management__service.html#ga318b4a6d90d299884187d2080c65cd2f", null ],
-    [ "zb_apsde_data_indication_cont", "group__af__management__service.html#gad66af2e3890b5291a4181de11c6743e6", null ],
-    [ "zb_bdb_initiate_tc_rejoin", "group__af__management__service.html#ga635d424cf7c0719a96e4360645ac4ec2", null ],
-    [ "zb_bdb_reset_via_local_action", "group__af__management__service.html#ga7c7c6a7b96b210641a8d9632e27ff4c8", null ],
+    [ "zb_apsde_data_indication_cont", "group__af__management__service.html#gaf2b10b4e07874a92dc7a54307645031d", null ],
+    [ "zb_bdb_reset_via_local_action", "group__af__management__service.html#ga15095e2bc26cb8ea6f175ccbf69a1b67", null ],
     [ "ZB_DECLARE_SIMPLE_DESC", "group__af__management__service.html#gadcda39637103ae12037614ec42d8ca2c", null ],
     [ "ZB_DECLARE_SIMPLE_DESC", "group__af__management__service.html#ga4f48ff1fc90e1d576d72f2ea27d9efc9", null ]
 ];

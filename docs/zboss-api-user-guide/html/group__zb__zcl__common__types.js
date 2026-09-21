@@ -137,7 +137,7 @@ var group__zb__zcl__common__types =
     [ "zb_zcl_attribute_reporting_status_t", "group__zb__zcl__common__types.html#gae3c5bc8a1ce1308b89bcce9e73fa61f9", null ],
     [ "zb_zcl_cluster_check_value_t", "group__zb__zcl__common__types.html#gab0702eb5c256f1277f5c4041146f1926", null ],
     [ "zb_zcl_cluster_desc_t", "group__zb__zcl__common__types.html#ga2bcbd450785f151f71c0a0f4a449efa2", null ],
-    [ "zb_zcl_cluster_handler_t", "group__zb__zcl__common__types.html#ga070e545b9dae39b3de18937c5f642e02", null ],
+    [ "zb_zcl_cluster_handler_t", "group__zb__zcl__common__types.html#gac23a60d9953176d677e05ae994d1395b", null ],
     [ "zb_zcl_cluster_id_t", "group__zb__zcl__common__types.html#gab7dae742ebbc09badbe17ba7bb0ec82f", null ],
     [ "zb_zcl_cluster_init_t", "group__zb__zcl__common__types.html#gafad7a0e7b9effe9141cdb2c62303025d", null ],
     [ "zb_zcl_cluster_write_attr_hook_t", "group__zb__zcl__common__types.html#ga0a2136b0bd6d02580e897cfe471e77e4", null ],

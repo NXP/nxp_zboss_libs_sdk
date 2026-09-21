@@ -199,8 +199,8 @@ Functions</h2></td></tr>
 <p>This function initializes scheduler and buffers pool, but not MAC and upper layers. Typically <a class="el" href="group__zb__general__start.html#ga233ee91013eb2e777bc0b796620e1b36">zboss_start_no_autostart()</a> is used when application wants to do something before starting joining the network.</p>
 <p>ZB_ZDO_SIGNAL_SKIP_STARTUP can then be used to detect when ZBOSS framework has started, to proceed with join/rejoin/formation/BDB initialization</p>
 <p>For example, you can use this function if it is needed to enable leds, timers or any other devices on periphery to work with them before starting working in a network. It's also useful if you want to run something locally during joining.</p>
-<p>Application should later call ZBOSS commissioning initiation - for instance, <a class="el" href="group__zboss__bdb__comm__start.html#ga0b54e93a19cadc5fc02df8eab18ecd45" title="Starts the specified device commissioning steps.">bdb_start_top_level_commissioning()</a></p>
-<p>To finish node initialization without triggering commissioning call <a class="el" href="group__zboss__bdb__comm__start.html#ga0b54e93a19cadc5fc02df8eab18ecd45">bdb_start_top_level_commissioning()</a> with commissioning mask 0 (no steering, no formation, initialization only).</p>
+<p>Application should later call ZBOSS commissioning initiation - for instance, <a class="el" href="group__zboss__bdb__comm__start.html#ga712317820140837451aa8386bd51d558" title="Starts the specified device commissioning steps.">bdb_start_top_level_commissioning()</a></p>
+<p>To finish node initialization without triggering commissioning call <a class="el" href="group__zboss__bdb__comm__start.html#ga712317820140837451aa8386bd51d558">bdb_start_top_level_commissioning()</a> with commissioning mask 0 (no steering, no formation, initialization only).</p>
 <dl class="section return"><dt>Returns</dt><dd>RET_OK on success. </dd></dl>
 
 </div>
@@ -208,7 +208,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="agroup__base__types_html_ga6fe6a48f798e56df7c31c5354c929d4a"><div class="ttname"><a href="group__base__types.html#ga6fe6a48f798e56df7c31c5354c929d4a">zb_char_t</a></div><div class="ttdeci">char zb_char_t</div><div class="ttdoc">Project-local char type.</div><div class="ttdef"><b>Definition:</b> zb_types.h:155</div></div>
-<div class="ttc" id="agroup__zb__general__start_html_ga2d56595208dc8b6383ed99ee96b03d5c"><div class="ttname"><a href="group__zb__general__start.html#ga2d56595208dc8b6383ed99ee96b03d5c">ZB_INIT</a></div><div class="ttdeci">#define ZB_INIT(trace_comment)</div><div class="ttdef"><b>Definition:</b> zboss_api.h:523</div></div>
+<div class="ttc" id="agroup__zb__general__start_html_ga2d56595208dc8b6383ed99ee96b03d5c"><div class="ttname"><a href="group__zb__general__start.html#ga2d56595208dc8b6383ed99ee96b03d5c">ZB_INIT</a></div><div class="ttdeci">#define ZB_INIT(trace_comment)</div><div class="ttdef"><b>Definition:</b> zboss_api.h:547</div></div>
 <hr class="footer"/><address class="footer"><small>
 <div style="float: left; text-align: left;">
   <div>Copyright (c) 2012-2022 DSR Corporation, Golden CO, USA.
@@ -216,6 +216,6 @@ Functions</h2></td></tr>
     <a href="http://www.dsr-corporation.com">http://www.dsr-corporation.com</a>
   </div>
 </div>
-<div>ZBOSS documentation. Wed May 27 2026.</div>
+<div>ZBOSS documentation. Mon Sep 21 2026.</div>
 </body>
 </html>

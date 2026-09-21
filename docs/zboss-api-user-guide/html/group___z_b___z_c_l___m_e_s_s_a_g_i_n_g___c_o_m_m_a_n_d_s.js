@@ -28,7 +28,7 @@ var group___z_b___z_c_l___m_e_s_s_a_g_i_n_g___c_o_m_m_a_n_d_s =
     [ "zb_zcl_messaging_get_last_message_response_s", "structzb__zcl__messaging__get__last__message__response__s.html", [
       [ "display_message", "structzb__zcl__messaging__get__last__message__response__s.html#a9c4095ba38b982f1910b7a0c47ae9563", null ],
       [ "display_protected_message", "structzb__zcl__messaging__get__last__message__response__s.html#ae3ff8d1f48e033af983a3e01f145a5ad", null ],
-      [ "resp", "structzb__zcl__messaging__get__last__message__response__s.html#a8ab415fb3205182f967b3c9ff72bfefa", null ],
+      [ "resp", "structzb__zcl__messaging__get__last__message__response__s.html#a90380f87d100d3ef42d8ef594ca3c746", null ],
       [ "resp_type", "structzb__zcl__messaging__get__last__message__response__s.html#ada967340b7d3088bb7b38edf74b6b303", null ]
     ] ],
     [ "ZB_ZCL_DECLARE_MESSAGING_ATTR_LIST", "group___z_b___z_c_l___m_e_s_s_a_g_i_n_g___c_o_m_m_a_n_d_s.html#ga29a4d3586d22f2c79a521b8338c667ae", null ],
@@ -111,8 +111,8 @@ var group___z_b___z_c_l___m_e_s_s_a_g_i_n_g___c_o_m_m_a_n_d_s =
       [ "ZB_ZCL_MESSAGING_SRV_CMD_DISPLAY_PROTECTED_MESSAGE", "group___z_b___z_c_l___m_e_s_s_a_g_i_n_g___c_o_m_m_a_n_d_s.html#ggadf953c7ba566a705dc84c896931ced11abce0486c89cd50f32ba19f30fce56223", null ],
       [ "ZB_ZCL_MESSAGING_SRV_CMD_CANCEL_ALL_MESSAGES", "group___z_b___z_c_l___m_e_s_s_a_g_i_n_g___c_o_m_m_a_n_d_s.html#ggadf953c7ba566a705dc84c896931ced11acbd4fea8d4ed72e884b719477c833ff6", null ]
     ] ],
-    [ "zb_zcl_messaging_send_cancel_msg", "group___z_b___z_c_l___m_e_s_s_a_g_i_n_g___c_o_m_m_a_n_d_s.html#gafd23721c47e57cca8197948e9f711703", null ],
-    [ "zb_zcl_messaging_send_display_msg", "group___z_b___z_c_l___m_e_s_s_a_g_i_n_g___c_o_m_m_a_n_d_s.html#ga243be053a06eee657c043143d97ffe80", null ],
-    [ "zb_zcl_messaging_send_get_last_msg", "group___z_b___z_c_l___m_e_s_s_a_g_i_n_g___c_o_m_m_a_n_d_s.html#ga446f4ee953846833535aed3264c14401", null ],
-    [ "zb_zcl_messaging_send_msg_confirmation", "group___z_b___z_c_l___m_e_s_s_a_g_i_n_g___c_o_m_m_a_n_d_s.html#gaebf3991c294702862d148ac2c15be560", null ]
+    [ "zb_zcl_messaging_send_cancel_msg", "group___z_b___z_c_l___m_e_s_s_a_g_i_n_g___c_o_m_m_a_n_d_s.html#ga121b8e4e503ad9153a7f812b66a9ecaf", null ],
+    [ "zb_zcl_messaging_send_display_msg", "group___z_b___z_c_l___m_e_s_s_a_g_i_n_g___c_o_m_m_a_n_d_s.html#ga9476c616dbcaebd12b3b355132cf4bf5", null ],
+    [ "zb_zcl_messaging_send_get_last_msg", "group___z_b___z_c_l___m_e_s_s_a_g_i_n_g___c_o_m_m_a_n_d_s.html#gafefce61eca341749093c47b2d3b2ac56", null ],
+    [ "zb_zcl_messaging_send_msg_confirmation", "group___z_b___z_c_l___m_e_s_s_a_g_i_n_g___c_o_m_m_a_n_d_s.html#ga7948439079869f5fb229de2cceba45a5", null ]
 ];

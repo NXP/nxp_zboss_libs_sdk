@@ -81,7 +81,7 @@ static zb_cluster_def cluster_0000 = {
 #else
 #define pCluster_0003 &cluster_0003
 
-static zb_uint8_t identify_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
+static zb_uint8_t identify_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param);
 
 /* variable hidden  in macro ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION */
 static zb_uint16_t cluster_revision_identify_attr_list = ZB_ZCL_IDENTIFY_CLUSTER_REVISION_DEFAULT;
@@ -119,7 +119,7 @@ static zb_cluster_def cluster_0003 = {
 /* Static stack callback function
  * response for identify_cmd
  */
-static void identify_cmd_cb(zb_uint8_t param)
+static void identify_cmd_cb(zb_cb_param_t param)
 {
   zb_zcl_command_send_status_t *cmd_send_status = ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);
 
@@ -266,7 +266,7 @@ static zb_ret_t cluster_identify_cmd(enum zb_zcl_identify_cmd_e new_command, int
 /* -------------------------------- Handler commands Identify --------------------------- */
 
 
-static zb_uint8_t identify_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t identify_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   /* This is just for information, let the stack manage it */
   zb_uint8_t ret = ZB_FALSE;
@@ -313,7 +313,7 @@ static zb_uint8_t identify_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info
   return ret;
 }
 
-static zb_uint8_t identify_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t identify_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   zb_uint8_t ret = ZB_FALSE;
   zb_zcl_parse_status_t status;
@@ -351,7 +351,7 @@ static zb_uint8_t identify_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info
   return ret;
 }
 
-static zb_uint8_t identify_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t identify_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   return (cmd_info->cmd_direction == ZB_ZCL_FRAME_DIRECTION_TO_CLI)?(identify_client_commands_handler(cmd_info, param)):(identify_server_commands_handler(cmd_info, param));
 }
@@ -368,7 +368,7 @@ static zb_uint8_t identify_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_ui
 #else
 #define pCluster_0004 &cluster_0004
 
-static zb_uint8_t groups_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
+static zb_uint8_t groups_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param);
 
 /* variable hidden  in macro ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION */
 static zb_uint16_t cluster_revision_groups_attr_list = ZB_ZCL_GROUPS_CLUSTER_REVISION_DEFAULT;
@@ -409,7 +409,7 @@ static zb_cluster_def cluster_0004 = {
 /* Static stack callback function
  * response for groups_cmd
  */
-static void groups_cmd_cb(zb_uint8_t param)
+static void groups_cmd_cb(zb_cb_param_t param)
 {
   zb_zcl_command_send_status_t *cmd_send_status = ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);
 
@@ -692,7 +692,7 @@ static zb_ret_t cluster_groups_cmd_lst_grid(enum zb_zcl_groups_cmd_e new_command
 /* -------------------------------- Handler commands GROUPS --------------------------- */
 
 
-static zb_uint8_t groups_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t groups_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   /* This is just for information, let the stack manages it */
   zb_uint8_t ret = ZB_FALSE;
@@ -800,7 +800,7 @@ static zb_uint8_t groups_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, 
   return ret;
 }
 
-static zb_uint8_t groups_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t groups_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   zb_uint8_t ret = ZB_FALSE;
 
@@ -898,7 +898,7 @@ static zb_uint8_t groups_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, 
   return ret;
 }
 
-static zb_uint8_t groups_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t groups_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   return (cmd_info->cmd_direction == ZB_ZCL_FRAME_DIRECTION_TO_CLI)?(groups_client_commands_handler(cmd_info, param)):(groups_server_commands_handler(cmd_info, param));
 }
@@ -915,7 +915,7 @@ static zb_uint8_t groups_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint
 #else
 #define pCluster_0005 &cluster_0005
 
-static zb_uint8_t scenes_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
+static zb_uint8_t scenes_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param);
 
 /* variable hidden  in macro ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION */
 static zb_uint16_t cluster_revision_scenes_attr_list = ZB_ZCL_SCENES_CLUSTER_REVISION_DEFAULT;
@@ -966,7 +966,7 @@ static zb_cluster_def cluster_0005 = {
 /* Static stack callback function
  * response for scenes_cmd
  */
-static void scenes_cmd_cb(zb_uint8_t param)
+static void scenes_cmd_cb(zb_cb_param_t param)
 {
   zb_zcl_command_send_status_t *cmd_send_status = ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);
 
@@ -1377,7 +1377,7 @@ static zb_ret_t cluster_scenes_cmd_arg_grid(enum zb_zcl_scenes_cmd_e new_command
 /* -------------------------------- Handler commands SCENES --------------------------- */
 
 
-static zb_uint8_t scenes_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t scenes_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   /* This is just for information, let the stack manages it */
   zb_uint8_t ret = ZB_FALSE;
@@ -1437,7 +1437,7 @@ static zb_uint8_t scenes_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, 
   return ret;
 }
 
-static zb_uint8_t scenes_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t scenes_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   zb_uint8_t ret = ZB_FALSE;
 
@@ -1624,7 +1624,7 @@ static zb_uint8_t scenes_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, 
   return ret;
 }
 
-static zb_uint8_t scenes_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t scenes_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   return (cmd_info->cmd_direction == ZB_ZCL_FRAME_DIRECTION_TO_CLI)?(scenes_client_commands_handler(cmd_info, param)):(scenes_server_commands_handler(cmd_info, param));
 }
@@ -1643,7 +1643,7 @@ typedef struct {
 
 cluster_scene_db scenes_db[256] = {0};
 
-static zb_ret_t cluster_scenes_srv_device_value_cb(zb_zcl_device_callback_param_t *device_cb_params, zb_uint8_t param)
+static zb_ret_t cluster_scenes_srv_device_value_cb(zb_zcl_device_callback_param_t *device_cb_params, zb_cb_param_t param)
 {
   device_cb_params->status = RET_NOT_IMPLEMENTED;
 
@@ -2212,7 +2212,7 @@ static zb_ret_t cluster_scenes_srv_device_value_cb(zb_zcl_device_callback_param_
 #else
 #define pCluster_0006 &cluster_0006
 
-static zb_uint8_t onoff_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
+static zb_uint8_t onoff_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param);
 
 /* variable hidden  in macro ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION */
 static zb_uint16_t cluster_revision_on_off_attr_list = ZB_ZCL_ON_OFF_CLUSTER_REVISION_DEFAULT;
@@ -2250,7 +2250,7 @@ static zb_cluster_def cluster_0006 = {
 /* Static stack callback function
  * response for onoff_cmd
  */
-static void onoff_cmd_cb(zb_uint8_t param)
+static void onoff_cmd_cb(zb_cb_param_t param)
 {
   zb_zcl_command_send_status_t *cmd_send_status = ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);;
 
@@ -2401,7 +2401,7 @@ static zb_ret_t cluster_onoff_cmd(enum zb_zcl_on_off_cmd_e new_command, int argc
 /* -------------------------------- Handler commands ON/OFF --------------------------- */
 
 
-static zb_uint8_t onoff_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t onoff_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   /* This is just for information, let the stack manages it */
   zb_uint8_t ret = ZB_FALSE;
@@ -2449,7 +2449,7 @@ static zb_uint8_t onoff_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, z
   return ret;
 }
 
-static zb_uint8_t onoff_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t onoff_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   zb_uint8_t ret = ZB_FALSE;
 
@@ -2499,7 +2499,7 @@ static zb_uint8_t onoff_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, z
   return ret;
 }
 
-static zb_uint8_t onoff_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t onoff_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   return (cmd_info->cmd_direction == ZB_ZCL_FRAME_DIRECTION_TO_CLI)?(onoff_client_commands_handler(cmd_info, param)):(onoff_server_commands_handler(cmd_info, param));
 }

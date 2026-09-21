@@ -28,6 +28,6 @@
 #define HA_SWITCH_ENDPOINT          10
 
 /* Handler for specific zcl commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 
 #endif /* TEST_SWITCH_DEV */

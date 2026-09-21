@@ -38,10 +38,11 @@
  */
 zb_ieee_addr_t g_zc_addr = {0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa};
 zb_ieee_addr_t g_ed_addr = {0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22};
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
 
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
-void test_device_interface_cb(zb_uint8_t param);
-void button_press_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
+void test_device_interface_cb(zb_cb_param_t param);
+void button_press_handler(zb_cb_param_t param);
 
 /* Identify cluster attributes data */
 zb_uint16_t g_attr_identify_identify_time = ZB_ZCL_IDENTIFY_IDENTIFY_TIME_DEFAULT_VALUE;
@@ -54,7 +55,18 @@ ZB_ZCL_DECLARE_ON_OFF_ATTRIB_LIST(on_off_attr_list, &g_attr_on_off_on_off);
 ZB_ZCL_DECLARE_LEVEL_CONTROL_ATTRIB_LIST(level_control_attr_list, &g_attr_level_control_current_level, &g_attr_level_control_remaining_time);
 ZB_ZCL_DECLARE_IDENTIFY_ATTRIB_LIST(identify_attr_list, &g_attr_identify_identify_time);
 
-ZB_ZCL_DECLARE_LEVEL_CONTROL_OUTPUT_CLUSTER_LIST(level_control_switch_clusters, on_off_attr_list, level_control_attr_list, identify_attr_list);
+/* Keep-Alive cluster attributes data */
+ZB_ZCL_DECLARE_KEEP_ALIVE_ATTRS_AND_LIST(g_attrs_keep_alive, keep_alive_attr_list);
+
+/* Poll control cluster attributes */
+ZB_ZCL_DECLARE_POLL_CONTROL_ATTRIB_LIST_CLIENT(poll_control_attr_list);
+
+ZB_ZCL_DECLARE_LEVEL_CONTROL_OUTPUT_CLUSTER_LIST(level_control_switch_clusters,
+                                                 on_off_attr_list,
+                                                 keep_alive_attr_list,
+                                                 level_control_attr_list,
+                                                 identify_attr_list,
+                                                 poll_control_attr_list);
 ZB_ZCL_DECLARE_LEVEL_CONTROL_OUTPUT_EP(level_control_switch_ep, ZB_LEVEL_CONTROL_SERVER_ENDPOINT, level_control_switch_clusters);
 ZB_ZCL_DECLARE_LEVEL_CONTROL_OUTPUT_CTX(level_control_zc_ctx, level_control_switch_ep);
 
@@ -69,6 +81,11 @@ MAIN()
 
   /* Global ZBOSS initialization */
   ZB_INIT("level_control_zc");
+
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
 
   /* Set up defaults for the commissioning */
   zb_set_long_address(g_zc_addr);
@@ -108,7 +125,7 @@ MAIN()
 }
 
 /* [zcl_register_device_cb_example_cb] */
-void test_device_interface_cb(zb_uint8_t param)
+void test_device_interface_cb(zb_cb_param_t param)
 {
   zb_zcl_device_callback_param_t *device_cb_param =
     ZB_BUF_GET_PARAM(param, zb_zcl_device_callback_param_t);
@@ -129,7 +146,7 @@ void test_device_interface_cb(zb_uint8_t param)
 }
 /* [zcl_register_device_cb_example_cb] */
 
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_zcl_parsed_hdr_t cmd_info;
 
@@ -153,7 +170,7 @@ zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
 }
 
 /* Callback to handle the stack events */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_t sig = zb_get_app_signal(param, &sg_p);
@@ -171,6 +188,7 @@ void zboss_signal_handler(zb_uint8_t param)
       break;
 #endif
       case ZB_ZDO_SIGNAL_SKIP_STARTUP:
+      zb_secur_ic_add(g_ed_addr, ZB_IC_TYPE_PASSCODE, g_passcode, NULL);
         zboss_start_continue();
         break;
 

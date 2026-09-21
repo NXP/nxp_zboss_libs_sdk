@@ -41,6 +41,7 @@
  */
 zb_ieee_addr_t g_zc_addr = {0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa};
 zb_ieee_addr_t g_ed_addr = {0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22};
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
 
 zb_uint16_t g_dst_addr = 0;
 
@@ -51,7 +52,7 @@ zb_uint16_t g_peer_revision = ZB_ZCL_CLUSTER_REV_MIN;
 peer_entry_t g_peer_table[1];
 
 /* Handler for specific zcl commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 
 /** [COMMON_DECLARATION] */
 /**
@@ -89,6 +90,11 @@ MAIN()
   /* Global ZBOSS initialization */
   ZB_INIT("level_control_zed_compatibility_mode");
 
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
+
   /* Set up defaults for the commissioning */
   zb_set_long_address(g_ed_addr);
   zb_set_network_ed_role(1l<<21);
@@ -104,6 +110,8 @@ MAIN()
   /* Register cluster commands handler for a specific endpoint */
   ZB_AF_SET_ENDPOINT_HANDLER(ZB_LEVEL_CONTROL_CLIENT_ENDPOINT, zcl_specific_cluster_cmd_handler);
   /** [REGISTER] */
+
+  zb_secur_ic_set(ZB_IC_TYPE_PASSCODE, g_passcode);
 
   /* Initiate the stack start without starting the commissioning */
   if (zboss_start_no_autostart() != RET_OK)
@@ -135,7 +143,7 @@ static zb_bool_t finding_binding_cb(zb_int16_t status,
 }
 /* [zb_bdb_finding_binding_initiator_cb_example] */
 
-void send_read_attr(zb_uint8_t param);
+void send_read_attr(zb_cb_param_t param);
 
 void add_peer_revision_entry(zb_ieee_addr_t ieee_addr, zb_uint16_t cluster_id, zb_uint8_t cluster_role, zb_uint8_t endpoint, zb_uint16_t peer_revision)
 {
@@ -187,7 +195,7 @@ static void read_attr_resp_handler(zb_bufid_t cmd_buf)
   TRACE_MSG(TRACE_APP1, "<< read_attr_resp_handler", (FMT__0));
 }
 
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_zcl_parsed_hdr_t cmd_info;
 
@@ -226,73 +234,73 @@ zb_uint16_t peer_revision_cb(zb_ieee_addr_t ieee_addr, zb_uint16_t cluster_id, z
   }
 }
 
-void send_lvl_ctrl_cmd_cb(zb_uint8_t param)
+void send_lvl_ctrl_cmd_cb(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, "Level Control command callback", (FMT__0));
   ZB_SCHEDULE_APP_ALARM(send_read_attr, param, ZB_TIME_ONE_SECOND * 4);
 }
 
-void send_step_up(zb_uint8_t param)
+void send_step_up(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, "Level Control Step command", (FMT__0));
   ZB_ZCL_LEVEL_CONTROL_SEND_STEP_REQ(param, DST_ADDR, ZB_APS_ADDR_MODE_16_ENDP_PRESENT, ZB_LEVEL_CONTROL_SERVER_ENDPOINT, ZB_LEVEL_CONTROL_CLIENT_ENDPOINT, ZB_AF_HA_PROFILE_ID, ZB_ZCL_ENABLE_DEFAULT_RESPONSE, send_lvl_ctrl_cmd_cb, 0x00, 0x32, 0x000A);
 }
 
-void send_step_down(zb_uint8_t param)
+void send_step_down(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, "Level Control Step command", (FMT__0));
   ZB_ZCL_LEVEL_CONTROL_SEND_STEP_REQ(param, DST_ADDR, ZB_APS_ADDR_MODE_16_ENDP_PRESENT, ZB_LEVEL_CONTROL_SERVER_ENDPOINT, ZB_LEVEL_CONTROL_CLIENT_ENDPOINT, ZB_AF_HA_PROFILE_ID, ZB_ZCL_ENABLE_DEFAULT_RESPONSE, send_lvl_ctrl_cmd_cb, 0x01, 0x32, 0x000A);
 }
 
-void send_stop(zb_uint8_t param)
+void send_stop(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, "Level Control Stop command", (FMT__0));
   ZB_ZCL_LEVEL_CONTROL_SEND_STOP_REQ(param, DST_ADDR, ZB_APS_ADDR_MODE_16_ENDP_PRESENT, ZB_LEVEL_CONTROL_SERVER_ENDPOINT, ZB_LEVEL_CONTROL_CLIENT_ENDPOINT, ZB_AF_HA_PROFILE_ID, ZB_ZCL_ENABLE_DEFAULT_RESPONSE, send_lvl_ctrl_cmd_cb);
 }
 
-void send_move(zb_uint8_t param)
+void send_move(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, "Level Control Move command", (FMT__0));
   ZB_ZCL_LEVEL_CONTROL_SEND_MOVE_REQ(param, DST_ADDR, ZB_APS_ADDR_MODE_16_ENDP_PRESENT, ZB_LEVEL_CONTROL_SERVER_ENDPOINT, ZB_LEVEL_CONTROL_CLIENT_ENDPOINT, ZB_AF_HA_PROFILE_ID, ZB_ZCL_ENABLE_DEFAULT_RESPONSE, send_lvl_ctrl_cmd_cb, 0x00, 0x8);
 }
 
-void send_move_to_level(zb_uint8_t param)
+void send_move_to_level(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, "Level Control Move to Level command", (FMT__0));
   ZB_ZCL_LEVEL_CONTROL_SEND_MOVE_TO_LEVEL_REQ(param, DST_ADDR, ZB_APS_ADDR_MODE_16_ENDP_PRESENT, ZB_LEVEL_CONTROL_SERVER_ENDPOINT, ZB_LEVEL_CONTROL_CLIENT_ENDPOINT, ZB_AF_HA_PROFILE_ID, ZB_ZCL_ENABLE_DEFAULT_RESPONSE, send_lvl_ctrl_cmd_cb, 0xE6, 0x000A);
 }
 
-void send_step_up_zcl8(zb_uint8_t param)
+void send_step_up_zcl8(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, "Level Control Step command", (FMT__0));
   ZB_ZCL_LEVEL_CONTROL_SEND_STEP_REQ_ZCL8(param, DST_ADDR, ZB_APS_ADDR_MODE_16_ENDP_PRESENT, ZB_LEVEL_CONTROL_SERVER_ENDPOINT, ZB_LEVEL_CONTROL_CLIENT_ENDPOINT, ZB_AF_HA_PROFILE_ID, ZB_ZCL_ENABLE_DEFAULT_RESPONSE, send_lvl_ctrl_cmd_cb, 0x00, 0x32, 0x000A, 0x00, 0x00);
 }
 
-void send_step_down_zcl8(zb_uint8_t param)
+void send_step_down_zcl8(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, "Level Control Step command", (FMT__0));
   ZB_ZCL_LEVEL_CONTROL_SEND_STEP_REQ_ZCL8(param, DST_ADDR, ZB_APS_ADDR_MODE_16_ENDP_PRESENT, ZB_LEVEL_CONTROL_SERVER_ENDPOINT, ZB_LEVEL_CONTROL_CLIENT_ENDPOINT, ZB_AF_HA_PROFILE_ID, ZB_ZCL_ENABLE_DEFAULT_RESPONSE, send_lvl_ctrl_cmd_cb, 0x01, 0x32, 0x000A, 0x00, 0x00);
 }
 
-void send_stop_zcl8(zb_uint8_t param)
+void send_stop_zcl8(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, "Level Control Stop command", (FMT__0));
   ZB_ZCL_LEVEL_CONTROL_SEND_STOP_REQ_ZCL8(param, DST_ADDR, ZB_APS_ADDR_MODE_16_ENDP_PRESENT, ZB_LEVEL_CONTROL_SERVER_ENDPOINT, ZB_LEVEL_CONTROL_CLIENT_ENDPOINT, ZB_AF_HA_PROFILE_ID, ZB_ZCL_ENABLE_DEFAULT_RESPONSE, send_lvl_ctrl_cmd_cb, 0x00, 0x00);
 }
 
-void send_move_zcl8(zb_uint8_t param)
+void send_move_zcl8(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, "Level Control Move command", (FMT__0));
   ZB_ZCL_LEVEL_CONTROL_SEND_MOVE_REQ_ZCL8(param, DST_ADDR, ZB_APS_ADDR_MODE_16_ENDP_PRESENT, ZB_LEVEL_CONTROL_SERVER_ENDPOINT, ZB_LEVEL_CONTROL_CLIENT_ENDPOINT, ZB_AF_HA_PROFILE_ID, ZB_ZCL_ENABLE_DEFAULT_RESPONSE, send_lvl_ctrl_cmd_cb, 0x00, 0x8, 0x00, 0x00);
 }
 
-void send_move_to_level_zcl8(zb_uint8_t param)
+void send_move_to_level_zcl8(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, "Level Control Move to Level command", (FMT__0));
   ZB_ZCL_LEVEL_CONTROL_SEND_MOVE_TO_LEVEL_REQ_ZCL8(param, DST_ADDR, ZB_APS_ADDR_MODE_16_ENDP_PRESENT, ZB_LEVEL_CONTROL_SERVER_ENDPOINT, ZB_LEVEL_CONTROL_CLIENT_ENDPOINT, ZB_AF_HA_PROFILE_ID, ZB_ZCL_ENABLE_DEFAULT_RESPONSE, send_lvl_ctrl_cmd_cb, 0xE6, 0x000A, 0x00, 0x00);
 }
 
-void read_attr_cb(zb_uint8_t param)
+void read_attr_cb(zb_cb_param_t param)
 {
   switch(g_test_step)
   {
@@ -333,7 +341,7 @@ void read_attr_cb(zb_uint8_t param)
   g_test_step++;
 }
 
-void send_read_attr_cluster_revision(zb_uint8_t param)
+void send_read_attr_cluster_revision(zb_cb_param_t param)
 {
   zb_uint8_t *cmd_ptr;
   ZB_ZCL_GENERAL_INIT_READ_ATTR_REQ((param), cmd_ptr, ZB_ZCL_ENABLE_DEFAULT_RESPONSE);
@@ -343,7 +351,7 @@ void send_read_attr_cluster_revision(zb_uint8_t param)
        ZB_AF_HA_PROFILE_ID, ZB_ZCL_CLUSTER_ID_LEVEL_CONTROL, NULL);
 }
 
-void send_read_attr(zb_uint8_t param)
+void send_read_attr(zb_cb_param_t param)
 {
   zb_uint8_t *cmd_ptr;
   ZB_ZCL_GENERAL_INIT_READ_ATTR_REQ((param), cmd_ptr, ZB_ZCL_ENABLE_DEFAULT_RESPONSE);
@@ -353,7 +361,7 @@ void send_read_attr(zb_uint8_t param)
        ZB_AF_HA_PROFILE_ID, ZB_ZCL_CLUSTER_ID_LEVEL_CONTROL, read_attr_cb);
 }
 
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p;
   zb_zdo_app_signal_type_t sig = zb_get_app_signal(param, &sg_p);

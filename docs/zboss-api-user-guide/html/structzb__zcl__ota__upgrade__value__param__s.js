@@ -7,8 +7,8 @@ var structzb__zcl__ota__upgrade__value__param__s =
     [ "file_version", "structzb__zcl__ota__upgrade__value__param__s.html#a39e3c342ac3efe905ec33838f5bd7b78", null ],
     [ "image_type", "structzb__zcl__ota__upgrade__value__param__s.html#a46e1b53e25ca01ffa6f0f7a608bc9954", null ],
     [ "manufacturer", "structzb__zcl__ota__upgrade__value__param__s.html#aab1d08a37e35d488fac5711a82ecf520", null ],
-    [ "receive", "structzb__zcl__ota__upgrade__value__param__s.html#a5632c26f2ab5ccf11beff6af1f92ff35", null ],
-    [ "start", "structzb__zcl__ota__upgrade__value__param__s.html#a9c5d2e2aa4702f99d118931e80e1099e", null ],
-    [ "upgrade", "structzb__zcl__ota__upgrade__value__param__s.html#acbce4fb389851613b72878cc31fd036a", null ],
+    [ "receive", "structzb__zcl__ota__upgrade__value__param__s.html#a2a34140ed8001ebf8662078b782a9486", null ],
+    [ "start", "structzb__zcl__ota__upgrade__value__param__s.html#a3e3a1c0fc63283f6d661daba0be0f2f7", null ],
+    [ "upgrade", "structzb__zcl__ota__upgrade__value__param__s.html#a1520634deb7f68147011b15d46d17c6c", null ],
     [ "upgrade_status", "structzb__zcl__ota__upgrade__value__param__s.html#a8223508971ab6782edf3c0bdfc6e278b", null ]
 ];

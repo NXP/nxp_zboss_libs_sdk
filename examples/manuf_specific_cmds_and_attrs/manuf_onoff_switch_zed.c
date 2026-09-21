@@ -22,7 +22,7 @@
 /* PURPOSE: ZB Simple switch device
 */
 
-#define ZB_TRACE_FILE_ID 40754
+#define ZB_TRACE_FILE_ID 40854
 #include "zboss_api.h"
 #include "manuf_onoff_common.h"
 #include "zb_led_button.h"
@@ -41,6 +41,8 @@ zb_ieee_addr_t g_zc_addr = LONG_ADDR_ZC;
 
 #ifdef TEST_USE_INSTALLCODE
 char g_installcode[]= "966b9f3ef98ae605 9708";
+#else
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
 #endif
 
 /* ZC always has short addr 0 */
@@ -50,20 +52,23 @@ zb_uint16_t dst_addr = 0x0000;
 zb_uint8_t g_manuf_value = 0;
 
 /* Handler for specific ZCL commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 
 /* Parse read attributes response */
 void on_off_read_attr_resp_handler(zb_bufid_t cmd_buf);
-void test_restart_join_nwk(zb_uint8_t param);
+void test_restart_join_nwk(zb_cb_param_t param);
 
 #define STEP_TIME (3 * ZB_TIME_ONE_SECOND)
 
 typedef enum {
   TEST_STEP_INIT,
-  TEST_STEP_BIND = TEST_STEP_INIT,
-  TEST_STEP_SEND_CONFIGURE,
+  TEST_STEP_SEND_CONFIGURE = TEST_STEP_INIT,
   TEST_READ_REP_CFG,
   TEST_DISC_ATTRS_REQ,
+  TEST_DISC_MANUF_ATTRS_REQ,
+  TEST_DISC_ATTRS_EXT_REQ,
+  TEST_DISC_MANUF_ATTRS_EXT_REQ,
+  TEST_DISC_WILDCARD_ATTRS_EXT_REQ,
   TEST_DISC_CMD_RCVD_REQ,
   TEST_DISC_CMD_GEN_REQ,
   TEST_STEP_SEND_TOGGLE,
@@ -76,8 +81,8 @@ typedef enum {
 
 test_step_t g_current_step = TEST_STEP_INIT;
 
-void timer_next_step(zb_uint8_t param);
-void next_step(zb_uint8_t param);
+void timer_next_step(zb_cb_param_t param);
+void next_step(zb_cb_param_t param);
 
 /** [COMMON_DECLARATION] */
 /**
@@ -190,38 +195,6 @@ MAIN()
   MAIN_RETURN(0);
 }
 
-static void bind_on_off_cluster_cb(zb_uint8_t param)
-{
-  zb_ret_t status = zb_buf_get_status(param);
-
-  TRACE_MSG(TRACE_APP1, ">> bind_on_off_cluster_cb(), param %hd, ret %ld", (FMT__H_L, param, status));
-  zb_buf_free(param);
-  TRACE_MSG(TRACE_APP1, "<< bind_on_off_cluster_cb()", (FMT__0));
-}
-
-static void bind_on_off_cluster(zb_uint8_t param)
-{
-  zb_apsme_binding_req_t *req;
-
-  TRACE_MSG(TRACE_APP1, ">> bind_on_off_cluster(), param %hd", (FMT__H, param));
-
-  /* Bind On/Off cluster */
-  req = ZB_BUF_GET_PARAM(param, zb_apsme_binding_req_t);
-
-  ZB_IEEE_ADDR_COPY(req->src_addr, &g_ed_addr);
-  ZB_IEEE_ADDR_COPY(req->dst_addr.addr_long, g_zc_addr);
-
-  req->src_endpoint = ZB_SWITCH_ENDPOINT;
-  req->clusterid = ZB_ZCL_CLUSTER_ID_ON_OFF;
-  req->addr_mode = ZB_APS_ADDR_MODE_64_ENDP_PRESENT;
-  req->dst_endpoint = ZB_OUTPUT_ENDPOINT;
-  req->confirm_cb = bind_on_off_cluster_cb;
-
-  ZB_SCHEDULE_APP_CALLBACK(zb_apsme_bind_request, param);
-
-  TRACE_MSG(TRACE_APP1, "<< bind_on_off_cluster()", (FMT__0));
-}
-
 /* [zb_bdb_finding_binding_initiator_cb_example] */
 static zb_bool_t finding_binding_cb(zb_int16_t status,
                                     zb_ieee_addr_t addr,
@@ -234,7 +207,7 @@ static zb_bool_t finding_binding_cb(zb_int16_t status,
 }
 /* [zb_bdb_finding_binding_initiator_cb_example] */
 
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_zcl_parsed_hdr_t *cmd_info = ZB_BUF_GET_PARAM(param, zb_zcl_parsed_hdr_t);
   zb_bool_t unknown_cmd_received = ZB_TRUE;
@@ -287,7 +260,7 @@ void send_configure_manuf_reporting(zb_bufid_t param,
     NULL);
 }
 
-void send_toggle_req(zb_uint8_t param)
+void send_toggle_req(zb_cb_param_t param)
 {
   ZB_ASSERT(param);
 
@@ -389,7 +362,7 @@ void send_write_manuf_attr(zb_bufid_t buffer, zb_uint16_t cluster_id,
 
 
 /* [system_server_discovery_cb] */
-static void system_server_discovery_req_cb(zb_uint8_t param)
+static void system_server_discovery_req_cb(zb_cb_param_t param)
 {
   zb_uint8_t *zdp_cmd = zb_buf_begin(param);
   zb_zdo_system_server_discovery_resp_t *resp = (zb_zdo_system_server_discovery_resp_t*)(zdp_cmd);
@@ -408,7 +381,7 @@ static void system_server_discovery_req_cb(zb_uint8_t param)
 /* [system_server_discovery_cb] */
 
 /* [system_server_discovery_req] */
-static void send_system_server_discovery_req(zb_bufid_t buf)
+static void send_system_server_discovery_req(zb_cb_param_t buf)
 {
   if (!buf)
   {
@@ -427,7 +400,7 @@ static void send_system_server_discovery_req(zb_bufid_t buf)
 /* [system_server_discovery_req] */
 
 /* [active_ep_cb] */
-static void active_ep_callback(zb_bufid_t buf)
+static void active_ep_callback(zb_cb_param_t buf)
 {
   zb_uint8_t *zdp_cmd = zb_buf_begin(buf);
   zb_zdo_ep_resp_t *resp = (zb_zdo_ep_resp_t*)zdp_cmd;
@@ -453,7 +426,7 @@ static void active_ep_callback(zb_bufid_t buf)
 /* [active_ep_cb] */
 
 /* [send_active_ep_req] */
-static void send_active_ep_req(zb_bufid_t buf)
+static void send_active_ep_req(zb_cb_param_t buf)
 {
   if (!buf)
   {
@@ -471,7 +444,7 @@ static void send_active_ep_req(zb_bufid_t buf)
 
 
 /* [simple_desc_cb] */
-static void simple_desc_callback(zb_bufid_t buf)
+static void simple_desc_callback(zb_cb_param_t buf)
 {
   zb_uint8_t *zdp_cmd = zb_buf_begin(buf);
   zb_zdo_simple_desc_resp_t *resp = (zb_zdo_simple_desc_resp_t*)(zdp_cmd);
@@ -500,7 +473,7 @@ static void simple_desc_callback(zb_bufid_t buf)
 }
 
 /* [send_simple_desc_req] */
-static void send_simple_desc_req(zb_bufid_t buf)
+static void send_simple_desc_req(zb_cb_param_t buf)
 {
   if (!buf)
   {
@@ -518,7 +491,7 @@ static void send_simple_desc_req(zb_bufid_t buf)
 /* [send_simple_desc_req] */
 
 /* [power_desc_cb] */
-static void power_desc_callback(zb_bufid_t buf)
+static void power_desc_callback(zb_cb_param_t buf)
 {
   zb_uint8_t *zdp_cmd = zb_buf_begin(buf);
   zb_zdo_power_desc_resp_t *resp = (zb_zdo_power_desc_resp_t*)(zdp_cmd);
@@ -540,7 +513,7 @@ static void power_desc_callback(zb_bufid_t buf)
 }
 
 /* [send_power_desc_req] */
-static void send_power_desc_req(zb_bufid_t buf)
+static void send_power_desc_req(zb_cb_param_t buf)
 {
   if (!buf)
   {
@@ -557,7 +530,7 @@ static void send_power_desc_req(zb_bufid_t buf)
 /* [send_power_desc_req] */
 
 /* [node_req_cb] */
-static void node_desc_callback(zb_bufid_t buf)
+static void node_desc_callback(zb_cb_param_t buf)
 {
   zb_uint8_t *zdp_cmd = zb_buf_begin(buf);
   zb_zdo_node_desc_resp_t *resp = (zb_zdo_node_desc_resp_t*)(zdp_cmd);
@@ -584,7 +557,7 @@ static void node_desc_callback(zb_bufid_t buf)
 
 }
 
-static void send_read_reporting_config_req(zb_uint8_t param)
+static void send_read_reporting_config_req(zb_cb_param_t param)
 {
   zb_uint8_t *ptr;
 
@@ -604,22 +577,73 @@ static void send_read_reporting_config_req(zb_uint8_t param)
   TRACE_MSG(TRACE_APP1, "<<send_read_reporting_config_req", (FMT__0));
 }
 
+static void send_discover_attrs_ext(zb_uint8_t param, 
+  zb_bool_t is_manuf_specific, zb_uint16_t manufacturer_code)
+{
+  zb_uint16_t start_attr_id = ZB_ZCL_ATTR_ON_OFF_ON_OFF_ID;
+  zb_uint8_t maximum_number = 10U;
+
+  ZB_ZCL_GENERAL_DISC_ATTRIBUTE_EXT_REQ(
+    param,
+    ZB_ZCL_FRAME_DIRECTION_TO_SRV,
+    ZB_ZCL_ENABLE_DEFAULT_RESPONSE,
+    dst_addr,
+    ZB_APS_ADDR_MODE_16_ENDP_PRESENT,
+    ZB_OUTPUT_ENDPOINT,
+    ZB_SWITCH_ENDPOINT,
+    ZB_AF_HA_PROFILE_ID,
+    ZB_ZCL_CLUSTER_ID_ON_OFF,
+    NULL,
+    is_manuf_specific,
+    manufacturer_code,
+    start_attr_id,
+    maximum_number);
+}
+
+static void send_discover_attrs_ext_req(zb_uint8_t param)
+{
+  TRACE_MSG(TRACE_APP1, ">>send_discover_attrs_ext_req param = %hd", (FMT__H, param));
+
+  send_discover_attrs_ext(param, ZB_FALSE, 0);
+
+  TRACE_MSG(TRACE_APP1, "<<send_discover_attrs_ext_req", (FMT__0));
+}
+
+static void send_discover_manuf_attrs_ext_req(zb_uint8_t param)
+{
+  TRACE_MSG(TRACE_APP1, ">>send_discover_manuf_attrs_ext_req param = %hd", (FMT__H, param));
+
+  send_discover_attrs_ext(param, ZB_TRUE, MANUF_CODE);
+
+  TRACE_MSG(TRACE_APP1, "<<send_discover_manuf_attrs_ext_req", (FMT__0));
+}
+
+static void send_discover_wildcard_attrs_ext_req(zb_uint8_t param)
+{
+  TRACE_MSG(TRACE_APP1, ">>send_discover_wildcard_attrs_ext_req param = %hd", (FMT__H, param));
+
+  send_discover_attrs_ext(param, ZB_TRUE, 0xffff);
+
+  TRACE_MSG(TRACE_APP1, "<<send_discover_wildcard_attrs_ext_req", (FMT__0));
+}
+
+
 static void send_discover_attrs_req(zb_uint8_t param)
 {
   zb_uint8_t *ptr;
-  zb_uint16_t attr_id = ZB_ZCL_ATTR_ON_OFF_ON_OFF_ID;
+  zb_uint16_t start_attr_id = ZB_ZCL_ATTR_ON_OFF_ON_OFF_ID;
+  zb_uint8_t maximum_number = 10U;
 
   TRACE_MSG(TRACE_APP1, ">>send_discover_attrs_req param = %hd", (FMT__H, param));
   ZVUNUSED(ptr);
 
-  ZB_ZCL_GENERAL_DISC_ATTR_REQ_MANUF(
+  ZB_ZCL_GENERAL_DISC_ATTR_REQ_A(
     param,
     ptr,
     ZB_ZCL_FRAME_DIRECTION_TO_SRV,
     ZB_ZCL_ENABLE_DEFAULT_RESPONSE,
-    MANUF_CODE,
-    attr_id,
-    2U,
+    start_attr_id,
+    maximum_number,
     dst_addr,
     ZB_APS_ADDR_MODE_16_ENDP_PRESENT,
     ZB_OUTPUT_ENDPOINT,
@@ -629,6 +653,34 @@ static void send_discover_attrs_req(zb_uint8_t param)
     NULL);
 
   TRACE_MSG(TRACE_APP1, "<<send_discover_attrs_req", (FMT__0));
+}
+
+static void send_discover_manuf_attrs_req(zb_uint8_t param)
+{
+  zb_uint8_t *ptr;
+  zb_uint16_t start_attr_id = ZB_ZCL_ATTR_ON_OFF_ON_OFF_ID;
+  zb_uint8_t maximum_number = 10U;
+
+  TRACE_MSG(TRACE_APP1, ">>send_discover_manuf_attrs_req param = %hd", (FMT__H, param));
+  ZVUNUSED(ptr);
+
+  ZB_ZCL_GENERAL_DISC_ATTR_REQ_MANUF(
+    param,
+    ptr,
+    ZB_ZCL_FRAME_DIRECTION_TO_SRV,
+    ZB_ZCL_ENABLE_DEFAULT_RESPONSE,
+    MANUF_CODE,
+    start_attr_id,
+    maximum_number,
+    dst_addr,
+    ZB_APS_ADDR_MODE_16_ENDP_PRESENT,
+    ZB_OUTPUT_ENDPOINT,
+    ZB_SWITCH_ENDPOINT,
+    ZB_AF_HA_PROFILE_ID,
+    ZB_ZCL_CLUSTER_ID_ON_OFF,
+    NULL);
+
+  TRACE_MSG(TRACE_APP1, "<<send_discover_manuf_attrs_req", (FMT__0));
 }
 
 static void send_discover_cmd_rcvd_req(zb_uint8_t param)
@@ -678,7 +730,7 @@ static void send_discover_cmd_gen_req(zb_uint8_t param)
 }
 
 /* [send_node_desc_req] */
-static void send_node_desc_req(zb_bufid_t buf)
+static void send_node_desc_req(zb_cb_param_t buf)
 {
   zb_zdo_node_desc_req_t *req;
 
@@ -697,22 +749,18 @@ static void send_node_desc_req(zb_bufid_t buf)
 }
 /* [send_node_desc_req] */
 
-void timer_next_step(zb_uint8_t param)
+void timer_next_step(zb_cb_param_t param)
 {
   ZVUNUSED(param);
   zb_buf_get_out_delayed(next_step);
 }
 
-void next_step(zb_uint8_t param)
+void next_step(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP2, "> next_step step %d param %d", (FMT__D_H, g_current_step, param));
 
   switch (g_current_step)
   {
-    case TEST_STEP_BIND:
-      bind_on_off_cluster(param);
-      break;
-
     case TEST_STEP_SEND_CONFIGURE:
       send_configure_manuf_reporting(param,
                                      ZB_ZCL_CLUSTER_ID_ON_OFF,
@@ -730,6 +778,22 @@ void next_step(zb_uint8_t param)
 
     case TEST_DISC_ATTRS_REQ:
       send_discover_attrs_req(param);
+      break;
+
+    case TEST_DISC_MANUF_ATTRS_REQ:
+      send_discover_manuf_attrs_req(param);
+      break;
+
+    case TEST_DISC_ATTRS_EXT_REQ:
+      send_discover_attrs_ext_req(param);
+      break;
+
+    case TEST_DISC_MANUF_ATTRS_EXT_REQ:
+      send_discover_manuf_attrs_ext_req(param);
+      break;
+
+    case TEST_DISC_WILDCARD_ATTRS_EXT_REQ:
+      send_discover_wildcard_attrs_ext_req(param);
       break;
 
     case TEST_DISC_CMD_RCVD_REQ:
@@ -788,7 +852,7 @@ void next_step(zb_uint8_t param)
   TRACE_MSG(TRACE_APP2, "< next_step", (FMT__0));
 }
 
-void test_leave_nwk(zb_uint8_t param)
+void test_leave_nwk(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP2, ">> test_leave_nwk param %hd", (FMT__H, param));
 
@@ -812,7 +876,7 @@ void test_leave_nwk(zb_uint8_t param)
   TRACE_MSG(TRACE_APP2, "<< test_leave_nwk", (FMT__0));
 }
 
-void test_restart_join_nwk(zb_uint8_t param)
+void test_restart_join_nwk(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP2, "test_restart_join_nwk %hd", (FMT__H, param));
   if (param == ZB_NWK_LEAVE_TYPE_RESET)
@@ -821,7 +885,7 @@ void test_restart_join_nwk(zb_uint8_t param)
   }
 }
 
-void test_leave_and_join(zb_uint8_t param)
+void test_leave_and_join(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP2, ">> test_leave_and_join param %hd", (FMT__H, param));
   if (ZB_JOINED())
@@ -839,13 +903,13 @@ void test_leave_and_join(zb_uint8_t param)
   TRACE_MSG(TRACE_APP2, "<< test_leave_and_join", (FMT__0));
 }
 
-void permit_joining_cb(zb_uint8_t param)
+void permit_joining_cb(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP2, "permit joining done", (FMT__0));
   zb_buf_free(param);
 }
 
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_type_t sig = zb_get_app_signal(param, &sg_p);
@@ -869,6 +933,8 @@ void zboss_signal_handler(zb_uint8_t param)
         TRACE_MSG(TRACE_APP1, "ZB_ZDO_SIGNAL_SKIP_STARTUP: boot, not started yet", (FMT__0));
 #ifdef TEST_USE_INSTALLCODE
         zb_secur_ic_str_set(g_installcode);
+#else
+        zb_secur_ic_set(ZB_IC_TYPE_PASSCODE, g_passcode);
 #endif
         zboss_start_continue();
         break;
@@ -923,6 +989,7 @@ void zboss_signal_handler(zb_uint8_t param)
       {
         zb_nwk_device_type_t device_type = ZB_NWK_DEVICE_TYPE_NONE;
         device_type = zb_get_device_type();
+        ZVUNUSED(device_type);
         TRACE_MSG(TRACE_APP1, "Device (%hd) STARTED OK", (FMT__D, device_type));
 
         TRACE_MSG(TRACE_APP1, "Successful steering, start f&b initiator", (FMT__0));

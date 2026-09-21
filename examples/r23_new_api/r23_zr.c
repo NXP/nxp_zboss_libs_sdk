@@ -24,7 +24,7 @@
 /* PURPOSE: R23 new API
 */
 
-#define ZB_TRACE_FILE_ID 40148
+#define ZB_TRACE_FILE_ID 40777
 
 #include "zboss_api.h"
 #include "r23_applications_common.h"
@@ -35,6 +35,7 @@
 
 /* IEEE address of the device */
 static zb_ieee_addr_t g_r23_zr_ieee_addr = IEEE_ADDRESS_R23_ZR;
+static zb_uint8_t g_r23_zed_passcode[ZB_PAKE_PASSCODE_LENGTH] = APPLICATION_R23_ZED_PASSCODE;
 
 MAIN()
 {
@@ -62,10 +63,15 @@ MAIN()
 
   zb_set_nvram_erase_at_start(ZB_FALSE);
 
+  zb_nwk_set_max_ed_capacity(0);
+
   /* For ZR/ZED zboss_use_r23_behavior() sets all key negotiation methods and enables ZB_TLV_PSK_SECRET_AUTH_TOKEN by default
    * When IC or passcode are set, the corresponding PSK secret automatically enabled
    * (ZB_TLV_PSK_SECRET_INSTALL_CODE or ZB_TLV_PSK_SECRET_PAKE_PASSCODE) */
   zboss_use_r23_behavior();
+
+  /* Set install-code */
+  zb_secur_ic_set(ZB_IC_TYPE_PASSCODE, g_r23_zed_passcode);
 
   /* Initiate the stack start with starting the commissioning */
   if (zboss_start() != RET_OK)
@@ -84,7 +90,7 @@ MAIN()
 }
 
 
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_t sig = zb_get_app_signal(param, &sg_p);

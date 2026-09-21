@@ -128,9 +128,9 @@ typedef enum <a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i
 <tr class="memitem:ga913afbcf16c73793681028314e2684a1"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga913afbcf16c73793681028314e2684a1">zbd_zdd_send_callback_t</a>) (zb_ble_conn_id_t conn_id, zb_ble_characteristic_handle_t charact_handle, <a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> success)</td></tr>
 <tr class="memdesc:ga913afbcf16c73793681028314e2684a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback type that is being called after data sending.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga913afbcf16c73793681028314e2684a1">More...</a><br /></td></tr>
 <tr class="separator:ga913afbcf16c73793681028314e2684a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga63c51565da56dc157b19660cb48e4a4c"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga63c51565da56dc157b19660cb48e4a4c">zbd_zdd_simple_callback_t</a>) (zb_ble_conn_id_t conn_id)</td></tr>
-<tr class="memdesc:ga63c51565da56dc157b19660cb48e4a4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">All other callback types like new BLE device connected, etc.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga63c51565da56dc157b19660cb48e4a4c">More...</a><br /></td></tr>
-<tr class="separator:ga63c51565da56dc157b19660cb48e4a4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga06e893c674df8a05142d4c08ee69f6d1"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga06e893c674df8a05142d4c08ee69f6d1">zbd_zdd_simple_callback_t</a>) (<a class="el" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a> conn_id)</td></tr>
+<tr class="memdesc:ga06e893c674df8a05142d4c08ee69f6d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">All other callback types like new BLE device connected, etc.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga06e893c674df8a05142d4c08ee69f6d1">More...</a><br /></td></tr>
+<tr class="separator:ga06e893c674df8a05142d4c08ee69f6d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga003a77269df79e84b93b5331c88006e7"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga003a77269df79e84b93b5331c88006e7">zbd_zdd_subscribe_callback_t</a>) (zb_ble_conn_id_t conn_id, zb_ble_characteristic_handle_t charact_handle, <a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> is_subscribed)</td></tr>
 <tr class="memdesc:ga003a77269df79e84b93b5331c88006e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback type that is being used on peer subscribing or unsubscribing.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga003a77269df79e84b93b5331c88006e7">More...</a><br /></td></tr>
 <tr class="separator:ga003a77269df79e84b93b5331c88006e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -200,9 +200,9 @@ typedef enum zbd_manage_joiners_cmd_e&#160;</td><td class="memItemRight" valign=
 <tr class="memitem:gac767a02a2d81da14e873227c442a214f"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gac767a02a2d81da14e873227c442a214f">zbd_zvd_periph_list_updated_callback_t</a>) (void)</td></tr>
 <tr class="memdesc:gac767a02a2d81da14e873227c442a214f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback type that is being used when there is an update to the discovered peripheral list.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gac767a02a2d81da14e873227c442a214f">More...</a><br /></td></tr>
 <tr class="separator:gac767a02a2d81da14e873227c442a214f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5b6b2f0f1b83777eb906eff8950b5f03"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga5b6b2f0f1b83777eb906eff8950b5f03">zbd_zvd_simple_callback_t</a>) (zb_ble_conn_id_t conn_id)</td></tr>
-<tr class="memdesc:ga5b6b2f0f1b83777eb906eff8950b5f03"><td class="mdescLeft">&#160;</td><td class="mdescRight">All other callback types.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga5b6b2f0f1b83777eb906eff8950b5f03">More...</a><br /></td></tr>
-<tr class="separator:ga5b6b2f0f1b83777eb906eff8950b5f03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabb3d5e364449dd3c25a9561b6fd9c951"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gabb3d5e364449dd3c25a9561b6fd9c951">zbd_zvd_simple_callback_t</a>) (<a class="el" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a> conn_id)</td></tr>
+<tr class="memdesc:gabb3d5e364449dd3c25a9561b6fd9c951"><td class="mdescLeft">&#160;</td><td class="mdescRight">All other callback types.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gabb3d5e364449dd3c25a9561b6fd9c951">More...</a><br /></td></tr>
+<tr class="separator:gabb3d5e364449dd3c25a9561b6fd9c951"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gafb18721bc94925abbf11daf97e23f32a"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gafb18721bc94925abbf11daf97e23f32a">zbd_aps_link_key_flags_mask_t</a></td></tr>
 <tr class="memdesc:gafb18721bc94925abbf11daf97e23f32a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type for ZBD APS Link Key Flags Mask.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gafb18721bc94925abbf11daf97e23f32a">More...</a><br /></td></tr>
 <tr class="separator:gafb18721bc94925abbf11daf97e23f32a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -381,9 +381,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 <tr class="memitem:ga8ab3d5f36bfdcc2eba76a8c663ed2aa8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga8ab3d5f36bfdcc2eba76a8c663ed2aa8">zbd_generate_eui64_from_mac_address</a> (const <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> *mac_address, <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> eui_64)</td></tr>
 <tr class="memdesc:ga8ab3d5f36bfdcc2eba76a8c663ed2aa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates EUI-64 address from MAC address.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga8ab3d5f36bfdcc2eba76a8c663ed2aa8">More...</a><br /></td></tr>
 <tr class="separator:ga8ab3d5f36bfdcc2eba76a8c663ed2aa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad011af9f45dfcd579b8a5567fe7131f6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gad011af9f45dfcd579b8a5567fe7131f6">zbd_zvd_establish_trusted_link</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> buffer, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> conn_id)</td></tr>
-<tr class="memdesc:gad011af9f45dfcd579b8a5567fe7131f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Establishes Trusted Link between ZVD and connected ZDD The function is intended to initiate ZVD TC and ZDD commissioning process (ZVD TC sends Network Commissioning Request and waits for Network Commissioning Response)  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gad011af9f45dfcd579b8a5567fe7131f6">More...</a><br /></td></tr>
-<tr class="separator:gad011af9f45dfcd579b8a5567fe7131f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga86de5d77b8beffe4f1ea8ee395df5b44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga86de5d77b8beffe4f1ea8ee395df5b44">zbd_zvd_establish_trusted_link</a> (<a class="el" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a> cb_param)</td></tr>
+<tr class="memdesc:ga86de5d77b8beffe4f1ea8ee395df5b44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Establishes Trusted Link between ZVD and connected ZDD The function is intended to initiate ZVD TC and ZDD commissioning process (ZVD TC sends Network Commissioning Request and waits for Network Commissioning Response)  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga86de5d77b8beffe4f1ea8ee395df5b44">More...</a><br /></td></tr>
+<tr class="separator:ga86de5d77b8beffe4f1ea8ee395df5b44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga80cc30d5438f9133b35df4c427de26f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga80cc30d5438f9133b35df4c427de26f3">zbd_ble_addr_get</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> *ble_address)</td></tr>
 <tr class="memdesc:ga80cc30d5438f9133b35df4c427de26f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the BLE device address.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga80cc30d5438f9133b35df4c427de26f3">More...</a><br /></td></tr>
 <tr class="separator:ga80cc30d5438f9133b35df4c427de26f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -393,13 +393,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 <tr class="memitem:ga67a101b62ebb91aac55dfb1ccf23094f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga67a101b62ebb91aac55dfb1ccf23094f">zbd_zvd_ble_set_periph_list_updated_callback</a> (<a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gac767a02a2d81da14e873227c442a214f">zbd_zvd_periph_list_updated_callback_t</a> callback)</td></tr>
 <tr class="memdesc:ga67a101b62ebb91aac55dfb1ccf23094f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback to be called when the discovered peripheral list is updated.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga67a101b62ebb91aac55dfb1ccf23094f">More...</a><br /></td></tr>
 <tr class="separator:ga67a101b62ebb91aac55dfb1ccf23094f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf26991b9aa4000836529991d6d62a5ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gaf26991b9aa4000836529991d6d62a5ca">zbd_zvd_ble_set_connect_callback</a> (<a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga5b6b2f0f1b83777eb906eff8950b5f03">zbd_zvd_simple_callback_t</a> callback)</td></tr>
+<tr class="memitem:gaf26991b9aa4000836529991d6d62a5ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gaf26991b9aa4000836529991d6d62a5ca">zbd_zvd_ble_set_connect_callback</a> (<a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gabb3d5e364449dd3c25a9561b6fd9c951">zbd_zvd_simple_callback_t</a> callback)</td></tr>
 <tr class="memdesc:gaf26991b9aa4000836529991d6d62a5ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback to be called when a new connection to a peer must be handled.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gaf26991b9aa4000836529991d6d62a5ca">More...</a><br /></td></tr>
 <tr class="separator:gaf26991b9aa4000836529991d6d62a5ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8a5af6f7bbcbcde02ce17114d3b5e256"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga8a5af6f7bbcbcde02ce17114d3b5e256">zbd_zvd_ble_set_disconnect_callback</a> (<a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga5b6b2f0f1b83777eb906eff8950b5f03">zbd_zvd_simple_callback_t</a> callback)</td></tr>
+<tr class="memitem:ga8a5af6f7bbcbcde02ce17114d3b5e256"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga8a5af6f7bbcbcde02ce17114d3b5e256">zbd_zvd_ble_set_disconnect_callback</a> (<a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gabb3d5e364449dd3c25a9561b6fd9c951">zbd_zvd_simple_callback_t</a> callback)</td></tr>
 <tr class="memdesc:ga8a5af6f7bbcbcde02ce17114d3b5e256"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback to be called when a peer is disconnected.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga8a5af6f7bbcbcde02ce17114d3b5e256">More...</a><br /></td></tr>
 <tr class="separator:ga8a5af6f7bbcbcde02ce17114d3b5e256"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa890b75c8198dd8f653eecdba7d6689f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gaa890b75c8198dd8f653eecdba7d6689f">zbd_zvd_ble_set_services_resolved_callback</a> (<a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga5b6b2f0f1b83777eb906eff8950b5f03">zbd_zvd_simple_callback_t</a> callback)</td></tr>
+<tr class="memitem:gaa890b75c8198dd8f653eecdba7d6689f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gaa890b75c8198dd8f653eecdba7d6689f">zbd_zvd_ble_set_services_resolved_callback</a> (<a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gabb3d5e364449dd3c25a9561b6fd9c951">zbd_zvd_simple_callback_t</a> callback)</td></tr>
 <tr class="memdesc:gaa890b75c8198dd8f653eecdba7d6689f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback to be called when a ZDD services have been resolved and can be used by ZVD.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gaa890b75c8198dd8f653eecdba7d6689f">More...</a><br /></td></tr>
 <tr class="separator:gaa890b75c8198dd8f653eecdba7d6689f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0ae1bbeed9ed677215d405951fda4a02"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga0ae1bbeed9ed677215d405951fda4a02">zbd_zvd_init</a> (const <a class="el" href="group__base__types.html#ga6fe6a48f798e56df7c31c5354c929d4a">zb_char_t</a> *device_name)</td></tr>
@@ -420,13 +420,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 <tr class="memitem:gad36f32b23dd16ba19b6135351fa2c9ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gad36f32b23dd16ba19b6135351fa2c9ea">zbd_zvd_disconnect</a> (zb_ble_conn_id_t conn_id)</td></tr>
 <tr class="memdesc:gad36f32b23dd16ba19b6135351fa2c9ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnects from ZDD, if it is already connected to one.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gad36f32b23dd16ba19b6135351fa2c9ea">More...</a><br /></td></tr>
 <tr class="separator:gad36f32b23dd16ba19b6135351fa2c9ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac44ecea4f392a09050723c9e0cbdfbdd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gac44ecea4f392a09050723c9e0cbdfbdd">zbd_zvd_set_connect_callback</a> (<a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga5b6b2f0f1b83777eb906eff8950b5f03">zbd_zvd_simple_callback_t</a> callback)</td></tr>
+<tr class="memitem:gac44ecea4f392a09050723c9e0cbdfbdd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gac44ecea4f392a09050723c9e0cbdfbdd">zbd_zvd_set_connect_callback</a> (<a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gabb3d5e364449dd3c25a9561b6fd9c951">zbd_zvd_simple_callback_t</a> callback)</td></tr>
 <tr class="memdesc:gac44ecea4f392a09050723c9e0cbdfbdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback to be called when ZVD connects to a ZDD.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gac44ecea4f392a09050723c9e0cbdfbdd">More...</a><br /></td></tr>
 <tr class="separator:gac44ecea4f392a09050723c9e0cbdfbdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga69188fbeda0355b3555739b90f154715"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga69188fbeda0355b3555739b90f154715">zbd_zvd_set_services_resolved_callback</a> (<a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga5b6b2f0f1b83777eb906eff8950b5f03">zbd_zvd_simple_callback_t</a> callback)</td></tr>
+<tr class="memitem:ga69188fbeda0355b3555739b90f154715"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga69188fbeda0355b3555739b90f154715">zbd_zvd_set_services_resolved_callback</a> (<a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gabb3d5e364449dd3c25a9561b6fd9c951">zbd_zvd_simple_callback_t</a> callback)</td></tr>
 <tr class="memdesc:ga69188fbeda0355b3555739b90f154715"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback to be called when ZDD's services are resolved.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga69188fbeda0355b3555739b90f154715">More...</a><br /></td></tr>
 <tr class="separator:ga69188fbeda0355b3555739b90f154715"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa11f9892d3dbca667778d856fcbd079f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gaa11f9892d3dbca667778d856fcbd079f">zbd_zvd_set_disconnect_callback</a> (<a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga5b6b2f0f1b83777eb906eff8950b5f03">zbd_zvd_simple_callback_t</a> callback)</td></tr>
+<tr class="memitem:gaa11f9892d3dbca667778d856fcbd079f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gaa11f9892d3dbca667778d856fcbd079f">zbd_zvd_set_disconnect_callback</a> (<a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gabb3d5e364449dd3c25a9561b6fd9c951">zbd_zvd_simple_callback_t</a> callback)</td></tr>
 <tr class="memdesc:gaa11f9892d3dbca667778d856fcbd079f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback to be called when ZVD disconnects from a ZDD.  <a href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gaa11f9892d3dbca667778d856fcbd079f">More...</a><br /></td></tr>
 <tr class="separator:gaa11f9892d3dbca667778d856fcbd079f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0618c2063f2009f1e5fb11709fd38233"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga0618c2063f2009f1e5fb11709fd38233">zbd_zvd_set_zdd_list_updated_callback</a> (<a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gac767a02a2d81da14e873227c442a214f">zbd_zvd_periph_list_updated_callback_t</a> callback)</td></tr>
@@ -647,14 +647,14 @@ ZBD APS Link Key Flags Mask</h2></td></tr>
 
 </div>
 </div>
-<a id="ga63c51565da56dc157b19660cb48e4a4c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga63c51565da56dc157b19660cb48e4a4c">&#9670;&nbsp;</a></span>zbd_zdd_simple_callback_t</h2>
+<a id="ga06e893c674df8a05142d4c08ee69f6d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga06e893c674df8a05142d4c08ee69f6d1">&#9670;&nbsp;</a></span>zbd_zdd_simple_callback_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef void(* zbd_zdd_simple_callback_t) (zb_ble_conn_id_t conn_id)</td>
+          <td class="memname">typedef void(* zbd_zdd_simple_callback_t) (<a class="el" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a> conn_id)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -767,14 +767,14 @@ ZBD APS Link Key Flags Mask</h2></td></tr>
 
 </div>
 </div>
-<a id="ga5b6b2f0f1b83777eb906eff8950b5f03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga5b6b2f0f1b83777eb906eff8950b5f03">&#9670;&nbsp;</a></span>zbd_zvd_simple_callback_t</h2>
+<a id="gabb3d5e364449dd3c25a9561b6fd9c951"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabb3d5e364449dd3c25a9561b6fd9c951">&#9670;&nbsp;</a></span>zbd_zvd_simple_callback_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef void(* zbd_zvd_simple_callback_t) (zb_ble_conn_id_t conn_id)</td>
+          <td class="memname">typedef void(* zbd_zvd_simple_callback_t) (<a class="el" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a> conn_id)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -851,7 +851,7 @@ ZBD APS Link Key Flags Mask</h2></td></tr>
 <p>Create a BLE service with a custom 128-bit UUID. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">uuid128</td><td>Pointer to 16-bytes array contatining desired UUID </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">uuid128</td><td>Pointer to 16-bytes array containing desired UUID </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">service_handle</td><td>pointer to variable to store handle of created service in </td></tr>
   </table>
   </dd>
@@ -1303,7 +1303,7 @@ ZBD APS Link Key Flags Mask</h2></td></tr>
         <tr>
           <td class="memname">void zbd_zvd_ble_set_connect_callback </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga5b6b2f0f1b83777eb906eff8950b5f03">zbd_zvd_simple_callback_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gabb3d5e364449dd3c25a9561b6fd9c951">zbd_zvd_simple_callback_t</a>&#160;</td>
           <td class="paramname"><em>callback</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1329,7 +1329,7 @@ ZBD APS Link Key Flags Mask</h2></td></tr>
         <tr>
           <td class="memname">void zbd_zvd_ble_set_disconnect_callback </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga5b6b2f0f1b83777eb906eff8950b5f03">zbd_zvd_simple_callback_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gabb3d5e364449dd3c25a9561b6fd9c951">zbd_zvd_simple_callback_t</a>&#160;</td>
           <td class="paramname"><em>callback</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1381,7 +1381,7 @@ ZBD APS Link Key Flags Mask</h2></td></tr>
         <tr>
           <td class="memname">void zbd_zvd_ble_set_services_resolved_callback </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga5b6b2f0f1b83777eb906eff8950b5f03">zbd_zvd_simple_callback_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gabb3d5e364449dd3c25a9561b6fd9c951">zbd_zvd_simple_callback_t</a>&#160;</td>
           <td class="paramname"><em>callback</em></td><td>)</td>
           <td></td>
         </tr>
@@ -2311,8 +2311,8 @@ ZBD APS Link Key Flags Mask</h2></td></tr>
 
 </div>
 </div>
-<a id="gad011af9f45dfcd579b8a5567fe7131f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad011af9f45dfcd579b8a5567fe7131f6">&#9670;&nbsp;</a></span>zbd_zvd_establish_trusted_link()</h2>
+<a id="ga86de5d77b8beffe4f1ea8ee395df5b44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga86de5d77b8beffe4f1ea8ee395df5b44">&#9670;&nbsp;</a></span>zbd_zvd_establish_trusted_link()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2320,19 +2320,9 @@ ZBD APS Link Key Flags Mask</h2></td></tr>
         <tr>
           <td class="memname">void zbd_zvd_establish_trusted_link </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
-          <td class="paramname"><em>buffer</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a>&#160;</td>
+          <td class="paramname"><em>cb_param</em></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>&#160;</td>
-          <td class="paramname"><em>conn_id</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -2340,8 +2330,7 @@ ZBD APS Link Key Flags Mask</h2></td></tr>
 <p>Establishes Trusted Link between ZVD and connected ZDD The function is intended to initiate ZVD TC and ZDD commissioning process (ZVD TC sends Network Commissioning Request and waits for Network Commissioning Response) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">buffer</td><td>buffer id to establish trusted link </td></tr>
-    <tr><td class="paramname">conn_id</td><td>connection id between ZVD and ZDD </td></tr>
+    <tr><td class="paramname">cb_param</td><td>packed buffer id to establish trusted link and connection id between ZVD and ZDD </td></tr>
   </table>
   </dd>
 </dl>
@@ -2638,7 +2627,7 @@ ZBD APS Link Key Flags Mask</h2></td></tr>
         <tr>
           <td class="memname">void zbd_zvd_set_connect_callback </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga5b6b2f0f1b83777eb906eff8950b5f03">zbd_zvd_simple_callback_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gabb3d5e364449dd3c25a9561b6fd9c951">zbd_zvd_simple_callback_t</a>&#160;</td>
           <td class="paramname"><em>callback</em></td><td>)</td>
           <td></td>
         </tr>
@@ -2664,7 +2653,7 @@ ZBD APS Link Key Flags Mask</h2></td></tr>
         <tr>
           <td class="memname">void zbd_zvd_set_disconnect_callback </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga5b6b2f0f1b83777eb906eff8950b5f03">zbd_zvd_simple_callback_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gabb3d5e364449dd3c25a9561b6fd9c951">zbd_zvd_simple_callback_t</a>&#160;</td>
           <td class="paramname"><em>callback</em></td><td>)</td>
           <td></td>
         </tr>
@@ -2716,7 +2705,7 @@ ZBD APS Link Key Flags Mask</h2></td></tr>
         <tr>
           <td class="memname">void zbd_zvd_set_services_resolved_callback </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#ga5b6b2f0f1b83777eb906eff8950b5f03">zbd_zvd_simple_callback_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group___z_b___d_i_r_e_c_t___c_o_m_m_o_n___a_p_i.html#gabb3d5e364449dd3c25a9561b6fd9c951">zbd_zvd_simple_callback_t</a>&#160;</td>
           <td class="paramname"><em>callback</em></td><td>)</td>
           <td></td>
         </tr>
@@ -2843,6 +2832,6 @@ ZBD APS Link Key Flags Mask</h2></td></tr>
     <a href="http://www.dsr-corporation.com">http://www.dsr-corporation.com</a>
   </div>
 </div>
-<div>ZBOSS documentation. Wed May 27 2026.</div>
+<div>ZBOSS documentation. Mon Sep 21 2026.</div>
 </body>
 </html>

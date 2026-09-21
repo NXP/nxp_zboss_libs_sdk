@@ -98,7 +98,7 @@ Macros</h2></td></tr>
 <tr class="separator:ga95c77453d537c275198f84ba7da42058"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga18eecb09b09211a4e9e49accf3eda880"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__configurable__mem.html#ga18eecb09b09211a4e9e49accf3eda880">ZB_CONFIG_ROLE_ZR</a></td></tr>
 <tr class="separator:ga18eecb09b09211a4e9e49accf3eda880"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga12a2b6986dcbb40fe53930dbd27623dc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__configurable__mem.html#ga12a2b6986dcbb40fe53930dbd27623dc">ZB_CONFIG_OVERALL_NETWORK_SIZE</a>&#160;&#160;&#160;ZB_NWK_CONFIGURABLE_MEM_MAX_NETWORK_SIZE</td></tr>
+<tr class="memitem:ga12a2b6986dcbb40fe53930dbd27623dc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__configurable__mem.html#ga12a2b6986dcbb40fe53930dbd27623dc">ZB_CONFIG_OVERALL_NETWORK_SIZE</a>&#160;&#160;&#160;250U</td></tr>
 <tr class="separator:ga12a2b6986dcbb40fe53930dbd27623dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gacb45bca27ea0eac10509cdaf17e9c2c5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__configurable__mem.html#gacb45bca27ea0eac10509cdaf17e9c2c5">ZB_CONFIG_HIGH_TRAFFIC</a></td></tr>
 <tr class="separator:gacb45bca27ea0eac10509cdaf17e9c2c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,6 +114,7 @@ Macros</h2></td></tr>
 <p>Normally sizes of all ZBOSS internal data structures are fixed during ZBOSS library build, so user of the SDK is not able to change them.</p>
 <p>To configure memory sizes, an application must include into one of its source files one of memory configuration pre-sets: zb_mem_config_max.h, zb_mem_config_med.h or zb_mem_config_min.h. It is also possible for application to create its own pre-set basing on values from some of zb_mem_config_xxx.h.</p>
 <p><b>Example:</b> </p><div class="fragment"><div class="line"><span class="preprocessor">#define ZB_TRACE_FILE_ID 40244</span></div>
+<div class="line"><span class="preprocessor">#include &quot;zb_common.h&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;zboss_api.h&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;zb_led_button.h&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;zb_on_off_switch.h&quot;</span></div>
@@ -236,7 +237,7 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ZB_CONFIG_OVERALL_NETWORK_SIZE&#160;&#160;&#160;ZB_NWK_CONFIGURABLE_MEM_MAX_NETWORK_SIZE</td>
+          <td class="memname">#define ZB_CONFIG_OVERALL_NETWORK_SIZE&#160;&#160;&#160;250U</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -299,6 +300,6 @@ Macros</h2></td></tr>
     <a href="http://www.dsr-corporation.com">http://www.dsr-corporation.com</a>
   </div>
 </div>
-<div>ZBOSS documentation. Wed May 27 2026.</div>
+<div>ZBOSS documentation. Mon Sep 21 2026.</div>
 </body>
 </html>

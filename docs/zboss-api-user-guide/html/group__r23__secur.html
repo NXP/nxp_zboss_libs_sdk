@@ -136,6 +136,10 @@ Macros</h2></td></tr>
 <tr class="memitem:ga512d04655570090b23dc9798492f5b4d"><td class="memItemLeft" align="right" valign="top"><a id="ga512d04655570090b23dc9798492f5b4d"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>ZB_POST_JOIN_KEY_UPD_METH_HASHED_TCLK</b>&#160;&#160;&#160;0x07U /* Hashed TCLK is restored from backup at TC after TC swap */</td></tr>
 <tr class="separator:ga512d04655570090b23dc9798492f5b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaea4df56121d8a4a2698f1b6b31b12634"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__r23__secur.html#gaea4df56121d8a4a2698f1b6b31b12634">ZB_ZDO_SWITCH_KEY_ERROR_PROCESSING_AUTOMATICALLY</a>&#160;&#160;&#160;0U</td></tr>
+<tr class="separator:gaea4df56121d8a4a2698f1b6b31b12634"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa76f5bfdc65e3fcecbff093ee08a8600"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__r23__secur.html#gaa76f5bfdc65e3fcecbff093ee08a8600">ZB_ZDO_SWITCH_KEY_ERROR_PROCESSING_MANUALLY</a>&#160;&#160;&#160;1U</td></tr>
+<tr class="separator:gaa76f5bfdc65e3fcecbff093ee08a8600"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -179,12 +183,15 @@ Functions</h2></td></tr>
 <tr class="separator:gab47214f47b559089581096298a9e312f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6fe044884d77834382a6cbf5f89c5331"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__r23__secur.html#ga6fe044884d77834382a6cbf5f89c5331">zb_set_aps_enc_for_zdo_in_distrib_nwk</a> (<a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> val)</td></tr>
 <tr class="separator:ga6fe044884d77834382a6cbf5f89c5331"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaecafa3bcd468ba86a08da170bb74ef6d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__r23__secur.html#gaecafa3bcd468ba86a08da170bb74ef6d">zb_zdo_get_auth_level_req</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param, <a class="el" href="group__sched.html#gac77cf2f969243abf27172c7ddb0f376d">zb_callback_t</a> cb)</td></tr>
-<tr class="memdesc:gaecafa3bcd468ba86a08da170bb74ef6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get authentication level for target device.  <a href="group__r23__secur.html#gaecafa3bcd468ba86a08da170bb74ef6d">More...</a><br /></td></tr>
-<tr class="separator:gaecafa3bcd468ba86a08da170bb74ef6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6df115e46b27ea0dbf0f6b678170c2a8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__r23__secur.html#ga6df115e46b27ea0dbf0f6b678170c2a8">zb_zdo_secur_update_device_tclk</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param, <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> dev_ieee_addr)</td></tr>
-<tr class="memdesc:ga6df115e46b27ea0dbf0f6b678170c2a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send Security_Key_Update_req for update EXISTING verified tclk.  <a href="group__r23__secur.html#ga6df115e46b27ea0dbf0f6b678170c2a8">More...</a><br /></td></tr>
-<tr class="separator:ga6df115e46b27ea0dbf0f6b678170c2a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7b46b687ec750ad54f8873122e7bd4de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__r23__secur.html#ga7b46b687ec750ad54f8873122e7bd4de">zb_zdo_get_auth_level_req</a> (<a class="el" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a> param, <a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a> cb)</td></tr>
+<tr class="memdesc:ga7b46b687ec750ad54f8873122e7bd4de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get authentication level for target device.  <a href="group__r23__secur.html#ga7b46b687ec750ad54f8873122e7bd4de">More...</a><br /></td></tr>
+<tr class="separator:ga7b46b687ec750ad54f8873122e7bd4de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga298539a5d5479d4ba6dbaa57411a4b1e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__r23__secur.html#ga298539a5d5479d4ba6dbaa57411a4b1e">zb_zdo_set_switch_key_err_processing_policy</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> new_policy)</td></tr>
+<tr class="memdesc:ga298539a5d5479d4ba6dbaa57411a4b1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set switch key errors processing policy.  <a href="group__r23__secur.html#ga298539a5d5479d4ba6dbaa57411a4b1e">More...</a><br /></td></tr>
+<tr class="separator:ga298539a5d5479d4ba6dbaa57411a4b1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga336058121f04796b3c94d61232a2a401"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__r23__secur.html#ga336058121f04796b3c94d61232a2a401">zb_zdo_secur_update_device_tclk</a> (<a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> param, <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> dev_ieee_addr)</td></tr>
+<tr class="memdesc:ga336058121f04796b3c94d61232a2a401"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send Security_Key_Update_req for update EXISTING verified tclk.  <a href="group__r23__secur.html#ga336058121f04796b3c94d61232a2a401">More...</a><br /></td></tr>
+<tr class="separator:ga336058121f04796b3c94d61232a2a401"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
 InitialJoinAuthentication enum (see Table 4-33)</h2></td></tr>
@@ -344,6 +351,36 @@ typedef <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8
 <div class="line">  }</div>
 <div class="line"> </div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="gaea4df56121d8a4a2698f1b6b31b12634"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaea4df56121d8a4a2698f1b6b31b12634">&#9670;&nbsp;</a></span>ZB_ZDO_SWITCH_KEY_ERROR_PROCESSING_AUTOMATICALLY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ZB_ZDO_SWITCH_KEY_ERROR_PROCESSING_AUTOMATICALLY&#160;&#160;&#160;0U</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Process automatically using ZCL Keepalive poll </p>
+
+</div>
+</div>
+<a id="gaa76f5bfdc65e3fcecbff093ee08a8600"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa76f5bfdc65e3fcecbff093ee08a8600">&#9670;&nbsp;</a></span>ZB_ZDO_SWITCH_KEY_ERROR_PROCESSING_MANUALLY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ZB_ZDO_SWITCH_KEY_ERROR_PROCESSING_MANUALLY&#160;&#160;&#160;1U</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Process manually - </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="group__tc__swap.html#gaa5f6d209e8f62b52ccdd03030d1d23c8">ZB_ZDO_SWITCH_KEY_ERROR</a> signal will be sent to an application </dd></dl>
+
 </div>
 </div>
 <h2 class="groupheader">Typedef Documentation</h2>
@@ -697,8 +734,8 @@ typedef <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8
 
 </div>
 </div>
-<a id="gaecafa3bcd468ba86a08da170bb74ef6d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaecafa3bcd468ba86a08da170bb74ef6d">&#9670;&nbsp;</a></span>zb_zdo_get_auth_level_req()</h2>
+<a id="ga7b46b687ec750ad54f8873122e7bd4de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7b46b687ec750ad54f8873122e7bd4de">&#9670;&nbsp;</a></span>zb_zdo_get_auth_level_req()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -706,13 +743,13 @@ typedef <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8
         <tr>
           <td class="memname"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> zb_zdo_get_auth_level_req </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a>&#160;</td>
           <td class="paramname"><em>param</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__sched.html#gac77cf2f969243abf27172c7ddb0f376d">zb_callback_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a>&#160;</td>
           <td class="paramname"><em>cb</em>&#160;</td>
         </tr>
         <tr>
@@ -739,7 +776,7 @@ typedef <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment"> * Functions for demonstrate how to get authentication level</span></div>
 <div class="line"><span class="comment"> */</span></div>
-<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> app_sec_get_auth_lvl_cb (<a class="code" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param)</div>
+<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> app_sec_get_auth_lvl_cb (<a class="code" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a> param)</div>
 <div class="line">{</div>
 <div class="line">  <a class="code" href="structzb__zdo__secur__get__auth__level__rsp__s.html">zb_zdo_secur_get_auth_level_rsp_t</a> *ptr;</div>
 <div class="line">  ptr = (<a class="code" href="structzb__zdo__secur__get__auth__level__rsp__s.html">zb_zdo_secur_get_auth_level_rsp_t</a> *) <a class="code" href="group__buf.html#ga97fe9fcc0124718cc25c3710b752b8fd">zb_buf_begin</a>(param);</div>
@@ -752,17 +789,17 @@ typedef <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> app_sec_get_auth_lvl(<a class="code" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param, <a class="code" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> target_ieee_addr)</div>
+<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> app_sec_get_auth_lvl(<a class="code" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> param, <a class="code" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> target_ieee_addr)</div>
 <div class="line">{</div>
 <div class="line">  <a class="code" href="structzb__zdo__secur__get__auth__level__req__s.html">zb_zdo_secur_get_auth_level_req_t</a> *buf_params = <a class="code" href="group__buf.html#gaf7e0718a3bb63059a2626ac98b54d65d">ZB_BUF_GET_PARAM</a>(param, <a class="code" href="structzb__zdo__secur__get__auth__level__req__s.html">zb_zdo_secur_get_auth_level_req_t</a>);</div>
 <div class="line">  ZB_IEEE_ADDR_COPY(buf_params-&gt;target_ieee, target_ieee_addr);</div>
-<div class="line">  <a class="code" href="group__r23__secur.html#gaecafa3bcd468ba86a08da170bb74ef6d">zb_zdo_get_auth_level_req</a>(param, app_sec_get_auth_lvl_cb);</div>
+<div class="line">  <a class="code" href="group__r23__secur.html#ga7b46b687ec750ad54f8873122e7bd4de">zb_zdo_get_auth_level_req</a>(param, app_sec_get_auth_lvl_cb);</div>
 <div class="line">}</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="ga6df115e46b27ea0dbf0f6b678170c2a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga6df115e46b27ea0dbf0f6b678170c2a8">&#9670;&nbsp;</a></span>zb_zdo_secur_update_device_tclk()</h2>
+<a id="ga336058121f04796b3c94d61232a2a401"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga336058121f04796b3c94d61232a2a401">&#9670;&nbsp;</a></span>zb_zdo_secur_update_device_tclk()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -770,7 +807,7 @@ typedef <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8
         <tr>
           <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zb_zdo_secur_update_device_tclk </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a>&#160;</td>
           <td class="paramname"><em>param</em>, </td>
         </tr>
         <tr>
@@ -799,24 +836,55 @@ typedef <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8
 
 </div>
 </div>
+<a id="ga298539a5d5479d4ba6dbaa57411a4b1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga298539a5d5479d4ba6dbaa57411a4b1e">&#9670;&nbsp;</a></span>zb_zdo_set_switch_key_err_processing_policy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zb_zdo_set_switch_key_err_processing_policy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramname"><em>new_policy</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set switch key errors processing policy. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">new_policy</td><td>- new policy, </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__r23__secur.html#gaea4df56121d8a4a2698f1b6b31b12634">ZB_ZDO_SWITCH_KEY_ERROR_PROCESSING_AUTOMATICALLY</a> and </dd>
+<dd>
+<a class="el" href="group__r23__secur.html#gaa76f5bfdc65e3fcecbff093ee08a8600">ZB_ZDO_SWITCH_KEY_ERROR_PROCESSING_MANUALLY</a> </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="agroup__base__types_html_gaa82a9657ef11a3947586065cf8066256"><div class="ttname"><a href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a></div><div class="ttdeci">unsigned char zb_uint8_t</div><div class="ttdoc">Project-local 1-byte unsigned int type.</div><div class="ttdef"><b>Definition:</b> zb_types.h:159</div></div>
-<div class="ttc" id="agroup___z_b___t_r_a_c_e_html_gac857eacf1a904b021246dd0e8dda8a76"><div class="ttname"><a href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a></div><div class="ttdeci">#define TRACE_MSG(lm, fmts, args)</div><div class="ttdoc">Put trace output.</div><div class="ttdef"><b>Definition:</b> zb_trace.h:465</div></div>
-<div class="ttc" id="agroup___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l_html_ga644597cfd6260eee20d4d1f20aa44cd3"><div class="ttname"><a href="group___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l.html#ga644597cfd6260eee20d4d1f20aa44cd3">TRACE_FORMAT_64</a></div><div class="ttdeci">#define TRACE_FORMAT_64</div><div class="ttdef"><b>Definition:</b> zb_trace.h:592</div></div>
-<div class="ttc" id="agroup___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l_html_ga9959e8078d8ae0099deb41f237c0a409"><div class="ttname"><a href="group___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l.html#ga9959e8078d8ae0099deb41f237c0a409">TRACE_ARG_64</a></div><div class="ttdeci">#define TRACE_ARG_64(a)</div><div class="ttdef"><b>Definition:</b> zb_trace.h:607</div></div>
-<div class="ttc" id="astructzb__zdo__secur__get__auth__level__rsp__s_html"><div class="ttname"><a href="structzb__zdo__secur__get__auth__level__rsp__s.html">zb_zdo_secur_get_auth_level_rsp_s</a></div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:3236</div></div>
-<div class="ttc" id="agroup__r23__secur_html_gaecafa3bcd468ba86a08da170bb74ef6d"><div class="ttname"><a href="group__r23__secur.html#gaecafa3bcd468ba86a08da170bb74ef6d">zb_zdo_get_auth_level_req</a></div><div class="ttdeci">zb_uint8_t zb_zdo_get_auth_level_req(zb_uint8_t param, zb_callback_t cb)</div><div class="ttdoc">Get authentication level for target device.</div></div>
-<div class="ttc" id="agroup__buf_html_gaf7e0718a3bb63059a2626ac98b54d65d"><div class="ttname"><a href="group__buf.html#gaf7e0718a3bb63059a2626ac98b54d65d">ZB_BUF_GET_PARAM</a></div><div class="ttdeci">#define ZB_BUF_GET_PARAM(buf, type)</div><div class="ttdef"><b>Definition:</b> zboss_api_buf.h:457</div></div>
-<div class="ttc" id="agroup__sched_html_ga80106ad089597d7c4d1530aa760af7f1"><div class="ttname"><a href="group__sched.html#ga80106ad089597d7c4d1530aa760af7f1">ZB_SCHEDULE_APP_ALARM</a></div><div class="ttdeci">#define ZB_SCHEDULE_APP_ALARM(func, param, timeout_bi)</div><div class="ttdef"><b>Definition:</b> zboss_api_core.h:395</div></div>
+<div class="ttc" id="agroup___z_b___t_r_a_c_e_html_gac857eacf1a904b021246dd0e8dda8a76"><div class="ttname"><a href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a></div><div class="ttdeci">#define TRACE_MSG(lm, fmts, args)</div><div class="ttdoc">Put trace output.</div><div class="ttdef"><b>Definition:</b> zb_trace.h:474</div></div>
+<div class="ttc" id="agroup___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l_html_ga644597cfd6260eee20d4d1f20aa44cd3"><div class="ttname"><a href="group___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l.html#ga644597cfd6260eee20d4d1f20aa44cd3">TRACE_FORMAT_64</a></div><div class="ttdeci">#define TRACE_FORMAT_64</div><div class="ttdef"><b>Definition:</b> zb_trace.h:607</div></div>
+<div class="ttc" id="agroup___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l_html_ga9959e8078d8ae0099deb41f237c0a409"><div class="ttname"><a href="group___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l.html#ga9959e8078d8ae0099deb41f237c0a409">TRACE_ARG_64</a></div><div class="ttdeci">#define TRACE_ARG_64(a)</div><div class="ttdef"><b>Definition:</b> zb_trace.h:627</div></div>
+<div class="ttc" id="astructzb__zdo__secur__get__auth__level__rsp__s_html"><div class="ttname"><a href="structzb__zdo__secur__get__auth__level__rsp__s.html">zb_zdo_secur_get_auth_level_rsp_s</a></div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:3317</div></div>
+<div class="ttc" id="agroup__sched_html_ga2b1f4d2e3765ef86b5467d42059f8c3d"><div class="ttname"><a href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a></div><div class="ttdeci">zb_uint32_t zb_cb_param_t</div><div class="ttdef"><b>Definition:</b> zboss_api_core.h:62</div></div>
+<div class="ttc" id="agroup__buf_html_gaf7e0718a3bb63059a2626ac98b54d65d"><div class="ttname"><a href="group__buf.html#gaf7e0718a3bb63059a2626ac98b54d65d">ZB_BUF_GET_PARAM</a></div><div class="ttdeci">#define ZB_BUF_GET_PARAM(buf, type)</div><div class="ttdef"><b>Definition:</b> zboss_api_buf.h:450</div></div>
+<div class="ttc" id="agroup__sched_html_ga80106ad089597d7c4d1530aa760af7f1"><div class="ttname"><a href="group__sched.html#ga80106ad089597d7c4d1530aa760af7f1">ZB_SCHEDULE_APP_ALARM</a></div><div class="ttdeci">#define ZB_SCHEDULE_APP_ALARM(func, param, timeout_bi)</div><div class="ttdef"><b>Definition:</b> zboss_api_core.h:404</div></div>
 <div class="ttc" id="agroup__r23__secur_html_gaacbb3fe2b9e6f9f9d06726e0020291d0"><div class="ttname"><a href="group__r23__secur.html#gaacbb3fe2b9e6f9f9d06726e0020291d0">zb_set_supported_psk_secrets</a></div><div class="ttdeci">void zb_set_supported_psk_secrets(zb_uint8_t secret_mask)</div></div>
 <div class="ttc" id="agroup__r23__secur_html_gac34dcb06926b2db8d127e2bb268a2141"><div class="ttname"><a href="group__r23__secur.html#gac34dcb06926b2db8d127e2bb268a2141">zb_enable_key_neg_method</a></div><div class="ttdeci">void zb_enable_key_neg_method(zb_uint8_t method)</div></div>
-<div class="ttc" id="agroup__buf_html_ga97fe9fcc0124718cc25c3710b752b8fd"><div class="ttname"><a href="group__buf.html#ga97fe9fcc0124718cc25c3710b752b8fd">zb_buf_begin</a></div><div class="ttdeci">#define zb_buf_begin(buf)</div><div class="ttdef"><b>Definition:</b> zboss_api_buf.h:354</div></div>
+<div class="ttc" id="agroup__buf_html_ga97fe9fcc0124718cc25c3710b752b8fd"><div class="ttname"><a href="group__buf.html#ga97fe9fcc0124718cc25c3710b752b8fd">zb_buf_begin</a></div><div class="ttdeci">#define zb_buf_begin(buf)</div><div class="ttdef"><b>Definition:</b> zboss_api_buf.h:347</div></div>
 <div class="ttc" id="agroup__r23__secur_html_ga8b96a9610a720d61c37751ae51469c5a"><div class="ttname"><a href="group__r23__secur.html#ga8b96a9610a720d61c37751ae51469c5a">zb_disable_key_neg_method</a></div><div class="ttdeci">void zb_disable_key_neg_method(zb_uint8_t method)</div></div>
-<div class="ttc" id="agroup__base__types_html_ga18a7e5c477a2c48d021be71d173cf2b8"><div class="ttname"><a href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a></div><div class="ttdeci">zb_64bit_addr_t zb_ieee_addr_t</div><div class="ttdoc">Long (64-bit) device address.</div><div class="ttdef"><b>Definition:</b> zb_types.h:551</div></div>
-<div class="ttc" id="astructzb__zdo__secur__get__auth__level__req__s_html"><div class="ttname"><a href="structzb__zdo__secur__get__auth__level__req__s.html">zb_zdo_secur_get_auth_level_req_s</a></div><div class="ttdoc">Parameters for get authentication level request.</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:3231</div></div>
-<div class="ttc" id="agroup__r23__secur_html_gacc33e61240c5b641ca9f10e1f7c3ccde"><div class="ttname"><a href="group__r23__secur.html#gacc33e61240c5b641ca9f10e1f7c3ccde">ZB_TLV_PSK_SECRET_ENABLE</a></div><div class="ttdeci">#define ZB_TLV_PSK_SECRET_ENABLE(var, secret)</div><div class="ttdef"><b>Definition:</b> zboss_api.h:1489</div></div>
-<div class="ttc" id="agroup__time_html_ga0b55ee2d596a314bb6e985149c17cdad"><div class="ttname"><a href="group__time.html#ga0b55ee2d596a314bb6e985149c17cdad">ZB_TIME_ONE_SECOND</a></div><div class="ttdeci">#define ZB_TIME_ONE_SECOND</div><div class="ttdef"><b>Definition:</b> zboss_api_core.h:180</div></div>
+<div class="ttc" id="agroup__base__types_html_ga18a7e5c477a2c48d021be71d173cf2b8"><div class="ttname"><a href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a></div><div class="ttdeci">zb_64bit_addr_t zb_ieee_addr_t</div><div class="ttdoc">Long (64-bit) device address.</div><div class="ttdef"><b>Definition:</b> zb_types.h:555</div></div>
+<div class="ttc" id="astructzb__zdo__secur__get__auth__level__req__s_html"><div class="ttname"><a href="structzb__zdo__secur__get__auth__level__req__s.html">zb_zdo_secur_get_auth_level_req_s</a></div><div class="ttdoc">Parameters for get authentication level request.</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:3312</div></div>
+<div class="ttc" id="agroup__r23__secur_html_gacc33e61240c5b641ca9f10e1f7c3ccde"><div class="ttname"><a href="group__r23__secur.html#gacc33e61240c5b641ca9f10e1f7c3ccde">ZB_TLV_PSK_SECRET_ENABLE</a></div><div class="ttdeci">#define ZB_TLV_PSK_SECRET_ENABLE(var, secret)</div><div class="ttdef"><b>Definition:</b> zboss_api.h:1488</div></div>
+<div class="ttc" id="agroup__r23__secur_html_ga7b46b687ec750ad54f8873122e7bd4de"><div class="ttname"><a href="group__r23__secur.html#ga7b46b687ec750ad54f8873122e7bd4de">zb_zdo_get_auth_level_req</a></div><div class="ttdeci">zb_uint8_t zb_zdo_get_auth_level_req(zb_cb_param_t param, zb_callback_t cb)</div><div class="ttdoc">Get authentication level for target device.</div></div>
+<div class="ttc" id="agroup__time_html_ga0b55ee2d596a314bb6e985149c17cdad"><div class="ttname"><a href="group__time.html#ga0b55ee2d596a314bb6e985149c17cdad">ZB_TIME_ONE_SECOND</a></div><div class="ttdeci">#define ZB_TIME_ONE_SECOND</div><div class="ttdef"><b>Definition:</b> zboss_api_core.h:217</div></div>
+<div class="ttc" id="agroup__buf_html_ga72fb48e56b8e7f4b0cf12d12bd491b3b"><div class="ttname"><a href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a></div><div class="ttdeci">zb_uint8_t zb_bufid_t</div><div class="ttdef"><b>Definition:</b> zboss_api_core.h:49</div></div>
 <hr class="footer"/><address class="footer"><small>
 <div style="float: left; text-align: left;">
   <div>Copyright (c) 2012-2022 DSR Corporation, Golden CO, USA.
@@ -824,6 +892,6 @@ typedef <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8
     <a href="http://www.dsr-corporation.com">http://www.dsr-corporation.com</a>
   </div>
 </div>
-<div>ZBOSS documentation. Wed May 27 2026.</div>
+<div>ZBOSS documentation. Mon Sep 21 2026.</div>
 </body>
 </html>

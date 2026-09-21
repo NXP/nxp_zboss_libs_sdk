@@ -52,6 +52,8 @@ zb_ieee_addr_t g_ed_addr = {0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22}; /* 
 
 #ifdef TEST_USE_INSTALLCODE
 char g_installcode[]= "966b9f3ef98ae605 9708";
+#else
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
 #endif
 
 zb_bool_t cmd_in_progress = ZB_FALSE;
@@ -59,14 +61,14 @@ zb_bool_t cmd_in_progress = ZB_FALSE;
 zb_bool_t work_via_alarm = ZB_TRUE;
 
 /* Handler for specific ZCL commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 
 /* Parse read attributes response */
 void on_off_read_attr_resp_handler(zb_bufid_t cmd_buf);
 void test_restart_join_nwk(zb_uint8_t param);
 
-void send_toggle_req(zb_uint8_t param);
-void button_press_handler(zb_uint8_t param);
+void send_toggle_req(zb_bufid_t param);
+void button_press_handler(zb_cb_param_t param);
 
 /** [COMMON_DECLARATION] */
 /**
@@ -94,14 +96,32 @@ zb_uint16_t attr_identify_time = 0;
 
 ZB_ZCL_DECLARE_IDENTIFY_ATTRIB_LIST(identify_attr_list, &attr_identify_time);
 
+/* Poll-Control cluster attributes */
+zb_uint32_t attr_poll_control_checkin_interval = 0xf0; /* 60 Seconds in quarterseconds. */
+zb_uint32_t attr_poll_control_long_poll_interval = ZB_ZCL_POLL_CONTROL_LONG_POLL_INTERVAL_DEFAULT_VALUE;
+zb_uint16_t attr_poll_control_short_poll_interval = ZB_ZCL_POLL_CONTROL_SHORT_POLL_INTERVAL_DEFAULT_VALUE;
+zb_uint16_t attr_poll_control_fast_poll_timeout = ZB_ZCL_POLL_CONTROL_FAST_POLL_TIMEOUT_DEFAULT_VALUE;
+zb_uint32_t attr_poll_control_checkin_interval_min = ZB_ZCL_POLL_CONTROL_CHECKIN_MIN_INTERVAL_DEFAULT_VALUE;
+zb_uint32_t attr_poll_control_long_poll_interval_min = ZB_ZCL_POLL_CONTROL_LONG_POLL_MIN_INTERVAL_DEFAULT_VALUE;
+zb_uint16_t attr_poll_control_fast_poll_timeout_max = ZB_ZCL_POLL_CONTROL_FAST_POLL_MAX_TIMEOUT_DEFAULT_VALUE;
+
+ZB_ZCL_DECLARE_POLL_CONTROL_ATTRIB_LIST(poll_control_attr_list,
+                                        &attr_poll_control_checkin_interval,
+                                        &attr_poll_control_long_poll_interval,
+                                        &attr_poll_control_short_poll_interval,
+                                        &attr_poll_control_fast_poll_timeout,
+                                        &attr_poll_control_checkin_interval_min,
+                                        &attr_poll_control_long_poll_interval_min,
+                                        &attr_poll_control_fast_poll_timeout_max);
 
 /* Declare cluster list for the device */
-ZB_HA_DECLARE_ON_OFF_SWITCH_CLUSTER_LIST(on_off_switch_clusters,
-                                         switch_cfg_attr_list,
-                                         basic_attr_list,
-                                         identify_attr_list);
+ZB_HA_DECLARE_ON_OFF_SWITCH_CLUSTER_LIST_BDB_SLEEPY_ZED(on_off_switch_clusters,
+                                                        switch_cfg_attr_list,
+                                                        basic_attr_list,
+                                                        identify_attr_list,
+                                                        poll_control_attr_list);
 /* Declare endpoint */
-ZB_HA_DECLARE_ON_OFF_SWITCH_EP(on_off_switch_ep, ZB_SWITCH_ENDPOINT, on_off_switch_clusters);
+ZB_HA_DECLARE_ON_OFF_SWITCH_EP_BDB_SLEEPY_ZED(on_off_switch_ep, ZB_SWITCH_ENDPOINT, on_off_switch_clusters);
 
 /* Declare application's device context for single-endpoint device */
 ZB_HA_DECLARE_ON_OFF_SWITCH_CTX(on_off_switch_ctx, on_off_switch_ep);
@@ -134,6 +154,11 @@ MAIN()
   /* Global ZBOSS initialization */
   ZB_INIT("on_off_switch_zed");
 
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
+
   /* Set up defaults for the commissioning */
   zb_set_long_address(g_ed_addr);
 #ifndef ZB_APP_ENABLE_SUBGHZ_MODE
@@ -152,6 +177,8 @@ MAIN()
   zb_set_ed_timeout(ED_AGING_TIMEOUT_64MIN);
   zb_set_keepalive_timeout(ZB_MILLISECONDS_TO_BEACON_INTERVAL(3000));
   zb_set_rx_on_when_idle(ZB_FALSE);
+
+  zb_bdb_tc_connectivity_set_initial_backoff_time(20);
 
 #ifdef TEST_WITHOUT_TURBO_POLL
   zb_zdo_pim_permit_turbo_poll(ZB_FALSE);
@@ -207,7 +234,7 @@ static zb_bool_t finding_binding_cb(zb_int16_t status,
 }
 /* [zb_bdb_finding_binding_initiator_cb_example] */
 
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_zcl_parsed_hdr_t *cmd_info = ZB_BUF_GET_PARAM(param, zb_zcl_parsed_hdr_t);
   zb_bool_t unknown_cmd_received = ZB_TRUE;
@@ -239,7 +266,7 @@ zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
 }
 
 
-void send_toggle_req(zb_uint8_t param)
+void send_toggle_req(zb_bufid_t param)
 {
   zb_uint16_t addr = 0;
 
@@ -267,7 +294,7 @@ void send_toggle_req(zb_uint8_t param)
 }
 
 /* [system_server_discovery_cb] */
-static void system_server_discovery_req_cb(zb_uint8_t param)
+static void system_server_discovery_req_cb(zb_cb_param_t param)
 {
   zb_uint8_t *zdp_cmd = zb_buf_begin(param);
   zb_zdo_system_server_discovery_resp_t *resp = (zb_zdo_system_server_discovery_resp_t*)(zdp_cmd);
@@ -286,7 +313,7 @@ static void system_server_discovery_req_cb(zb_uint8_t param)
 /* [system_server_discovery_cb] */
 
 /* [system_server_discovery_req] */
-static void send_system_server_discovery_req(zb_bufid_t buf)
+static void send_system_server_discovery_req(zb_cb_param_t buf)
 {
   if (!buf)
   {
@@ -305,7 +332,7 @@ static void send_system_server_discovery_req(zb_bufid_t buf)
 /* [system_server_discovery_req] */
 
 /* [active_ep_cb] */
-static void active_ep_callback(zb_bufid_t buf)
+static void active_ep_callback(zb_cb_param_t buf)
 {
   zb_uint8_t *zdp_cmd = zb_buf_begin(buf);
   zb_zdo_ep_resp_t *resp = (zb_zdo_ep_resp_t*)zdp_cmd;
@@ -333,7 +360,7 @@ static void active_ep_callback(zb_bufid_t buf)
 /* [active_ep_cb] */
 
 /* [send_active_ep_req] */
-static void send_active_ep_req(zb_bufid_t buf)
+static void send_active_ep_req(zb_cb_param_t buf)
 {
   if (!buf)
   {
@@ -351,7 +378,7 @@ static void send_active_ep_req(zb_bufid_t buf)
 
 
 /* [simple_desc_cb] */
-static void simple_desc_callback(zb_bufid_t buf)
+static void simple_desc_callback(zb_cb_param_t buf)
 {
   zb_uint8_t *zdp_cmd = zb_buf_begin(buf);
   zb_zdo_simple_desc_resp_t *resp = (zb_zdo_simple_desc_resp_t*)(zdp_cmd);
@@ -380,7 +407,7 @@ static void simple_desc_callback(zb_bufid_t buf)
 }
 
 /* [send_simple_desc_req] */
-static void send_simple_desc_req(zb_bufid_t buf)
+static void send_simple_desc_req(zb_cb_param_t buf)
 {
   if (!buf)
   {
@@ -398,7 +425,7 @@ static void send_simple_desc_req(zb_bufid_t buf)
 /* [send_simple_desc_req] */
 
 /* [power_desc_cb] */
-static void power_desc_callback(zb_bufid_t buf)
+static void power_desc_callback(zb_cb_param_t buf)
 {
   zb_uint8_t *zdp_cmd = zb_buf_begin(buf);
   zb_zdo_power_desc_resp_t *resp = (zb_zdo_power_desc_resp_t*)(zdp_cmd);
@@ -420,7 +447,7 @@ static void power_desc_callback(zb_bufid_t buf)
 }
 
 /* [send_power_desc_req] */
-static void send_power_desc_req(zb_bufid_t buf)
+static void send_power_desc_req(zb_cb_param_t buf)
 {
   if (!buf)
   {
@@ -437,7 +464,7 @@ static void send_power_desc_req(zb_bufid_t buf)
 /* [send_power_desc_req] */
 
 /* [node_req_cb] */
-static void node_desc_callback(zb_bufid_t buf)
+static void node_desc_callback(zb_cb_param_t buf)
 {
   zb_uint8_t *zdp_cmd = zb_buf_begin(buf);
   zb_zdo_node_desc_resp_t *resp = (zb_zdo_node_desc_resp_t*)(zdp_cmd);
@@ -466,7 +493,7 @@ static void node_desc_callback(zb_bufid_t buf)
 
 
 /* [send_node_desc_req] */
-static void send_node_desc_req(zb_bufid_t buf)
+static void send_node_desc_req(zb_cb_param_t buf)
 {
   zb_zdo_node_desc_req_t *req;
 
@@ -485,16 +512,16 @@ static void send_node_desc_req(zb_bufid_t buf)
 }
 /* [send_node_desc_req] */
 
-void send_toggle_req_and_schedule_alarm(zb_uint8_t param)
+void send_toggle_req_and_schedule_alarm(zb_cb_param_t buf)
 {
-  if (!param)
+  if (!buf)
   {
     /* Button is pressed, gets buffer for outgoing command */
     zb_buf_get_out_delayed(send_toggle_req_and_schedule_alarm);
   }
   else
   {
-    send_toggle_req(param);
+    send_toggle_req(buf);
     if (work_via_alarm)
     {
       /* Do not have buttons in simulator - just start periodic on/off sending */
@@ -503,7 +530,7 @@ void send_toggle_req_and_schedule_alarm(zb_uint8_t param)
   }
 }
 
-void button_press_handler(zb_uint8_t param)
+void button_press_handler(zb_cb_param_t param)
 {
   if (!param)
   {
@@ -512,15 +539,15 @@ void button_press_handler(zb_uint8_t param)
   }
   else
   {
-    TRACE_MSG(TRACE_APP1, "button_press_handler %hd", (FMT__H, param));
+    TRACE_MSG(TRACE_APP1, "button_press_handler %d", (FMT__D, param));
     work_via_alarm = ZB_FALSE;
     send_toggle_req(param);
   }
 }
 
-void test_leave_nwk(zb_uint8_t param)
+void test_leave_nwk(zb_cb_param_t param)
 {
-  TRACE_MSG(TRACE_APP2, ">> test_leave_nwk param %hd", (FMT__H, param));
+  TRACE_MSG(TRACE_APP2, ">> test_leave_nwk param %d", (FMT__D, param));
 
   /* We are going to leave */
   if (!param)
@@ -551,7 +578,7 @@ void test_restart_join_nwk(zb_uint8_t param)
   }
 }
 
-void test_leave_and_join(zb_uint8_t param)
+void test_leave_and_join(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP2, ">> test_leave_and_join param %hd", (FMT__H, param));
   if (ZB_JOINED())
@@ -569,13 +596,13 @@ void test_leave_and_join(zb_uint8_t param)
   TRACE_MSG(TRACE_APP2, "<< test_leave_and_join", (FMT__0));
 }
 
-void permit_joining_cb(zb_uint8_t param)
+void permit_joining_cb(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP2, "permit joining done", (FMT__0));
   zb_buf_free(param);
 }
 
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_type_t sig = zb_get_app_signal(param, &sg_p);
@@ -601,6 +628,8 @@ void zboss_signal_handler(zb_uint8_t param)
         TRACE_MSG(TRACE_APP1, "ZB_ZDO_SIGNAL_SKIP_STARTUP: boot, not started yet", (FMT__0));
 #ifdef TEST_USE_INSTALLCODE
         zb_secur_ic_str_set(g_installcode);
+#else
+        zb_secur_ic_set(ZB_IC_TYPE_PASSCODE, g_passcode);
 #endif
         zboss_start_continue();
         break;
@@ -703,6 +732,16 @@ void zboss_signal_handler(zb_uint8_t param)
         TRACE_MSG(TRACE_APP1, "TC rejoin is completed successfully", (FMT__0));
         break; /* ZB_BDB_SIGNAL_TC_REJOIN_DONE */
 
+      case ZB_ZDO_DEVICE_UNAVAILABLE:
+      {
+        zb_zdo_device_unavailable_params_t *unavailable_params;
+        unavailable_params = ZB_ZDO_SIGNAL_GET_PARAMS(sg_p, zb_zdo_device_unavailable_params_t);
+        TRACE_MSG(TRACE_APP1, "ZB_ZDO_DEVICE_UNAVAILABLE 0x%x", (FMT__D, unavailable_params->short_addr));
+        ZB_SCHEDULE_APP_ALARM_CANCEL(zb_bdb_initiate_tc_rejoin, 0);
+        ZB_SCHEDULE_APP_ALARM(zb_bdb_initiate_tc_rejoin, 0, 3 * ZB_TIME_ONE_SECOND);
+      }
+        break;
+
       default:
         TRACE_MSG(TRACE_APP1, "Unknown signal %hd, do nothing", (FMT__H, sig));
     }
@@ -723,9 +762,9 @@ void zboss_signal_handler(zb_uint8_t param)
           /* Device tried to perform TC rejoin after reboot and lost its authentication flag.
            * Do nothing here and wait for ZB_BDB_SIGNAL_TC_REJOIN_DONE to handle TC rejoin error */
           TRACE_MSG(TRACE_APP1, "Device lost authentication flag", (FMT__0));
-  }
-  else
-  {
+        }
+        else
+        {
           /* Device tried to perform secure rejoin, but didn't found any networks or can't decrypt Rejoin Response
            * (it is possible when Trust Center changes network key when ZED is powered off) */
           TRACE_MSG(TRACE_APP1, "Device is still authenticated, try to perform TC rejoin", (FMT__0));

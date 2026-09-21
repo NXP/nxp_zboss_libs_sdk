@@ -31,7 +31,7 @@ void izs_hal_hw_init(void)
 }
 
 
-void izs_emulation_motion_alarm(zb_uint8_t param)
+void izs_emulation_motion_alarm(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, "izs_emulation_motion_alarm: alarm %hd", (FMT__H, param));
   izs_update_ias_zone_status(ZB_ZCL_IAS_ZONE_ZONE_STATUS_ALARM1, param);
@@ -76,7 +76,7 @@ void izs_hal_power_led_on(zb_uint8_t param)
   ZVUNUSED(param);
 }
 
-void izs_hal_power_led_off(zb_uint8_t param)
+void izs_hal_power_led_off(zb_cb_param_t param)
 {
   ZVUNUSED(param);
 }

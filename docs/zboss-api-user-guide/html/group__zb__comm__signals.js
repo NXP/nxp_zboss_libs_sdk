@@ -29,6 +29,11 @@ var group__zb__comm__signals =
       [ "new_mode", "structzb__zgp__signal__mode__change__params__s.html#aa0a7176f659bda5f35e552c99150556e", null ],
       [ "reason", "structzb__zgp__signal__mode__change__params__s.html#a5fa677ba8815bca97f353662db402764", null ]
     ] ],
+    [ "zb_zgp_signal_set_device_role_status_params_s", "structzb__zgp__signal__set__device__role__status__params__s.html", [
+      [ "actual_device_role", "structzb__zgp__signal__set__device__role__status__params__s.html#ade1b95f68f46d9ce5c4f75f9d1ecd79d", null ],
+      [ "requested_device_role", "structzb__zgp__signal__set__device__role__status__params__s.html#a5b581921f7c26674013432276f741ccb", null ],
+      [ "status", "structzb__zgp__signal__set__device__role__status__params__s.html#a31b03e970ca6928623af3a58cdb0bd57", null ]
+    ] ],
     [ "zb_zdo_device_unavailable_params_s", "structzb__zdo__device__unavailable__params__s.html", [
       [ "long_addr", "structzb__zdo__device__unavailable__params__s.html#a7aa4b459882b04b40a07dce75941a864", null ],
       [ "short_addr", "structzb__zdo__device__unavailable__params__s.html#a0b5ed3f70489ec5d40b75e02839e3a46", null ]
@@ -40,16 +45,6 @@ var group__zb__comm__signals =
       [ "capability", "structzb__zdo__signal__device__annce__params__s.html#ad81c90aa3be957eed7b9fa615cbf2508", null ],
       [ "device_short_addr", "structzb__zdo__signal__device__annce__params__s.html#a66bc2c9188ea5c3668c265377cae4614", null ],
       [ "ieee_addr", "structzb__zdo__signal__device__annce__params__s.html#afd63807ad7f36c6c1c7091916c0682da", null ]
-    ] ],
-    [ "zb_bdb_signal_touchlink_nwk_started_params_s", "structzb__bdb__signal__touchlink__nwk__started__params__s.html", [
-      [ "device_ieee_addr", "structzb__bdb__signal__touchlink__nwk__started__params__s.html#a07d4d88b6137980e854eee0f90b9dc22", null ],
-      [ "endpoint", "structzb__bdb__signal__touchlink__nwk__started__params__s.html#a55863c3e910954f05c0787c52289e0d0", null ],
-      [ "profile_id", "structzb__bdb__signal__touchlink__nwk__started__params__s.html#adb8b41e47dd79358c2dee5edada384ea", null ]
-    ] ],
-    [ "zb_bdb_signal_touchlink_nwk_joined_router_s", "structzb__bdb__signal__touchlink__nwk__joined__router__s.html", [
-      [ "device_ieee_addr", "structzb__bdb__signal__touchlink__nwk__joined__router__s.html#a07fc2b6cb74ec259da6d60948e16d286", null ],
-      [ "endpoint", "structzb__bdb__signal__touchlink__nwk__joined__router__s.html#a5b9c8f93c2c71ecf76ad2ee330f3e3e8", null ],
-      [ "profile_id", "structzb__bdb__signal__touchlink__nwk__joined__router__s.html#ab6aa9f7be45d7d67b188ce8dc3bcfd32", null ]
     ] ],
     [ "zb_zdo_signal_can_sleep_params_s", "structzb__zdo__signal__can__sleep__params__s.html", [
       [ "sleep_tmo", "structzb__zdo__signal__can__sleep__params__s.html#afce9d323653a88dd219fde824931b4a8", null ]
@@ -87,6 +82,12 @@ var group__zb__comm__signals =
     ] ],
     [ "zb_zdo_app_signal_hdr_s", "structzb__zdo__app__signal__hdr__s.html", [
       [ "sig_type", "structzb__zdo__app__signal__hdr__s.html#a1cda3b2d6fe243823fe218dcb9da4aee", null ]
+    ] ],
+    [ "zb_signal_partner_link_key_information_s", "structzb__signal__partner__link__key__information__s.html", [
+      [ "auth_lvl_is_high", "structzb__signal__partner__link__key__information__s.html#ad839084b72b2b44c9181c90adb5765bf", null ],
+      [ "auth_lvl_present", "structzb__signal__partner__link__key__information__s.html#a1528c12972c936722ba8b224938d6af1", null ],
+      [ "partner_ieee", "structzb__signal__partner__link__key__information__s.html#ada69f4df4fa302767abcba9dff0ffaa3", null ],
+      [ "partner_is_initiator", "structzb__signal__partner__link__key__information__s.html#a716cdac54173ae3372889b09cca6653c", null ]
     ] ],
     [ "ZB_BDB_SIGNAL_DEVICE_FIRST_START", "group__zb__comm__signals.html#gab55565980ef0580712f8dc160b01ea06", null ],
     [ "ZB_BDB_SIGNAL_DEVICE_REBOOT", "group__zb__comm__signals.html#ga3e9d86f42d2c6c27240f423a40fb152b", null ],
@@ -137,6 +138,7 @@ var group__zb__comm__signals =
     [ "ZB_ZDO_AUTHORIZATION_TYPE_LEGACY", "group__zb__comm__signals.html#ga798d3ae3a6a9ccd40ac5f57f99cbc6af", null ],
     [ "ZB_ZDO_AUTHORIZATION_TYPE_R21_TCLK", "group__zb__comm__signals.html#gac18e786e296835f5db7175f6c5bbf2da", null ],
     [ "ZB_ZDO_AUTHORIZATION_TYPE_SE_CBKE", "group__zb__comm__signals.html#gaf6220c6d7e343254365b40733ac5610c", null ],
+    [ "ZB_ZDO_CBKE_AUTHORIZATION_FAILED", "group__zb__comm__signals.html#ga1827bafe59b25df34a380e8c395b36c1", null ],
     [ "ZB_ZDO_CBKE_AUTHORIZATION_SUCCESS", "group__zb__comm__signals.html#ga60e363e64eca91e53a304003b07efb8a", null ],
     [ "ZB_ZDO_FB_INITIATOR_STATUS_ALARM", "group__zb__comm__signals.html#ga661799ae187bf4206cb9865559f79d68", null ],
     [ "ZB_ZDO_FB_INITIATOR_STATUS_CANCEL", "group__zb__comm__signals.html#ga5bf013524710050a9f67b1b4ceae3683", null ],
@@ -144,6 +146,7 @@ var group__zb__comm__signals =
     [ "ZB_ZDO_FB_INITIATOR_STATUS_SUCCESS", "group__zb__comm__signals.html#gad86aa206002da5ab9f00a431d22e9fa0", null ],
     [ "ZB_ZDO_LEGACY_DEVICE_AUTHORIZATION_FAILED", "group__zb__comm__signals.html#gac713c7bb9a673d299519eb4d37ba5e6a", null ],
     [ "ZB_ZDO_LEGACY_DEVICE_AUTHORIZATION_SUCCESS", "group__zb__comm__signals.html#gafc6f821574fd08c2b7a94e72404b37ae", null ],
+    [ "ZB_ZDO_SIGNAL_APP_KEY_READY", "group__zb__comm__signals.html#ga1400b6b78ea3488e9f0f2095042100b6", null ],
     [ "ZB_ZDO_SIGNAL_CUT_HEADER", "group__zb__comm__signals.html#ga7f3c86ef6dd7ce7927fe74f843b0020a", null ],
     [ "ZB_ZDO_SIGNAL_DEFAULT_START", "group__zb__comm__signals.html#ga8de605f3e2666ce3d6ea3b5419f73dc9", null ],
     [ "ZB_ZDO_SIGNAL_DEVICE_ANNCE", "group__zb__comm__signals.html#ga7d7b4bc1c83f970a995ae22c3c4e865a", null ],
@@ -182,7 +185,8 @@ var group__zb__comm__signals =
     [ "zb_debug_signal_tclk_ready_params_t", "group__zb__comm__signals.html#ga636bb8e527cc3108cedd7fb72f8cf077", null ],
     [ "zb_nwk_signal_device_associated_params_t", "group__zb__comm__signals.html#ga1e52e6a34ef9155c69928031b2d5cd65", null ],
     [ "zb_se_signal_service_discovery_bind_params_t", "group__zb__comm__signals.html#ga2e29199467921f76e51eb547b2fb2b65", null ],
-    [ "zb_signal_handler_t", "group__zb__comm__signals.html#ga2199bd06e5fb5f1d8036b305e5979e3c", null ],
+    [ "zb_signal_handler_t", "group__zb__comm__signals.html#ga6e4b1d10174d49a33e441c606e671f22", null ],
+    [ "zb_signal_partner_link_key_information_t", "group__zb__comm__signals.html#ga22de2e80b2b1a768e5205d91a0f2baec", null ],
     [ "zb_zdo_app_signal_hdr_t", "group__zb__comm__signals.html#ga39260b983d0f1c9e49e3f81229f89843", null ],
     [ "zb_zdo_app_signal_type_t", "group__zb__comm__signals.html#ga0780642679d1de1797c0091d5a500026", null ],
     [ "zb_zdo_authorization_type_t", "group__zb__comm__signals.html#ga854584db6dd92557770108bc73d6b5e0", null ],
@@ -204,9 +208,10 @@ var group__zb__comm__signals =
     [ "zb_zgp_signal_approve_comm_params_t", "group__zb__comm__signals.html#gae1b0bbf0b5c5b0d947ef6a056f467556", null ],
     [ "zb_zgp_signal_commissioning_params_t", "group__zb__comm__signals.html#gaf62e35cebb45eb0f339529c32997a63f", null ],
     [ "zb_zgp_signal_mode_change_params_t", "group__zb__comm__signals.html#gad4f729449522a24181a59df1be711c64", null ],
-    [ "zb_get_app_signal", "group__zb__comm__signals.html#ga03ab4c87fbcc7cf8e12bbfa9cb8a3be6", null ],
+    [ "zb_zgp_signal_set_device_role_status_params_t", "group__zb__comm__signals.html#gad9a06f7168941fa955d2beea2fa9715c", null ],
+    [ "zb_get_app_signal", "group__zb__comm__signals.html#ga67b12764bdc3146279a16f975b3e54dd", null ],
     [ "zb_signal_handler_add_back", "group__zb__comm__signals.html#gadd6d7511034e7edf053d08bf6c872237", null ],
     [ "zb_signal_handler_add_front", "group__zb__comm__signals.html#gae3ec98fef533d58dc974c0d3773c605b", null ],
     [ "zb_signal_handler_remove", "group__zb__comm__signals.html#ga4a5eb27e811447e0fa319edf2a41183c", null ],
-    [ "zboss_signal_handler", "group__zb__comm__signals.html#gae05c0ff285cfd03e0997fe438e8047fc", null ]
+    [ "zboss_signal_handler", "group__zb__comm__signals.html#gae5ab7b20960fa9abb029464b77aa90eb", null ]
 ];

@@ -1,5 +1,12 @@
 var group___z_b___z_c_l___s_h_a_d_e___c_o_n_f_i_g =
 [
+    [ "zb_zcl_shade_set_value_param_s", "structzb__zcl__shade__set__value__param__s.html", [
+      [ "is_config", "structzb__zcl__shade__set__value__param__s.html#a301f9c1ed430df21e0632856543e5ae1", null ],
+      [ "new_value", "structzb__zcl__shade__set__value__param__s.html#aa3ccfceba832fac254fa4b68749bae46", null ]
+    ] ],
+    [ "zb_zcl_shade_get_value_param_s", "structzb__zcl__shade__get__value__param__s.html", [
+      [ "ret_value", "structzb__zcl__shade__get__value__param__s.html#ab4708cca13e020ddcf5d5d4623b06f87", null ]
+    ] ],
     [ "ZB_ZCL_ATTR_SHADE_CONFIG_GET_STATUS_BIT_VAL", "group___z_b___z_c_l___s_h_a_d_e___c_o_n_f_i_g.html#gaaebaedc9725762410483e65bc32cec20", null ],
     [ "ZB_ZCL_ATTR_SHADE_CONFIG_STATUS_CLEAR", "group___z_b___z_c_l___s_h_a_d_e___c_o_n_f_i_g.html#ga3a729a8ef4cf0f718d7f30f4b343ce12", null ],
     [ "ZB_ZCL_ATTR_SHADE_CONFIG_STATUS_SET", "group___z_b___z_c_l___s_h_a_d_e___c_o_n_f_i_g.html#gaa4dfeb97f5f1a1e55e2a0d146b4f600a", null ],
@@ -9,6 +16,8 @@ var group___z_b___z_c_l___s_h_a_d_e___c_o_n_f_i_g =
     [ "ZB_ZCL_SHADE_CONFIG_MODE_DEFAULT_VALUE", "group___z_b___z_c_l___s_h_a_d_e___c_o_n_f_i_g.html#ga465d20cf24d28f6bc595d752b410d89b", null ],
     [ "ZB_ZCL_SHADE_CONFIG_STATUS_DEFAULT_VALUE", "group___z_b___z_c_l___s_h_a_d_e___c_o_n_f_i_g.html#ga276e274aa74b8116f1a31aecc33c454b", null ],
     [ "ZB_ZCL_SHADE_CONFIG_ZERO_POINT_DEFAULT_VALUE", "group___z_b___z_c_l___s_h_a_d_e___c_o_n_f_i_g.html#ga7a49f97a3e0360588a56e38b0e79c832", null ],
+    [ "zb_zcl_shade_get_value_param_t", "group___z_b___z_c_l___s_h_a_d_e___c_o_n_f_i_g.html#ga62ce6b938be2a22f7161646bd4a6b718", null ],
+    [ "zb_zcl_shade_set_value_param_t", "group___z_b___z_c_l___s_h_a_d_e___c_o_n_f_i_g.html#gad40892fb5d6ed7b9e4782994dd21cd60", null ],
     [ "zb_zcl_shade_config_info_attr_e", "group___z_b___z_c_l___s_h_a_d_e___c_o_n_f_i_g.html#ga0e84d9bcb6b0c5e5aed12fb4a62bc04a", [
       [ "ZB_ZCL_ATTR_SHADE_CONFIG_PHYSICAL_CLOSED_LIMIT_ID", "group___z_b___z_c_l___s_h_a_d_e___c_o_n_f_i_g.html#gga0e84d9bcb6b0c5e5aed12fb4a62bc04aa53f7e56f9c0dacb8bd424ab1fa4d2eed", null ],
       [ "ZB_ZCL_ATTR_SHADE_CONFIG_MOTOR_STEP_SIZE_ID", "group___z_b___z_c_l___s_h_a_d_e___c_o_n_f_i_g.html#gga0e84d9bcb6b0c5e5aed12fb4a62bc04aa7d07f626f4c087ad00980e182a9d61cb", null ],

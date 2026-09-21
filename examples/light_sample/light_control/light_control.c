@@ -37,6 +37,7 @@
 
 zb_ieee_addr_t g_ed_addr = LIGHT_CONTROL_IEEE_ADDR; /* IEEE address of the device */
 zb_uint16_t g_profile_id = ZB_AF_HA_PROFILE_ID;     /* Profile ID of the device */
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
 
 /* automatically send on-off until a button is pressed */
 zb_bool_t work_via_alarm = ZB_TRUE;
@@ -86,6 +87,11 @@ MAIN()
   /* Global ZBOSS initialization */
   ZB_INIT("light_control");
 
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
+
 #ifdef ZB_USE_BUTTONS
   light_control_hal_init();
 #endif
@@ -120,7 +126,11 @@ MAIN()
   /* Set end device configuration */
   zb_set_ed_timeout(ED_AGING_TIMEOUT_64MIN);
   zb_set_keepalive_timeout(ZB_MILLISECONDS_TO_BEACON_INTERVAL(3000));
-  zb_set_rx_on_when_idle(ZB_TRUE);
+  zb_set_rx_on_when_idle(ZB_FALSE);
+
+  zb_secur_ic_set(ZB_IC_TYPE_PASSCODE, g_passcode);
+
+  bdb_tc_connectivity_disable_checking();
 
   /* Initialization of the global device context */
   light_control_app_ctx_init();
@@ -154,7 +164,7 @@ MAIN()
   MAIN_RETURN(0);
 }
 
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_bufid_t zcl_cmd_buf = param;
   zb_bool_t cmd_processed = ZB_FALSE;
@@ -170,7 +180,7 @@ zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
 }
 
 /* Callback to handle the stack events */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   /* Get application signal from the buffer */
@@ -271,7 +281,7 @@ void light_control_app_ctx_init(void)
 }
 
 /* [zdo_match_desc_req] */
-void find_light_bulb(zb_uint8_t param)
+void find_light_bulb(zb_cb_param_t param)
 {
   zb_bufid_t buf = param;
   zb_zdo_match_desc_param_t *req;
@@ -294,7 +304,7 @@ void find_light_bulb(zb_uint8_t param)
   TRACE_MSG(TRACE_APP1, "<< find_light_bulb %hd", (FMT__H, param));
 }
 
-void find_light_bulb_cb(zb_uint8_t param)
+void find_light_bulb_cb(zb_cb_param_t param)
 {
   zb_bufid_t buf = param;
   zb_zdo_match_desc_resp_t *resp = (zb_zdo_match_desc_resp_t*)zb_buf_begin(buf);
@@ -328,7 +338,7 @@ void find_light_bulb_cb(zb_uint8_t param)
 }
 /* [zdo_match_desc_req] */
 
-void find_light_bulb_alarm(zb_uint8_t param)
+void find_light_bulb_alarm(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, ">> find_light_bulb_alarm param %hd", (FMT__H, param));
 
@@ -343,7 +353,7 @@ void find_light_bulb_alarm(zb_uint8_t param)
   }
 }
 
-void bulb_ieee_addr_req(zb_uint8_t param)
+void bulb_ieee_addr_req(zb_cb_param_t param)
 {
   zb_bufid_t  buf = param;
   zb_zdo_ieee_addr_req_param_t *req_param;
@@ -357,7 +367,7 @@ void bulb_ieee_addr_req(zb_uint8_t param)
   zb_zdo_ieee_addr_req(buf, bulb_ieee_addr_req_cb);
 }
 
-void bulb_ieee_addr_req_cb(zb_uint8_t param)
+void bulb_ieee_addr_req_cb(zb_cb_param_t param)
 {
   zb_bufid_t buf = param;
   zb_zdo_nwk_addr_resp_head_t *resp;
@@ -385,7 +395,7 @@ void bulb_ieee_addr_req_cb(zb_uint8_t param)
   TRACE_MSG(TRACE_APP2, "<< bulb_ieee_addr_req_cb", (FMT__0));
 }
 
-static void bulb_binding_completed(zb_uint8_t param)
+static void bulb_binding_completed(zb_cb_param_t param)
 {
   zb_ret_t status = zb_buf_get_status(param);
   /* 07/29/2020 EE CR:MINOR check status and at least print it */
@@ -408,7 +418,7 @@ static void bulb_binding_completed(zb_uint8_t param)
   }
 }
 
-static void bind_level_control_cluster(zb_uint8_t param)
+static void bind_level_control_cluster(zb_cb_param_t param)
 {
   zb_zdo_bind_req_param_t *req;
 
@@ -428,7 +438,7 @@ static void bind_level_control_cluster(zb_uint8_t param)
 }
 
 
-static void bind_on_off_cluster(zb_uint8_t param)
+static void bind_on_off_cluster(zb_cb_param_t param)
 {
   zb_zdo_bind_req_param_t *req;
 
@@ -447,7 +457,7 @@ static void bind_on_off_cluster(zb_uint8_t param)
   zb_zdo_bind_req(param, bind_level_control_cluster);
 }
 
-void light_control_bind_bulb(zb_uint8_t param)
+void light_control_bind_bulb(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP2, ">> light_control_bind_bulb param %hd", (FMT__H, param));
 
@@ -457,7 +467,7 @@ void light_control_bind_bulb(zb_uint8_t param)
 }
 
 /* Perform local operation - leave network */
-void light_control_leave_nwk(zb_uint8_t param)
+void light_control_leave_nwk(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, ">> light_control_leave_nwk param %hd", (FMT__H, param));
 
@@ -493,7 +503,7 @@ void light_control_retry_join(zb_uint8_t param)
 }
 
 
-void light_control_leave_and_join(zb_uint8_t param)
+void light_control_leave_and_join(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, ">> light_control_leave_and_join param %hd", (FMT__H, param));
   if (ZB_JOINED())
@@ -511,11 +521,11 @@ void light_control_leave_and_join(zb_uint8_t param)
   TRACE_MSG(TRACE_APP1, "<< light_control_leave_and_join", (FMT__0));
 }
 
-void light_control_send_on_off(zb_uint8_t param, zb_uint16_t on_off);
+void light_control_send_on_off(zb_cb_param_t param);
 
-void light_control_send_on_off_alarm(zb_uint8_t param)
+void light_control_send_on_off_alarm(zb_cb_param_t param)
 {
-  light_control_send_on_off(param, g_device_ctx.bulb_on_off_state);
+  light_control_send_on_off(ZB_PACK_2_U16_IN_U32(param, g_device_ctx.bulb_on_off_state));
   g_device_ctx.bulb_on_off_state = !g_device_ctx.bulb_on_off_state;
   if (work_via_alarm)
   {
@@ -523,14 +533,14 @@ void light_control_send_on_off_alarm(zb_uint8_t param)
   }
 }
 
-void light_control_send_on_off_alarm_delayed(zb_uint8_t param)
+void light_control_send_on_off_alarm_delayed(zb_cb_param_t param)
 {
   ZVUNUSED(param);
 
   zb_buf_get_out_delayed(light_control_send_on_off_alarm);
 }
 
-void light_control_send_on_off_cb(zb_uint8_t param)
+void light_control_send_on_off_cb(zb_cb_param_t param)
 {
   zb_zcl_command_send_status_t *cmd_send_status = ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);
   TRACE_MSG(TRACE_APP2, ">> light_control_send_on_off_cb param %hd status %hd", (FMT__H_H, param, cmd_send_status->status));
@@ -553,9 +563,10 @@ void light_control_send_on_off_cb(zb_uint8_t param)
   TRACE_MSG(TRACE_APP2, "<< light_control_send_on_off_cb", (FMT__0));
 }
 
-void light_control_send_on_off(zb_uint8_t param, zb_uint16_t on_off)
+void light_control_send_on_off(zb_cb_param_t param)
 {
-  zb_bufid_t buf = param;
+  zb_bufid_t buf = ZB_UNPACK_BUF_REF(param);
+  zb_uint16_t on_off = ZB_UNPACK_USER_PARAM(param);
   zb_uint8_t cmd_id = (on_off) ? (ZB_ZCL_CMD_ON_OFF_ON_ID) : (ZB_ZCL_CMD_ON_OFF_OFF_ID);
   zb_uint16_t addr = 0;
 
@@ -579,9 +590,10 @@ void light_bulb_send_on_off_cmd(zb_bool_t on_off)
   zb_buf_get_out_delayed_ext(light_control_send_on_off, on_off, 0);
 }
 
-void light_control_send_step(zb_uint8_t param, zb_uint16_t dir)
+void light_control_send_step(zb_cb_param_t param)
 {
-  zb_bufid_t buf = param;
+  zb_bufid_t buf = ZB_UNPACK_BUF_REF(param);
+  zb_uint16_t dir = ZB_UNPACK_USER_PARAM(param);
   zb_uint8_t step_dir = (dir) ? (ZB_ZCL_LEVEL_CONTROL_STEP_MODE_UP) :
     (ZB_ZCL_LEVEL_CONTROL_STEP_MODE_DOWN);
   zb_uint16_t addr = 0;
@@ -655,7 +667,7 @@ zb_ret_t light_control_nvram_write_app_data(zb_uint8_t page, zb_uint32_t pos)
 #endif  /* ZB_USE_NVRAM */
 
 #ifdef ZB_USE_BUTTONS
-void light_control_button_handler(zb_uint8_t button_no)
+void light_control_button_handler(zb_cb_param_t button_no)
 {
   zb_time_t current_time;
   zb_bool_t short_expired;

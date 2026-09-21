@@ -104,11 +104,66 @@ Functions</h2></td></tr>
 <tr class="separator:ga1c0e9356f6a02a373d19193301425a07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga27d6b460aef812eeaf83f48c669a0432"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__nwk__mtorr.html#ga27d6b460aef812eeaf83f48c669a0432">zb_start_concentrator_mode</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> radius, <a class="el" href="group__base__types.html#ga964947a10fa0ad0bd6df7bd91ecfac9c">zb_uint32_t</a> disc_time)</td></tr>
 <tr class="separator:ga27d6b460aef812eeaf83f48c669a0432"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3996a5a1428c08a3490c365819f24d83"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__nwk__mtorr.html#ga3996a5a1428c08a3490c365819f24d83">zb_start_concentrator_mode_ext</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> radius, <a class="el" href="group__base__types.html#ga964947a10fa0ad0bd6df7bd91ecfac9c">zb_uint32_t</a> disc_time, <a class="el" href="group__base__types.html#ga964947a10fa0ad0bd6df7bd91ecfac9c">zb_uint32_t</a> disc_separation_time)</td></tr>
+<tr class="separator:ga3996a5a1428c08a3490c365819f24d83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga436c3fc6574db1daa74c5b4f2d4ca1a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__nwk__mtorr.html#ga436c3fc6574db1daa74c5b4f2d4ca1a0">zb_stop_concentrator_mode</a> (void)</td></tr>
 <tr class="separator:ga436c3fc6574db1daa74c5b4f2d4ca1a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga078f2f0da93df3495738ed88883bf083"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__nwk__mtorr.html#ga078f2f0da93df3495738ed88883bf083">zb_concentrator_mode_set_mtorr_delay_after_rreq</a> (<a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a> delay)</td></tr>
+<tr class="memdesc:ga078f2f0da93df3495738ed88883bf083"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets delay in beacon intervals to send MTORR after route request receiving. If delay is zero, reactive MTORR feature will be enabled (i.e. concentrator may send MTORR immediately instead of Route Reply). If delay is not zero, concentrator will send Route Reply as usual and will be advised to send MTORR as well.  <a href="group__nwk__mtorr.html#ga078f2f0da93df3495738ed88883bf083">More...</a><br /></td></tr>
+<tr class="separator:ga078f2f0da93df3495738ed88883bf083"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac607e58753684da47826c5e311920fc9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__nwk__mtorr.html#gac607e58753684da47826c5e311920fc9">zb_concentrator_mode_get_mtorr_delay_after_rreq</a> (void)</td></tr>
+<tr class="memdesc:gac607e58753684da47826c5e311920fc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets delay in beacon intervals to send MTORR after route request receiving.  <a href="group__nwk__mtorr.html#gac607e58753684da47826c5e311920fc9">More...</a><br /></td></tr>
+<tr class="separator:gac607e58753684da47826c5e311920fc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="gac607e58753684da47826c5e311920fc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac607e58753684da47826c5e311920fc9">&#9670;&nbsp;</a></span>zb_concentrator_mode_get_mtorr_delay_after_rreq()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a> zb_concentrator_mode_get_mtorr_delay_after_rreq </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets delay in beacon intervals to send MTORR after route request receiving. </p>
+<dl class="section return"><dt>Returns</dt><dd>delay in beacon intervals </dd></dl>
+
+</div>
+</div>
+<a id="ga078f2f0da93df3495738ed88883bf083"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga078f2f0da93df3495738ed88883bf083">&#9670;&nbsp;</a></span>zb_concentrator_mode_set_mtorr_delay_after_rreq()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zb_concentrator_mode_set_mtorr_delay_after_rreq </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a>&#160;</td>
+          <td class="paramname"><em>delay</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets delay in beacon intervals to send MTORR after route request receiving. If delay is zero, reactive MTORR feature will be enabled (i.e. concentrator may send MTORR immediately instead of Route Reply). If delay is not zero, concentrator will send Route Reply as usual and will be advised to send MTORR as well. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">delay</td><td>delay in beacon intervals </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ga1c0e9356f6a02a373d19193301425a07"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga1c0e9356f6a02a373d19193301425a07">&#9670;&nbsp;</a></span>zb_get_source_route()</h2>
 
@@ -175,10 +230,54 @@ RET_NOT_FOUND if route record for the short_dst_addr is not found in local sourc
       </table>
 </div><div class="memdoc">
 <p>Enable Concentrator mode for the device (disabled by default). It's possible to call this function to send MTORR immediately, e.g. after a new device joined the network. It does affect only for Coordinator role.</p>
+<p>The function has extended version with additional parameter to set nwkConcentratorDiscoverySeparation attribute. (see <a class="el" href="group__nwk__mtorr.html#ga3996a5a1428c08a3490c365819f24d83">zb_start_concentrator_mode_ext</a>). Default attribute value is 0.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">radius</td><td>- the hop count radius for concentrator route discoveries. If the value is set zero then the default radius will be used. </td></tr>
     <tr><td class="paramname">disc_time</td><td>- the time in seconds between concentrator route discoveries. If the value is set to zero, the route discoveries are done by the application layer only. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga3996a5a1428c08a3490c365819f24d83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3996a5a1428c08a3490c365819f24d83">&#9670;&nbsp;</a></span>zb_start_concentrator_mode_ext()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zb_start_concentrator_mode_ext </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramname"><em>radius</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#ga964947a10fa0ad0bd6df7bd91ecfac9c">zb_uint32_t</a>&#160;</td>
+          <td class="paramname"><em>disc_time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#ga964947a10fa0ad0bd6df7bd91ecfac9c">zb_uint32_t</a>&#160;</td>
+          <td class="paramname"><em>disc_separation_time</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Enable Concentrator mode for the device (disabled by default). It's possible to call this function to send MTORR immediately, e.g. after a new device joined the network. It does affect only for Coordinator role.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">radius</td><td>- the hop count radius for concentrator route discoveries. If the value is set zero then the default radius will be used. </td></tr>
+    <tr><td class="paramname">disc_time</td><td>- the time in seconds between concentrator route discoveries. If the value is set to zero, the route discoveries are done by the application layer only. </td></tr>
+    <tr><td class="paramname">disc_separation_time</td><td>- the minimum time in seconds between concentrator route discoveries. If the value is set to zero, there is no minimum separation time. </td></tr>
   </table>
   </dd>
 </dl>
@@ -213,6 +312,6 @@ RET_NOT_FOUND if route record for the short_dst_addr is not found in local sourc
     <a href="http://www.dsr-corporation.com">http://www.dsr-corporation.com</a>
   </div>
 </div>
-<div>ZBOSS documentation. Wed May 27 2026.</div>
+<div>ZBOSS documentation. Mon Sep 21 2026.</div>
 </body>
 </html>

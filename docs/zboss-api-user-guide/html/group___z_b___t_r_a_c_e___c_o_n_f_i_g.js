@@ -7,6 +7,7 @@ var group___z_b___t_r_a_c_e___c_o_n_f_i_g =
     [ "ZB_SET_TRACE_ON", "group___z_b___t_r_a_c_e___c_o_n_f_i_g.html#gad1a739d90a215e3e2aa5278213533f9d", null ],
     [ "ZB_TRACE_FILE_ID", "group___z_b___t_r_a_c_e___c_o_n_f_i_g.html#ga5c45c2e0ca69fdafabdea6deeef93bd5", null ],
     [ "zb_print2x", "group___z_b___t_r_a_c_e___c_o_n_f_i_g.html#ga998a75124184601621974692e774f3f2", null ],
+    [ "zb_trace_is_on", "group___z_b___t_r_a_c_e___c_o_n_f_i_g.html#ga44fb3ef503278cbb45fe9bba44758a66", null ],
     [ "zb_trace_level_mask_enabled", "group___z_b___t_r_a_c_e___c_o_n_f_i_g.html#ga54979cc97c39d3067582875d4d4b6588", null ],
     [ "zb_trace_str", "group___z_b___t_r_a_c_e___c_o_n_f_i_g.html#ga3eaadb2133c338867b8d86b33d0ba04f", null ]
 ];

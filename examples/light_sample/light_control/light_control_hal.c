@@ -36,9 +36,9 @@ ZB_ASSERT_COMPILE_DECL(BULB_BUTTON_1_IDX == LIGHT_CONTROL_BUTTON_ON);
 #define BULB_BUTTON_2_IDX ZB_BOARD_BUTTON_1
 ZB_ASSERT_COMPILE_DECL(BULB_BUTTON_2_IDX == LIGHT_CONTROL_BUTTON_OFF);
 
-void light_control_send_on_off(zb_uint8_t param, zb_uint16_t on_off);
+void light_control_send_on_off(zb_cb_param_t param, zb_uint16_t on_off);
 
-void button1_handler(zb_uint8_t param)
+void button1_handler(zb_cb_param_t param)
 {
   ZVUNUSED(param);
 
@@ -47,7 +47,7 @@ void button1_handler(zb_uint8_t param)
 #endif
 }
 
-void button2_handler(zb_uint8_t param)
+void button2_handler(zb_cb_param_t param)
 {
   ZVUNUSED(param);
 

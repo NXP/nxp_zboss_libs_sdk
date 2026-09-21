@@ -25,7 +25,7 @@
 
 #define MAX_PAYLOAD_SIZE 73 /* Maximal payload size authorized in order to send packet in one frame */
 
-static zb_uint8_t custom_nxp_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
+static zb_uint8_t custom_nxp_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param);
 
 static zb_uint16_t cluster_revision_nxp_attr_list = ZB_ZCL_BASIC_CLUSTER_REVISION_DEFAULT;
 
@@ -374,7 +374,7 @@ static void cluster_custnxp_ping_stats(void)
   menu_cb_occured();
 }
 
-static void cluster_custnxp_ping_send_req_cb(zb_uint8_t param)
+static void cluster_custnxp_ping_send_req_cb(zb_cb_param_t param)
 {
   zb_zcl_command_send_status_t *cmd_send_status = ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);
 
@@ -400,7 +400,7 @@ static void cluster_custnxp_ping_send_req_cb(zb_uint8_t param)
 //  menu_cb_occured();
 }
 
-static void cluster_custnxp_ping_send_resp_cb(zb_uint8_t param)
+static void cluster_custnxp_ping_send_resp_cb(zb_cb_param_t param)
 {
   zb_zcl_command_send_status_t *cmd_send_status = ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);
 
@@ -432,7 +432,7 @@ static zb_ret_t cluster_custnxp_ping_send_cmd(zb_uint16_t                   dest
                                           zb_bool_t                     disable_aps_ack)
 {
   zb_uint8_t* ptr;
-  zb_uint8_t param = zb_buf_get(ZB_FALSE, 2000);
+  zb_cb_param_t param = zb_buf_get(ZB_FALSE, 2000);
 
   ptr = zb_buf_begin(param);
   ZB_ZCL_CONSTRUCT_SPECIFIC_COMMAND_REQ_FRAME_CONTROL_A(ptr, direction, ZB_TRUE /* is_manufacturer_specific */, ZB_ZCL_DISABLE_DEFAULT_RESPONSE);
@@ -445,7 +445,7 @@ static zb_ret_t cluster_custnxp_ping_send_cmd(zb_uint16_t                   dest
   return zb_zcl_finish_and_send_packet_new(param, ptr, (const zb_addr_u *)(const void *)(&dest_short), ZB_APS_ADDR_MODE_16_ENDP_PRESENT, dest_ep, my_ep, profile, cluster, cb, ZB_TRUE, disable_aps_ack, 0U);
 }
 
-static void cluster_custnxp_ping_send_req(zb_uint8_t param)
+static void cluster_custnxp_ping_send_req(zb_cb_param_t param)
 {
   zb_ret_t ret;
   zb_uint8_t random8;
@@ -520,7 +520,7 @@ static void cluster_custnxp_ping_send_req(zb_uint8_t param)
   }
 }
 
-static zb_uint8_t cluster_custnxp_ping_send_resp(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t cluster_custnxp_ping_send_resp(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   zb_uint8_t ret = ZB_TRUE; /* Yes, we manage the command */
   zb_ret_t status = RET_OK;
@@ -589,7 +589,7 @@ static zb_uint8_t cluster_custnxp_ping_send_resp(zb_zcl_parsed_hdr_t *cmd_info, 
   return ret;
 }
 
-static zb_uint8_t cluster_custnxp_ping_recv_resp(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t cluster_custnxp_ping_recv_resp(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   zb_uint8_t ret = ZB_TRUE; /* Yes, we manage the command */
   zb_ret_t status = RET_OK;
@@ -819,7 +819,7 @@ static zb_ret_t cluster_custnxp_cmd_status(int argc, char *argv[])
 
 /* -------------------------------- Handler commands custom NXP --------------------------- */
 
-static zb_uint8_t custom_nxp_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t custom_nxp_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   /* This is just for information, let the stack manage it */
   zb_uint8_t ret = ZB_FALSE;
@@ -849,7 +849,7 @@ static zb_uint8_t custom_nxp_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_in
   return ret;
 }
 
-static zb_uint8_t custom_nxp_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t custom_nxp_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   zb_uint8_t ret = ZB_FALSE;
 
@@ -877,7 +877,7 @@ static zb_uint8_t custom_nxp_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_in
   return ret;
 }
 
-static zb_uint8_t custom_nxp_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t custom_nxp_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   return (cmd_info->cmd_direction == ZB_ZCL_FRAME_DIRECTION_TO_CLI)?(custom_nxp_client_commands_handler(cmd_info, param)):(custom_nxp_server_commands_handler(cmd_info, param));
 }

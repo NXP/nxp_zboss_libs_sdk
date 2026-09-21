@@ -31,11 +31,11 @@
 #include "scenes_test.h"
 
 
-void test_device_cb(zb_uint8_t param);
+void test_device_cb(zb_cb_param_t param);
 zb_uint8_t test_device_scenes_get_entry(zb_uint16_t group_id, zb_uint8_t scene_id);
 void test_device_scenes_remove_entries_by_group(zb_uint16_t group_id);
 void test_device_scenes_table_init(void);
-static void update_scene_valid_attribute(zb_uint8_t param);
+static void update_scene_valid_attribute(zb_cb_param_t param);
 
 #define TEST_DEVICE_SCENES_TABLE_SIZE 3
 #define SCENE_VALID_CHECK_INTERVAL ZB_TIME_ONE_SECOND
@@ -91,6 +91,9 @@ static void add_to_test_group(zb_uint8_t param);
  */
 zb_ieee_addr_t g_zc_addr = {0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa}; /* IEEE address of the
                                                                               * device */
+
+zb_ieee_addr_t g_ieee_addr_ic_zed = {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
 
 zb_uint16_t g_dst_addr;
 zb_uint8_t g_addr_mode;
@@ -159,17 +162,25 @@ ZB_ZCL_DECLARE_SCENES_ATTRIB_LIST(scenes_attr_list, &g_attr_scenes_scene_count,
     &g_attr_scenes_current_scene, &g_attr_scenes_current_group,
     &g_attr_scenes_scene_valid, &g_attr_scenes_name_support);
 
+/* Keep-Alive cluster attributes */
+ZB_ZCL_DECLARE_KEEP_ALIVE_ATTRS_AND_LIST(g_attrs_keep_alive, keep_alive_attr_list);
+
+/* Poll control cluster attributes */
+ZB_ZCL_DECLARE_POLL_CONTROL_ATTRIB_LIST_CLIENT(poll_control_attr_list);
+
 /* Declare cluster list for a device */
-ZB_HA_DECLARE_ON_OFF_OUTPUT_CLUSTER_LIST(
+ZB_HA_DECLARE_ON_OFF_OUTPUT_CLUSTER_LIST_ZC_BDB(
     on_off_output_clusters,
     on_off_attr_list,
+    keep_alive_attr_list,
     basic_attr_list,
     identify_attr_list,
     groups_attr_list,
-    scenes_attr_list);
+    scenes_attr_list,
+    poll_control_attr_list);
 
 /* Declare endpoint */
-ZB_HA_DECLARE_ON_OFF_OUTPUT_EP(
+ZB_HA_DECLARE_ON_OFF_OUTPUT_EP_ZC_BDB(
     on_off_output_ep,
     HA_OUTPUT_ENDPOINT,
     on_off_output_clusters);
@@ -214,6 +225,11 @@ MAIN()
   /* Global ZBOSS initialization */
   ZB_INIT("scenes_zc");
 
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
+
   /* Set up defaults for the commissioning */
   zb_set_long_address(g_zc_addr);
   zb_set_network_coordinator_role(1l<<21);
@@ -244,7 +260,7 @@ MAIN()
   MAIN_RETURN(0);
 }
 
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_uint8_t ret = ZB_FALSE;
   zb_bufid_t zcl_cmd_buf = param;
@@ -264,7 +280,7 @@ zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
   return ret;
 }
 
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_t sig = zb_get_app_signal(param, &sg_p);
@@ -292,6 +308,7 @@ void zboss_signal_handler(zb_uint8_t param)
        */
       case ZB_BDB_SIGNAL_DEVICE_REBOOT:
         TRACE_MSG(TRACE_APP1, "Device STARTED OK", (FMT__0));
+        zb_secur_ic_add(g_ieee_addr_ic_zed, ZB_IC_TYPE_PASSCODE, g_passcode, NULL);
         bdb_start_top_level_commissioning(ZB_BDB_NETWORK_STEERING);
         break;
 
@@ -347,20 +364,21 @@ static void add_to_test_group(zb_uint8_t param)
   TRACE_MSG(TRACE_APP1, "< add_to_test_group", (FMT__0));
 }
 
-void send_view_scene_resp(zb_uint8_t param, zb_uint16_t idx)
+void send_view_scene_resp(zb_cb_param_t param)
 {
-  zb_bufid_t buf = param;
+  zb_bufid_t buf = ZB_UNPACK_BUF_REF(param);
+  zb_uint16_t idx = ZB_UNPACK_USER_PARAM(param);
   zb_uint8_t *payload_ptr;
   zb_uint8_t view_scene_status = ZB_ZCL_STATUS_NOT_FOUND;
 
-  /* ZCL8 Section 3.7.2.4.1 only send response for unicast commands */ 
+  /* ZCL8 Section 3.7.2.4.1 only send response for unicast commands */
   if (ZB_APS_FC_GET_DELIVERY_MODE(resp_info.cmd_info.addr_data.common_data.fc) != ZB_APS_DELIVERY_UNICAST)
   {
     zb_buf_free(param);
     return;
   }
 
-  TRACE_MSG(TRACE_APP1, ">> send_view_scene_resp param %hd idx %d", (FMT__H_D, param, idx));
+  TRACE_MSG(TRACE_APP1, ">> send_view_scene_resp buf %d idx %d", (FMT__D_D, buf, idx));
 
   if (idx != 0xFF &&
       scenes_table[idx].common.group_id != ZB_ZCL_SCENES_FREE_SCENE_TABLE_RECORD)
@@ -416,13 +434,13 @@ void send_view_scene_resp(zb_uint8_t param, zb_uint16_t idx)
   TRACE_MSG(TRACE_APP1, "<< send_view_scene_resp", (FMT__0));
 }
 
-void send_get_scene_membership_resp(zb_uint8_t param)
+void send_get_scene_membership_resp(zb_cb_param_t param)
 {
   zb_bufid_t buf = param;
   zb_uint8_t *payload_ptr;
   zb_uint8_t *capacity_ptr;
   zb_uint8_t *scene_count_ptr;
-  zb_bool_t is_unicast = 
+  zb_bool_t is_unicast =
     (zb_bool_t) (ZB_APS_FC_GET_DELIVERY_MODE(resp_info.cmd_info.addr_data.common_data.fc) == ZB_APS_DELIVERY_UNICAST);
 
   TRACE_MSG(TRACE_APP1, ">> send_get_scene_membership_resp param %hd", (FMT__H, param));
@@ -777,7 +795,7 @@ static zb_ret_t recall_scene(test_device_scenes_table_entry_t *entry)
 {
   zb_bufid_t buf = zb_buf_get_any();
   zb_zcl_attr_t *attr_desc;
-  zb_ret_t result;
+  zb_ret_t result = RET_OK;
 
   if (entry->on_off_fieldset.has_on_off)
   {
@@ -906,7 +924,7 @@ static zb_ret_t recall_scene(test_device_scenes_table_entry_t *entry)
   return result;
 }
 
-static void update_scene_valid_attribute(zb_uint8_t param)
+static void update_scene_valid_attribute(zb_cb_param_t param)
 {
   zb_bool_t scene_valid = ZB_FALSE;
   zb_uint8_t scene_id = 0xFF;
@@ -1001,7 +1019,7 @@ static void update_scene_valid_attribute(zb_uint8_t param)
   ZB_SCHEDULE_APP_ALARM(update_scene_valid_attribute, 0, SCENE_VALID_CHECK_INTERVAL);
 }
 
-void test_device_cb(zb_uint8_t param)
+void test_device_cb(zb_cb_param_t param)
 {
   zb_bufid_t buffer = param;
   zb_zcl_device_callback_param_t *device_cb_param =

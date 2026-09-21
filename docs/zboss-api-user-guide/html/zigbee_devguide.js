@@ -1,8 +1,5 @@
 var zigbee_devguide =
 [
-    [ "ZBOSS release notes", "zboss_release_notes.html", [
-      [ "ZBOSS 4.1.4.1 version dated 03/15/2024", "zboss_release_notes.html#zboss_zoi_release_4_1_4_1", null ]
-    ] ],
     [ "Zigbee stack features", "zigbee_features.html", [
       [ "Supported Zigbee standards", "zigbee_features.html#supported_zigbee_standards", null ],
       [ "Implemented features", "zigbee_features.html#implemented_features", null ]

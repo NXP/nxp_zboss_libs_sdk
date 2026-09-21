@@ -27,7 +27,7 @@ ZB_DECLARE_SIMPLE_DESC(256,0);
 #define STRUCT_SIMPLE_DESC_NAME zb_af_simple_desc_256_0_t
 
 zb_af_endpoint_desc_t *cli_endpoints[MAX_ENDPOINTS] = { 0 };
-static zb_uint8_t param_tmp = 0; /* used by endpoint_command_handler */
+static zb_cb_param_t param_tmp = 0; /* used by endpoint_command_handler */
 
 /* Context containing endpoints table, each endpoint containing clusters table */
 zb_af_device_ctx_t cli_ctx = {
@@ -159,7 +159,7 @@ static void print_profilewide_cmd_info(zb_zcl_parsed_hdr_t *cmd_info, char *extr
 /* Static stack callback function
  * endpoint command handler
  */
-static zb_uint8_t endpoint_commands_handler(zb_uint8_t param)
+static zb_uint8_t endpoint_commands_handler(zb_cb_param_t param)
 {
   zb_zcl_parsed_hdr_t *cmd_info = ZB_BUF_GET_PARAM(param, zb_zcl_parsed_hdr_t);
   zb_af_endpoint_desc_t *this_ep;
@@ -423,7 +423,7 @@ static zb_uint8_t endpoint_commands_handler(zb_uint8_t param)
 /* Static stack callback function
  * identify notification handler for endpoint
  */
-static void endpoint_identify_notification_handler(zb_uint8_t param)
+static void endpoint_identify_notification_handler(zb_cb_param_t param)
 {
   menu_printf("Recv identification request %s", (param == 1)?("enable"):("disable"));
   if(param)

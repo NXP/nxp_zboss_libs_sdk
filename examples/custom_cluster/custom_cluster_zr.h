@@ -33,7 +33,7 @@
 /* Number of input clusters */
 #define CUSTOM_IN_CLUSTER_NUM 3
 /* Number of output clusters */
-#define CUSTOM_OUT_CLUSTER_NUM 0
+#define CUSTOM_OUT_CLUSTER_NUM 1
 
 /* Finding and Binding time interval, in seconds */
 #define ZB_FINDING_BINDING_TIMEOUT_S 240
@@ -74,6 +74,13 @@
       (custom_attr_list),                                               \
       ZB_ZCL_CLUSTER_SERVER_ROLE,                                       \
       ZB_ZCL_MANUF_CODE_INVALID                                         \
+    ),                                                                  \
+    ZB_ZCL_CLUSTER_DESC(                                                \
+      ZB_ZCL_CLUSTER_ID_KEEP_ALIVE,                                     \
+      0,                                                                \
+      NULL,                                                             \
+      ZB_ZCL_CLUSTER_CLIENT_ROLE,                                       \
+      ZB_ZCL_MANUF_CODE_INVALID                                         \
     )                                                                   \
   }
 
@@ -99,7 +106,8 @@
     {                                                                          \
       ZB_ZCL_CLUSTER_ID_BASIC,                                                 \
       ZB_ZCL_CLUSTER_ID_IDENTIFY,                                              \
-      ZB_ZCL_CLUSTER_ID_CUSTOM                                                 \
+      ZB_ZCL_CLUSTER_ID_CUSTOM,                                                \
+      ZB_ZCL_CLUSTER_ID_KEEP_ALIVE                                             \
     }                                                                          \
   }
 

@@ -28,6 +28,13 @@
    @addtogroup configurable_mem
    @{
 */
+
+/* It is important note that "zb_mem_config_max" configuration doesn't represent max possible network size.
+ * This name is used for backward compatibility purposes here.
+ *
+ * The "zb_mem_config_large_net_zr" or "zb_mem_config_large_net_zr" configuration should be used to enable large networks
+ * support (i.e. increased number of entries in neighbor or routing tables). */
+
 /**
    Configure memory sizes for ZR device role
  */
@@ -39,7 +46,7 @@
    @cond skip_this
    @{
 */
-#define ZB_CONFIG_OVERALL_NETWORK_SIZE ZB_NWK_CONFIGURABLE_MEM_MAX_NETWORK_SIZE
+#define ZB_CONFIG_OVERALL_NETWORK_SIZE 250U
 /*#define ZB_CONFIG_OVERALL_NETWORK_SIZE 16*/
 /*#define ZB_CONFIG_OVERALL_NETWORK_SIZE 32*/
 

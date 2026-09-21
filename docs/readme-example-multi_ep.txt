@@ -54,6 +54,7 @@ Zigbee Coordinator includes following endpoints with ZCL clusters:
 
 Endpoint 21:
  - Basic (c)
+ - Keep-Alive (s) - Mandatory for ZC according to BDB 3.1 spec.
  - OnOff (c)
  - LevelControl (c)
 
@@ -63,9 +64,9 @@ Endpoint 22:
  - LevelControl (c)
 
 Endpoint 23:
- - Basic (с) 
- - Identify (с) 
- - Time (с)
+ - Basic (c)
+ - Identify (c)
+ - Time (c)
  - OnOff (c)
 
 Endpoint 24:
@@ -74,8 +75,8 @@ Endpoint 24:
  - Alarms (c)
 
 Endpoint 25:
- - Basic (c) 
- - On/Off (c) 
+ - Basic (c)
+ - On/Off (c)
  - Level Control (c)
 
 Zigbee Multiendpoint End Device application
@@ -94,8 +95,8 @@ Endpoint 22:
  - LevelControl (s)
 
 Endpoint 23:
- - Basic (s) 
- - Identify (s) 
+ - Basic (s)
+ - Identify (s)
  - Time (s)
  - OnOff (s)
 
@@ -105,8 +106,8 @@ Endpoint 24:
  - Alarms (s)
 
 Endpoint 25:
- - Basic (s) 
- - On/Off (s) 
+ - Basic (s)
+ - On/Off (s)
  - Level Control (s)
 
 

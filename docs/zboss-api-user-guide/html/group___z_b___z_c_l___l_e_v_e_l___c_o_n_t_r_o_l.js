@@ -20,6 +20,9 @@ var group___z_b___z_c_l___l_e_v_e_l___c_o_n_t_r_o_l =
     [ "zb_zcl_level_control_move_to_closest_frequency_req_s", "structzb__zcl__level__control__move__to__closest__frequency__req__s.html", [
       [ "frequency", "structzb__zcl__level__control__move__to__closest__frequency__req__s.html#a50a3ecefb4a3d14783513983a585d5d3", null ]
     ] ],
+    [ "zb_zcl_level_control_set_value_param_s", "structzb__zcl__level__control__set__value__param__s.html", [
+      [ "new_value", "structzb__zcl__level__control__set__value__param__s.html#a30d39a68e8a7678401f318e793cbd4eb", null ]
+    ] ],
     [ "ZB_ZCL_DECLARE_LEVEL_CONTROL_ATTRIB_LIST", "group___z_b___z_c_l___l_e_v_e_l___c_o_n_t_r_o_l.html#ga49f281d8214f05a2000456d2267b5c87", null ],
     [ "ZB_ZCL_DECLARE_LEVEL_CONTROL_ATTRIB_LIST_EXT", "group___z_b___z_c_l___l_e_v_e_l___c_o_n_t_r_o_l.html#ga1714b37c7785e6d4f283c4cb26813c8c", null ],
     [ "ZB_ZCL_LEVEL_CONTROL_CLUSTER_REVISION_DEFAULT", "group___z_b___z_c_l___l_e_v_e_l___c_o_n_t_r_o_l.html#ga0ece804012557116ad8514ebe4dc5dc4", null ],
@@ -81,6 +84,7 @@ var group___z_b___z_c_l___l_e_v_e_l___c_o_n_t_r_o_l =
     [ "zb_zcl_level_control_move_to_closest_frequency_req_t", "group___z_b___z_c_l___l_e_v_e_l___c_o_n_t_r_o_l.html#gabb306c2e57b2c3969d5a86b71e9776aa", null ],
     [ "zb_zcl_level_control_move_to_level_req_t", "group___z_b___z_c_l___l_e_v_e_l___c_o_n_t_r_o_l.html#gae9dff892dc99243af2caf6638844247d", null ],
     [ "zb_zcl_level_control_req_options_t", "group___z_b___z_c_l___l_e_v_e_l___c_o_n_t_r_o_l.html#ga51d90febfea45c9eca940a51f5c20827", null ],
+    [ "zb_zcl_level_control_set_value_param_t", "group___z_b___z_c_l___l_e_v_e_l___c_o_n_t_r_o_l.html#ga6d0ddc84ce34883ddc01762d823b7099", null ],
     [ "zb_zcl_level_control_step_req_t", "group___z_b___z_c_l___l_e_v_e_l___c_o_n_t_r_o_l.html#gaf09f17777d95c0acac037e2f73997f70", null ],
     [ "zb_zcl_level_control_attr_e", "group___z_b___z_c_l___l_e_v_e_l___c_o_n_t_r_o_l.html#ga12838214973310738679f4849393b849", [
       [ "ZB_ZCL_ATTR_LEVEL_CONTROL_CURRENT_LEVEL_ID", "group___z_b___z_c_l___l_e_v_e_l___c_o_n_t_r_o_l.html#gga12838214973310738679f4849393b849a4526d3973a847477144d997d28db7678", null ],

@@ -68,8 +68,9 @@ static zb_ret_t ic_policy(int argc, char *argv[])
   zb_ret_t ret;
   zb_uint8_t new_policy;
   cli_tools_strval able_table[] = {
-    { "enable",  ZB_TRUE  },
-    { "disable", ZB_FALSE }
+    { "enable",          ZB_INSTALL_CODE_REQUIRED  },
+    { "not_for_legacy",  ZB_INSTALL_CODE_NOT_REQUIRED_FOR_LEGACY  },
+    { "disable",         ZB_INSTALL_CODE_NOT_REQUIRED }
   };
 
   if(argc != 1)
@@ -175,7 +176,7 @@ static zb_ret_t help_add(void)
 /* Static stack callback function
  * response for zb_secur_ic_remove_all
  */
-static void ic_remove_all_cb(zb_uint8_t param)
+static void ic_remove_all_cb(zb_cb_param_t param)
 {
   zb_secur_ic_remove_all_resp_t *resp = ZB_BUF_GET_PARAM(param, zb_secur_ic_remove_all_resp_t);
 
@@ -194,7 +195,7 @@ static void ic_remove_all_cb(zb_uint8_t param)
 /* Static stack callback function
  * response for zb_secur_ic_remove
  */
-static void ic_remove_cb(zb_uint8_t param)
+static void ic_remove_cb(zb_cb_param_t param)
 {
   zb_secur_ic_remove_resp_t *resp = ZB_BUF_GET_PARAM(param, zb_secur_ic_remove_resp_t);
 
@@ -273,7 +274,7 @@ static zb_ret_t ic_remove(int argc, char *argv[])
 /* Static stack callback function
  * response for zb_secur_ic_add
  */
-static void ic_list_cb(zb_uint8_t param)
+static void ic_list_cb(zb_cb_param_t param)
 {
   zb_secur_ic_get_list_resp_t *resp = ZB_BUF_GET_PARAM(param, zb_secur_ic_get_list_resp_t);
 

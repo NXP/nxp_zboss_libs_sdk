@@ -35,7 +35,7 @@
 #define ACC_INTERNAL        ZB_ZCL_ATTR_ACCESS_INTERNAL
 
 
-static zb_uint8_t dummy_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
+static zb_uint8_t dummy_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param);
 
 
 #if defined(CLI_HAS_CLUSTER_OTA_UPGRADE_CLT) || defined(CLI_HAS_CLUSTER_OTA_UPGRADE_SRV)
@@ -435,7 +435,7 @@ static zb_ret_t help_create(void)
 /* Static stack callback function
  * response for zb_zdo_bind_req
  */
-static void bind_cb(zb_uint8_t param)
+static void bind_cb(zb_cb_param_t param)
 {
   zb_zdo_bind_resp_t *resp = (zb_zdo_bind_resp_t*)zb_buf_begin(param);
 
@@ -520,7 +520,7 @@ static zb_ret_t cluster_bind(int argc, char *argv[])
 /* Static stack callback function
  * response for zb_zdo_unbind_req
  */
-static void unbind_cb(zb_uint8_t param)
+static void unbind_cb(zb_cb_param_t param)
 {
   zb_zdo_bind_resp_t *resp = (zb_zdo_bind_resp_t*)zb_buf_begin(param);
 
@@ -605,7 +605,7 @@ static zb_ret_t cluster_unbind(int argc, char *argv[])
 /* Static stack callback function
  * response for write_attr
  */
-static void write_attr_cb(zb_uint8_t param)
+static void write_attr_cb(zb_cb_param_t param)
 {
   zb_zcl_command_send_status_t *cmd_send_status = ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);
 
@@ -725,7 +725,7 @@ static zb_ret_t cluster_write_attr(int argc, char *argv[])
 /* Static stack callback function
  * response for disc_attr
  */
-static void disc_attr_cb(zb_uint8_t param)
+static void disc_attr_cb(zb_cb_param_t param)
 {
   zb_zcl_command_send_status_t *cmd_send_status = ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);
 
@@ -890,7 +890,7 @@ static zb_ret_t help_disc_attr(void)
 /* Static stack callback function
  * response for read_attr
  */
-static void read_attr_cb(zb_uint8_t param)
+static void read_attr_cb(zb_cb_param_t param)
 {
   zb_zcl_command_send_status_t *cmd_send_status = ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);
 
@@ -1130,7 +1130,7 @@ static zb_ret_t cluster_write_local(int argc, char *argv[])
 /* Static stack callback function
  * response for raw_cmd
  */
-static void raw_cmd_cb(zb_uint8_t param)
+static void raw_cmd_cb(zb_cb_param_t param)
 {
   zb_zcl_command_send_status_t *cmd_send_status = ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);
 
@@ -1230,7 +1230,7 @@ static zb_ret_t cluster_raw_cmd(int argc, char *argv[])
 /* Static stack callback function
  * response for profile_cmd
  */
-static void profile_cmd_cb(zb_uint8_t param)
+static void profile_cmd_cb(zb_cb_param_t param)
 {
   zb_zcl_command_send_status_t *cmd_send_status = ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);
 
@@ -1528,7 +1528,7 @@ static zb_ret_t cluster_print(int argc, char *argv[])
   return RET_OK;
 }
 
-zb_uint8_t cluster_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+zb_uint8_t cluster_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   /* Here, we already know this cluster has been created for this cmd_info->cmd_direction */
   for(int i=0; table_clusters[i].id != 0xFFFF; i++)
@@ -1540,7 +1540,7 @@ zb_uint8_t cluster_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t pa
   return ZB_FALSE;
 }
 
-static zb_uint8_t dummy_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t dummy_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   ZVUNUSED(param);
 

@@ -29,8 +29,8 @@ var group__zdo__groups =
     [ "zb_zdo_mgmt_nwk_ieee_joining_list_rsp_t", "group__zdo__groups.html#ga37f24b2f889cfbeb5ef81c6b66c26bbe", null ],
     [ "zb_zdo_mgmt_permit_joining_resp_t", "group__zdo__groups.html#ga7d68919f5b45c2e8b6f18740860a9feb", null ],
     [ "zb_zdo_not_supported_resp_t", "group__zdo__groups.html#ga60b790cdf3a326edabce892e98ee9c6f", null ],
-    [ "zb_zdo_add_group_req", "group__zdo__groups.html#ga1378f549e0ba41cd8203f524a0ed9ffc", null ],
-    [ "zb_zdo_get_group_membership_req", "group__zdo__groups.html#ga01f920f03e138ac216a5b0498ef0d3c5", null ],
-    [ "zb_zdo_remove_all_groups_req", "group__zdo__groups.html#ga225a6dc8247117411895c32d1540bcca", null ],
-    [ "zb_zdo_remove_group_req", "group__zdo__groups.html#ga80fbcf1901b6132ec4a052f264027ddb", null ]
+    [ "zb_zdo_add_group_req", "group__zdo__groups.html#ga2c7e2b476bfc3f79e88bb45da322973d", null ],
+    [ "zb_zdo_get_group_membership_req", "group__zdo__groups.html#ga6aea921081b79a3e4dc335dd4c0f70e0", null ],
+    [ "zb_zdo_remove_all_groups_req", "group__zdo__groups.html#ga77a071db5fd599164e7de5d8b32e0f27", null ],
+    [ "zb_zdo_remove_group_req", "group__zdo__groups.html#ga799797a41e073ad643028147b67aefcb", null ]
 ];

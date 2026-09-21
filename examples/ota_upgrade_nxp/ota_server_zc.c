@@ -326,7 +326,7 @@ static int create_ota_file(void)
 }
 
 /* Insert upgrade OTA file into Server upgrade table */
-void insert_ota_file(zb_uint8_t param)
+void insert_ota_file(zb_cb_param_t param)
 {
   zb_ret_t ret;
   zb_uint8_t index;
@@ -537,7 +537,7 @@ zb_ret_t next_data_ind_cb(zb_uint8_t index,
 }
 
 #ifdef ZB_MAC_CONFIGURABLE_TX_POWER /* Test API zb_set_tx_power */
-static void tx_power_cb(zb_bufid_t param)
+static void tx_power_cb(zb_cb_param_t param)
 {
 #ifdef ZB_NXP_WCS_TRACE
   zb_tx_power_params_t *power_params = zb_buf_begin(param);
@@ -624,7 +624,7 @@ MAIN()
 }
 
 /* Callback to handle the stack events */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   /* Get application signal from the buffer */
   zb_zdo_app_signal_hdr_t *sg_p = NULL;

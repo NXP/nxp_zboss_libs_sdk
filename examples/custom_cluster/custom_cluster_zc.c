@@ -38,6 +38,10 @@
 zb_ieee_addr_t g_zc_addr = { 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa }; /* IEEE address of
                                                                                 * the device*/
 
+/* IEEE address of the ZR */
+zb_ieee_addr_t g_zr_addr = { 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
+
 zb_uint8_t dst_endpoint = 0xFF;
 zb_uint16_t dst_short_addr = 0xFFFF;
 
@@ -94,6 +98,9 @@ zb_uint8_t g_attr_power_source = ZB_ZCL_BASIC_POWER_SOURCE_UNKNOWN;
 ZB_ZCL_DECLARE_BASIC_ATTRIB_LIST(
   basic_attr_list, &g_attr_zcl_version, &g_attr_power_source);
 
+/* Keep alive cluster attributes. */
+ZB_ZCL_DECLARE_KEEP_ALIVE_ATTRS_AND_LIST(g_attrs_keep_alive, keep_alive_attr_list);
+
 /* Identify cluster attributes */
 zb_uint16_t g_attr_identify_time = ZB_ZCL_IDENTIFY_IDENTIFY_TIME_DEFAULT_VALUE;
 
@@ -128,9 +135,13 @@ ZB_ZCL_DECLARE_CUSTOM_ATTR_CLUSTER_ATTRIB_LIST(custom_attr_list,
                                                g_attr_128_bit_key,
                                                g_attr_long_byte_array);
 
+ZB_ZCL_DECLARE_POLL_CONTROL_ATTRIB_LIST_CLIENT(g_poll_control_attr_list);
+
 ZB_DECLARE_CUSTOM_CLUSTER_LIST(custom_clusters,
                                basic_attr_list,
+                               keep_alive_attr_list,
                                identify_attr_list,
+                               g_poll_control_attr_list,
                                custom_attr_list);
 
 /* Declare endpoint */
@@ -144,18 +155,18 @@ ZB_DECLARE_CUSTOM_CTX(custom_ctx, custom_ep);
  */
 
 /* Handler for specific ZCL commands */
-static zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+static zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 
-static void start_fb_initiator(zb_uint8_t param);
+static void start_fb_initiator(zb_cb_param_t param);
 static zb_bool_t finding_binding_cb(zb_int16_t status,
                                     zb_ieee_addr_t long_addr,
                                     zb_uint8_t ep,
                                     zb_uint16_t cluster);
 
 /* Function for executing current test step */
-static void custom_cluster_do_test_step(zb_uint8_t param);
+static void custom_cluster_do_test_step(zb_cb_param_t param);
 /* Callback which is called after each next test step, change test_step value */
-static void custom_cluster_do_test_step_cb(zb_uint8_t param);
+static void custom_cluster_do_test_step_cb(zb_cb_param_t param);
 
 /* Handler for specific Custom cluster commands, called in zcl_specific_cluster_cmd_handler */
 static zb_zcl_status_t zb_zcl_custom_cluster_handler(zb_bufid_t buf, zb_zcl_parsed_hdr_t *cmd_info);
@@ -201,6 +212,11 @@ MAIN()
 
   /* Global ZBOSS initialization */
   ZB_INIT("custom_cluster_zc");
+
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
 
   /* Set up defaults for the commissioning */
   zb_set_long_address(g_zc_addr);
@@ -248,7 +264,7 @@ void zb_zcl_custom_attr_init_client(void)
 }
 
 
-static zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+static zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_bufid_t buf = param;
   zb_uint8_t lqi = ZB_MAC_LQI_UNDEFINED;
@@ -407,7 +423,7 @@ static zb_zcl_status_t zb_zcl_custom_cluster_cmd2_resp_handler(zb_bufid_t buf)
 }
 
 /* Callback to handle the stack events */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_t sig = zb_get_app_signal(param, &sg_p);
@@ -430,6 +446,7 @@ void zboss_signal_handler(zb_uint8_t param)
       case ZB_ZDO_SIGNAL_DEFAULT_START:
       case ZB_BDB_SIGNAL_DEVICE_FIRST_START:
         TRACE_MSG(TRACE_APP1, "Device STARTED OK", (FMT__0));
+        zb_secur_ic_add(g_zr_addr, ZB_IC_TYPE_PASSCODE, g_passcode, NULL);
         bdb_start_top_level_commissioning(ZB_BDB_NETWORK_STEERING);
         break;
 
@@ -471,7 +488,7 @@ void zboss_signal_handler(zb_uint8_t param)
 }
 
 
-static void start_fb_initiator(zb_uint8_t param)
+static void start_fb_initiator(zb_cb_param_t param)
 {
   ZVUNUSED(param);
   zb_bdb_finding_binding_initiator(ENDPOINT_CLIENT, finding_binding_cb);
@@ -501,7 +518,7 @@ static zb_bool_t finding_binding_cb(
 }
 
 
-void custom_cluster_do_test_step(zb_uint8_t param)
+void custom_cluster_do_test_step(zb_cb_param_t param)
 {
   zb_bufid_t buf;
   TRACE_MSG(TRACE_APP1, ">> custom_cluster_do_test_step", (FMT__0));
@@ -821,7 +838,7 @@ void custom_cluster_do_test_step(zb_uint8_t param)
 }
 
 
-static void custom_cluster_do_test_step_cb(zb_uint8_t param)
+static void custom_cluster_do_test_step_cb(zb_cb_param_t param)
 {
   zb_zcl_command_send_status_t *cmd_send_status =
     ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);

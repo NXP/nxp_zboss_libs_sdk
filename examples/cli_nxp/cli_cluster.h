@@ -62,18 +62,12 @@
 #define MAX_CLUSTERS 8
 #endif
 
-
-/* if it returns false, the command will be manage by the stack
- * if it returns true, the command will be ignore by the stack */
-typedef zb_uint8_t (*commands_handler_t)(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
-
-
 typedef struct {
   zb_zcl_attr_t         *attr_desc_list;
   zb_uint16_t            attr_count;
   zb_zcl_cluster_init_t  init_server;
   zb_zcl_cluster_init_t  init_client;
-  commands_handler_t     commands_handler;
+  zb_uint8_t           (*commands_handler)(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param);
 } zb_cluster_def;
 
 typedef struct {
@@ -94,9 +88,9 @@ void help_clusters(void);
 
 void cluster_init(uint8_t ep_id);
 
-void cluster_attributes_cb(zb_uint8_t param);
+void cluster_attributes_cb(zb_cb_param_t param);
 
-zb_uint8_t cluster_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
+zb_uint8_t cluster_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param);
 
 int wcs_snprintf_attr_val(char *str, size_t size, zb_uint8_t type, zb_uint8_t *value);
 int wcs_snprintf_attr_raw(char *str, size_t size, zb_uint8_t type, zb_uint8_t *value);

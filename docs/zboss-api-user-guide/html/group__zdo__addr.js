@@ -58,6 +58,6 @@ var group__zdo__addr =
     [ "zb_zdo_nwk_addr_resp_ext2_t", "group__zdo__addr.html#gaf7e68693718080b92654c5a7f65b3b5d", null ],
     [ "zb_zdo_nwk_addr_resp_ext_t", "group__zdo__addr.html#ga66b92d82e806d00087f0f49f808558bd", null ],
     [ "zb_zdo_nwk_addr_resp_head_t", "group__zdo__addr.html#ga920e9893fb6d69ddbcb1d9a19c2c5375", null ],
-    [ "zb_zdo_ieee_addr_req", "group__zdo__addr.html#ga4969feb2657c72591711b3057e44cc81", null ],
-    [ "zb_zdo_nwk_addr_req", "group__zdo__addr.html#ga414ddd668414bf8b2493ceebef84609e", null ]
+    [ "zb_zdo_ieee_addr_req", "group__zdo__addr.html#ga39db2735214c37aa21840ef1273e4d86", null ],
+    [ "zb_zdo_nwk_addr_req", "group__zdo__addr.html#gaebe3c06d98b1b1e5b81b242d4dcbfd74", null ]
 ];

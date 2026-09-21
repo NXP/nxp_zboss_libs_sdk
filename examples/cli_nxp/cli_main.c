@@ -138,7 +138,7 @@ MAIN()
 
    @param - buffer with event
  */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   /* Get application signal from the buffer */
   zb_zdo_app_signal_hdr_t *sg_p = NULL;

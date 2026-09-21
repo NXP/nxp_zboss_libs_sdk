@@ -46,6 +46,7 @@
 /* Zigbee configuration */
 #define ZB_CONFIG_LINUX_MACSPLIT_HOST
 #define ZB_FILE_PATH_MGMNT
+#define ZB_NO_BIG_NET
 
 
 /* NVRAM configuration */
@@ -61,6 +62,7 @@
 
 /* MACSPLIT and transport options */
 #define ZB_MACSPLIT_TRACE_DUMP_TO_FILE
+#define ZB_OSIF_SPI
 #define ZB_MACSPLIT_SPINEL
 #define ZB_MACSPLIT_TRANSPORT_SERIAL
 //#define ZB_MACSPLIT_ENABLE_BOOT_IND_WATCHDOG /!\ Can not be used with CLI app, timeout is not correctly handled
@@ -84,6 +86,7 @@
 #define ZB_MULTITEST_USE_STDIO
 #ifdef DEBUG
 #define ZB_TRAFFIC_DUMP_ON
+//#define DISABLE_DIAGNOSTIC_FEATURES 1
 #endif /* DEBUG */
 
 

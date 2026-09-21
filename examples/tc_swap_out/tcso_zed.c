@@ -47,6 +47,11 @@ MAIN()
   /* Global ZBOSS initialization */
   ZB_INIT("tcso_zed");
 
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
+
   /* Set up defaults for the commissioning */
   zb_set_long_address(g_zed_ieee_addr);
 
@@ -73,8 +78,6 @@ MAIN()
 
   zb_set_nvram_erase_at_start(ZB_FALSE);
 
-  zboss_use_r23_behavior();
-
   /* Set install-code */
   zb_secur_ic_str_set(g_zed_installcode_str);
 
@@ -95,7 +98,7 @@ MAIN()
 }
 
 
-static void start_rejoin_procedure(zb_bufid_t param)
+static void start_rejoin_procedure(zb_cb_param_t param)
 {
   bdb_start_top_level_commissioning(ZB_BDB_NETWORK_STEERING);
 
@@ -106,7 +109,7 @@ static void start_rejoin_procedure(zb_bufid_t param)
 }
 
 
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_t sig = zb_get_app_signal(param, &sg_p);

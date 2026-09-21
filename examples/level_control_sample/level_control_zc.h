@@ -29,8 +29,8 @@
 
 #define ZB_LEVEL_CONTROL_OUTPUT_DEVICE_ID 0
 #define ZB_LEVEL_CONTROL_OUTPUT_DEVICE_VER 1
-#define ZB_LEVEL_CONTROL_OUTPUT_IN_CLUSTER_NUM_ZED 3
-#define ZB_LEVEL_CONTROL_OUTPUT_OUT_CLUSTER_NUM_ZED 2
+#define ZB_LEVEL_CONTROL_OUTPUT_IN_CLUSTER_NUM_ZED 4
+#define ZB_LEVEL_CONTROL_OUTPUT_OUT_CLUSTER_NUM_ZED 3
 
 #define ZB_CVC_ATTR_COUNT 1
 
@@ -38,20 +38,31 @@
   @brief Declare cluster list for LEVEL_CONTROL_OUTPUT Device
   @param cluster_list_name - cluster list variable name
   @param on_off_cli_attr_list - attribute list for On/Off cluster
+  @param keep_alive_attr_list - attribute list for Keep-Alive cluster
   @param level_control_cli_attr_list - attribute list for Level Control cluster
   @param identify_cli_attr_list - attribute list for Identify cluster
+  @param poll_ctrl_attr_list - attribute list for Poll Control cluster client
 */
 #define ZB_ZCL_DECLARE_LEVEL_CONTROL_OUTPUT_CLUSTER_LIST(           \
   cluster_list_name,                                                \
   on_off_attr_list,                                                 \
+  keep_alive_attr_list,                                             \
   level_control_attr_list,                                          \
-  identify_attr_list)                                               \
+  identify_attr_list,                                               \
+  poll_ctrl_attr_list)                                              \
   zb_zcl_cluster_desc_t cluster_list_name[] =                       \
 {                                                                   \
   ZB_ZCL_CLUSTER_DESC(                                              \
     ZB_ZCL_CLUSTER_ID_ON_OFF,                                       \
     ZB_ZCL_ARRAY_SIZE(on_off_attr_list, zb_zcl_attr_t),             \
     (on_off_attr_list),                                             \
+    ZB_ZCL_CLUSTER_SERVER_ROLE,                                     \
+    ZB_ZCL_MANUF_CODE_INVALID                                       \
+  ),                                                                \
+  ZB_ZCL_CLUSTER_DESC(                                              \
+    ZB_ZCL_CLUSTER_ID_KEEP_ALIVE,                                   \
+    ZB_ZCL_ARRAY_SIZE(keep_alive_attr_list, zb_zcl_attr_t),         \
+    (keep_alive_attr_list),                                         \
     ZB_ZCL_CLUSTER_SERVER_ROLE,                                     \
     ZB_ZCL_MANUF_CODE_INVALID                                       \
   ),                                                                \
@@ -82,7 +93,14 @@
     NULL,                                                           \
     ZB_ZCL_CLUSTER_CLIENT_ROLE,                                     \
     ZB_ZCL_MANUF_CODE_INVALID                                       \
-  )                                                                \
+  ),                                                                \
+  ZB_ZCL_CLUSTER_DESC(                                              \
+    ZB_ZCL_CLUSTER_ID_POLL_CONTROL,                                 \
+    ZB_ZCL_ARRAY_SIZE(poll_ctrl_attr_list, zb_zcl_attr_t),          \
+    (poll_ctrl_attr_list),                                          \
+    ZB_ZCL_CLUSTER_CLIENT_ROLE,                                     \
+    ZB_ZCL_MANUF_CODE_INVALID                                       \
+  )                                                                 \
 }
 /*!
   @brief Declare simple descriptor for LEVEL_CONTROL_OUTPUT Device
@@ -104,10 +122,12 @@
     out_clust_num,                                                                                        \
     {                                                                                                     \
       ZB_ZCL_CLUSTER_ID_ON_OFF,                                                                           \
+      ZB_ZCL_CLUSTER_ID_KEEP_ALIVE,                                                                       \
       ZB_ZCL_CLUSTER_ID_LEVEL_CONTROL,                                                                    \
       ZB_ZCL_CLUSTER_ID_IDENTIFY,                                                                         \
       ZB_ZCL_CLUSTER_ID_IDENTIFY,                                                                         \
       ZB_ZCL_CLUSTER_ID_BASIC,                                                                            \
+      ZB_ZCL_CLUSTER_ID_POLL_CONTROL                                                                      \
     }                                                                                                     \
   }
 /*!

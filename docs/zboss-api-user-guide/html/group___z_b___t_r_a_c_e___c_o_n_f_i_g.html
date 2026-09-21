@@ -114,6 +114,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_trace_set_off</b> 
 <tr class="memitem:gab318790e3259563e934ef9fa362f43db"><td class="memItemLeft" align="right" valign="top"><a id="gab318790e3259563e934ef9fa362f43db"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_trace_set_on</b> (void)</td></tr>
 <tr class="separator:gab318790e3259563e934ef9fa362f43db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga44fb3ef503278cbb45fe9bba44758a66"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___t_r_a_c_e___c_o_n_f_i_g.html#ga44fb3ef503278cbb45fe9bba44758a66">zb_trace_is_on</a> (void)</td></tr>
+<tr class="separator:ga44fb3ef503278cbb45fe9bba44758a66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf5fa258ada9f09776f4b0d6e9d02db80"><td class="memItemLeft" align="right" valign="top"><a id="gaf5fa258ada9f09776f4b0d6e9d02db80"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_trace_set_mask</b> (<a class="el" href="group__base__types.html#ga964947a10fa0ad0bd6df7bd91ecfac9c">zb_uint32_t</a> mask)</td></tr>
 <tr class="separator:gaf5fa258ada9f09776f4b0d6e9d02db80"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,7 +145,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 <p>Along with it the following defines MAY be declared:</p>
 <ul>
 <li>ZB_BINARY_AND_TEXT_TRACE_MODE in order to have both TEXT and BINARY modes TEXT or BINARY mode may be selected during initialization (by default it is TEXT mode) The mode may be selected only before calling <a class="el" href="group___z_b___t_r_a_c_e.html#gaaf5c4f84acdf6a32ba74047dbf1aee47">TRACE_INIT()</a> function otherwise the selection call will be ignored</li>
-<li>ZB_BINARY_TRACE in order to have only BINARY mode</li>
+<li>ZB_BINARY_TRACE in order to have only BINARY mode decoded with win_com_dump/lin_com_dump utility</li>
 <li>ZB_TRAFFIC_DUMP_ON in order to have ZB communication traffic be dumped It is dumped into the same trace file in case BINARY mode is used, or into separated dump file in case TEXT mode is used</li>
 </ul>
 <hr  />
@@ -159,8 +161,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 <ul>
 <li>ZB_TRAFFIC_DUMP_ON in order to have ZB communication traffic be dumped It is dumped into the same interface</li>
 <li>ZB_MEMTRACE in order to duplicate trace messages into the special memory area that contains ring buffer to keep latest trace messages that may be used to retrieve information and form a crash dump in case it is needed</li>
-<li>ZB_TRACE_FROM_CS in order to have trace messages be generated under critical section but be issued with a delay along with next trace message once this next trace message is generated outside of critical section </li>
+<li>ZB_TRACE_FROM_CS in order to have trace messages be generated under critical section but be issued with a delay along with next trace message once this next trace message is generated outside of critical section</li>
 </ul>
+<p>Decoded with win_com_dump/lin_com_dump utility </p>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ga6248b9d5c5e49124171a301fa370eae4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga6248b9d5c5e49124171a301fa370eae4">&#9670;&nbsp;</a></span>TRACE_ENABLED</h2>
@@ -357,6 +360,25 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 
 </div>
 </div>
+<a id="ga44fb3ef503278cbb45fe9bba44758a66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga44fb3ef503278cbb45fe9bba44758a66">&#9670;&nbsp;</a></span>zb_trace_is_on()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> zb_trace_is_on </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Check whether trace enabled or not. </p><dl class="section return"><dt>Returns</dt><dd>ZB_TRUE if trace enabled, ZB_FALSE otherwise. </dd></dl>
+
+</div>
+</div>
 <a id="ga54979cc97c39d3067582875d4d4b6588"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga54979cc97c39d3067582875d4d4b6588">&#9670;&nbsp;</a></span>zb_trace_level_mask_enabled()</h2>
 
@@ -397,10 +419,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="agroup___z_b___t_r_a_c_e___c_o_n_f_i_g_html_ga6ddecefbf258b8625815186365e556f7"><div class="ttname"><a href="group___z_b___t_r_a_c_e___c_o_n_f_i_g.html#ga6ddecefbf258b8625815186365e556f7">ZB_SET_TRACE_LEVEL</a></div><div class="ttdeci">#define ZB_SET_TRACE_LEVEL(l)</div><div class="ttdef"><b>Definition:</b> zb_trace.h:111</div></div>
-<div class="ttc" id="agroup___z_b___t_r_a_c_e___c_o_n_f_i_g_html_gad1a739d90a215e3e2aa5278213533f9d"><div class="ttname"><a href="group___z_b___t_r_a_c_e___c_o_n_f_i_g.html#gad1a739d90a215e3e2aa5278213533f9d">ZB_SET_TRACE_ON</a></div><div class="ttdeci">#define ZB_SET_TRACE_ON()</div><div class="ttdef"><b>Definition:</b> zb_trace.h:129</div></div>
-<div class="ttc" id="agroup___z_b___t_r_a_c_e___c_o_n_f_i_g_html_ga6248b9d5c5e49124171a301fa370eae4"><div class="ttname"><a href="group___z_b___t_r_a_c_e___c_o_n_f_i_g.html#ga6248b9d5c5e49124171a301fa370eae4">TRACE_ENABLED</a></div><div class="ttdeci">#define TRACE_ENABLED(m)</div><div class="ttdoc">Check that trace is enabled for provided level. To be used in constructions like:</div><div class="ttdef"><b>Definition:</b> zb_trace.h:294</div></div>
-<div class="ttc" id="agroup___z_b___t_r_a_c_e___c_o_n_f_i_g_html_ga8ca8c429c2afc676828087b0c951d177"><div class="ttname"><a href="group___z_b___t_r_a_c_e___c_o_n_f_i_g.html#ga8ca8c429c2afc676828087b0c951d177">ZB_SET_TRACE_MASK</a></div><div class="ttdeci">#define ZB_SET_TRACE_MASK(m)</div><div class="ttdef"><b>Definition:</b> zb_trace.h:146</div></div>
+<div class="ttc" id="agroup___z_b___t_r_a_c_e___c_o_n_f_i_g_html_ga6ddecefbf258b8625815186365e556f7"><div class="ttname"><a href="group___z_b___t_r_a_c_e___c_o_n_f_i_g.html#ga6ddecefbf258b8625815186365e556f7">ZB_SET_TRACE_LEVEL</a></div><div class="ttdeci">#define ZB_SET_TRACE_LEVEL(l)</div><div class="ttdef"><b>Definition:</b> zb_trace.h:114</div></div>
+<div class="ttc" id="agroup___z_b___t_r_a_c_e___c_o_n_f_i_g_html_gad1a739d90a215e3e2aa5278213533f9d"><div class="ttname"><a href="group___z_b___t_r_a_c_e___c_o_n_f_i_g.html#gad1a739d90a215e3e2aa5278213533f9d">ZB_SET_TRACE_ON</a></div><div class="ttdeci">#define ZB_SET_TRACE_ON()</div><div class="ttdef"><b>Definition:</b> zb_trace.h:137</div></div>
+<div class="ttc" id="agroup___z_b___t_r_a_c_e___c_o_n_f_i_g_html_ga6248b9d5c5e49124171a301fa370eae4"><div class="ttname"><a href="group___z_b___t_r_a_c_e___c_o_n_f_i_g.html#ga6248b9d5c5e49124171a301fa370eae4">TRACE_ENABLED</a></div><div class="ttdeci">#define TRACE_ENABLED(m)</div><div class="ttdoc">Check that trace is enabled for provided level. To be used in constructions like:</div><div class="ttdef"><b>Definition:</b> zb_trace.h:303</div></div>
+<div class="ttc" id="agroup___z_b___t_r_a_c_e___c_o_n_f_i_g_html_ga8ca8c429c2afc676828087b0c951d177"><div class="ttname"><a href="group___z_b___t_r_a_c_e___c_o_n_f_i_g.html#ga8ca8c429c2afc676828087b0c951d177">ZB_SET_TRACE_MASK</a></div><div class="ttdeci">#define ZB_SET_TRACE_MASK(m)</div><div class="ttdef"><b>Definition:</b> zb_trace.h:154</div></div>
 <hr class="footer"/><address class="footer"><small>
 <div style="float: left; text-align: left;">
   <div>Copyright (c) 2012-2022 DSR Corporation, Golden CO, USA.
@@ -408,6 +430,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
     <a href="http://www.dsr-corporation.com">http://www.dsr-corporation.com</a>
   </div>
 </div>
-<div>ZBOSS documentation. Wed May 27 2026.</div>
+<div>ZBOSS documentation. Mon Sep 21 2026.</div>
 </body>
 </html>

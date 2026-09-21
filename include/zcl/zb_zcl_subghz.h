@@ -316,7 +316,7 @@ typedef struct zb_zcl_subghz_ctx_s
  *  @param[in]  dst_ep - endpoint address of Sub-GHz cluster on Coordinator
  *  @param[in]  src_ep - endpoint address of Sub-GHz cluster on this device
  */
-void zb_subghz_cli_get_suspend_zcl_messages_status(zb_uint8_t param,
+void zb_subghz_cli_get_suspend_zcl_messages_status(zb_bufid_t param,
                                                         zb_addr_u *dst_addr,
                                                         zb_aps_addr_mode_t dst_addr_mode,
                                                         zb_uint8_t dst_ep,
@@ -325,7 +325,7 @@ void zb_subghz_cli_get_suspend_zcl_messages_status(zb_uint8_t param,
 /** @fn void zb_subghz_srv_suspend_zcl_messages(zb_uint8_t param, zb_addr_u *dst_addr, zb_uint8_t dst_addr_mode, zb_uint8_t dst_ep, zb_uint8_t src_ep, zb_zcl_subghz_suspend_zcl_msg_payload_t *payload)
  *  @brief Sends @b SuspendZCLMessages server command
  */
-void zb_subghz_srv_suspend_zcl_messages(zb_uint8_t param,
+void zb_subghz_srv_suspend_zcl_messages(zb_bufid_t param,
                                              zb_addr_u *dst_addr,
                                              zb_aps_addr_mode_t dst_addr_mode,
                                              zb_uint8_t dst_ep,
@@ -348,9 +348,9 @@ zb_bool_t zb_zcl_process_subghz_specific_commands(zb_uint8_t param);
 /**
    Start (or continue) polling ZC by Get Suspend ZCL Message Status
  */
-void zb_subghz_start_suspend_status_poll(zb_uint8_t param);
+void zb_subghz_start_suspend_status_poll(zb_cb_param_t param);
 
-zb_bool_t zb_subghz_catch_ota_image_block_req(zb_uint8_t *paramp);
+zb_bool_t zb_subghz_catch_ota_image_block_req(zb_bufid_t *paramp);
 
 #ifdef ZB_SUSPEND_APSDE_DATAREQ_BY_SUBGHZ_CLUSTER
 /* Internal function for cancelling all APS outgoing transactions,

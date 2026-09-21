@@ -53,14 +53,14 @@ zb_bool_t work_via_alarm = ZB_TRUE;
 zb_uint16_t g_dst_short_address = 0xffffu;
 
 /* Handler for specific ZCL commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 
 /* Parse read attributes response */
 void on_off_read_attr_resp_handler(zb_bufid_t cmd_buf);
-void test_restart_join_nwk(zb_uint8_t param);
+void test_restart_join_nwk(zb_cb_param_t param);
 
-void send_toggle_req(zb_uint8_t param);
-void button_press_handler(zb_uint8_t param);
+void send_toggle_req(zb_cb_param_t param);
+void button_press_handler(zb_cb_param_t param);
 
 /** [COMMON_DECLARATION] */
 /**
@@ -152,7 +152,7 @@ MAIN()
   zb_zdo_pim_set_long_poll_interval(2000U);
 #endif
 
-  zb_enable_joining_to_distributed(ZB_TRUE);
+  zb_enable_joining_to_distributed_network();
 
   /** [REGISTER] */
   /* Register device ZCL context */
@@ -199,7 +199,7 @@ static zb_bool_t finding_binding_cb(zb_int16_t status,
 }
 /* [zb_bdb_finding_binding_initiator_cb_example] */
 
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_zcl_parsed_hdr_t *cmd_info = ZB_BUF_GET_PARAM(param, zb_zcl_parsed_hdr_t);
   zb_bool_t unknown_cmd_received = ZB_TRUE;
@@ -231,7 +231,7 @@ zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
 }
 
 
-void send_toggle_req(zb_uint8_t param)
+void send_toggle_req(zb_cb_param_t param)
 {
   zb_uint16_t addr = g_dst_short_address;
 
@@ -259,7 +259,7 @@ void send_toggle_req(zb_uint8_t param)
 }
 
 /* [system_server_discovery_cb] */
-static void system_server_discovery_req_cb(zb_uint8_t param)
+static void system_server_discovery_req_cb(zb_cb_param_t param)
 {
   zb_uint8_t *zdp_cmd = zb_buf_begin(param);
   zb_zdo_system_server_discovery_resp_t *resp = (zb_zdo_system_server_discovery_resp_t*)(zdp_cmd);
@@ -278,7 +278,7 @@ static void system_server_discovery_req_cb(zb_uint8_t param)
 /* [system_server_discovery_cb] */
 
 /* [system_server_discovery_req] */
-static void send_system_server_discovery_req(zb_bufid_t buf)
+static void send_system_server_discovery_req(zb_cb_param_t buf)
 {
   if (!buf)
   {
@@ -297,7 +297,7 @@ static void send_system_server_discovery_req(zb_bufid_t buf)
 /* [system_server_discovery_req] */
 
 /* [active_ep_cb] */
-static void active_ep_callback(zb_bufid_t buf)
+static void active_ep_callback(zb_cb_param_t buf)
 {
   zb_uint8_t *zdp_cmd = zb_buf_begin(buf);
   zb_zdo_ep_resp_t *resp = (zb_zdo_ep_resp_t*)zdp_cmd;
@@ -325,7 +325,7 @@ static void active_ep_callback(zb_bufid_t buf)
 /* [active_ep_cb] */
 
 /* [send_active_ep_req] */
-static void send_active_ep_req(zb_bufid_t buf)
+static void send_active_ep_req(zb_cb_param_t buf)
 {
   if (!buf)
   {
@@ -343,7 +343,7 @@ static void send_active_ep_req(zb_bufid_t buf)
 
 
 /* [simple_desc_cb] */
-static void simple_desc_callback(zb_bufid_t buf)
+static void simple_desc_callback(zb_cb_param_t buf)
 {
   zb_uint8_t *zdp_cmd = zb_buf_begin(buf);
   zb_zdo_simple_desc_resp_t *resp = (zb_zdo_simple_desc_resp_t*)(zdp_cmd);
@@ -372,7 +372,7 @@ static void simple_desc_callback(zb_bufid_t buf)
 }
 
 /* [send_simple_desc_req] */
-static void send_simple_desc_req(zb_bufid_t buf)
+static void send_simple_desc_req(zb_cb_param_t buf)
 {
   if (!buf)
   {
@@ -390,7 +390,7 @@ static void send_simple_desc_req(zb_bufid_t buf)
 /* [send_simple_desc_req] */
 
 /* [power_desc_cb] */
-static void power_desc_callback(zb_bufid_t buf)
+static void power_desc_callback(zb_cb_param_t buf)
 {
   zb_uint8_t *zdp_cmd = zb_buf_begin(buf);
   zb_zdo_power_desc_resp_t *resp = (zb_zdo_power_desc_resp_t*)(zdp_cmd);
@@ -412,7 +412,7 @@ static void power_desc_callback(zb_bufid_t buf)
 }
 
 /* [send_power_desc_req] */
-static void send_power_desc_req(zb_bufid_t buf)
+static void send_power_desc_req(zb_cb_param_t buf)
 {
   if (!buf)
   {
@@ -429,7 +429,7 @@ static void send_power_desc_req(zb_bufid_t buf)
 /* [send_power_desc_req] */
 
 /* [node_req_cb] */
-static void node_desc_callback(zb_bufid_t buf)
+static void node_desc_callback(zb_cb_param_t buf)
 {
   zb_uint8_t *zdp_cmd = zb_buf_begin(buf);
   zb_zdo_node_desc_resp_t *resp = (zb_zdo_node_desc_resp_t*)(zdp_cmd);
@@ -458,7 +458,7 @@ static void node_desc_callback(zb_bufid_t buf)
 
 
 /* [send_node_desc_req] */
-static void send_node_desc_req(zb_bufid_t buf)
+static void send_node_desc_req(zb_cb_param_t buf)
 {
   zb_zdo_node_desc_req_t *req;
 
@@ -477,7 +477,7 @@ static void send_node_desc_req(zb_bufid_t buf)
 }
 /* [send_node_desc_req] */
 
-void send_toggle_req_and_schedule_alarm(zb_uint8_t param)
+void send_toggle_req_and_schedule_alarm(zb_cb_param_t param)
 {
   if (!param)
   {
@@ -495,7 +495,7 @@ void send_toggle_req_and_schedule_alarm(zb_uint8_t param)
   }
 }
 
-void button_press_handler(zb_uint8_t param)
+void button_press_handler(zb_cb_param_t param)
 {
   if (!param)
   {
@@ -511,7 +511,7 @@ void button_press_handler(zb_uint8_t param)
   }
 }
 
-void test_leave_nwk(zb_uint8_t param)
+void test_leave_nwk(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP2, ">> test_leave_nwk param %hd", (FMT__H, param));
 
@@ -535,7 +535,7 @@ void test_leave_nwk(zb_uint8_t param)
   TRACE_MSG(TRACE_APP2, "<< test_leave_nwk", (FMT__0));
 }
 
-void test_restart_join_nwk(zb_uint8_t param)
+void test_restart_join_nwk(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP2, "test_restart_join_nwk %hd", (FMT__H, param));
   if (param == ZB_NWK_LEAVE_TYPE_RESET)
@@ -544,7 +544,7 @@ void test_restart_join_nwk(zb_uint8_t param)
   }
 }
 
-void test_leave_and_join(zb_uint8_t param)
+void test_leave_and_join(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP2, ">> test_leave_and_join param %hd", (FMT__H, param));
   if (ZB_JOINED())
@@ -562,13 +562,13 @@ void test_leave_and_join(zb_uint8_t param)
   TRACE_MSG(TRACE_APP2, "<< test_leave_and_join", (FMT__0));
 }
 
-void permit_joining_cb(zb_uint8_t param)
+void permit_joining_cb(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP2, "permit joining done", (FMT__0));
   zb_buf_free(param);
 }
 
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_type_t sig = zb_get_app_signal(param, &sg_p);

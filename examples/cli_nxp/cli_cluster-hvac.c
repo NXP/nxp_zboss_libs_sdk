@@ -30,7 +30,7 @@
 #else
 #define pCluster_0201 &cluster_0201
 
-static zb_uint8_t thermostat_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
+static zb_uint8_t thermostat_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param);
 
 /* variable hidden  in macro ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION */
 static zb_uint16_t cluster_revision_thermostat_attr_list = ZB_ZCL_THERMOSTAT_CLUSTER_REVISION_DEFAULT;
@@ -66,7 +66,7 @@ static zb_cluster_def cluster_0201 = {
 /* Static stack callback function
  * response for thermostat_cmd
  */
-static void thermostat_cmd_cb(zb_uint8_t param)
+static void thermostat_cmd_cb(zb_cb_param_t param)
 {
   zb_zcl_command_send_status_t *cmd_send_status = ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);;
 
@@ -194,7 +194,7 @@ static zb_ret_t cluster_thermostat_cmd_raise_lower(int argc, char *argv[])
 /* -------------------------------- Handler commands Thermostat --------------------------- */
 
 
-static zb_uint8_t thermostat_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t thermostat_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   /* This is just for information, let the stack manage it */
   zb_uint8_t ret = ZB_FALSE;
@@ -236,7 +236,7 @@ static zb_uint8_t thermostat_server_commands_handler(zb_zcl_parsed_hdr_t *cmd_in
   return ret;
 }
 
-static zb_uint8_t thermostat_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t thermostat_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   zb_uint8_t ret = ZB_FALSE;
 
@@ -257,7 +257,7 @@ static zb_uint8_t thermostat_client_commands_handler(zb_zcl_parsed_hdr_t *cmd_in
   return ret;
 }
 
-static zb_uint8_t thermostat_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t thermostat_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   return (cmd_info->cmd_direction == ZB_ZCL_FRAME_DIRECTION_TO_CLI)?(thermostat_client_commands_handler(cmd_info, param)):(thermostat_server_commands_handler(cmd_info, param));
 }

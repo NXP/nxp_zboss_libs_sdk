@@ -9,6 +9,10 @@ var group___z_b___z_c_l___o_n___o_f_f =
       [ "on_off", "structzb__zcl__on__off__on__with__timed__off__req__s.html#a07fcd7622fae9df041b684f2e2d623fa", null ],
       [ "on_time", "structzb__zcl__on__off__on__with__timed__off__req__s.html#a0776cbf4209fb9a569f31e6eb0e402bb", null ]
     ] ],
+    [ "zb_zcl_on_off_set_effect_value_param_s", "structzb__zcl__on__off__set__effect__value__param__s.html", [
+      [ "effect_id", "structzb__zcl__on__off__set__effect__value__param__s.html#a624313272c0dd0d4e8319050a5c3c238", null ],
+      [ "effect_variant", "structzb__zcl__on__off__set__effect__value__param__s.html#a3d140556d912c88a93d0bdc1b9bfc40d", null ]
+    ] ],
     [ "ZB_ZCL_DECLARE_ON_OFF_ATTRIB_LIST", "group___z_b___z_c_l___o_n___o_f_f.html#ga06e20f4abd0d58450b6dc9e5152d4d6e", null ],
     [ "ZB_ZCL_DECLARE_ON_OFF_ATTRIB_LIST_EXT", "group___z_b___z_c_l___o_n___o_f_f.html#ga1b11957dbe285562ed47a22fe8fc3286", null ],
     [ "ZB_ZCL_ON_OFF_ACCEPT_ONLY_WHEN_ON", "group___z_b___z_c_l___o_n___o_f_f.html#ga4e222804626e042a668dba5c0c3eb42a", null ],
@@ -28,6 +32,7 @@ var group___z_b___z_c_l___o_n___o_f_f =
     [ "ZB_ZCL_ON_OFF_SEND_TOGGLE_REQ", "group___z_b___z_c_l___o_n___o_f_f.html#gaef6fe57e14d7cda3a5ef136608e3345c", null ],
     [ "zb_zcl_on_off_off_with_effect_req_t", "group___z_b___z_c_l___o_n___o_f_f.html#ga0ef6febe400f29467d8f59f6cf815561", null ],
     [ "zb_zcl_on_off_on_with_timed_off_req_t", "group___z_b___z_c_l___o_n___o_f_f.html#ga7d9e1bc8d646fd74e1eb87e44aa1bbf7", null ],
+    [ "zb_zcl_on_off_set_effect_value_param_t", "group___z_b___z_c_l___o_n___o_f_f.html#gaee5de2bf75b63c6537915e8582f28875", null ],
     [ "zb_zcl_on_off_attr_e", "group___z_b___z_c_l___o_n___o_f_f.html#ga6389ee2783ad309a75a030baa2761cac", [
       [ "ZB_ZCL_ATTR_ON_OFF_ON_OFF_ID", "group___z_b___z_c_l___o_n___o_f_f.html#gga6389ee2783ad309a75a030baa2761cacaa1e3afaaa0ee413f80ecc716ddfdaefd", null ],
       [ "ZB_ZCL_ATTR_ON_OFF_GLOBAL_SCENE_CONTROL", "group___z_b___z_c_l___o_n___o_f_f.html#gga6389ee2783ad309a75a030baa2761caca0463f1a260227a3657e887137b7e930f", null ],

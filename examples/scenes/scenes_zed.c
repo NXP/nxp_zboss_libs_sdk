@@ -34,6 +34,7 @@ zb_uint16_t dst_addr = 0;
 #define DST_ADDR_MODE ZB_APS_ADDR_MODE_16_ENDP_PRESENT
 
 zb_ieee_addr_t g_ed_addr = {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
 
 void test_process_default_response(
   zb_bufid_t zcl_cmd_buf,
@@ -134,6 +135,11 @@ MAIN()
   /* Global ZBOSS initialization */
   ZB_INIT("scenes_zed");
 
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
+
   /* Set up defaults for the commissioning */
   zb_set_long_address(g_ed_addr);
   zb_set_network_ed_role(1l<<21);
@@ -142,6 +148,8 @@ MAIN()
   /* Configure end-device parameters */
   zb_set_ed_timeout(ED_AGING_TIMEOUT_64MIN);
   zb_set_keepalive_timeout(ZB_MILLISECONDS_TO_BEACON_INTERVAL(3000));
+
+  zb_secur_ic_set(ZB_IC_TYPE_PASSCODE, g_passcode);
 
   /* Register device ZCL context */
   ZB_AF_REGISTER_DEVICE_CTX(&on_off_switch_ctx);
@@ -165,7 +173,7 @@ MAIN()
 }
 
 /*! Test step */
-void next_step(zb_uint8_t param)
+void next_step(zb_cb_param_t param)
 {
   zb_bufid_t zcl_cmd_buf = 0;
   zb_uint8_t *cmd_ptr;
@@ -399,7 +407,7 @@ void next_step(zb_uint8_t param)
       (FMT__H, g_test_state));
 }
 
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_bufid_t zcl_cmd_buf = param;
   zb_zcl_parsed_hdr_t *cmd_info =
@@ -496,12 +504,13 @@ void test_process_default_response(
     TRACE_MSG(TRACE_APP3, "COMMAND ID: 0x%hx, is successful: 0x%hx",
               (FMT__H_H, payload->command_id, payload->status));
   }
+  ZVUNUSED(payload);
 
   next_step(zcl_cmd_buf);
   TRACE_MSG(TRACE_APP1, "< test_process_default_response", (FMT__0));
 }
 
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_t sig = zb_get_app_signal(param, &sg_p);

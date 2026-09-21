@@ -312,7 +312,7 @@ else
 fi
 
 echo "me:       ${me} ${me_5sum}"
-echo "version:  release 019.2602.049"
+echo "version:  release 020.2603.014"
 echo "channel:  ${channel}"
 echo "first:    ${first}"
 echo "second:   ${second}"

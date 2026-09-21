@@ -29,7 +29,7 @@
 #define HA_OUTPUT_DEVICE_VERSION    0
 
 /*! Handler for specific zcl commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 
 
 #endif // ! defined  _TEST_OUTPUT_DEV_

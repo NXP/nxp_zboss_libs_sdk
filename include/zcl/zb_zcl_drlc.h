@@ -505,7 +505,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_drlc_get_scheduled_events_payload_s {
  * @n Example of sending @ref ZB_ZCL_DRLC_SRV_CMD_LOAD_CONTROL_EVENT "LoadControlEvent" command
  * @snippet se/energy_service_interface/se_esi_zc.c esi_dev_cmd_send_lce_event1
  */
-void zb_drlc_server_send_load_control_event(zb_uint8_t param,
+void zb_drlc_server_send_load_control_event(zb_bufid_t param,
   zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
   zb_uint8_t src_ep, zb_zcl_drlc_lce_payload_t *payload, zb_callback_t cb);
 
@@ -524,7 +524,7 @@ void zb_drlc_server_send_load_control_event(zb_uint8_t param,
  * @n Example of sending @ref ZB_ZCL_DRLC_SRV_CMD_CANCEL_LOAD_CONTROL_EVENT "CancelLoadControlEvent" command
  * @snippet se/energy_service_interface/se_esi_zc.c esi_dev_cmd_send_lce_event2
  */
-void zb_drlc_server_send_cancel_load_control_event(zb_uint8_t param,
+void zb_drlc_server_send_cancel_load_control_event(zb_bufid_t param,
   zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
   zb_uint8_t src_ep, zb_zcl_drlc_cancel_lce_payload_t *payload, zb_callback_t cb);
 
@@ -544,7 +544,7 @@ void zb_drlc_server_send_cancel_load_control_event(zb_uint8_t param,
  * @n Example of sending @ref ZB_ZCL_DRLC_SRV_CMD_CANCEL_ALL_LOAD_CONTROL_EVENTS "CancellAllLoadControlEvents" command
  * @snippet se/energy_service_interface/se_esi_zc.c esi_dev_cmd_send_lce_event3
  */
-void zb_drlc_server_send_cancel_all_load_control_events(zb_uint8_t param,
+void zb_drlc_server_send_cancel_all_load_control_events(zb_bufid_t param,
   zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
   zb_uint8_t src_ep, zb_uint8_t *payload, zb_callback_t cb);
 
@@ -569,7 +569,7 @@ void zb_drlc_server_send_cancel_all_load_control_events(zb_uint8_t param,
  * @n Example of sending @ref ZB_ZCL_DRLC_CLI_CMD_REPORT_EVENT_STATUS "ReportEventStatus" command
  * @snippet se/in_home_display/se_ihd_zr.c ihd_send_report_event_status
  */
-void zb_drlc_client_send_report_event_status(zb_uint8_t param,
+void zb_drlc_client_send_report_event_status(zb_bufid_t param,
   zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
   zb_uint8_t src_ep, zb_zcl_drlc_report_event_status_payload_t *payload, zb_callback_t cb);
 
@@ -595,7 +595,7 @@ void zb_drlc_client_send_report_event_status(zb_uint8_t param,
  * @n Example of sending @ref ZB_ZCL_DRLC_SEND_CMD_REPORT_EVENT_STATUS_TSN "ReportEventStatus" command
  * @snippet se/in_home_display/se_ihd_zr.c ihd_send_report_event_status
  */
-void zb_drlc_client_send_report_event_status_tsn(zb_uint8_t param,
+void zb_drlc_client_send_report_event_status_tsn(zb_bufid_t param,
   zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
   zb_uint8_t src_ep, zb_zcl_drlc_report_event_status_payload_t *payload, zb_uint8_t tsn, zb_callback_t cb);
 
@@ -615,7 +615,7 @@ void zb_drlc_client_send_report_event_status_tsn(zb_uint8_t param,
  * @n Example of sending @ref ZB_ZCL_DRLC_CLI_CMD_GET_SCHEDULED_EVENTS "GetScheduledEvents"
  * @snippet se/in_home_display/se_ihd_zr.c ihd_dev_cmd_get_scheduled_events
  */
-void zb_drlc_client_send_get_scheduled_events(zb_uint8_t param,
+void zb_drlc_client_send_get_scheduled_events(zb_bufid_t param,
   zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
   zb_uint8_t src_ep, zb_zcl_drlc_get_scheduled_events_payload_t *payload, zb_callback_t cb);
 

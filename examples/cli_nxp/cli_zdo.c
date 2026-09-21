@@ -115,7 +115,7 @@ static zb_ret_t zdo_get_short_addr(int argc, char *argv[])
 /* Static stack callback function
  * response for zb_zdo_ieee_addr_req
  */
-static void get_ieee_addr_cb(zb_uint8_t param)
+static void get_ieee_addr_cb(zb_cb_param_t param)
 {
   const zb_zdo_ieee_addr_resp_t *resp = (zb_zdo_ieee_addr_resp_t*)zb_buf_begin(param);
 
@@ -173,7 +173,7 @@ static zb_ret_t zdo_get_ieee_addr(int argc, char *argv[])
 /* Static stack callback function
  * response for zb_zdo_active_ep_req
  */
-static void get_active_cb(zb_uint8_t param)
+static void get_active_cb(zb_cb_param_t param)
 {
   const zb_zdo_ep_resp_t *resp = (zb_zdo_ep_resp_t*)zb_buf_begin(param);
   const zb_uint8_t *ep_list = (zb_uint8_t*)zb_buf_begin(param) + sizeof(zb_zdo_ep_resp_t);
@@ -232,7 +232,7 @@ static zb_ret_t zdo_get_active(int argc, char *argv[])
  * response for zb_zdo_bind_table_req
  */
 static zb_uint16_t bind_table_dest_addr[256]={0};
-static void get_bind_table_cb(zb_uint8_t param)
+static void get_bind_table_cb(zb_cb_param_t param)
 {
   const zb_zdo_mgmt_bind_resp_t *resp = (zb_zdo_mgmt_bind_resp_t*)zb_buf_begin(param);
 
@@ -329,7 +329,7 @@ static zb_ret_t zdo_get_bind_table(int argc, char *argv[])
 /* Static stack callback function
  * response for get_node_desc_cb
  */
-static void get_node_desc_cb(zb_uint8_t param)
+static void get_node_desc_cb(zb_cb_param_t param)
 {
   const zb_zdo_node_desc_resp_t *resp = (zb_zdo_node_desc_resp_t*)zb_buf_begin(param);
 
@@ -393,7 +393,7 @@ static zb_ret_t zdo_get_node_desc(int argc, char *argv[])
 /* Static stack callback function
  * response for get_power_desc_cb
  */
-static void get_power_desc_cb(zb_uint8_t param)
+static void get_power_desc_cb(zb_cb_param_t param)
 {
   const zb_zdo_power_desc_resp_t *resp = (zb_zdo_power_desc_resp_t*)zb_buf_begin(param);
 
@@ -451,7 +451,7 @@ static zb_ret_t zdo_get_power_desc(int argc, char *argv[])
 /* Static stack callback function
  * response for zb_zdo_simple_desc_req
  */
-static void get_simp_desc_cb(zb_uint8_t param)
+static void get_simp_desc_cb(zb_cb_param_t param)
 {
   const zb_zdo_simple_desc_resp_t *resp = (zb_zdo_simple_desc_resp_t*)zb_buf_begin(param);
 
@@ -532,7 +532,7 @@ static zb_ret_t zdo_get_simp_desc(int argc, char *argv[])
 /* Static stack callback function
  * response for zb_zdo_match_desc_req
  */
-static void get_match_desc_cb(zb_uint8_t param)
+static void get_match_desc_cb(zb_cb_param_t param)
 {
   const zb_zdo_match_desc_resp_t *resp = (zb_zdo_match_desc_resp_t*)zb_buf_begin(param);
 
@@ -654,7 +654,7 @@ static zb_ret_t help_get_match_desc(void)
  * response for zb_zdo_mgmt_rtg_req
  */
 static zb_uint16_t dest2get_route;
-static void get_route_cb(zb_uint8_t param)
+static void get_route_cb(zb_cb_param_t param)
 {
   zb_zdo_mgmt_rtg_resp_t *resp = (zb_zdo_mgmt_rtg_resp_t *)zb_buf_begin(param);
 
@@ -748,7 +748,7 @@ static zb_ret_t zdo_get_route(int argc, char *argv[])
  */
 static zb_uint16_t dest2get_lqi;
 zb_ret_t zdo_get_diag_data(zb_uint16_t short_address, zb_uint8_t *lqa, zb_int8_t *rssi);
-static void get_lqi_cb(zb_uint8_t param)
+static void get_lqi_cb(zb_cb_param_t param)
 {
   zb_zdo_mgmt_lqi_resp_t *resp = (zb_zdo_mgmt_lqi_resp_t *)zb_buf_begin(param);
 
@@ -841,7 +841,7 @@ static zb_ret_t zdo_get_lqi(int argc, char *argv[])
 #if defined(ZB_ROUTER_ROLE) || defined(ZB_ED_ROLE)
 static zb_uint16_t panid2join = 0xFFFF;
 #endif
-static void get_active_scan_cb(zb_uint8_t param)
+static void get_active_scan_cb(zb_cb_param_t param)
 {
   zb_zdo_active_scan_resp_t *resp;
 
@@ -980,7 +980,7 @@ static zb_ret_t help_active_scan(void)
 /* Static stack callback function
  * response for zb_zdo_energy_scan_req
  */
-static void get_energy_scan_cb(zb_uint8_t param)
+static void get_energy_scan_cb(zb_cb_param_t param)
 {
   zb_energy_detect_list_t *ed_list = ZB_BUF_GET_PARAM(param, zb_energy_detect_list_t);
   zb_ret_t status = zb_buf_get_status(param);
@@ -1057,15 +1057,15 @@ static zb_ret_t help_energy_scan(void)
 #define ZB_ZDO_CB_UNICAST_COUNTER     1U  /* 1 resp for Unicast */
 #define ZB_ZDO_CB_BROADCAST_COUNTER   0xFFU  /* wait for timeout */
 #define ZB_ZDO_CB_DEFAULT_COUNTER     0xFEU    /* Default value (just for check) */
-extern zb_uint8_t zdo_send_req_by_short(zb_uint16_t command_id, zb_uint8_t param, zb_callback_t cb, zb_uint16_t addr, zb_uint8_t resp_counter);
-extern zb_uint8_t zdo_send_req_by_long(zb_uint16_t command_id, zb_uint8_t param, zb_callback_t cb, zb_ieee_addr_t addr);
-extern void zdo_send_resp_by_short(zb_uint16_t command_id, zb_uint8_t param, zb_uint16_t addr, zb_bool_t aps_secur);
+extern zb_uint8_t zdo_send_req_by_short(zb_uint16_t command_id, zb_cb_param_t param, zb_callback_t cb, zb_uint16_t addr, zb_uint8_t resp_counter);
+extern zb_uint8_t zdo_send_req_by_long(zb_uint16_t command_id, zb_cb_param_t param, zb_callback_t cb, zb_ieee_addr_t addr);
+extern void zdo_send_resp_by_short(zb_uint16_t command_id, zb_cb_param_t param, zb_uint16_t addr, zb_bool_t aps_secur);
 #endif
 
 /* Static stack callback function
  * response for zdo_raw_cmd
  */
-static void raw_cmd_cb(zb_uint8_t param)
+static void raw_cmd_cb(zb_cb_param_t param)
 {
   zb_zdo_desc_resp_hdr_t *resp_hdr = (zb_zdo_desc_resp_hdr_t *)zb_buf_begin(param);
   zb_uint8_t *resp_data_ptr = (zb_uint8_t *)(resp_hdr);
@@ -1189,7 +1189,7 @@ static zb_ret_t help_raw_cmd(void)
  *
  * zdo data_ind [enable]
  */
-static zb_uint8_t data_indication(zb_uint8_t param);
+static zb_uint8_t data_indication(zb_cb_param_t param);
 static zb_ret_t zdo_data_ind(int argc, char *argv[])
 {
   zb_ret_t ret;
@@ -1208,12 +1208,12 @@ static zb_ret_t zdo_data_ind(int argc, char *argv[])
   return RET_OK;
 }
 
-static zb_uint8_t data_indication(zb_uint8_t param)
+static zb_uint8_t data_indication(zb_cb_param_t param)
 {
   zb_uint8_t aps_payload_size;
   zb_uint8_t *aps_payload_ptr;
   zb_apsde_data_indication_t *data_ind = ZB_BUF_GET_PARAM(param, zb_apsde_data_indication_t);
-  zb_bool_t processed = ZB_FALSE;
+  zb_uint8_t processed = 0;
 
   menu_printf("Recv DATA_IND from 0x%04x ep %u to 0x%04x ep %u group 0x%04x profileid: 0x%04x clusterid 0x%04x lqi: %hu, rssi: %hd",
     data_ind->src_addr,
@@ -1247,9 +1247,9 @@ static zb_uint8_t data_indication(zb_uint8_t param)
 
 #ifdef ZBOSS_ZDO_APP_TSN_ENABLE
 #ifdef TSN_POLICY_USE_LOCK
-static void tsn_lock(zb_uint8_t param);
+static void tsn_lock(zb_cb_param_t param);
 #endif
-static void zdo_aps_cmd_cb(zb_uint8_t param);
+static void zdo_aps_cmd_cb(zb_cb_param_t param);
 
 /* Static command zdo
  * command zdo_tsn_policy
@@ -1306,7 +1306,7 @@ static zb_ret_t zdo_tsn_policy(int argc, char *argv[])
 }
 
 #ifdef TSN_POLICY_USE_LOCK
-static void tsn_lock(zb_uint8_t param)
+static void tsn_lock(zb_cb_param_t param)
 {
   if(param)
   {
@@ -1322,7 +1322,7 @@ static void tsn_lock(zb_uint8_t param)
 /* Static stack callback function
  * status of zdo_aps_cmd
  */
-static void zdo_aps_cmd_cb(zb_uint8_t param)
+static void zdo_aps_cmd_cb(zb_cb_param_t param)
 {
   zb_ret_t buf_status = zb_buf_get_status(param);
   zb_aps_user_payload_cb_status_t aps_status = zb_buf_get_status(param);

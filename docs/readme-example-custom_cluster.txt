@@ -53,6 +53,7 @@ Zigbee Coordinator application
 Zigbee Coordinator includes following ZCL clusters:
 
  - Basic (s)
+ - Keep-Alive (s) - mandatory for ZC (according to BDB 3.1 spec)
  - Identify (s/c)
  - Custom (c)
 

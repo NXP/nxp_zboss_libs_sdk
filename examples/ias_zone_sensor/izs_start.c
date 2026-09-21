@@ -57,7 +57,7 @@ static void izs_indicate_boot(zb_uint8_t seconds)
   ZB_SCHEDULE_APP_ALARM(izs_hal_power_led_off, 0, ZB_TIME_ONE_SECOND * seconds);
 }
 
-static void izs_start_cb(zb_uint8_t param)
+static void izs_start_cb(zb_cb_param_t param)
 {
   ZVUNUSED(param);
   TRACE_MSG(TRACE_APP1, ">> izs_start_cb, %hd", (FMT__H, param));
@@ -96,7 +96,7 @@ void izs_start_button_released(void)
   }
 }
 
-void izs_device_start(zb_uint8_t param)
+void izs_device_start(zb_cb_param_t param)
 {
   zb_bool_t button_pressed = izs_hal_get_button_state(IZS_RESET_BUTTON);
   button_pressed_cnt = 0;

@@ -192,16 +192,16 @@ var group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s =
       [ "ZB_ZCL_CALENDAR_SRV_CMD_PUBLISH_SPECIAL_DAYS", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ggaf39f18f805bc32b525f74628e7bc4dcba0a88868c6771cb6877943c12cfedeafc", null ],
       [ "ZB_ZCL_CALENDAR_SRV_CMD_CANCEL_CALENDAR", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ggaf39f18f805bc32b525f74628e7bc4dcba884deeba84905ff93477bc1657d18b25", null ]
     ] ],
-    [ "zb_zcl_calendar_send_cmd_cancel_calendar", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga611884e5a0cb30e70d03002cb93320c1", null ],
-    [ "zb_zcl_calendar_send_cmd_get_calendar", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga3cd13e4e791e8b456ba8e5127ba562a0", null ],
-    [ "zb_zcl_calendar_send_cmd_get_calendar_cancellation", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga33982b156ab81c2d7d2b7b7cdb91ff68", null ],
-    [ "zb_zcl_calendar_send_cmd_get_day_profiles", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga097bf0b22241d160f669326715de5f0f", null ],
-    [ "zb_zcl_calendar_send_cmd_get_seasons", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga80568b41ed087809fea7e6f394335609", null ],
-    [ "zb_zcl_calendar_send_cmd_get_special_days", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga858d15dd5232b63fa9ef014781b807c4", null ],
-    [ "zb_zcl_calendar_send_cmd_get_week_profiles", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga9abeedba1b8b910959861bf5274f78cd", null ],
-    [ "zb_zcl_calendar_send_cmd_publish_calendar", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga81f286bc7f3be8808984bfb74607aea1", null ],
-    [ "zb_zcl_calendar_send_cmd_publish_day_profile", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga952a2511b0930e5d88aed5e4ba63f6fc", null ],
-    [ "zb_zcl_calendar_send_cmd_publish_seasons", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga30974a22d8f6cb44e8739da38a1a7f75", null ],
-    [ "zb_zcl_calendar_send_cmd_publish_special_days", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga6a9318ce61035ae266ded4ae35214837", null ],
-    [ "zb_zcl_calendar_send_cmd_publish_week_profile", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga9ced5dbb8c033ff92ec294ad2fb53348", null ]
+    [ "zb_zcl_calendar_send_cmd_cancel_calendar", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga061dd109b91078c5ce6f953fd98f63a9", null ],
+    [ "zb_zcl_calendar_send_cmd_get_calendar", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga1011a854add77b3c50aea6053e4dc19a", null ],
+    [ "zb_zcl_calendar_send_cmd_get_calendar_cancellation", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga9d65a182db70355a56c15fe3fef37fae", null ],
+    [ "zb_zcl_calendar_send_cmd_get_day_profiles", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#gad8756f37785a487602859230973b76ce", null ],
+    [ "zb_zcl_calendar_send_cmd_get_seasons", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga1af23f09eb28c1106b65024069e6f1c6", null ],
+    [ "zb_zcl_calendar_send_cmd_get_special_days", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga5576ce61dc44ebf89f713faf335ea9f3", null ],
+    [ "zb_zcl_calendar_send_cmd_get_week_profiles", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga2a54e20294ffb2da0b20385c37af8f9d", null ],
+    [ "zb_zcl_calendar_send_cmd_publish_calendar", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga5a630edda9507bebaeabbab3bd81b0be", null ],
+    [ "zb_zcl_calendar_send_cmd_publish_day_profile", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga3ab267507c4d18ec58ac1e7e888fd22d", null ],
+    [ "zb_zcl_calendar_send_cmd_publish_seasons", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga13c762a31a5b25ea4c565e68904d6c46", null ],
+    [ "zb_zcl_calendar_send_cmd_publish_special_days", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga004a66a974df707f15a6c2522bc90f5b", null ],
+    [ "zb_zcl_calendar_send_cmd_publish_week_profile", "group___z_b___z_c_l___c_a_l_e_n_d_a_r___c_o_m_m_a_n_d_s.html#ga1f2ce24c0236ac987056a243a69c9cd5", null ]
 ];

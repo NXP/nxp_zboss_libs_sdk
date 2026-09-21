@@ -29,10 +29,38 @@
 #include "zboss_api.h"
 #include "zboss_tcswap.h"
 #include "tcso_applications_common.h"
-
+#include "tcso_clusters.h"
 
 #define TCSW_NVRAM_DATASET_SIZE 1024
 #define TCSW_PORTION_SIZE 32
+
+/* Endpoint ID */
+#define EP_ID 1
+
+/* Basic cluster attributes */
+static zb_uint8_t g_attr_basic_zcl_version  = ZB_ZCL_VERSION;
+static zb_uint8_t g_attr_basic_power_source = ZB_ZCL_BASIC_POWER_SOURCE_UNKNOWN;
+
+ZB_ZCL_DECLARE_BASIC_ATTRIB_LIST(g_basic_attr_list,
+                                 &g_attr_basic_zcl_version,
+                                 &g_attr_basic_power_source);
+
+/* Keep-Alive cluster attributes */
+ZB_ZCL_DECLARE_KEEP_ALIVE_ATTRS_AND_LIST(g_attrs_keep_alive, g_keep_alive_attr_list);
+
+/* Poll control cluster attributes */
+ZB_ZCL_DECLARE_POLL_CONTROL_ATTRIB_LIST_CLIENT(poll_control_attr_list);
+
+TCSO_CLUSTERS_ZC_DECLARE_CLUSTER_LIST(g_device_cluster_list,
+                                      g_basic_attr_list,
+                                      g_keep_alive_attr_list,
+                                      poll_control_attr_list);
+
+TCSO_CLUSTERS_ZC_DECLARE_EP(g_device_ep,
+                            EP_ID,
+                            g_device_cluster_list);
+
+ZBOSS_DECLARE_DEVICE_CTX_1_EP(g_device_ctx, g_device_ep);
 
 /**
  * Global functions definitions
@@ -63,6 +91,11 @@ MAIN()
   /* Global ZBOSS initialization */
   ZB_INIT("tcso_zc");
 
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
+
   /* Set up defaults for the commissioning */
   zb_set_long_address(g_zc_ieee_addr);
 
@@ -83,12 +116,12 @@ MAIN()
 
   zb_set_nvram_erase_at_start(ZB_FALSE);
 
-  zboss_use_r23_behavior();
-
   /* We use NVRAM for TC database backup during TC swap out procedure.
    * It's only fir debug and demonstrate purposes, in production TC DB must be backed up elsewhere */
   zb_nvram_register_app1_read_cb(app_nvram_read_app_data);
   zb_nvram_register_app1_write_cb(app_nvram_write_app_data, app_get_nvram_data_size);
+
+  ZB_AF_REGISTER_DEVICE_CTX(&g_device_ctx);
 
   /* Initiate the stack start with starting the commissioning */
   if (zboss_start_no_autostart() != RET_OK)
@@ -107,7 +140,7 @@ MAIN()
 }
 
 
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_t sig = zb_get_app_signal(param, &sg_p);

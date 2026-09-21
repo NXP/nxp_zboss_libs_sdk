@@ -55,6 +55,7 @@ Zigbee Coordinator includes following ZCL clusters:
 
  - Basic (c)
  - Identify (c)
+ - Keep-Alive (s) - It is mandatory for ZC according to BDB 3.1 spec.
  - OnOff (s)
  - Level Control (s)
  - Identify (s)
@@ -82,14 +83,14 @@ Applications behavior
 - Zigbee End Device (level_control_zed_legacy_mode, level_control_zed_auto_mode or level_control_zed_compatibility_mode)
   sends Simple Descriptor Request and Zigbee Coordinator replies with the Simple Descriptor Response
 
-- Further behaviour depends on which Zigbee End Device is operating as Level Control switch. All of them uses the same api 
+- Further behaviour depends on which Zigbee End Device is operating as Level Control switch. All of them uses the same api
   for sending Level Control commands, but the format of them differs based on chosen ZCL compatibility mode
   1. In ZB_ZCL_LEGACY_MODE (default mode):
        If application calls OLD API, then packet will be sent in same format as APPLICATION sent WITHOUT conversion. No any Logic should be applied in case of OLD API.
        But for New API calls we should limit revision of generated command with current attribute value.
   2. In ZCL_AUTO_MODE mode old API calls will be able to upgrade commands to revision set in attribute, New ZCL8 API calls will be the same as in Legacy mode,
        they should sent packet limited to attribute. This mode may be set only manually.
-  3. ZCL_COMPATIBILITY_MODE should be enabled automatically after peer_revision_callback will be set. 
+  3. ZCL_COMPATIBILITY_MODE should be enabled automatically after peer_revision_callback will be set.
      It works as Auto, but with ability to limit for each peer independently. Upgrade also possible - if callback returns higher version than API used, but anyway it should be limited by attribute.
 
   - level_control_zed_legacy_mode

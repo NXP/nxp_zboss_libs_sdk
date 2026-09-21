@@ -27,8 +27,6 @@
 /*! \addtogroup buf */
 /*! @{ */
 
-#include "zboss_api_core.h"
-
 /*
   Moved here buffer structure to implement configurable mem without enabling legacy buffers
  */
@@ -171,11 +169,6 @@ typedef zb_mult_buf_t zb_buf_ent_t;
  */
 typedef zb_uint8_t zb_buffer_types_t;
 
-/**
-   @typedef zb_uint8_t zb_bufid_t
-   Buffer handler
- */
-typedef zb_uint8_t zb_bufid_t;
 
 #define ZB_BUF_INVALID 0U
 #define ZB_UNDEFINED_BUFFER 0U
@@ -207,8 +200,8 @@ zb_bufid_t zb_buf_get_hipri_func(TRACE_PROTO zb_bool_t is_in);
 zb_uint_t zb_buf_get_max_size_func(TRACE_PROTO zb_bufid_t buf);
 zb_ret_t zb_buf_get_out_delayed_func(TRACE_PROTO zb_callback_t callback);
 zb_ret_t zb_buf_get_in_delayed_func(TRACE_PROTO zb_callback_t callback);
-zb_ret_t zb_buf_get_out_delayed_ext_func(TRACE_PROTO zb_callback2_t callback, zb_uint16_t arg, zb_uint_t max_size);
-zb_ret_t zb_buf_get_in_delayed_ext_func(TRACE_PROTO zb_callback2_t callback, zb_uint16_t arg, zb_uint_t max_size);
+zb_ret_t zb_buf_get_out_delayed_ext_func(TRACE_PROTO zb_callback_t callback, zb_uint16_t arg, zb_uint16_t max_size);
+zb_ret_t zb_buf_get_in_delayed_ext_func(TRACE_PROTO zb_callback_t callback, zb_uint16_t arg, zb_uint16_t max_size);
 void zb_buf_free_func(TRACE_PROTO zb_bufid_t buf);
 void* zb_buf_begin_func(TRACE_PROTO zb_bufid_t buf);
 void* zb_buf_end_func(TRACE_PROTO zb_bufid_t buf);
@@ -259,7 +252,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
 /**
    Return maximum data size for that buffer.
  */
-#define zb_buf_get_max_size(a) zb_buf_get_max_size_func(TRACE_CALL (a))
+#define zb_buf_get_max_size(a) zb_buf_get_max_size_func(TRACE_CALL ZB_UNPACK_BUF_REF(a))
 
 /**
  * @brief Allocate OUT buffer, call a callback when the buffer is available.
@@ -341,7 +334,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
  * @param buf - buffer ID
  *
  */
-#define zb_buf_free(buf) zb_buf_free_func(TRACE_CALL (buf))
+#define zb_buf_free(buf) zb_buf_free_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf))
 
 /**
  * Return pointer to data stored in buffer
@@ -351,7 +344,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
  * @return pointer to beginning of data in buffer
  *
  */
-#define zb_buf_begin(buf) zb_buf_begin_func(TRACE_CALL (buf))
+#define zb_buf_begin(buf) zb_buf_begin_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf))
 
 /**
   Return pointer to the data section end
@@ -360,7 +353,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
 
   @return pointer to the first byte after data in the buffer
 */
-#define zb_buf_end(buf) zb_buf_end_func(TRACE_CALL (buf))
+#define zb_buf_end(buf) zb_buf_end_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf))
 
 /**
  * Return current buffer length
@@ -369,7 +362,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
  *
  * @return size of data placed in buffer
  */
-#define zb_buf_len(buf) zb_buf_len_func(TRACE_CALL (buf))
+#define zb_buf_len(buf) zb_buf_len_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf))
 
 
 /**
@@ -377,7 +370,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
    @param dst_buf - destination buffer
    @param src_buf - source buffer
  */
-#define zb_buf_copy(dst_buf,src_buf) zb_buf_copy_func(TRACE_CALL (dst_buf),(src_buf))
+#define zb_buf_copy(dst_buf,src_buf) zb_buf_copy_func(TRACE_CALL ZB_UNPACK_BUF_REF(dst_buf),ZB_UNPACK_BUF_REF(src_buf))
 
 /**
    @brief Initial data space allocation in buffer.
@@ -390,7 +383,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
    @param size  - size to allocate
    @return pointer to buffer data begin
  */
-#define zb_buf_initial_alloc(buf,size) zb_buf_initial_alloc_func(TRACE_CALL (buf),(size))
+#define zb_buf_initial_alloc(buf,size) zb_buf_initial_alloc_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf),(size))
 
 /**
    Reuse buffer data space by setting data start and length to 0 and zeroing buffer contents
@@ -399,7 +392,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
 
    @return pointer to the buf data buffer begin
  */
-#define zb_buf_reuse(buf) zb_buf_reuse_func(TRACE_CALL (buf))
+#define zb_buf_reuse(buf) zb_buf_reuse_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf))
 /** @cond internals_doc */
 /**
    Calculate distance between ptr and buffer's data buffer start.
@@ -411,7 +404,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
 
    @return offset between ptr and buffer start returned by zb_buf_reuse()
  */
-#define zb_buf_get_ptr_off(buf,ptr) zb_buf_get_ptr_off_func(TRACE_CALL (buf),(ptr))
+#define zb_buf_get_ptr_off(buf,ptr) zb_buf_get_ptr_off_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf),(ptr))
 /** @endcond */ /* internals_doc */
 /**
    Alloc buffer tail of size 'size', initialize by zero.
@@ -423,7 +416,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
 
    @return pointer to the buffer tail or NULL is buffer has no parameter of such size.
 */
-#define zb_buf_alloc_tail(buf,size) zb_buf_alloc_tail_func(TRACE_CALL (buf),(size))
+#define zb_buf_alloc_tail(buf,size) zb_buf_alloc_tail_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf),(size))
 
 /**
    Get or allocate buffer tail of size 'size'. Do not initialize.
@@ -435,7 +428,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
 
    @return pointer to the buffer tail
  */
-#define zb_buf_get_tail(buf,size) zb_buf_get_tail_func(TRACE_CALL (buf),(size))
+#define zb_buf_get_tail(buf,size) zb_buf_get_tail_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf),(size))
 
 /**
    Get buffer tail of size sizeof(type)
@@ -454,7 +447,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
  * due to missing parenthesis around "type" on pointer type cast. This is a misinterpretation
  * of the rule by C-STAT tool, since this rule refers only to expressions, and not data type casts
  * like it is used here. */
-#define ZB_BUF_GET_PARAM(buf, type) ((type *)zb_buf_get_tail_func(TRACE_CALL (buf), sizeof(type)))
+#define ZB_BUF_GET_PARAM(buf, type) ((type *)zb_buf_get_tail_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf), sizeof(type)))
 
 /**
  * Cut space at the end of buffer
@@ -462,7 +455,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
  * @param buf - buffer ID
  * @param size  - size to cut
  */
-#define zb_buf_cut_right(buf,size) zb_buf_cut_right_func(TRACE_CALL (buf),(size))
+#define zb_buf_cut_right(buf,size) zb_buf_cut_right_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf),(size))
 
 /**
  * Cut space at the beginning of buffer
@@ -471,7 +464,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
  * @param size  - size to cut
  * @return pointer to the new data begin
 */
-#define zb_buf_cut_left(buf,size) zb_buf_cut_left_func(TRACE_CALL (buf),(size))
+#define zb_buf_cut_left(buf,size) zb_buf_cut_left_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf),(size))
 
 /**
  * Allocate space at buffer end
@@ -480,7 +473,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
  * @param size  - size to allocate
  * @return pointer to allocated data data begin
  */
-#define zb_buf_alloc_right(buf,size) zb_buf_alloc_right_func(TRACE_CALL (buf),(size))
+#define zb_buf_alloc_right(buf,size) zb_buf_alloc_right_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf),(size))
 
 /**
  * Allocate space at the beginning of buffer
@@ -489,7 +482,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
  * @param size  - size to allocate
  * @return pointer to new data begin
  */
-#define zb_buf_alloc_left(buf,size) zb_buf_alloc_left_func(TRACE_CALL (buf),(size))
+#define zb_buf_alloc_left(buf,size) zb_buf_alloc_left_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf),(size))
 
 /**
  * @name Buffer's internals flags bitmask
@@ -531,7 +524,7 @@ zb_uint_t zb_buf_flags_get_func(TRACE_PROTO zb_bufid_t buf);
    @param buf - buffer ID
    @param val - value to be ORed with buffer' flags
  */
-#define zb_buf_flags_or(buf,val) zb_buf_flags_or_func(TRACE_CALL (buf),(val))
+#define zb_buf_flags_or(buf,val) zb_buf_flags_or_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf),(val))
 
 /**
    Clear buffer' flags by mask by doing flags = flags & ~mask
@@ -539,7 +532,7 @@ zb_uint_t zb_buf_flags_get_func(TRACE_PROTO zb_bufid_t buf);
    @param buf - buffer ID
    @param mask - value to be cleared from the flags - @see @ref buf_flags_bm
  */
-#define zb_buf_flags_clr(buf,mask) zb_buf_flags_clr_func(TRACE_CALL (buf),(mask))
+#define zb_buf_flags_clr(buf,mask) zb_buf_flags_clr_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf),(mask))
 
 
 /**
@@ -548,7 +541,7 @@ zb_uint_t zb_buf_flags_get_func(TRACE_PROTO zb_bufid_t buf);
    That function calls zb_buf_flags_clr(buf, ZB_BUF_SECUR_ALL_ENCR)
    @param buf - buffer ID
  */
-#define zb_buf_flags_clr_encr(buf) zb_buf_flags_clr_encr_func(TRACE_CALL (buf))
+#define zb_buf_flags_clr_encr(buf) zb_buf_flags_clr_encr_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf))
 
 /**
    Get buffer's flags byte
@@ -556,7 +549,7 @@ zb_uint_t zb_buf_flags_get_func(TRACE_PROTO zb_bufid_t buf);
    @param buf - buffer ID
    @return flags value - @see @ref buf_flags_bm
  */
-#define zb_buf_flags_get(buf) zb_buf_flags_get_func(TRACE_CALL (buf))
+#define zb_buf_flags_get(buf) zb_buf_flags_get_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf))
 
 /**
    Check if buffer pool is in Out Of Memory (OOM) state
@@ -601,7 +594,7 @@ void zb_buf_set_handle_func(TRACE_PROTO zb_bufid_t buf, zb_uint8_t handle);
    @param buf - buffer ID
    @return status field value
  */
-#define zb_buf_get_status(buf) zb_buf_get_status_func(TRACE_CALL (buf))
+#define zb_buf_get_status(buf) zb_buf_get_status_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf))
 
 /**
    Set 'status' field of the buffer's header
@@ -609,7 +602,7 @@ void zb_buf_set_handle_func(TRACE_PROTO zb_bufid_t buf, zb_uint8_t handle);
    @param buf - buffer ID
    @param status - new status field value
  */
-#define zb_buf_set_status(buf,status) zb_buf_set_status_func(TRACE_CALL (buf), (zb_ret_t)(status))
+#define zb_buf_set_status(buf,status) zb_buf_set_status_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf), (zb_ret_t)(status))
 
 /**
    Get 'handle' field of the buffer's header
@@ -617,7 +610,7 @@ void zb_buf_set_handle_func(TRACE_PROTO zb_bufid_t buf, zb_uint8_t handle);
    @param buf - buffer ID
    @return handle field value
  */
-#define zb_buf_get_handle(buf) zb_buf_get_handle_func(TRACE_CALL (buf))
+#define zb_buf_get_handle(buf) zb_buf_get_handle_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf))
 
 /**
    Set 'handle' field of the buffer's header
@@ -625,7 +618,7 @@ void zb_buf_set_handle_func(TRACE_PROTO zb_bufid_t buf, zb_uint8_t handle);
    @param buf - buffer ID
    @param handle - 'handle' field value
  */
-#define zb_buf_set_handle(buf,handle) zb_buf_set_handle_func(TRACE_CALL (buf),(handle))
+#define zb_buf_set_handle(buf,handle) zb_buf_set_handle_func(TRACE_CALL ZB_UNPACK_BUF_REF(buf),(handle))
 
 /**
    Set or reset "mac needs more buffers" flag.

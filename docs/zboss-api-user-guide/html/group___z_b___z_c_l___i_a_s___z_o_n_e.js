@@ -128,10 +128,10 @@ var group___z_b___z_c_l___i_a_s___z_o_n_e =
       [ "ZB_ZCL_IAS_ZONE_ZONETYPE_INVALID", "group___z_b___z_c_l___i_a_s___z_o_n_e.html#gga38f0b84014d0c7a91dace1af68a9a85aac86fa48fb49be4230c956a7df3016ccd", null ]
     ] ],
     [ "zb_zcl_ias_set_attr_val_post_process", "group___z_b___z_c_l___i_a_s___z_o_n_e.html#gabb2f0273a1a04436a12e094f0a2874af", null ],
-    [ "zb_zcl_ias_zone_check_attr_notify", "group___z_b___z_c_l___i_a_s___z_o_n_e.html#ga56c5806bd62e9e75afca0b5b618ad1c2", null ],
+    [ "zb_zcl_ias_zone_check_attr_notify", "group___z_b___z_c_l___i_a_s___z_o_n_e.html#gab35be44bbf82571fbd35c5c6ca13ea09", null ],
     [ "zb_zcl_ias_zone_check_cie_addr_on_zcl_initialization", "group___z_b___z_c_l___i_a_s___z_o_n_e.html#gae5fdb5425fa22d88c3cca2c3a6e0d76a", null ],
     [ "zb_zcl_ias_zone_put_cie_address_to_binding_whitelist", "group___z_b___z_c_l___i_a_s___z_o_n_e.html#ga6041c86464816648d98f84b580e86249", null ],
     [ "zb_zcl_ias_zone_register_cb", "group___z_b___z_c_l___i_a_s___z_o_n_e.html#ga18342ab5f254c808c60fd86c4b4d161e", null ],
-    [ "zb_zcl_ias_zone_send_status_change_not", "group___z_b___z_c_l___i_a_s___z_o_n_e.html#ga540a7390bf72352ada24556bbf6b7204", null ],
-    [ "zb_zcl_ias_zone_set_status", "group___z_b___z_c_l___i_a_s___z_o_n_e.html#gab13956b2262f4e7e1d097585da60377a", null ]
+    [ "zb_zcl_ias_zone_send_status_change_not", "group___z_b___z_c_l___i_a_s___z_o_n_e.html#gaa1aefb5eace3a29d9b6e1111c23b2c1e", null ],
+    [ "zb_zcl_ias_zone_set_status", "group___z_b___z_c_l___i_a_s___z_o_n_e.html#ga5bb2e142f60d8776f602c2031d579eb7", null ]
 ];

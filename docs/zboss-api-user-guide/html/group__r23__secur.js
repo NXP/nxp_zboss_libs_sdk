@@ -16,6 +16,8 @@ var group__r23__secur =
     [ "ZB_JOIN_NO_AUTHENTICATION", "group__r23__secur.html#gaec20a05c0cf131ca46e14743b2e0feff", null ],
     [ "ZB_TLV_KEY_ECDHE_METHOD_ENABLE", "group__r23__secur.html#ga8b7e0d9efe4cb5ad8127e6a96d3eaa8f", null ],
     [ "ZB_TLV_PSK_SECRET_ENABLE", "group__r23__secur.html#gacc33e61240c5b641ca9f10e1f7c3ccde", null ],
+    [ "ZB_ZDO_SWITCH_KEY_ERROR_PROCESSING_AUTOMATICALLY", "group__r23__secur.html#gaea4df56121d8a4a2698f1b6b31b12634", null ],
+    [ "ZB_ZDO_SWITCH_KEY_ERROR_PROCESSING_MANUALLY", "group__r23__secur.html#gaa76f5bfdc65e3fcecbff093ee08a8600", null ],
     [ "zb_post_join_key_upd_method_t", "group__r23__secur.html#ga19188a2fc3722d2c9cae9a57ea4c8ac4", null ],
     [ "zb_zdo_secur_get_auth_level_req_t", "group__r23__secur.html#ga94a5a06c6bfa1b523fff77a291220d32", null ],
     [ "zb_disable_key_neg_method", "group__r23__secur.html#ga8b96a9610a720d61c37751ae51469c5a", null ],
@@ -32,6 +34,7 @@ var group__r23__secur =
     [ "zb_set_supported_key_neg_mthd_direct", "group__r23__secur.html#gac1b62ee90c277ad106a10eff5a22eca7", null ],
     [ "zb_set_supported_psk_secrets", "group__r23__secur.html#gaacbb3fe2b9e6f9f9d06726e0020291d0", null ],
     [ "zb_set_supported_psk_secrets_direct", "group__r23__secur.html#gafcde7818ce6c5a8c316d1c4a47abecea", null ],
-    [ "zb_zdo_get_auth_level_req", "group__r23__secur.html#gaecafa3bcd468ba86a08da170bb74ef6d", null ],
-    [ "zb_zdo_secur_update_device_tclk", "group__r23__secur.html#ga6df115e46b27ea0dbf0f6b678170c2a8", null ]
+    [ "zb_zdo_get_auth_level_req", "group__r23__secur.html#ga7b46b687ec750ad54f8873122e7bd4de", null ],
+    [ "zb_zdo_secur_update_device_tclk", "group__r23__secur.html#ga336058121f04796b3c94d61232a2a401", null ],
+    [ "zb_zdo_set_switch_key_err_processing_policy", "group__r23__secur.html#ga298539a5d5479d4ba6dbaa57411a4b1e", null ]
 ];

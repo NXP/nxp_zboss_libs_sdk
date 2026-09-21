@@ -11,6 +11,6 @@ var group__zboss__bdb__comm__fb =
     [ "zb_bdb_finding_binding_initiator_cancel", "group__zboss__bdb__comm__fb.html#gac59426aadfc0c52014b1742b5bd04a45", null ],
     [ "zb_bdb_finding_binding_target", "group__zboss__bdb__comm__fb.html#gaacbca067e8c0f4349b15749e5bafd1cd", null ],
     [ "zb_bdb_finding_binding_target_cancel", "group__zboss__bdb__comm__fb.html#ga83975d5288087fcf5658a66672599d18", null ],
-    [ "zb_bdb_finding_binding_target_cancel_ep", "group__zboss__bdb__comm__fb.html#gad61163c9c3250e74687cfe0983aba7df", null ],
+    [ "zb_bdb_finding_binding_target_cancel_ep", "group__zboss__bdb__comm__fb.html#ga5ea75fa9b028f83524043e516ae5e0ce", null ],
     [ "zb_bdb_finding_binding_target_ext", "group__zboss__bdb__comm__fb.html#gaf68c33f2091d97b8f5b2941c815b3b6b", null ]
 ];

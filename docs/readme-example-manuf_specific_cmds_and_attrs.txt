@@ -55,6 +55,7 @@ Zigbee Coordinator (On/Off output) application
 Zigbee Coordinator includes following ZCL clusters:
 
  - Basic (s)
+ - Keep-Alive (s) - It is mandatory for ZC according to BDB 3.1 spec.
  - Identify (s)
  - OnOff (s)
  - Scenes (s)

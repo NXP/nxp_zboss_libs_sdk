@@ -31,10 +31,10 @@
 #define BUTTON_0 ZB_BOARD_BUTTON_0
 #define BUTTON_1 ZB_BOARD_BUTTON_1
 
-static void izs_hal_led_blink_on(zb_uint8_t cnt);
-static void izs_hal_led_blink_off(zb_uint8_t cnt);
+static void izs_hal_led_blink_on(zb_cb_param_t cnt);
+static void izs_hal_led_blink_off(zb_cb_param_t cnt);
 
-static void izs_generate_event(zb_uint8_t param)
+static void izs_generate_event(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, "izs_generate_event: alarm %hd", (FMT__H, param));
 
@@ -42,14 +42,14 @@ static void izs_generate_event(zb_uint8_t param)
   izs_update_ias_zone_status(BUTTON_EVENT, !(IZS_DEVICE_GET_ZONE_STATUS() & BUTTON_EVENT));
 }
 
-void button1_handler(zb_uint8_t param)
+void button1_handler(zb_cb_param_t param)
 {
   ZVUNUSED(param);
 
   izs_start_button_released();
 }
 
-void button2_handler(zb_uint8_t param)
+void button2_handler(zb_cb_param_t param)
 {
   ZVUNUSED(param);
 
@@ -106,19 +106,19 @@ void izs_hal_power_led_on(zb_uint8_t param)
   zb_osif_led_on(IZS_LED_POWER);
 }
 
-void izs_hal_power_led_off(zb_uint8_t param)
+void izs_hal_power_led_off(zb_cb_param_t param)
 {
   ZVUNUSED(param);
   zb_osif_led_off(IZS_LED_POWER);
 }
 
-static void izs_hal_led_blink_on(zb_uint8_t cnt)
+static void izs_hal_led_blink_on(zb_cb_param_t cnt)
 {
   izs_hal_power_led_on(0);
   ZB_SCHEDULE_APP_ALARM(izs_hal_led_blink_off, cnt, LED_BLINK_PERIOD);
 }
 
-static void izs_hal_led_blink_off(zb_uint8_t cnt)
+static void izs_hal_led_blink_off(zb_cb_param_t cnt)
 {
   izs_hal_power_led_off(0);
 

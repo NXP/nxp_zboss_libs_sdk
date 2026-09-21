@@ -18,6 +18,6 @@ var group___z_b___z_c_l___t_i_m_e =
     [ "ZB_ZCL_TIME_SET_REAL_TIME_CLOCK_CB", "group___z_b___z_c_l___t_i_m_e.html#ga93ba74a3bf4a5629339aa270d2e59250", null ],
     [ "zb_zcl_time_set_real_time_clock_t", "group___z_b___z_c_l___t_i_m_e.html#ga7aeb6fe8413874a7311c3218517e87ed", null ],
     [ "zb_zcl_time_sync_time_server_found_cb_t", "group___z_b___z_c_l___t_i_m_e.html#ga7ea8248e0c18a76543685215ed21e2bd", null ],
-    [ "zb_zcl_time_server_read_attr_handle", "group___z_b___z_c_l___t_i_m_e.html#gab0dacb13e3e0f23696fc67bc6c8ba42a", null ],
+    [ "zb_zcl_time_server_read_attr_handle", "group___z_b___z_c_l___t_i_m_e.html#ga47bb5506b092620418d5cdd70b790205", null ],
     [ "zb_zcl_time_server_synchronize", "group___z_b___z_c_l___t_i_m_e.html#ga2b1953530eea9455f92f044596f77c14", null ]
 ];

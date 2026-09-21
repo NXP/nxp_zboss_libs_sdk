@@ -86,7 +86,7 @@ zb_uint8_t izs_ota_upgrade_check_fw(zb_uint8_t param)
   return ZB_ZCL_OTA_UPGRADE_STATUS_ERROR;
 }
 
-void zb_osif_ota_verify_integrity_done(zb_uint8_t integrity_is_ok)
+void zb_osif_ota_verify_integrity_done(zb_cb_param_t integrity_is_ok)
 {
   zb_zcl_ota_upgrade_send_upgrade_end_req(g_device_ctx.ota_ctx.param,
     (integrity_is_ok == ZB_TRUE) ? ZB_ZCL_OTA_UPGRADE_STATUS_OK : ZB_ZCL_OTA_UPGRADE_STATUS_ERROR);

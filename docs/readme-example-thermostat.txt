@@ -53,6 +53,7 @@ Zigbee Coordinator (with Thermostat (c)) application
 Zigbee Coordinator includes following ZCL clusters:
 
  - Basic (s)
+ - Keep-Alive (s) - Mandatory for ZC according to BDB 3.1 specification.
  - Identify (s/c)
  - Thermostat (c)
 

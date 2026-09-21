@@ -247,12 +247,12 @@ var group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s =
       [ "ZB_ZCL_METERING_MORE_PERIODS_REQUESTED_THAN_CAN_BE_RETURNED", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#gga152f2df53dee76d0b3c782328f4749e3a8d47795acf1819ab14dca77d6bf34782", null ],
       [ "ZB_ZCL_METERING_NO_INTERVALS_AVAILABLE_FOR_THE_REQUESTED_TIME", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#gga152f2df53dee76d0b3c782328f4749e3ad190f102bf78eb44a14a74c0181b9dc5", null ]
     ] ],
-    [ "zb_zcl_metering_send_cmd_get_profile", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#gaa8a9677907158f110c61f687c4cfd1f5", null ],
-    [ "zb_zcl_metering_send_cmd_get_profile_response", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#ga1ef7033f849d9c7d6a0062a9f136d31a", null ],
-    [ "zb_zcl_metering_send_cmd_get_sampled_data", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#ga469036c4415ddd28c4a144c53385b013", null ],
-    [ "zb_zcl_metering_send_cmd_get_sampled_data_response", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#gad5dd0267624bbfcb4bb1428bfd05a964", null ],
-    [ "zb_zcl_metering_send_cmd_get_snapshot", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#ga5e8d790a9439eb1c3914b32e0d9963c1", null ],
-    [ "zb_zcl_metering_send_cmd_publish_snapshot", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#ga026fd3d8292ad33c73df51c6d0efdf17", null ],
-    [ "zb_zcl_metering_send_cmd_request_fast_poll_mode", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#gab0a1e1d9f4c90ac7737c21b120b0faab", null ],
-    [ "zb_zcl_metering_send_cmd_request_fast_poll_mode_response", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#gae267470056fec1efa538b23ed610f1da", null ]
+    [ "zb_zcl_metering_send_cmd_get_profile", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#gaaab5416c356e3661e5d9fa066d653c60", null ],
+    [ "zb_zcl_metering_send_cmd_get_profile_response", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#gafe6f1e9231be77b1ac0b9cd21c5c2489", null ],
+    [ "zb_zcl_metering_send_cmd_get_sampled_data", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#gadd9ff2bd22a2e624327ffe72bec03587", null ],
+    [ "zb_zcl_metering_send_cmd_get_sampled_data_response", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#gac6e2a58da53b1b4053bbecbb57fd19bb", null ],
+    [ "zb_zcl_metering_send_cmd_get_snapshot", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#ga86eab8dcc1a01d10a14aa1e0bf1b748b", null ],
+    [ "zb_zcl_metering_send_cmd_publish_snapshot", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#ga5bf5dea2c19d4fa9055e3fdf1fa7bb15", null ],
+    [ "zb_zcl_metering_send_cmd_request_fast_poll_mode", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#ga970654bb731af3fdcd65de4102a735cd", null ],
+    [ "zb_zcl_metering_send_cmd_request_fast_poll_mode_response", "group___z_b___z_c_l___m_e_t_e_r_i_n_g___c_m_d_s.html#ga4972de745a670960006539f734911d1d", null ]
 ];

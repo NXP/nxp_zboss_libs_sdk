@@ -94,6 +94,7 @@ config panid 0xcafe
 config extpanid de:ad:00:be:ef:00:ca:fe
 config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
 nvram erase_at_start 1
+installcode policy disable
 config print
 config start
 sleep 1
@@ -164,6 +165,7 @@ config channel 21
 config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
 nvram erase_at_start 1
 config print
+installcode policy disable
 config start
 sleep 2
 config print
@@ -394,6 +396,7 @@ config panid 0xcafe
 config channel 21
 config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
 nvram erase_at_start 1
+installcode policy disable
 config start
 sleep 2
 network form centralized
@@ -451,6 +454,7 @@ config panid 0xcafe
 config channel 19
 config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
 nvram erase_at_start 1
+installcode policy disable
 config start
 sleep 2
 network form centralized
@@ -516,6 +520,7 @@ config channel 21
 config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
 config nwk_distrib 1
 nvram erase_at_start 1
+installcode policy disable
 config start
 sleep 2
 network join distributed
@@ -566,6 +571,7 @@ config panid 0x1234
 config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
 config role coordinator
 nvram erase_at_start 1
+installcode policy disable
 config start
 sleep 2
 network form centralized
@@ -612,6 +618,7 @@ config panid 0xcafe
 config channel 21
 config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
 nvram erase_at_start 1
+installcode policy disable
 config start
 sleep 2
 network form centralized
@@ -679,6 +686,7 @@ config panid 0xcafe
 config channel 21
 config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
 nvram erase_at_start 1
+installcode policy disable
 config start
 sleep 2
 network form centralized
@@ -755,6 +763,7 @@ config channel 19
 config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
 nvram erase_at_start 1
 endpoint print
+installcode policy disable
 config start
 sleep 2
 network form centralized
@@ -822,6 +831,7 @@ config panid 0xcafe
 config channel 21
 config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
 nvram erase_at_start 1
+installcode policy disable
 config start
 sleep 2
 # This local cluster DOES exist
@@ -1000,6 +1010,7 @@ config panid 0xcafe
 config channel 21
 config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
 nvram erase_at_start 1
+installcode policy disable
 config start
 sleep 2
 network form centralized
@@ -1037,6 +1048,7 @@ config panid 0xcafe
 config channel 21
 config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
 nvram erase_at_start 1
+installcode policy disable
 config start
 sleep 2
 network form centralized
@@ -1105,6 +1117,7 @@ config extpanid ca:fe:ca:fe:ca:fe:ca:fe
 config channel 11
 config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
 nvram erase_at_start 1
+installcode policy disable
 config print
 config start
 sleep 2
@@ -1126,6 +1139,7 @@ config extpanid be:ef:be:ef:be:ef:be:ef
 config channel 21
 config nwk_key 0 01:23:45:67:89:ab:cd:ef:00:00:00:00:00:00:00:00
 nvram erase_at_start 1
+installcode policy disable
 config print
 config start
 sleep 2
@@ -1207,6 +1221,7 @@ config role coordinator
 config channel 21
 config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
 nvram erase_at_start 1
+installcode policy disable
 config start
 sleep 2
 
@@ -1251,6 +1266,7 @@ config panid 0xcafe
 config channel 21
 config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
 nvram erase_at_start 1
+installcode policy disable
 config start
 sleep 2
 network form centralized
@@ -1446,6 +1462,7 @@ config ieee_addr aa:aa:aa:aa:aa:aa:aa:aa
 config role coordinator
 config channel 21
 nvram erase_at_start 1
+installcode policy disable
 config start
 sleep 2
 network form centralized
@@ -1572,6 +1589,7 @@ config ieee_addr aa:aa:aa:aa:aa:aa:aa:aa
 config role coordinator
 config channel 21
 nvram erase_at_start 1
+installcode policy disable
 config start
 sleep 2
 network form centralized
@@ -1649,6 +1667,7 @@ config panid 0xcafe
 config channel 21
 config nwk_key 0 ab:cd:ef:01:23:45:67:89:00:00:00:00:00:00:00:00
 nvram erase_at_start 1
+installcode policy disable
 config start
 sleep 2
 network form centralized
@@ -1691,16 +1710,38 @@ SEQUENCE FOR SLEEPY ZED:
 
 # (if applicable)
 
+# SED with default config
 endpoint create 10 HA MT 0
 cluster create 10 GB server
 cluster create 10 GOF client
 config ieee_addr 00:00:00:00:00:00:00:01
 config role end_device
 config channel 21
+# Don't provide timeout here since it is reset after join by the stack
 config sleepy
+nvram erase_at_start 1
+installcode policy disable
+config start
+sleep 2
+network join centralized
+sleep 4
+
+
+# SED with 5 min polling and 15 minutes ED timeout keepalive
+endpoint create 10 HA MT 0
+cluster create 10 GB server
+cluster create 10 GOF client
+config ieee_addr 00:00:00:00:00:00:00:01
+config role end_device
+# Send End device Timeout request every 15 minutes (900 seconds) with enumeration value 4 (16 minutes)
+config ed_timeout 900000
+config sleepy
+config channel 21
 nvram erase_at_start 1
 config start
 sleep 2
 network join centralized
 sleep 4
+#  Send data request every 5 minutes (300 seconds)
+config sleepy 300000
 

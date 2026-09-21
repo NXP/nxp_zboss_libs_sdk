@@ -38,13 +38,17 @@
 
 #define MANUF_CODE ZB_DEFAULT_MANUFACTURER_CODE
 
+#define MANUF_CODE2 0x4321
+
 /* Manuf-specific attribute will have the same ID with the OnOff attribute */
 #define MANUF_CLST_ON_OFF_ATTR ZB_ZCL_ATTR_ON_OFF_ON_OFF_ID
+#define MANUF_CLST_ON_OFF_ATTR2 80
+#define MANUF2_CLST_ON_OFF_ATTR 90
 #define MANUF_CLST_ON_OFF_CMD_SET ZB_ZCL_CMD_ON_OFF_TOGGLE_ID
 
 #define ZB_HA_ON_OFF_OUTPUT_REPORT_ATTR_COUNT_MANUF_TEST 2
 
-#define ZB_HA_ON_OFF_OUTPUT_IN_CLUSTER_NUM_MANUF_TEST  5 /*!< On/Off output IN cluster number */
+#define ZB_HA_ON_OFF_OUTPUT_IN_CLUSTER_NUM_MANUF_TEST  6 /*!< On/Off output IN cluster number */
 #define ZB_HA_ON_OFF_OUTPUT_OUT_CLUSTER_NUM_MANUF_TEST 0 /*!< On/Off output OUT cluster number */
 
 #define ZB_HA_ON_OFF_OUTPUT_CLUSTER_NUM_MANUF_TEST                      \
@@ -64,6 +68,7 @@
         out_clust_num,                                                                        \
         {                                                                                     \
           ZB_ZCL_CLUSTER_ID_BASIC,                                                            \
+          ZB_ZCL_CLUSTER_ID_KEEP_ALIVE,                                                       \
           ZB_ZCL_CLUSTER_ID_IDENTIFY,                                                         \
           ZB_ZCL_CLUSTER_ID_ON_OFF,                                                           \
           ZB_ZCL_CLUSTER_ID_SCENES,                                                           \

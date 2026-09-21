@@ -36,7 +36,7 @@
  */
 
 zb_ieee_addr_t g_zr_addr = { 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
 /**
  * Declaring attributes for each cluster
  */
@@ -95,7 +95,7 @@ ZB_DECLARE_CUSTOM_EP(custom_ep, ENDPOINT_SERVER, custom_clusters);
 ZB_DECLARE_CUSTOM_CTX(custom_ctx, custom_ep);
 
 /* Handler for specific ZCL commands */
-static zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+static zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 
 static void zb_zcl_custom_cluster_send_default_response(
   zb_bufid_t buf, zb_zcl_parsed_hdr_t *cmd_info, zb_zcl_status_t status);
@@ -123,10 +123,17 @@ MAIN()
   /* Global ZBOSS initialization */
   ZB_INIT("custom_cluster_zr");
 
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
+
   /* Set up defaults for the commissioning */
   zb_set_long_address(g_zr_addr);
   zb_set_network_router_role(ZB_CUSTOM_CHANNEL_MASK);
   zb_set_nvram_erase_at_start(ZB_FALSE);
+
+  zb_secur_ic_set(ZB_IC_TYPE_PASSCODE, g_passcode);
 
   /* Register device ZCL context */
   ZB_AF_REGISTER_DEVICE_CTX(&custom_ctx);
@@ -176,7 +183,7 @@ void zb_zcl_custom_attr_init_server(void)
 }
 
 
-static zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+static zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_bufid_t buf = param;
   zb_uint8_t lqi = ZB_MAC_LQI_UNDEFINED;
@@ -461,7 +468,7 @@ static void zb_zcl_custom_cluster_cmd3_handler(zb_bufid_t buf, zb_zcl_parsed_hdr
 }
 
 
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_t sig = zb_get_app_signal(param, &sg_p);

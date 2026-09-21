@@ -92,7 +92,7 @@ static zb_ret_t network_form(int argc, char *argv[])
   else
     zb_zdo_set_aps_unsecure_join(ZB_FALSE);
 
-  ret = bdb_start_top_level_commissioning(ZB_BDB_NETWORK_FORMATION);
+  ret = bdb_start_top_level_commissioning(ZB_BDB_NETWORK_FORMATION_ONLY);
 
   return (ret)?(RET_OK):(RET_PENDING);
 }
@@ -100,7 +100,7 @@ static zb_ret_t network_form(int argc, char *argv[])
 /* Static stack callback function
  * response for zb_zdo_mgmt_permit_joining_req
  */
-static void network_open_cb(zb_uint8_t param)
+static void network_open_cb(zb_cb_param_t param)
 {
   zb_uint8_t status = zb_buf_get_status(param);
 
@@ -135,7 +135,7 @@ static zb_ret_t network_open(int argc, char *argv[])
   if(doOnce)
   {
     doOnce = ZB_FALSE;
-    bdb_start_top_level_commissioning(ZB_BDB_NETWORK_STEERING);
+    bdb_start_top_level_commissioning(ZB_BDB_NETWORK_STEERING_ONLY);
     /* Wait for signal ZB_BDB_SIGNAL_STEERING which is preceeded by a PERMIT_JOIN_STATUS */
     while(!config_is_steering_received())
       osif_usleep(100);
@@ -149,12 +149,13 @@ static zb_ret_t network_open(int argc, char *argv[])
 
   param = zb_buf_get_out();
   request = ZB_BUF_GET_PARAM(param, zb_zdo_mgmt_permit_joining_req_param_t);
-//  request->dest_addr = ZB_NWK_BROADCAST_ALL_DEVICES; /* 0xFFFF */
-//  request->dest_addr = ZB_NWK_BROADCAST_ROUTER_COORDINATOR; /* 0xFFFC */
+  request->dest_addr = ZB_NWK_BROADCAST_ALL_DEVICES; /* 0xFFFF */
+  request->dest_addr = ZB_NWK_BROADCAST_ROUTER_COORDINATOR; /* 0xFFFC */
   request->dest_addr = ZB_PIBCACHE_NETWORK_ADDRESS();
   request->permit_duration = duration;
   request->tc_significance = 1;
   tsnRet = zb_zdo_mgmt_permit_joining_req(param, network_open_cb);
+  WCS_TRACE_DEBUG("tsnRet: %d, param status: %d", tsnRet, zb_buf_get_status(param));
   if(tsnRet == ZB_ZDO_INVALID_TSN || zb_buf_get_status(param) != RET_OK)
   {
     zb_buf_free(param);
@@ -262,18 +263,18 @@ zb_ret_t network_do_join(zb_bool_t distributed)
   if(distributed)
   {
 #if defined(ZB_ROUTER_ROLE) /* No looking for end device */
-    zb_enable_distributed();
+    zb_bdb_enable_distributed_network_formation();
 #endif
   }
   else
   {
-    zb_disable_distributed();
+    zb_bdb_disable_distributed_network_formation();
   }
 #else /* ZB_DISTRIBUTED_SECURITY_ON */
   return RET_NOT_IMPLEMENTED;
 #endif /* ZB_DISTRIBUTED_SECURITY_ON */
 
-  ret = bdb_start_top_level_commissioning(ZB_BDB_NETWORK_STEERING);
+  ret = bdb_start_top_level_commissioning(ZB_BDB_NETWORK_STEERING_ONLY);
 
   return (ret)?(RET_OK):(RET_PENDING);
 }
@@ -282,7 +283,7 @@ zb_ret_t network_do_join(zb_bool_t distributed)
 /* Static stack callback function
  * response for zdo_mgmt_leave_req
  */
-static void network_leave_cb(zb_uint8_t param)
+static void network_leave_cb(zb_cb_param_t param)
 {
   zb_zdo_callback_info_t *resp = (zb_zdo_callback_info_t *)zb_buf_begin(param);
 

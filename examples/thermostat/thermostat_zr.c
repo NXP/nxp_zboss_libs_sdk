@@ -37,6 +37,7 @@
  */
 zb_ieee_addr_t g_zr_addr = {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}; /* IEEE address of the
                                                                               * device */
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
 
 zb_uint16_t g_dst_addr;
 zb_uint8_t g_addr_mode;
@@ -135,11 +136,11 @@ ZB_HA_DECLARE_THERMOSTAT_EP(thermostat_ep, SRC_ENDPOINT, thermostat_clusters);
 ZB_HA_DECLARE_THERMOSTAT_CTX(thermostat_ctx, thermostat_ep);
 
 
-void permit_join_request_broadcast(zb_uint8_t buf, zb_uint16_t time);
-void permit_join_request_broadcast_cb(zb_uint8_t param);
+void permit_join_request_broadcast(zb_cb_param_t param);
+void permit_join_request_broadcast_cb(zb_cb_param_t param);
 
-void permit_join_request_local(zb_uint8_t buf, zb_uint16_t time);
-void permit_join_request_local_cb(zb_uint8_t param);
+void permit_join_request_local(zb_cb_param_t param);
+void permit_join_request_local_cb(zb_cb_param_t param);
 
 
 MAIN()
@@ -158,6 +159,11 @@ MAIN()
   /* Global ZBOSS initialization */
   ZB_INIT("thermostat_zr");
 
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
+
   /* Set up defaults for the commissioning */
   zb_set_long_address(g_zr_addr);
   zb_set_network_router_role(ZB_THERMOSTAT_CHANNEL_MASK);
@@ -173,6 +179,8 @@ MAIN()
   /* Set Device user application callback */
   /* callback will be call AFTER stack handle */
   ZB_ZCL_REGISTER_DEVICE_CB(thermostat_device_interface_cb);
+
+  zb_secur_ic_set(ZB_IC_TYPE_PASSCODE, g_passcode);
 
   /* Initiate the stack start with starting the commissioning */
   if (zboss_start() != RET_OK)
@@ -243,7 +251,7 @@ void test_device_scenes_remove_entries_by_group(zb_uint16_t group_id)
   TRACE_MSG(TRACE_APP1, "<< test_device_scenes_remove_entries_by_group", (FMT__0));
 }
 
-void send_view_scene_resp(zb_uint8_t param, zb_uint16_t idx)
+void send_view_scene_resp(zb_cb_param_t param, zb_uint16_t idx)
 {
   zb_uint8_t *payload_ptr;
   zb_uint8_t view_scene_status = ZB_ZCL_STATUS_NOT_FOUND;
@@ -301,12 +309,12 @@ void send_view_scene_resp(zb_uint8_t param, zb_uint16_t idx)
   TRACE_MSG(TRACE_APP1, "<< send_view_scene_resp", (FMT__0));
 }
 
-void send_get_scene_membership_resp(zb_uint8_t param)
+void send_get_scene_membership_resp(zb_cb_param_t param)
 {
   zb_uint8_t *payload_ptr;
   zb_uint8_t *capacity_ptr;
   zb_uint8_t *scene_count_ptr;
-  zb_bool_t is_unicast = 
+  zb_bool_t is_unicast =
     (zb_bool_t) (ZB_APS_FC_GET_DELIVERY_MODE(resp_info.cmd_info.addr_data.common_data.fc) == ZB_APS_DELIVERY_UNICAST);
 
   TRACE_MSG(TRACE_APP1, ">> send_get_scene_membership_resp param %hd", (FMT__H, param));
@@ -402,7 +410,7 @@ void send_get_scene_membership_resp(zb_uint8_t param)
 }
 
 /* [zb_zdo_get_diag_data_snippet] */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_zcl_parsed_hdr_t cmd_info;
   zb_uint8_t lqi = ZB_MAC_LQI_UNDEFINED;
@@ -436,7 +444,7 @@ zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
 /* [zb_zdo_get_diag_data_snippet] */
 
 
-void thermostat_device_interface_cb(zb_uint8_t param)
+void thermostat_device_interface_cb(zb_cb_param_t param)
 {
   zb_zcl_device_callback_param_t *device_cb_param =
     ZB_BUF_GET_PARAM(param, zb_zcl_device_callback_param_t);
@@ -594,8 +602,11 @@ void thermostat_device_interface_cb(zb_uint8_t param)
 }
 
 /* [permit_join_request_broadcast_example] */
-void permit_join_request_broadcast(zb_uint8_t buf, zb_uint16_t time)
+void permit_join_request_broadcast(zb_cb_param_t param)
 {
+  zb_bufid_t buf = ZB_UNPACK_BUF_REF(param);
+  zb_uint16_t time = ZB_UNPACK_USER_PARAM(param);
+
   TRACE_MSG(TRACE_APP3, ">> permit_join_request_broadcast : param %hd", (FMT__D, buf));
   if (buf == 0U)
   {
@@ -616,7 +627,7 @@ void permit_join_request_broadcast(zb_uint8_t buf, zb_uint16_t time)
   }
 }
 
-void permit_join_request_broadcast_cb(zb_uint8_t param)
+void permit_join_request_broadcast_cb(zb_cb_param_t param)
 {
   if (param != 0U)
   {
@@ -629,8 +640,11 @@ void permit_join_request_broadcast_cb(zb_uint8_t param)
 /* [permit_join_request_broadcast_example] */
 
 /* [permit_join_request_local_example] */
-void permit_join_request_local(zb_uint8_t buf, zb_uint16_t time)
+void permit_join_request_local(zb_cb_param_t param)
 {
+  zb_bufid_t buf = ZB_UNPACK_BUF_REF(param);
+  zb_uint16_t time = ZB_UNPACK_USER_PARAM(param);
+
   TRACE_MSG(TRACE_APP3, ">> permit_join_request_local : param %hd", (FMT__D, buf));
 
   if (buf == 0U)
@@ -652,7 +666,7 @@ void permit_join_request_local(zb_uint8_t buf, zb_uint16_t time)
   }
 }
 
-void permit_join_request_local_cb(zb_uint8_t param)
+void permit_join_request_local_cb(zb_cb_param_t param)
 {
   if (param != 0U)
   {
@@ -665,7 +679,7 @@ void permit_join_request_local_cb(zb_uint8_t param)
 /* [permit_join_request_local_example] */
 
 /* [close_network_example] */
-static void close_network(zb_uint8_t param)
+static void close_network(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, ">> close network", (FMT__0));
   zb_bdb_close_network(param);
@@ -679,7 +693,7 @@ static void on_device_started(void)
 }
 
 /* Callback to handle the stack events */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_t sig = zb_get_app_signal(param, &sg_p);
@@ -695,8 +709,8 @@ void zboss_signal_handler(zb_uint8_t param)
       case ZB_BDB_SIGNAL_DEVICE_FIRST_START:
         on_device_started();
 
-        ZB_SCHEDULE_APP_CALLBACK2(permit_join_request_broadcast, 0U, 234U);
-        ZB_SCHEDULE_APP_CALLBACK2(permit_join_request_local, 0U, 123U);
+        ZB_SCHEDULE_APP_CALLBACK(permit_join_request_broadcast, ZB_PACK_2_U16_IN_U32(0U, 234U));
+        ZB_SCHEDULE_APP_CALLBACK(permit_join_request_local, ZB_PACK_2_U16_IN_U32(0U, 123U));
 
         ZB_SCHEDULE_APP_ALARM(close_network, 0U, 10U * ZB_TIME_ONE_SECOND);
         break;
@@ -714,6 +728,7 @@ void zboss_signal_handler(zb_uint8_t param)
       {
         zb_uint8_t *permit_duration = ZB_ZDO_SIGNAL_GET_PARAMS(sg_p, zb_uint8_t);
         TRACE_MSG(TRACE_APP1, "Permit Join Received. Duration: %hd", (FMT__D, (*permit_duration)));
+        ZVUNUSED(permit_duration);
         break; /* ZB_NWK_SIGNAL_PERMIT_JOIN_STATUS */
       }
       /* [zb_zdo_signal_permit_join_status_example] */

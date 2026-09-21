@@ -107,11 +107,11 @@ var group__r23__allhubs =
     [ "zb_get_tc_connectivity", "group__r23__allhubs.html#ga2c35ef6f0e5a15a76051fc5f077a917d", null ],
     [ "zb_set_nwk_preferred_parent", "group__r23__allhubs.html#gaa4e06f5b047f3cb421c13705365dc013", null ],
     [ "zb_set_tc_connectivity", "group__r23__allhubs.html#gafb826c7322ee312b610dd1aac8e5956e", null ],
-    [ "zb_zdo_decommission_req", "group__r23__allhubs.html#gab7379e0f92c035b5734c5ff2093ed0e5", null ],
-    [ "zb_zdo_get_configuration_req", "group__r23__allhubs.html#ga7acfd5e67f79cc8c1112df2598219b72", null ],
-    [ "zb_zdo_send_configuration_parameters", "group__r23__allhubs.html#ga916a101f54662d517f97e1dae627e00c", null ],
-    [ "zb_zdo_send_next_channel_change", "group__r23__allhubs.html#gad911f5fd560b1aa296628ddf591d9afe", null ],
-    [ "zb_zdo_send_next_panid_change", "group__r23__allhubs.html#gaa7806e1b0ec8bfa690ab2a57bd49fa0b", null ],
+    [ "zb_zdo_decommission_req", "group__r23__allhubs.html#ga38085e0bddbcb890434c2a302ac805a4", null ],
+    [ "zb_zdo_get_configuration_req", "group__r23__allhubs.html#gacbea73392626a176e4d4020b7e2d2cab", null ],
+    [ "zb_zdo_send_configuration_parameters", "group__r23__allhubs.html#ga0ac9656717dae075df8770a0ee46329b", null ],
+    [ "zb_zdo_send_next_channel_change", "group__r23__allhubs.html#ga4ac56ee843ee6da1fa6301b9f5b46bd8", null ],
+    [ "zb_zdo_send_next_panid_change", "group__r23__allhubs.html#gaa4980c0fcfea5eab06f9b6b628ce61c3", null ],
     [ "zdo_fill_get_configuration_req", "group__r23__allhubs.html#ga4d4ec986adc482e1ce3246430d34623c", null ],
-    [ "zdo_mgmt_beacon_survey_req", "group__r23__allhubs.html#ga9bd9ef13d3634faf1df22cff0394a121", null ]
+    [ "zdo_mgmt_beacon_survey_req", "group__r23__allhubs.html#gabad3c2687bdeaf6b9c71cb80bfb8f5b6", null ]
 ];

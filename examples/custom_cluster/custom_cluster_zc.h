@@ -31,9 +31,9 @@
 #define ENDPOINT_CLIENT 10
 
 /* Number of input clusters*/
-#define CUSTOM_IN_CLUSTER_NUM 2
+#define CUSTOM_IN_CLUSTER_NUM 3
 /* Number of output clusters*/
-#define CUSTOM_OUT_CLUSTER_NUM 2
+#define CUSTOM_OUT_CLUSTER_NUM 3
 
 /* Default device channel mask */
 #define ZB_CUSTOM_CHANNEL_MASK (1l << 21)
@@ -65,13 +65,16 @@
 /** @brief Declare cluster list for Custom device
     @param cluster_list_name - cluster list variable name
     @param basic_attr_list - attribute list for Basic cluster
+    @param keep_alive_attr_list - attribute list for Keep-alive cluster. It is mandatory for ZC according to BDB 3.1 spec.
     @param identify_attr_list - attribute list for Identify cluster
     @param thermostat_attr_list - attribute list for Thermostat cluster
  */
 #define ZB_DECLARE_CUSTOM_CLUSTER_LIST(                                 \
   cluster_list_name,                                                    \
   basic_attr_list,                                                      \
+  keep_alive_attr_list,                                                 \
   identify_attr_list,                                                   \
+  poll_control_attr_list,                                               \
   custom_attr_list)                                                     \
   zb_zcl_cluster_desc_t cluster_list_name[] =                           \
   {                                                                     \
@@ -90,6 +93,13 @@
       ZB_ZCL_MANUF_CODE_INVALID                                         \
     ),                                                                  \
     ZB_ZCL_CLUSTER_DESC(                                                \
+      ZB_ZCL_CLUSTER_ID_KEEP_ALIVE,                                     \
+      ZB_ZCL_ARRAY_SIZE(keep_alive_attr_list, zb_zcl_attr_t),           \
+      (keep_alive_attr_list),                                           \
+      ZB_ZCL_CLUSTER_SERVER_ROLE,                                       \
+      ZB_ZCL_MANUF_CODE_INVALID                                         \
+    ),                                                                  \
+    ZB_ZCL_CLUSTER_DESC(                                                \
       ZB_ZCL_CLUSTER_ID_CUSTOM,                                         \
       ZB_ZCL_ARRAY_SIZE(custom_attr_list, zb_zcl_attr_t),               \
       (custom_attr_list),                                               \
@@ -100,6 +110,13 @@
       ZB_ZCL_CLUSTER_ID_IDENTIFY,                                       \
       0,                                                                \
       NULL,                                                             \
+      ZB_ZCL_CLUSTER_CLIENT_ROLE,                                       \
+      ZB_ZCL_MANUF_CODE_INVALID                                         \
+    ),                                                                  \
+    ZB_ZCL_CLUSTER_DESC(                                                \
+      ZB_ZCL_CLUSTER_ID_POLL_CONTROL,                                   \
+      ZB_ZCL_ARRAY_SIZE((poll_control_attr_list), zb_zcl_attr_t),       \
+      (poll_control_attr_list),                                         \
       ZB_ZCL_CLUSTER_CLIENT_ROLE,                                       \
       ZB_ZCL_MANUF_CODE_INVALID                                         \
     )                                                                   \
@@ -127,8 +144,10 @@
     {                                                                          \
       ZB_ZCL_CLUSTER_ID_BASIC,                                                 \
       ZB_ZCL_CLUSTER_ID_IDENTIFY,                                              \
+      ZB_ZCL_CLUSTER_ID_KEEP_ALIVE,                                            \
       ZB_ZCL_CLUSTER_ID_CUSTOM,                                                \
       ZB_ZCL_CLUSTER_ID_IDENTIFY,                                              \
+      ZB_ZCL_CLUSTER_ID_POLL_CONTROL                                           \
     }                                                                          \
   }
 

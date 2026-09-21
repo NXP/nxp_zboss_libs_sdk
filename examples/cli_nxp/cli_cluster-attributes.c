@@ -38,7 +38,7 @@ static zb_bool_t is_cluster_created(zb_af_endpoint_desc_t *this_ep, zb_uint16_t 
 }
 #endif /* CLI_HAS_CLUSTER_OTA_UPGRADE_CLT || CLI_HAS_CLUSTER_OTA_UPGRADE_SRV || CLI_HAS_CLUSTER_SCENES */
 
-void cluster_attributes_cb(zb_uint8_t param)
+void cluster_attributes_cb(zb_cb_param_t param)
 {
   zb_zcl_device_callback_param_t *device_cb_params = ZB_BUF_GET_PARAM(param, zb_zcl_device_callback_param_t);
   zb_af_endpoint_desc_t *this_ep = endpoint_get_by_id(device_cb_params->endpoint);

@@ -33,9 +33,9 @@
 #define SRC_ENDPOINT  5
 
 /* Handler for specific zcl commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 /* Device user application callback */
-void thermostat_device_interface_cb(zb_uint8_t param);
+void thermostat_device_interface_cb(zb_cb_param_t param);
 
 zb_uint8_t test_device_scenes_get_entry(zb_uint16_t group_id, zb_uint8_t scene_id);
 void test_device_scenes_remove_entries_by_group(zb_uint16_t group_id);

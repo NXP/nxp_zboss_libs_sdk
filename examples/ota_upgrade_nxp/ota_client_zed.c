@@ -126,7 +126,7 @@ ZB_HA_DECLARE_OTA_UPGRADE_CLIENT_EP(ota_upgrade_client_ep, ENDPOINT, ota_upgrade
 /* Declare application's device context for single-endpoint device */
 ZB_HA_DECLARE_OTA_UPGRADE_CLIENT_CTX(ota_upgrade_client_ctx, ota_upgrade_client_ep);
 
-void test_device_cb(zb_uint8_t param)
+void test_device_cb(zb_cb_param_t param)
 {
   zb_uint32_t file_offset  = 0;
   size_t      written_size = 0;
@@ -418,7 +418,7 @@ static zb_bool_t read_test_param(char *config_file)
 #endif
 
 #ifdef ZB_MAC_CONFIGURABLE_TX_POWER /* Test API zb_set_tx_power */
-static void tx_power_cb(zb_bufid_t param)
+static void tx_power_cb(zb_cb_param_t param)
 {
 #ifdef ZB_NXP_WCS_TRACE
   zb_tx_power_params_t *power_params = zb_buf_begin(param);
@@ -509,7 +509,7 @@ MAIN()
 }
 
 /* Callback to handle the stack events */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_type_t sig = zb_get_app_signal(param, NULL);
 

@@ -19,10 +19,10 @@
 Versioning:
 ===========
 
-Date:    Tue, 12 May 2026 11:52:52 +0000
-Version: 019.2602.049
-Sha1:    2929807
-Zboss:   zoi_release-4.2.2.0
+Date:    Fri, 18 Sep 2026 11:51:21 +0000
+Version: 020.2603.014
+Sha1:    52cd67d
+Zboss:   zoi-ZBOSS-5.0.4.1
 
 
 Delivery content:

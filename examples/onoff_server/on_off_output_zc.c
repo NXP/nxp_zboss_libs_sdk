@@ -61,10 +61,12 @@ zb_uint8_t g_endpoint;
 /* Uncomment to enable installcode usage */
 /* #define TEST_USE_INSTALLCODE */
 
-#ifdef TEST_USE_INSTALLCODE
 /* IEEE address of the end device */
 zb_ieee_addr_t g_ed_addr = {0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22};
+#ifdef TEST_USE_INSTALLCODE
 char g_installcode[]= "966b9f3ef98ae605 9708";
+#else
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
 #endif
 
 #define ZB_REG_TEST_DEFAULT_NWK_KEY {0xab, 0xcd, 0xef, 0x01, 0x23, 0x45, 0x67, 0x89, \
@@ -78,10 +80,10 @@ static zb_uint8_t g_nwk_key[16] = ZB_REG_TEST_DEFAULT_NWK_KEY;
 #define ZB_OUTPUT_MAX_CMD_PAYLOAD_SIZE 2
 
 /* Handler for specific ZCL commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 
-void test_device_interface_cb(zb_uint8_t param);
-void button_press_handler(zb_uint8_t param);
+void test_device_interface_cb(zb_cb_param_t param);
+void button_press_handler(zb_cb_param_t param);
 
 /**
  * Declaring attributes for each cluster
@@ -116,6 +118,12 @@ zb_uint8_t g_attr_name_support = 0;
 
 ZB_ZCL_DECLARE_GROUPS_ATTRIB_LIST(groups_attr_list, &g_attr_name_support);
 
+/* Keep alive cluster attributes */
+ZB_ZCL_DECLARE_KEEP_ALIVE_ATTRS_AND_LIST(g_attrs_keep_alive, keep_alive_attrs_list);
+
+/* Poll control cluster attributes */
+ZB_ZCL_DECLARE_POLL_CONTROL_ATTRIB_LIST_CLIENT(poll_control_attr_list);
+
 #ifdef ZB_ZCL_SUPPORT_CLUSTER_SCENES
 /* Scenes cluster attributes */
 zb_uint8_t g_attr_scenes_scene_count = ZB_ZCL_SCENES_SCENE_COUNT_DEFAULT_VALUE;
@@ -132,15 +140,17 @@ zb_zcl_attr_t scenes_attr_list[] = { ZB_ZCL_NULL_ID, 0, 0, NULL };
 #endif
 
 /* Declare cluster list for the device */
-ZB_HA_DECLARE_ON_OFF_OUTPUT_CLUSTER_LIST(on_off_output_clusters,
-                                         on_off_attr_list,
-                                         basic_attr_list,
-                                         identify_attr_list,
-                                         groups_attr_list,
-                                         scenes_attr_list);
+ZB_HA_DECLARE_ON_OFF_OUTPUT_CLUSTER_LIST_ZC_BDB(on_off_output_clusters,
+                                                on_off_attr_list,
+                                                basic_attr_list,
+                                                keep_alive_attrs_list,
+                                                identify_attr_list,
+                                                groups_attr_list,
+                                                scenes_attr_list,
+                                                poll_control_attr_list);
 
 /* Declare endpoint */
-ZB_HA_DECLARE_ON_OFF_OUTPUT_EP(on_off_output_ep, ZB_OUTPUT_ENDPOINT, on_off_output_clusters);
+ZB_HA_DECLARE_ON_OFF_OUTPUT_EP_ZC_BDB(on_off_output_ep, ZB_OUTPUT_ENDPOINT, on_off_output_clusters);
 
 /* Declare application's device context for single-endpoint device */
 ZB_HA_DECLARE_ON_OFF_OUTPUT_CTX(on_off_output_ctx, on_off_output_ep);
@@ -151,7 +161,7 @@ static zb_bool_t error_ind_handler(zb_uint8_t severity,
                                    void *additional_info);
 
 #ifdef ZB_MAC_CONFIGURABLE_TX_POWER /* Test API zb_set_tx_power */
-static void tx_power_cb(zb_bufid_t param)
+static void tx_power_cb(zb_cb_param_t param)
 {
 #ifdef ZB_NXP_WCS_TRACE
   zb_tx_power_params_t *power_params = zb_buf_begin(param);
@@ -198,6 +208,11 @@ MAIN()
 
   /* Global ZBOSS initialization */
   ZB_INIT("on_off_output_zc");
+
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
 
   /* Set up defaults for the commissioning */
   zb_set_long_address(g_zc_addr);
@@ -316,12 +331,12 @@ static zb_bool_t error_ind_handler(zb_uint8_t severity,
 
 
 /* [zcl_register_device_cb_example_cb] */
-void test_device_interface_cb(zb_uint8_t param)
+void test_device_interface_cb(zb_cb_param_t param)
 {
   zb_zcl_device_callback_param_t *device_cb_param =
     ZB_BUF_GET_PARAM(param, zb_zcl_device_callback_param_t);
 
-  TRACE_MSG(TRACE_APP1, "> test_device_interface_cb param %hd id 0x%hx", (FMT__H_H,
+  TRACE_MSG(TRACE_APP1, "> test_device_interface_cb param %d id 0x%hx", (FMT__D_H,
       param, device_cb_param->device_cb_id));
 
   device_cb_param->status = RET_OK;
@@ -373,7 +388,7 @@ void test_device_interface_cb(zb_uint8_t param)
 /* [zcl_register_device_cb_example_cb] */
 
 /* [zb_zdo_get_diag_data_async_example] */
-static void handle_diag_data_resp(zb_bufid_t buf)
+static void handle_diag_data_resp(zb_cb_param_t buf)
 {
   zb_zdo_get_diag_data_resp_params_t *resp_params;
 
@@ -409,7 +424,7 @@ static void send_diag_data_req(zb_uint16_t short_address)
 }
 /* [zb_zdo_get_diag_data_async_example] */
 
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_zcl_parsed_hdr_t cmd_info;
 
@@ -426,19 +441,11 @@ zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
 
   send_diag_data_req(g_dst_addr);
 
-  if (cmd_info.cmd_direction == ZB_ZCL_FRAME_DIRECTION_TO_CLI)
-  {
-    TRACE_MSG(
-        TRACE_ERROR,
-        "Unsupported \"from server\" command direction",
-        (FMT__0));
-  }
-
   TRACE_MSG(TRACE_APP1, "< zcl_specific_cluster_cmd_handler", (FMT__0));
   return ZB_FALSE;
 }
 
-void button_press_handler(zb_uint8_t param)
+void button_press_handler(zb_cb_param_t param)
 {
   ZVUNUSED(param);
   TRACE_MSG(TRACE_APP1, "button is pressed, do nothing", (FMT__0));
@@ -455,7 +462,7 @@ static void on_device_started(void)
 }
 
 /* Callback to handle the stack events */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_type_t sig = zb_get_app_signal(param, &sg_p);
@@ -475,6 +482,8 @@ void zboss_signal_handler(zb_uint8_t param)
       case ZB_ZDO_SIGNAL_SKIP_STARTUP:
 #ifdef TEST_USE_INSTALLCODE
         zb_secur_ic_str_add(g_ed_addr, g_installcode, NULL);
+#else
+        zb_secur_ic_add(g_ed_addr, ZB_IC_TYPE_PASSCODE, g_passcode, NULL);
 #endif
         zboss_start_continue();
         break;

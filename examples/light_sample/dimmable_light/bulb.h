@@ -5,8 +5,6 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2024 NXP
- *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
  * publication of such source code.
@@ -39,7 +37,7 @@
 #endif /* DIMMABLE_LIGHT_ENABLE_ZDD */
 
 /* Bulb IEEE address */
-#define BULB_IEEE_ADDRESS {0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00}
+#define BULB_IEEE_ADDRESS {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 /* major app version */
 #define BULB_FIRMWARE_MAJOR       1
 /* Application manufacturer code */
@@ -52,7 +50,7 @@
 #define HA_DIMMABLE_LIGHT_ENDPOINT 10
 
 /* Handler for specific ZCL commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 
 /* Light Bulb initialization */
 void bulb_device_app_init(zb_uint8_t param);
@@ -61,14 +59,14 @@ void bulb_app_ctx_init();
 /* Initialization of HA attributes */
 void bulb_clusters_attr_init(zb_uint8_t param);
 /* Device user application callback */
-void test_device_cb(zb_uint8_t param);
+void test_device_cb(zb_cb_param_t param);
 /* Set default value all attribute" callback */
 void zcl_reset_to_defaults_cb(zb_uint8_t param);
 
 /* Update current level value in the global context */
 zb_ret_t level_control_set_level(zb_uint8_t new_level);
 /* Start identifying for hardware */
-void bulb_do_identify(zb_uint8_t param);
+void bulb_do_identify(zb_cb_param_t param);
 
 /* [app_nvram_cb_proto] */
 /* Application callback for writing application data to NVRAM */
@@ -101,7 +99,7 @@ bulb_device_basic_attr_t;
 #define BULB_INIT_BASIC_HW_VERSION        BULB_FIRMWARE_MANUF_CODE      /* define manufacturer code */
 #define BULB_INIT_BASIC_APP_VERSION       BULB_FIRMWARE_MINOR           /* define f/w revision */
 
-#define BULB_INIT_BASIC_MANUF_NAME	  "DSR"
+#define BULB_INIT_BASIC_MANUF_NAME	  "DSR BULB"
 
 /* Note: instead of the 1st space string len will be set */
 #define BULB_INIT_BASIC_MODEL_ID     "Dim_Light"

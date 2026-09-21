@@ -929,7 +929,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_calendar_get_special_days_payload_s
  * @param cb - Callback which should be called when the ZCL stack receives
  * APS ack.
  */
-void zb_zcl_calendar_send_cmd_publish_calendar(zb_uint8_t param, const zb_addr_u *dst_addr,
+void zb_zcl_calendar_send_cmd_publish_calendar(zb_bufid_t param, const zb_addr_u *dst_addr,
                                                zb_aps_addr_mode_t dst_addr_mode,
                                                zb_uint8_t dst_ep, zb_uint8_t src_ep,
                                                const zb_zcl_calendar_publish_calendar_payload_t *pl,
@@ -950,7 +950,7 @@ void zb_zcl_calendar_send_cmd_publish_calendar(zb_uint8_t param, const zb_addr_u
  * @param cb - Callback which should be called when the ZCL stack receives
  * APS ack.
  */
-void zb_zcl_calendar_send_cmd_publish_day_profile(zb_uint8_t param,
+void zb_zcl_calendar_send_cmd_publish_day_profile(zb_bufid_t param,
   const zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode,
   zb_uint8_t dst_ep, zb_uint8_t src_ep,
   const zb_zcl_calendar_publish_day_profile_payload_t *pl,
@@ -972,7 +972,7 @@ void zb_zcl_calendar_send_cmd_publish_day_profile(zb_uint8_t param,
  * @param cb - Callback which should be called when the ZCL stack receives
  * APS ack.
  */
-void zb_zcl_calendar_send_cmd_publish_week_profile(zb_uint8_t param,
+void zb_zcl_calendar_send_cmd_publish_week_profile(zb_bufid_t param,
   const zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode,
   zb_uint8_t dst_ep, zb_uint8_t src_ep,
   const zb_zcl_calendar_publish_week_profile_payload_t *pl,
@@ -994,7 +994,7 @@ void zb_zcl_calendar_send_cmd_publish_week_profile(zb_uint8_t param,
  * @param cb - Callback which should be called when the ZCL stack receives
  * APS ack.
  */
-void zb_zcl_calendar_send_cmd_publish_seasons(zb_uint8_t param,
+void zb_zcl_calendar_send_cmd_publish_seasons(zb_bufid_t param,
   const zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode,
   zb_uint8_t dst_ep, zb_uint8_t src_ep,
   const zb_zcl_calendar_publish_seasons_payload_t *pl,
@@ -1016,7 +1016,7 @@ void zb_zcl_calendar_send_cmd_publish_seasons(zb_uint8_t param,
  * @param cb - Callback which should be called when the ZCL stack receives
  * APS ack.
  */
-void zb_zcl_calendar_send_cmd_publish_special_days(zb_uint8_t param,
+void zb_zcl_calendar_send_cmd_publish_special_days(zb_bufid_t param,
   const zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode,
   zb_uint8_t dst_ep, zb_uint8_t src_ep,
   const zb_zcl_calendar_publish_special_days_payload_t *pl,
@@ -1036,7 +1036,7 @@ void zb_zcl_calendar_send_cmd_publish_special_days(zb_uint8_t param,
  * @param cb - Callback which should be called when the ZCL stack receives
  * APS ack.
  */
-void zb_zcl_calendar_send_cmd_get_calendar(zb_uint8_t param,
+void zb_zcl_calendar_send_cmd_get_calendar(zb_bufid_t param,
   const zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode,
   zb_uint8_t dst_ep, zb_uint8_t src_ep,
   const zb_zcl_calendar_get_calendar_payload_t *pl,
@@ -1056,7 +1056,7 @@ void zb_zcl_calendar_send_cmd_get_calendar(zb_uint8_t param,
  * @param cb - Callback which should be called when the ZCL stack receives
  * APS ack.
  */
-void zb_zcl_calendar_send_cmd_get_day_profiles(zb_uint8_t param,
+void zb_zcl_calendar_send_cmd_get_day_profiles(zb_bufid_t param,
   const zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode,
   zb_uint8_t dst_ep, zb_uint8_t src_ep,
   const zb_zcl_calendar_get_day_profiles_payload_t *pl,
@@ -1076,7 +1076,7 @@ void zb_zcl_calendar_send_cmd_get_day_profiles(zb_uint8_t param,
  * @param cb - Callback which should be called when the ZCL stack receives
  * APS ack.
  */
-void zb_zcl_calendar_send_cmd_get_week_profiles(zb_uint8_t param,
+void zb_zcl_calendar_send_cmd_get_week_profiles(zb_bufid_t param,
   const zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode,
   zb_uint8_t dst_ep, zb_uint8_t src_ep,
   const zb_zcl_calendar_get_week_profiles_payload_t *pl,
@@ -1096,7 +1096,7 @@ void zb_zcl_calendar_send_cmd_get_week_profiles(zb_uint8_t param,
  * @param cb - Callback which should be called when the ZCL stack receives
  * APS ack.
  */
-void zb_zcl_calendar_send_cmd_get_seasons(zb_uint8_t param,
+void zb_zcl_calendar_send_cmd_get_seasons(zb_bufid_t param,
   const zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode,
   zb_uint8_t dst_ep, zb_uint8_t src_ep,
   const zb_zcl_calendar_get_seasons_payload_t *pl,
@@ -1116,7 +1116,7 @@ void zb_zcl_calendar_send_cmd_get_seasons(zb_uint8_t param,
  * @param cb - Callback which should be called when the ZCL stack receives
  * APS ack.
  */
-void zb_zcl_calendar_send_cmd_get_special_days(zb_uint8_t param,
+void zb_zcl_calendar_send_cmd_get_special_days(zb_bufid_t param,
   const zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode,
   zb_uint8_t dst_ep, zb_uint8_t src_ep,
   const zb_zcl_calendar_get_special_days_payload_t *pl,
@@ -1135,7 +1135,7 @@ void zb_zcl_calendar_send_cmd_get_special_days(zb_uint8_t param,
  * @param cb - Callback which should be called when the ZCL stack receives
  * APS ack.
  */
-void zb_zcl_calendar_send_cmd_get_calendar_cancellation(zb_uint8_t param,
+void zb_zcl_calendar_send_cmd_get_calendar_cancellation(zb_bufid_t param,
   const zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode,
   zb_uint8_t dst_ep, zb_uint8_t src_ep,
   zb_callback_t cb
@@ -1154,7 +1154,7 @@ void zb_zcl_calendar_send_cmd_get_calendar_cancellation(zb_uint8_t param,
  * @param cb - Callback which should be called when the ZCL stack receives
  * APS ack.
  */
-void zb_zcl_calendar_send_cmd_cancel_calendar(zb_uint8_t param,
+void zb_zcl_calendar_send_cmd_cancel_calendar(zb_bufid_t param,
   const zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode,
   zb_uint8_t dst_ep, zb_uint8_t src_ep,
   const zb_zcl_calendar_cancel_calendar_payload_t *pl,

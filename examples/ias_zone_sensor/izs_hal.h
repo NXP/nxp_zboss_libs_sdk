@@ -37,7 +37,7 @@ void izs_hal_hw_disable(void);
 zb_bool_t izs_hal_get_button_state(zb_uint16_t button);
 
 void izs_hal_power_led_on(zb_uint8_t param);
-void izs_hal_power_led_off(zb_uint8_t param);
+void izs_hal_power_led_off(zb_cb_param_t param);
 void izs_hal_led_blink(zb_uint8_t cnt);
 
 #endif /* IZS_HAL_STUB_H */

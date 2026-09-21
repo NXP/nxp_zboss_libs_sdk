@@ -3,11 +3,25 @@
                   +---------------------------------+
 
 
+2026-Q3:
+--------
+
+Zboss host: 020.2603.014
+Zboss libs: zoi-ZBOSS-5.0.4.1
+
+- Add BSP 6.18.37 support (toolchain)
+- Update ZBOSS stack to version 5.0.4.1
+- Workaround for assert during join
+- Update ZBOSS stack to version 5.0.3.1
+- Add BSP 6.18.20 support (toolchain)
+- Misc Zephyr Improvements
+
+
 2026-Q2:
 --------
 
-Zboss host: 019.2602.049
-Zboss libs: zoi_release-4.2.2.0
+Zboss host: v019.2602.049
+Zboss libs: 4.2.2.0
 
 - Update mux from polling to event driven mode
 - Introduce OTA Upgrade on Zephyr

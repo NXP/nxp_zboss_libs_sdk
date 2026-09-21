@@ -21,22 +21,50 @@
  */
 /* PURPOSE: Light Coordinator
 */
-
 #define ZB_TRACE_FILE_ID 40139
+
 #include "light_zc.h"
 #ifdef ZB_USE_BUTTONS
 #include "light_zc_hal.h"
 #endif
 
+#include "light_zc_clusters.h"
+
 #ifndef ZB_COORDINATOR_ROLE
 #error Coordinator role is not compiled!
 #endif
+
+#define EP_ID 1
+
+static zb_uint8_t g_attr_basic_zcl_version  = ZB_ZCL_VERSION;
+static zb_uint8_t g_attr_basic_power_source = ZB_ZCL_BASIC_POWER_SOURCE_UNKNOWN;
+
+ZB_ZCL_DECLARE_BASIC_ATTRIB_LIST(g_basic_attr_list,
+                                 &g_attr_basic_zcl_version,
+                                 &g_attr_basic_power_source);
+
+ZB_ZCL_DECLARE_KEEP_ALIVE_ATTRS_AND_LIST(g_attrs_keep_alive, g_keep_alive_attr_list);
+
+/* Poll control cluster attributes */
+ZB_ZCL_DECLARE_POLL_CONTROL_ATTRIB_LIST_CLIENT(g_poll_control_attr_list);
+
+LIGHT_ZC_DECLARE_CLUSTER_LIST(g_device_cluster_list,
+                              g_basic_attr_list,
+                              g_keep_alive_attr_list,
+                              g_poll_control_attr_list);
+LIGHT_ZC_DECLARE_EP(g_device_ep, EP_ID, g_device_cluster_list);
+ZBOSS_DECLARE_DEVICE_CTX_1_EP(g_device_ctx, g_device_ep);
 
 #ifdef ZC_AUTO_SEARCH_AND_BIND
 light_zc_ctx_t zc_ctx; /* Global device context */
 #endif
 
 zb_ieee_addr_t g_zc_addr = LIGHT_ZC_ADDRESS; /* IEEE address of the device */
+
+zb_ieee_addr_t g_ieee_addr_ic_zr = {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+zb_ieee_addr_t g_ieee_addr_ic_zed = {0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
+
 
 #ifdef ZC_AUTO_SEARCH_AND_BIND
 static void cleanup_dev(simple_device_t *dev)
@@ -108,14 +136,21 @@ MAIN()
   /* Global ZBOSS initialization */
   ZB_INIT("light_zc");
 
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
+
 /* HAL initialisation for hardware */
 #ifdef ZB_USE_BUTTONS
   light_zc_hal_init();
 #endif
 
+  ZB_AF_REGISTER_DEVICE_CTX(&g_device_ctx);
+
   /* Set up defaults for the commissioning */
   zb_set_long_address(g_zc_addr);
-#ifndef ZB_APP_ENABLE_SUBGHZ_MODE 
+#ifndef ZB_APP_ENABLE_SUBGHZ_MODE
   {
     zb_set_network_coordinator_role(LIGHT_ZC_CHANNEL_MASK);
   }
@@ -185,9 +220,9 @@ static zb_ret_t device_bind(zb_uint8_t       buf_ref,
                             simple_device_t *dev,
                             simple_device_t *light,
                             simple_device_t *light_control);
-static void device_assign(zb_uint8_t buf_ref, zb_uint16_t dev_idx);
+static void device_assign(zb_cb_param_t param);
 
-static void device_bind_cb(zb_uint8_t buf_ref)
+static void device_bind_cb(zb_cb_param_t buf_ref)
 {
   zb_bufid_t buf = buf_ref;
   zb_zdo_bind_resp_t *resp = (zb_zdo_bind_resp_t *)zb_buf_begin(buf);
@@ -221,7 +256,7 @@ static void device_bind_cb(zb_uint8_t buf_ref)
         if (ret == RET_IGNORE)
         {
           dev->assign_idx = 0;
-          device_assign(buf_ref, ZB_ARRAY_IDX_BY_ELEM(zc_ctx.devices, dev));
+          device_assign(ZB_PACK_2_U16_IN_U32(buf_ref, ZB_ARRAY_IDX_BY_ELEM(zc_ctx.devices, dev)));
           buf_ref = 0;
         }
         else
@@ -244,7 +279,7 @@ static void device_bind_cb(zb_uint8_t buf_ref)
 #endif
     {
       dev->assign_idx = 0;
-      device_assign(buf_ref, ZB_ARRAY_IDX_BY_ELEM(zc_ctx.devices, dev));
+      device_assign(ZB_PACK_2_U16_IN_U32(buf_ref, ZB_ARRAY_IDX_BY_ELEM(zc_ctx.devices, dev)));
       buf_ref = 0;
     }
   }
@@ -319,9 +354,11 @@ static zb_ret_t device_bind(zb_uint8_t       buf_ref,
   return RET_OK;
 }
 
-static void device_assign(zb_uint8_t buf_ref, zb_uint16_t dev_idx)
+static void device_assign(zb_cb_param_t param)
 {
   zb_uint8_t i;
+  zb_bufid_t buf_ref = ZB_UNPACK_BUF_REF(param);
+  zb_uint16_t dev_idx = ZB_UNPACK_USER_PARAM(param);
   simple_device_t *dev = &zc_ctx.devices[(zb_uint8_t)dev_idx];
 
   TRACE_MSG(TRACE_APP1, "device assign idx: %hd ieee: " TRACE_FORMAT_64, (FMT__H_A, dev_idx, TRACE_ARG_64(dev->ieee_addr)));
@@ -411,16 +448,17 @@ static void device_assign(zb_uint8_t buf_ref, zb_uint16_t dev_idx)
 }
 
 //Match device callback
-static void device_match_cb(zb_uint8_t buf_ref);
+static void device_match_cb(zb_cb_param_t param);
 
 //Start to match device
-static void device_match(zb_uint8_t buf_ref, zb_uint16_t dev_idx)
+static void device_match(zb_cb_param_t param)
 {
-  zb_bufid_t buf = buf_ref;
+  zb_bufid_t buf = ZB_UNPACK_BUF_REF(param);
+  zb_uint16_t dev_idx = ZB_UNPACK_USER_PARAM(param);
   zb_zdo_match_desc_param_t *req;
   simple_device_t *dev = &zc_ctx.devices[(zb_uint8_t)dev_idx];
 
-  TRACE_MSG(TRACE_APP1, ">> device match %hd step %hd", (FMT__H_H, buf_ref, dev->match_step));
+  TRACE_MSG(TRACE_APP1, ">> device match %hd step %hd", (FMT__H_H, buf, dev->match_step));
 
   /* match_desc_param already has allocated memory for one cluster identifier */
   req = zb_buf_initial_alloc(buf, sizeof(zb_zdo_match_desc_param_t) + (1) * sizeof(zb_uint16_t));
@@ -465,25 +503,25 @@ static void device_match(zb_uint8_t buf_ref, zb_uint16_t dev_idx)
     req->cluster_list[1] = ZB_ZCL_CLUSTER_ID_LEVEL_CONTROL;
 #endif
 
-    dev->last_zdo_tsn = zb_zdo_match_desc_req(buf_ref, device_match_cb);
+    dev->last_zdo_tsn = zb_zdo_match_desc_req(buf, device_match_cb);
 
     if (dev->last_zdo_tsn == 0xFF)
     {
       TRACE_MSG(TRACE_ERROR, "zb_zdo_match_desc_req failed", (FMT__0));
-      zb_buf_free(buf_ref);
+      zb_buf_free(buf);
     }
   }
   else
   {
     TRACE_MSG(TRACE_ERROR, "get short address by ieee failed", (FMT__0));
-    zb_buf_free(buf_ref);
+    zb_buf_free(buf);
   }
 
   TRACE_MSG(TRACE_APP1, "<< device match", (FMT__0));
 }
 
 //Match device callback
-static void device_match_cb(zb_uint8_t buf_ref)
+static void device_match_cb(zb_cb_param_t buf_ref)
 {
   zb_bufid_t buf = buf_ref;
   zb_zdo_match_desc_resp_t *resp = (zb_zdo_match_desc_resp_t*)zb_buf_begin(buf);
@@ -513,12 +551,12 @@ static void device_match_cb(zb_uint8_t buf_ref)
           dev->dev_type = SIMPLE_DEV_TYPE_LIGHT;
 
           TRACE_MSG(TRACE_APP1, "found light, dev_idx %hd, endpoint %hd", (FMT__H_H, ZB_ARRAY_IDX_BY_ELEM(zc_ctx.devices, dev), dev->match_ep));
-          ZB_SCHEDULE_APP_CALLBACK2(device_assign, buf_ref, ZB_ARRAY_IDX_BY_ELEM(zc_ctx.devices, dev));
+          ZB_SCHEDULE_APP_CALLBACK(device_assign, ZB_PACK_2_U16_IN_U32(buf_ref, ZB_ARRAY_IDX_BY_ELEM(zc_ctx.devices, dev)));
         }
         else
         {
           dev->match_step = MATCH_STEP_ON_OFF_LVL_CTRL_CLIENT;
-          ZB_SCHEDULE_APP_CALLBACK2(device_match, buf_ref, ZB_ARRAY_IDX_BY_ELEM(zc_ctx.devices, dev));
+          ZB_SCHEDULE_APP_CALLBACK(device_match, ZB_PACK_2_U16_IN_U32(buf_ref, ZB_ARRAY_IDX_BY_ELEM(zc_ctx.devices, dev)));
         }
         break;
       case MATCH_STEP_ON_OFF_LVL_CTRL_CLIENT:
@@ -529,7 +567,7 @@ static void device_match_cb(zb_uint8_t buf_ref)
           dev->dev_type = SIMPLE_DEV_TYPE_LIGHT_CONTROL;
 
           TRACE_MSG(TRACE_APP1, "found light_control, dev_idx %hd, endpoint %hd", (FMT__H_H, ZB_ARRAY_IDX_BY_ELEM(zc_ctx.devices, dev), dev->match_ep));
-          ZB_SCHEDULE_APP_CALLBACK2(device_assign, buf_ref, ZB_ARRAY_IDX_BY_ELEM(zc_ctx.devices, dev));
+          ZB_SCHEDULE_APP_CALLBACK(device_assign, ZB_PACK_2_U16_IN_U32(buf_ref, ZB_ARRAY_IDX_BY_ELEM(zc_ctx.devices, dev)));
         }
         else
         {
@@ -549,7 +587,7 @@ static void device_match_cb(zb_uint8_t buf_ref)
   }
 }
 
-static void device_annce_handler(zb_uint8_t buf_ref)
+static void device_annce_handler(zb_cb_param_t buf_ref)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_signal_device_annce_params_t *dev_annce_params;
@@ -594,13 +632,13 @@ static void device_annce_handler(zb_uint8_t buf_ref)
 
   TRACE_MSG(TRACE_APP1, "found slot %hd for device, device type %hd", (FMT__H_H, ZB_ARRAY_IDX_BY_ELEM(zc_ctx.devices, dev), dev->dev_type));
 
-  ZB_SCHEDULE_APP_CALLBACK2(device_match, buf_ref, ZB_ARRAY_IDX_BY_ELEM(zc_ctx.devices, dev));
+  ZB_SCHEDULE_APP_CALLBACK(device_match, ZB_PACK_2_U16_IN_U32(buf_ref, ZB_ARRAY_IDX_BY_ELEM(zc_ctx.devices, dev)));
 }
 
 #endif  /* ZC_AUTO_SEARCH_AND_BIND */
 
 /* Callback to handle the stack events */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   /* Get application signal from the buffer */
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
@@ -626,6 +664,10 @@ void zboss_signal_handler(zb_uint8_t param)
        */
       case ZB_BDB_SIGNAL_DEVICE_REBOOT:
         TRACE_MSG(TRACE_APP1, "Device STARTED OK", (FMT__0));
+
+        zb_secur_ic_add(g_ieee_addr_ic_zr, ZB_IC_TYPE_PASSCODE, g_passcode, NULL);
+        zb_secur_ic_add(g_ieee_addr_ic_zed, ZB_IC_TYPE_PASSCODE, g_passcode, NULL);
+
         /* Turn off link key exchange if legacy device support (<ZB3.0) is needed */
         zb_bdb_set_legacy_device_support(1);
         bdb_start_top_level_commissioning(ZB_BDB_NETWORK_STEERING);

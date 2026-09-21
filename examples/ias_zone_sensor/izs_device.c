@@ -29,9 +29,11 @@
 #error define ZB_ED_ROLE to compile ze tests
 #endif
 
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
+
 /* Handler for specific zcl commands */
-zb_uint8_t izs_zcl_cmd_handler(zb_uint8_t param);
-void izs_check_ias_zone_found(zb_uint8_t param);
+zb_uint8_t izs_zcl_cmd_handler(zb_cb_param_t param);
+void izs_check_ias_zone_found(zb_cb_param_t param);
 
 static void izs_set_default_configuration_values(void);
 
@@ -141,14 +143,14 @@ zb_zcl_attr_t ota_upgrade_attr_list[] = { { ZB_ZCL_NULL_ID, 0, 0, ZB_ZCL_NON_MAN
 #endif
 
 /* WWAH cluster attributes declaration*/
-#ifdef IZS_WWAH
+#ifdef ZB_APP_EXAMPLE_USE_WWAH
 ZB_ZCL_DECLARE_WWAH_ATTRIB_LIST(wwah_attr_list);
 #else
 zb_zcl_attr_t wwah_attr_list[] = { { ZB_ZCL_NULL_ID, 0, 0, ZB_ZCL_NON_MANUFACTURER_SPECIFIC, NULL } };
 #endif
 
 /* Declare cluster list for a device */
-#ifdef IZS_WWAH
+#ifdef ZB_APP_EXAMPLE_USE_WWAH
 IZS_DECLARE_IAS_ZONE_CLUSTER_LIST(
   cs_device_clusters,
   basic_attr_list,
@@ -195,15 +197,19 @@ MAIN()
   ARGV_UNUSED;
 
   /* Trace enable */
-  /* ZB_SET_TRACE_OFF(); */
+  ZB_SET_TRACE_ON();
   /* Traffic dump enable */
-  ZB_SET_TRAF_DUMP_OFF();
-  ZB_SET_TRACE_MASK(0x800);
+  ZB_SET_TRAF_DUMP_ON();
 
   /* Global ZBOSS initialization */
   ZB_INIT("izs_device");
 
-#ifdef IZS_WWAH
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
+
+#ifdef ZB_APP_EXAMPLE_USE_WWAH
   zb_zcl_wwah_set_wwah_behavior(ZB_ZCL_WWAH_BEHAVIOR_SERVER);
 #endif
 
@@ -304,7 +310,7 @@ void izs_set_power_cfg_battery_pack_init(zb_uint8_t sensor_type)
   g_device_ctx.pwr_cfg_attr.percent_threshold3 = IZS_BATTERY_VOLTAGE_60_DAYS_THRESHOLD_PERCENTAGE;
 }
 
-#ifdef IZS_WWAH
+#ifdef ZB_APP_EXAMPLE_USE_WWAH
 /*Fill Debug Report Table with default values
   Fill #4 Debug Report for testing puprose */
 static void izs_setup_wwah_debug_report(void)
@@ -332,7 +338,9 @@ void izs_clusters_attr_init(zb_uint8_t param)
 
   ZVUNUSED(param);
 
+#ifdef ZB_APP_EXAMPLE_USE_WWAH
   g_device_ctx.enrollment_method = IZS_DEFAULT_ENROLLMENT_METHOD;
+#endif
 
   /* Basic cluster attributes */
   g_device_ctx.basic_attr.zcl_version  = ZB_ZCL_VERSION;
@@ -401,12 +409,9 @@ void izs_clusters_attr_init(zb_uint8_t param)
   g_device_ctx.ota_attr.min_block_reque = IZS_INIT_OTA_MIN_BLOCK_REQUE;
   g_device_ctx.ota_attr.image_stamp = IZS_INIT_OTA_IMAGE_STAMP;
 #endif
-#ifdef IZS_WWAH
+#ifdef ZB_APP_EXAMPLE_USE_WWAH
   zb_zcl_wwah_init_server_attr();
   zb_zcl_wwah_init_server();
-  
-  /* Needed for WWAH Tests compliance*/
-  zb_enable_panid_conflict_resolution(ZB_TRUE);
 
   izs_setup_wwah_debug_report();
 #endif
@@ -505,7 +510,7 @@ void izs_leave_indication(zb_uint8_t leave_type)
   TRACE_MSG(TRACE_APP1, "<< izs_leave_indication", (FMT__0));
 }
 
-void izs_device_hw_init(zb_uint8_t param)
+void izs_device_hw_init(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, ">> izs_device_hw_init", (FMT__0));
 
@@ -518,7 +523,7 @@ void izs_device_hw_init(zb_uint8_t param)
   TRACE_MSG(TRACE_APP1, "<< izs_device_hw_init", (FMT__0));
 }
 
-void izs_check_ias_zone_found(zb_uint8_t param)
+void izs_check_ias_zone_found(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, ">> izs_check_ias_zone_found param %hd", (FMT__H, param));
 
@@ -530,7 +535,7 @@ void izs_check_ias_zone_found(zb_uint8_t param)
   TRACE_MSG(TRACE_APP1, "<< izs_check_ias_zone_found", (FMT__0));
 }
 
-void izs_start_bdb_commissioning(zb_uint8_t param)
+void izs_start_bdb_commissioning(zb_cb_param_t param)
 {
   zb_ret_t ret = RET_OK;
 
@@ -560,7 +565,7 @@ void izs_ota_init(zb_uint8_t param)
 }
 #endif
 
-void izs_find_ias_zone_cb(zb_uint8_t param)
+void izs_find_ias_zone_cb(zb_cb_param_t param)
 {
   zb_bufid_t buf = param;
   zb_zdo_match_desc_resp_t *resp = (zb_zdo_match_desc_resp_t*)zb_buf_begin(buf);
@@ -583,7 +588,7 @@ void izs_find_ias_zone_cb(zb_uint8_t param)
   TRACE_MSG(TRACE_APP1, "<< izs_find_ias_zone_cb", (FMT__0));
 }
 
-void izs_find_ias_zone_client_cb(zb_uint8_t buf)
+void izs_find_ias_zone_client_cb(zb_cb_param_t buf)
 {
   zb_zdo_match_desc_param_t *req;
 
@@ -606,7 +611,7 @@ void izs_find_ias_zone_client_cb(zb_uint8_t buf)
 }
 
 /* Callback to handle the stack events */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   /* Get application signal from the buffer */
@@ -626,6 +631,7 @@ void zboss_signal_handler(zb_uint8_t param)
 #endif
       case ZB_ZDO_SIGNAL_SKIP_STARTUP:
         TRACE_MSG(TRACE_APP1, "ZB_ZDO_SIGNAL_SKIP_STARTUP: start join", (FMT__0));
+        zb_secur_ic_set(ZB_IC_TYPE_PASSCODE, g_passcode);
         /**
          * Commissioning has not started yet, but ZBOSS schedule is already running.
          * Check initial device configuration and start commissioning by a selected way.
@@ -655,7 +661,7 @@ void zboss_signal_handler(zb_uint8_t param)
         IZS_SET_DEVICE_STATE(IZS_STATE_STARTUP_COMPLETE);
 
 #ifdef ZB_SAMPLES_USE_REJOIN_BACKOFF
-#if defined IZS_WWAH && defined ZB_USE_SLEEP
+#if defined ZB_APP_EXAMPLE_USE_WWAH && defined ZB_USE_SLEEP
         if (!zb_zcl_wwah_check_if_wwah_rejoin_enabled())
 #endif
         {
@@ -808,7 +814,7 @@ void zboss_signal_handler(zb_uint8_t param)
     {
 #ifdef ZB_SAMPLES_USE_REJOIN_BACKOFF
       IZS_SET_DEVICE_STATE(IZS_STATE_REJOIN_BACKOFF);
-#if defined IZS_WWAH && defined ZB_USE_SLEEP
+#if defined ZB_APP_EXAMPLE_USE_WWAH && defined ZB_USE_SLEEP
       if (!zb_zcl_wwah_check_if_wwah_rejoin_enabled())
 #endif
       {
@@ -851,7 +857,7 @@ void zboss_signal_handler(zb_uint8_t param)
 }
 
 /* [HANDLER] */
-zb_uint8_t izs_zcl_cmd_handler(zb_uint8_t param)
+zb_uint8_t izs_zcl_cmd_handler(zb_cb_param_t param)
 {
   zb_bufid_t zcl_cmd_buf = param;
   zb_zcl_parsed_hdr_t *cmd_info = ZB_BUF_GET_PARAM(zcl_cmd_buf, zb_zcl_parsed_hdr_t);
@@ -883,7 +889,7 @@ zb_uint8_t izs_zcl_cmd_handler(zb_uint8_t param)
                 TRACE_MSG(TRACE_APP2, "check in interval is set", (FMT__0));
                 if (!g_device_ctx.check_in_started)
                 {
-                  zb_uint8_t canceled_param = 0;
+                  zb_bufid_t canceled_param = 0;
 
                   TRACE_MSG(TRACE_APP2, "save addr and start check-in", (FMT__0));
                   /* Set Addr and EP for Poll control */
@@ -894,7 +900,7 @@ zb_uint8_t izs_zcl_cmd_handler(zb_uint8_t param)
                   canceled_param = zb_zcl_poll_control_stop();
                   if (canceled_param)
                   {
-                    TRACE_MSG(TRACE_APP2, "free canceled buffer %hd", (FMT__H, canceled_param));
+                    TRACE_MSG(TRACE_APP2, "free canceled buffer %d", (FMT__D, canceled_param));
                     zb_buf_free(canceled_param);
                   }
                   zb_buf_get_out_delayed(izs_go_on_guard);
@@ -939,6 +945,7 @@ zb_uint8_t izs_zcl_cmd_handler(zb_uint8_t param)
                           "CIE address is updated. New cie_short_addr = 0x%x, cie_ep = 0x%x ",
                           (FMT__H_H, g_device_ctx.zone_attr.cie_short_addr, g_device_ctx.zone_attr.cie_ep));
 
+#ifdef ZB_APP_EXAMPLE_USE_WWAH
                  if (g_device_ctx.enrollment_method == ZB_ZCL_WWAH_ENROLLMENT_MODE_AUTO_ENROLL_REQUEST)
                  {
                    TRACE_MSG(TRACE_APP1, "auto enroll request mode - send EnrollRequest", (FMT__0));
@@ -946,6 +953,7 @@ zb_uint8_t izs_zcl_cmd_handler(zb_uint8_t param)
 
                    zb_buf_get_out_delayed(izs_send_enroll_req);
                  }
+#endif
                }
              }
              break;
@@ -1011,7 +1019,7 @@ zb_uint8_t izs_zcl_cmd_handler(zb_uint8_t param)
 }
 /* [HANDLER] */
 
-void izs_joined_cont(zb_uint8_t param)
+void izs_joined_cont(zb_cb_param_t param)
 {
   /*
     - resume working with existing network
@@ -1035,7 +1043,7 @@ void izs_joined_cont(zb_uint8_t param)
   TRACE_MSG(TRACE_APP1, "<< izs_joined_cont", (FMT__0));
 }
 
-void izs_leave_nwk_cb(zb_uint8_t param)
+void izs_leave_nwk_cb(zb_cb_param_t param)
 {
   IZS_SET_DEVICE_STATE(IZS_STATE_IDLE);
 
@@ -1051,7 +1059,7 @@ void izs_leave_nwk_cb(zb_uint8_t param)
   ZB_SCHEDULE_APP_ALARM(izs_start_join, IZS_FIRST_JOIN_ATTEMPT, IZS_RESTART_JOIN_AFTER_LEAVE_DELAY);
 }
 
-void izs_full_reset_to_defaults(zb_uint8_t param)
+void izs_full_reset_to_defaults(zb_cb_param_t param)
 {
   /* full reset to factory defaults:
      remove network parameters and then call common reset to factory defaults */
@@ -1134,7 +1142,7 @@ void izs_retry_join(void)
   }
 }
 
-void izs_start_join(zb_uint8_t param)
+void izs_start_join(zb_cb_param_t param)
 {
 /*
   - scan for network
@@ -1239,7 +1247,7 @@ void izs_send_notification(void)
       izs_retry_backoff(g_device_ctx.notification_buf);
     }
 
-#if defined IZS_WWAH && defined ZB_USE_SLEEP
+#if defined ZB_APP_EXAMPLE_USE_WWAH && defined ZB_USE_SLEEP
     if (!zb_zcl_wwah_check_if_wwah_rejoin_enabled())
 #endif
     {
@@ -1298,7 +1306,7 @@ void izs_send_notification(void)
   TRACE_MSG(TRACE_APP1, "<< izs_send_notification", (FMT__0));
 }
 
-void izs_ias_zone_notification_cb(zb_bufid_t buf)
+void izs_ias_zone_notification_cb(zb_cb_param_t buf)
 {
   zb_zcl_command_send_status_t *cmd_send_status = ZB_BUF_GET_PARAM(buf, zb_zcl_command_send_status_t);
 
@@ -1336,7 +1344,7 @@ void izs_ias_zone_notification_cb(zb_bufid_t buf)
   TRACE_MSG(TRACE_APP1, "<< izs_ias_zone_notification_cb", (FMT__0));
 }
 
-#ifdef IZS_WWAH
+#ifdef ZB_APP_EXAMPLE_USE_WWAH
 zb_bool_t izs_wwah_app_event_retry_should_discard_event(zb_uint8_t failed_attempts)
 {
   return (zb_bool_t)(0xFF != MAX_REDELIVERY_ATTEMPTS() && failed_attempts > MAX_REDELIVERY_ATTEMPTS());
@@ -1428,14 +1436,14 @@ void izs_custom_retry_backoff(zb_uint8_t param)
 
 void izs_retry_backoff(zb_uint8_t param)
 {
-#ifdef IZS_WWAH
+#ifdef ZB_APP_EXAMPLE_USE_WWAH
   izs_wwah_retry_backoff(param);
 #else
   izs_custom_retry_backoff(param);
 #endif
 }
 
-void izs_resend_notification(zb_bufid_t buf)
+void izs_resend_notification(zb_cb_param_t buf)
 {
   zb_zcl_ias_zone_status_change_not_t notification;
   zb_zcl_parse_status_t parse_status;
@@ -1471,7 +1479,7 @@ void izs_resend_notification(zb_bufid_t buf)
    and found parent device (match descriptor command)
    - poll control interval changed
 */
-void izs_go_on_guard(zb_uint8_t param)
+void izs_go_on_guard(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, ">> izs_go_on_guard %hd", (FMT__H, param));
 

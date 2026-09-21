@@ -37,6 +37,9 @@ zb_uint8_t dst_endpoint = 0xFF;
 zb_ieee_addr_t g_zc_addr = {0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa}; /* IEEE address of the
                                                                               * device */
 
+zb_ieee_addr_t g_ieee_addr_ic_zr = {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
+
 zb_uint8_t thermostat_cmd_type = ZB_ZCL_CMD_THERMOSTAT_SETPOINT_RAISE_LOWER;
 /* [default_short_addr] */
 zb_uint16_t thermostat_client_short_addr = 0xFFFF;
@@ -56,15 +59,23 @@ zb_uint8_t g_attr_power_source = ZB_ZCL_BASIC_POWER_SOURCE_UNKNOWN;
 
 ZB_ZCL_DECLARE_BASIC_ATTRIB_LIST(basic_attr_list, &g_attr_zcl_version, &g_attr_power_source);
 
+/* Keep-Alive cluster attributes */
+ZB_ZCL_DECLARE_KEEP_ALIVE_ATTRS_AND_LIST(g_attrs_keep_alive, keep_alive_attr_list);
+
 /* Identify cluster attributes */
 zb_uint16_t g_attr_identify_time = ZB_ZCL_IDENTIFY_IDENTIFY_TIME_DEFAULT_VALUE;
+
+/* Poll control cluster attributes */
+ZB_ZCL_DECLARE_POLL_CONTROL_ATTRIB_LIST_CLIENT(poll_control_attr_list);
 
 ZB_ZCL_DECLARE_IDENTIFY_ATTRIB_LIST(identify_attr_list, &g_attr_identify_time);
 
 /* Declare cluster list for a device */
 ZB_DECLARE_THERMOSTAT_CLUSTER_LIST(thermostat_clusters,
                                    basic_attr_list,
-                                   identify_attr_list);
+                                   keep_alive_attr_list,
+                                   identify_attr_list,
+                                   poll_control_attr_list);
 
 /* Declare endpoint */
 ZB_DECLARE_THERMOSTAT_EP(thermostat_ep, SRC_ENDPOINT, thermostat_clusters);
@@ -87,6 +98,11 @@ MAIN()
 
   /* Global ZBOSS initialization */
   ZB_INIT("thermostat_zc");
+
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
 
   /* Set up defaults for the commissioning */
   zb_set_long_address(g_zc_addr);
@@ -123,7 +139,7 @@ MAIN()
 }
 
 
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_zcl_parsed_hdr_t *cmd_info = ZB_BUF_GET_PARAM(param, zb_zcl_parsed_hdr_t);
   zb_bool_t unknown_cmd_received = ZB_TRUE;
@@ -145,7 +161,7 @@ zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
 }
 
 /* Callback to handle the stack events */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_t sig = zb_get_app_signal(param, &sg_p);
@@ -168,6 +184,7 @@ void zboss_signal_handler(zb_uint8_t param)
       case ZB_ZDO_SIGNAL_DEFAULT_START:
       case ZB_BDB_SIGNAL_DEVICE_FIRST_START:
         TRACE_MSG(TRACE_APP1, "Device STARTED OK", (FMT__0));
+        zb_secur_ic_add(g_ieee_addr_ic_zr, ZB_IC_TYPE_PASSCODE, g_passcode, NULL);
         bdb_start_top_level_commissioning(ZB_BDB_NETWORK_STEERING);
         break;
 
@@ -187,6 +204,7 @@ void zboss_signal_handler(zb_uint8_t param)
       {
         zb_uint8_t *permit_duration = ZB_ZDO_SIGNAL_GET_PARAMS(sg_p, zb_uint8_t);
         TRACE_MSG(TRACE_APP1, "Permit Join Received. Duration: %hd", (FMT__D, (*permit_duration)));
+        ZVUNUSED(permit_duration);
         break; /* ZB_NWK_SIGNAL_PERMIT_JOIN_STATUS */
       }
 
@@ -214,7 +232,7 @@ void zboss_signal_handler(zb_uint8_t param)
 }
 
 
-void start_fb_initiator(zb_uint8_t param)
+void start_fb_initiator(zb_cb_param_t param)
 {
   ZVUNUSED(param);
   zb_bdb_finding_binding_initiator(SRC_ENDPOINT, finding_binding_cb);
@@ -243,7 +261,7 @@ zb_bool_t finding_binding_cb(
 }
 
 
-void send_thermostat_cmd(zb_uint8_t param)
+void send_thermostat_cmd(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, ">>send_thermostat_cmd, buf_ref = %d", (FMT__D, param));
 
@@ -308,7 +326,7 @@ void send_thermostat_cmd(zb_uint8_t param)
 }
 
 
-void send_thermostat_cmd_cb(zb_uint8_t param)
+void send_thermostat_cmd_cb(zb_cb_param_t param)
 {
   zb_zcl_command_send_status_t *cmd_send_status =
     ZB_BUF_GET_PARAM(param, zb_zcl_command_send_status_t);
@@ -316,7 +334,7 @@ void send_thermostat_cmd_cb(zb_uint8_t param)
   TRACE_MSG(TRACE_APP1,
             "send_thermostat_cmd_cb, status = %d",
             (FMT__D, cmd_send_status->status));
-
+  ZVUNUSED(cmd_send_status);
   zb_buf_free(param);
 
   thermostat_cmd_type =

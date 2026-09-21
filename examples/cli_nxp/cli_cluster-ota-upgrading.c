@@ -31,7 +31,7 @@
 //#define MAX_OTA_CLIENTS 64
 #define MAX_OTA_FILES 20
 
-static zb_uint8_t cluster_ota_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param);
+static zb_uint8_t cluster_ota_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param);
 
 /* -----------------------------------------------------------------------------------
  *
@@ -1092,7 +1092,7 @@ static zb_ret_t cluster_ota_clt_device_value_cb(zb_zcl_device_callback_param_t *
 #endif /* CLI_HAS_CLUSTER_OTA_UPGRADE_CLT */
 
 
-static zb_uint8_t cluster_ota_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_uint8_t param)
+static zb_uint8_t cluster_ota_commands_handler(zb_zcl_parsed_hdr_t *cmd_info, zb_cb_param_t param)
 {
   ZVUNUSED(cmd_info);
   ZVUNUSED(param);

@@ -90,7 +90,7 @@ var group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e =
       [ "hw_version", "structzb__zcl__ota__upgrade__client__variable__s.html#ad3306e29156bbf95774f3a8f895eab77", null ],
       [ "img_block_req_sent", "structzb__zcl__ota__upgrade__client__variable__s.html#aeebc9c7044f78fbd1b113d29e009c40c", null ],
       [ "max_data_size", "structzb__zcl__ota__upgrade__client__variable__s.html#ad7ff64417c968f0e3a446384777200cc", null ],
-      [ "pending_img_block_resp", "structzb__zcl__ota__upgrade__client__variable__s.html#af064e7228a0f4257aa562cc182d11aba", null ],
+      [ "pending_img_block_resp", "structzb__zcl__ota__upgrade__client__variable__s.html#a5a2f36f4e8cd73b4b6b61ce78103ea76", null ],
       [ "timer_counter", "structzb__zcl__ota__upgrade__client__variable__s.html#aa1346560d724fc595f940b21fb531015", null ],
       [ "timer_query", "structzb__zcl__ota__upgrade__client__variable__s.html#a0b9d5292740ac7ea86c20e69323fa834", null ]
     ] ],
@@ -174,10 +174,10 @@ var group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e =
       [ "image_type", "structzb__zcl__ota__upgrade__image__block__res__s.html#a042692a6c6b95af70ae0b7130fd86ac6", null ],
       [ "manufacturer", "structzb__zcl__ota__upgrade__image__block__res__s.html#aaddc0a26ee95a63de4a1417ec4a391da", null ],
       [ "request_time", "structzb__zcl__ota__upgrade__image__block__res__s.html#af0bcf7a3ae3cc738f31d8a09d84c0dbe", null ],
-      [ "response", "structzb__zcl__ota__upgrade__image__block__res__s.html#a97e40ef18a5e1ae62003a3c06ca6fb13", null ],
+      [ "response", "structzb__zcl__ota__upgrade__image__block__res__s.html#af9f1644569bd899cad511cb679c53a16", null ],
       [ "status", "structzb__zcl__ota__upgrade__image__block__res__s.html#ad2186c0b3e921b45f9c82b465a5b634e", null ],
-      [ "success", "structzb__zcl__ota__upgrade__image__block__res__s.html#a5cd02fbf851d2f1d2b05dc7aacec129a", null ],
-      [ "wait_for_data", "structzb__zcl__ota__upgrade__image__block__res__s.html#ad5e38333597f9dd65e48c1882b569162", null ]
+      [ "success", "structzb__zcl__ota__upgrade__image__block__res__s.html#a27ef5f68de5193529fd749926e8c83f8", null ],
+      [ "wait_for_data", "structzb__zcl__ota__upgrade__image__block__res__s.html#ae7c8d6fbf032b03f96b5c6c0b2c6498c", null ]
     ] ],
     [ "zb_zcl_ota_upgrade_upgrade_end_res_s", "structzb__zcl__ota__upgrade__upgrade__end__res__s.html", [
       [ "current_time", "structzb__zcl__ota__upgrade__upgrade__end__res__s.html#a80c33ca4f688a17ccfc7466beb19a0df", null ],
@@ -201,9 +201,9 @@ var group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e =
       [ "file_version", "structzb__zcl__ota__upgrade__value__param__s.html#a39e3c342ac3efe905ec33838f5bd7b78", null ],
       [ "image_type", "structzb__zcl__ota__upgrade__value__param__s.html#a46e1b53e25ca01ffa6f0f7a608bc9954", null ],
       [ "manufacturer", "structzb__zcl__ota__upgrade__value__param__s.html#aab1d08a37e35d488fac5711a82ecf520", null ],
-      [ "receive", "structzb__zcl__ota__upgrade__value__param__s.html#a5632c26f2ab5ccf11beff6af1f92ff35", null ],
-      [ "start", "structzb__zcl__ota__upgrade__value__param__s.html#a9c5d2e2aa4702f99d118931e80e1099e", null ],
-      [ "upgrade", "structzb__zcl__ota__upgrade__value__param__s.html#acbce4fb389851613b72878cc31fd036a", null ],
+      [ "receive", "structzb__zcl__ota__upgrade__value__param__s.html#a2a34140ed8001ebf8662078b782a9486", null ],
+      [ "start", "structzb__zcl__ota__upgrade__value__param__s.html#a3e3a1c0fc63283f6d661daba0be0f2f7", null ],
+      [ "upgrade", "structzb__zcl__ota__upgrade__value__param__s.html#a1520634deb7f68147011b15d46d17c6c", null ],
       [ "upgrade_status", "structzb__zcl__ota__upgrade__value__param__s.html#a8223508971ab6782edf3c0bdfc6e278b", null ]
     ] ],
     [ "ZB_ZCL_DECLARE_OTA_UPGRADE_ATTR_LIST", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#gaa9c08f4237e5ca92a4dfbdf38a1f3318", null ],
@@ -393,13 +393,13 @@ var group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e =
       [ "ZB_ZCL_OTA_UPGRADE_FILE_TAG_MANUF_MAX", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#gga6539fd9adc2342268e14426a84d41a5fa3dd25e102beeef26de93b523943d6ffd", null ]
     ] ],
     [ "zb_zcl_ota_upgrade_file_upgraded", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#ga21423ae98a23049bf8fdc48271709d14", null ],
-    [ "zb_zcl_ota_upgrade_init_client", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#ga67ddc272e6b98f8da2e1119358010a6e", null ],
+    [ "zb_zcl_ota_upgrade_init_client", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#gaa38112cee86b72a2307cc3fc5ad51818", null ],
     [ "zb_zcl_ota_upgrade_init_server", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#gadc95802c5db6f7726de7f04335e5e161", null ],
-    [ "zb_zcl_ota_upgrade_insert_file", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#ga0d8ed6cb247fdc5fb46b71e3a579ded4", null ],
-    [ "zb_zcl_ota_upgrade_remove_file", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#ga4f64fee79f1ae595d9afde8efec4bba8", null ],
-    [ "zb_zcl_ota_upgrade_resume_client", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#ga128d1a5ee13206d1365d37af0b020da7", null ],
+    [ "zb_zcl_ota_upgrade_insert_file", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#gaf5d054a2157c24f9b29da6976d834577", null ],
+    [ "zb_zcl_ota_upgrade_remove_file", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#gaabc4f2b9bd710fa400450ae3e03393ec", null ],
+    [ "zb_zcl_ota_upgrade_resume_client", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#gab4a04c1b55a54941a71a1357d2813b83", null ],
     [ "zb_zcl_ota_upgrade_set_query_interval", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#ga85f191d8e8664484b55e9dc07e16b397", null ],
     [ "zb_zcl_ota_upgrade_start_client", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#ga9e0c7ab6eba6b1de8e56c8bed2fe49c9", null ],
     [ "zb_zcl_ota_upgrade_stop_client", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#ga5aa0369e1ec21122175bac1b40467f99", null ],
-    [ "zcl_ota_abort", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#ga1a22f3e7c367d447d68c5565e6c50cce", null ]
+    [ "zcl_ota_abort", "group___z_b___z_c_l___o_t_a___u_p_g_r_a_d_e.html#gadd3264cd1b252bb17b69ba19c68c8017", null ]
 ];

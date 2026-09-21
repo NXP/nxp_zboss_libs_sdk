@@ -29,6 +29,6 @@ var group___z_b___z_c_l___g_r_o_u_p_s =
       [ "ZB_ZCL_ATTR_GROUPS_NAME_NOT_SUPPORTED", "group___z_b___z_c_l___g_r_o_u_p_s.html#gga8c68bc1b4f0698cb0904ffbfdfd7656ba128123c6295e933e1118f3df5ea79186", null ],
       [ "ZB_ZCL_ATTR_GROUPS_NAME_SUPPORTED", "group___z_b___z_c_l___g_r_o_u_p_s.html#gga8c68bc1b4f0698cb0904ffbfdfd7656ba86c9291136f38676ac9f94f7435d7088", null ]
     ] ],
-    [ "zb_zcl_process_groups_commands_cli", "group___z_b___z_c_l___g_r_o_u_p_s.html#ga04d8b97a2698b400b59265d16d91c6c5", null ],
-    [ "zb_zcl_process_groups_commands_srv", "group___z_b___z_c_l___g_r_o_u_p_s.html#gaec082e4312f3afcda3833836125944dc", null ]
+    [ "zb_zcl_process_groups_commands_cli", "group___z_b___z_c_l___g_r_o_u_p_s.html#ga60c0897047566b75769af930cd08eb2e", null ],
+    [ "zb_zcl_process_groups_commands_srv", "group___z_b___z_c_l___g_r_o_u_p_s.html#ga82d729118ad8c183858c4666511ef816", null ]
 ];

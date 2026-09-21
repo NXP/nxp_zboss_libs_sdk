@@ -249,7 +249,7 @@ ZB_PACKED_STRUCT zb_zcl_mdu_pairing_response_t;
 }
 */
 zb_ret_t zb_zcl_mdu_pairing_send_cmd_pairing_request(
-  zb_uint8_t param,
+  zb_bufid_t param,
   const zb_addr_u *dst_addr,
   zb_aps_addr_mode_t dst_addr_mode,
   zb_uint8_t dst_ep,

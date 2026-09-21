@@ -184,7 +184,7 @@ cli_menu_cmd menu_config[] = {
 #if defined(ZB_ED_ROLE)
   { "ed_timeout", " [timeout]", "           ", config_ed_timeout,    help_empty,         "configure network end device timeout [milliseconds]" },
 #if defined(CLI_HAS_SLEEPY_END_DEVICE)
-  { "sleepy", "", "<interval> <turbo>       ", config_sleepy,        help_sleepy,        "configure sleepy end device, optional interval period <ms>, turbo <0-1>" },
+  { "sleepy", "", "<interval>               ", config_sleepy,        help_sleepy,        "configure sleepy end device, optional interval period <ms> with turbo polling enabled if it is provided" },
 #endif
 #endif
 #ifdef ZB_MAC_CONFIGURABLE_TX_POWER
@@ -418,7 +418,7 @@ void config_got_signal(zb_zdo_app_signal_type_t signal, zb_zdo_app_signal_hdr_t 
       /* Unblock config_start */
       config.signal_skip_startup = ZB_TRUE;
       /* Same as zboss_start_continue(), but does not form|join the network */
-      bdb_start_top_level_commissioning(ZB_BDB_INITIALIZATION);
+      bdb_start_top_level_commissioning(ZB_BDB_INITIALIZATION_ONLY);
       //zboss_start_continue();
       break;
 
@@ -789,10 +789,24 @@ static zb_ret_t config_nwk_distrib(int argc, char *argv[])
   config.nwk_distrib = (new_nwk_distrib == 1);
 
 #if defined(ZB_ROUTER_ROLE)
-  zb_bdb_enable_distributed_formation(config.nwk_distrib);
+  if(config.nwk_distrib)
+  {
+    zb_bdb_enable_distributed_network_formation();
+  }
+  else
+  {
+    zb_bdb_disable_distributed_network_formation();
+  }
 #endif
 #if defined(ZB_ED_ROLE)
-  zb_enable_joining_to_distributed(config.nwk_distrib);
+  if(config.nwk_distrib)
+  {
+    zb_enable_joining_to_distributed_network();
+  }
+  else
+  {
+    zb_disable_joining_to_distributed_network();
+  }
 #endif
   return RET_OK;
 }
@@ -838,7 +852,7 @@ static zb_ret_t help_nwk_key(void)
 
 
 #if defined(ZB_COORDINATOR_ROLE) || defined(ZB_ROUTER_ROLE)
-static void app_nwk_mgmt_change_panid_cb(zb_uint8_t param)
+static void app_nwk_mgmt_change_panid_cb(zb_cb_param_t param)
 {
   zb_ret_t ret = RET_ERROR;
   zb_channel_panid_change_preparation_t *params = (zb_channel_panid_change_preparation_t *)zb_buf_begin(param);
@@ -981,7 +995,7 @@ static zb_ret_t help_max_children(void)
 /* Static stack callback function
  * response for zb_prepare_network_for_channel_change
  */
-static void channel_change_cb(zb_uint8_t param)
+static void channel_change_cb(zb_cb_param_t param)
 {
   zb_ret_t status = zb_buf_get_status(param);
 
@@ -1178,12 +1192,12 @@ static zb_ret_t config_ed_timeout(int argc, char *argv[])
 /* Static command config
  * command config sleepy
  *
- * config sleepy <interval> <turbo>
+ * config sleepy <interval>
  */
 static zb_ret_t config_sleepy(int argc, char *argv[])
 {
   zb_ret_t ret;
-  zb_uint16_t new_interval = 5000; /* Default value: 5 sec, refer ZB_PIM_DEFAULT_LONG_POLL_INTERVAL */
+  zb_uint32_t new_interval = 5000; /* Default value: 5 sec, refer ZB_PIM_DEFAULT_LONG_POLL_INTERVAL */
   zb_uint8_t new_turbo = ZB_FALSE; /* Default value */
 
   ZVUNUSED(argv);
@@ -1193,12 +1207,8 @@ static zb_ret_t config_sleepy(int argc, char *argv[])
 
   if(argc >= 1) {
     /* get <interval> */
-    TOOLS_GET_ARG(ret, uint16, argv, 0, &new_interval);
-
-    if(argc == 2) {
-      /* get <turbo> */
-      TOOLS_GET_ARG(ret, uint8, argv, 1, &new_turbo);
-    }
+    TOOLS_GET_ARG(ret, uint32, argv, 0, &new_interval);
+    new_turbo = ZB_TRUE;
   }
 
   /* Act as Sleepy End Device */
@@ -1209,8 +1219,7 @@ static zb_ret_t config_sleepy(int argc, char *argv[])
     zb_zdo_pim_set_long_poll_interval(new_interval);
 
   /* Configure turbo poll requests */
-  if(new_turbo != ZB_FALSE)
-    zb_zdo_pim_permit_turbo_poll(ZB_TRUE);
+  zb_zdo_pim_permit_turbo_poll(new_turbo);
 
   return RET_OK;
 }
@@ -1218,6 +1227,7 @@ static zb_ret_t help_sleepy(void)
 {
   menu_printf("pre-start OPTIONAL config sleepy end device");
   menu_printf("if optional param <interval> is provided, it is reset during join");
+  menu_printf("if an interval is provided, turbo polling is enabled by default");
   return RET_OK;
 }
 #endif /* CLI_HAS_SLEEPY_END_DEVICE */
@@ -1229,7 +1239,7 @@ static zb_ret_t help_sleepy(void)
 /* Static stack callback function
  * response for zb_get/set_tx_power_async
  */
-static void tx_power_cb(zb_uint8_t param, char *fct_name)
+static void tx_power_cb(zb_cb_param_t param, char *fct_name)
 {
  zb_tx_power_params_t *resp = zb_buf_begin(param);
 
@@ -1260,13 +1270,13 @@ static void tx_power_cb(zb_uint8_t param, char *fct_name)
   zb_buf_free(param);
   menu_cb_occured();
 }
-static void get_tx_power_cb(zb_uint8_t param) { return tx_power_cb(param, "get_tx_power_cb"); }
-static void set_tx_power_cb(zb_uint8_t param) { return tx_power_cb(param, "set_tx_power_cb"); }
+static void get_tx_power_cb(zb_cb_param_t param) { return tx_power_cb(param, "get_tx_power_cb"); }
+static void set_tx_power_cb(zb_cb_param_t param) { return tx_power_cb(param, "set_tx_power_cb"); }
 
 /* Static scheduled function
  * command get_tx_power
  */
-static void get_tx_power(zb_uint8_t param)
+static void get_tx_power(zb_cb_param_t param)
 {
   zb_tx_power_params_t *req;
 
@@ -1282,7 +1292,7 @@ static void get_tx_power(zb_uint8_t param)
 /* Static scheduled function
  * command set_tx_power
  */
-static void set_tx_power(zb_uint8_t param)
+static void set_tx_power(zb_cb_param_t param)
 {
   zb_tx_power_params_t *req;
 
@@ -1681,7 +1691,7 @@ static zb_ret_t config_stop(int argc, char *argv[])
 /* Static stack callback function
  * response for get_rx_sensitivity_cb
  */
-static void get_rx_sensitivity_cb(zb_uint8_t param)
+static void get_rx_sensitivity_cb(zb_cb_param_t param)
 {
   zb_rx_sensitivity_params_t *resp = (zb_rx_sensitivity_params_t *)zb_buf_begin(param);
 
@@ -1734,7 +1744,7 @@ static zb_ret_t help_rx_sensitivity(void)
 /* Static stack callback function
  * response for <get|set>_pan_channel
  */
-static void get_pan_channel_cb(zb_bufid_t param)
+static void get_pan_channel_cb(zb_cb_param_t param)
 {
   zb_get_pan_channel_params_t *channel_params = zb_buf_begin(param);
 
@@ -1750,7 +1760,7 @@ static void get_pan_channel_cb(zb_bufid_t param)
   zb_buf_free(param);
   menu_cb_occured();
 }
-static void set_pan_channel_cb(zb_bufid_t param)
+static void set_pan_channel_cb(zb_cb_param_t param)
 {
   zb_set_pan_channel_params_t *channel_params = zb_buf_begin(param);
 
@@ -1851,7 +1861,7 @@ static zb_ret_t help_pan_channel(void)
 /* Static stack callback function
  * response for get_tx_power_capabilities
  */
-static void get_tx_power_capa_cb(zb_uint8_t param)
+static void get_tx_power_capa_cb(zb_cb_param_t param)
 {
   zb_tx_power_capabilities_params_t *resp = zb_buf_begin(param);
 

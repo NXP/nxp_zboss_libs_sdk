@@ -24,7 +24,7 @@
 /* PURPOSE: ZB Simple output device
 */
 /* ![mem_config_max] */
-#define ZB_TRACE_FILE_ID 40755
+#define ZB_TRACE_FILE_ID 40855
 #include "zboss_api.h"
 #include "manuf_onoff_common.h"
 #include "zb_led_button.h"
@@ -65,6 +65,8 @@ zb_uint8_t g_endpoint;
 /* IEEE address of the end device */
 zb_ieee_addr_t g_ed_addr = {0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22};
 char g_installcode[]= "966b9f3ef98ae605 9708";
+#else
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
 #endif
 
 #define ZB_REG_TEST_DEFAULT_NWK_KEY {0xab, 0xcd, 0xef, 0x01, 0x23, 0x45, 0x67, 0x89, \
@@ -76,10 +78,10 @@ static zb_uint8_t g_nwk_key[16] = ZB_REG_TEST_DEFAULT_NWK_KEY;
 #define ZB_OUTPUT_MAX_CMD_PAYLOAD_SIZE 2
 
 /* Handler for specific ZCL commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 
-void test_device_interface_cb(zb_uint8_t param);
-void button_press_handler(zb_uint8_t param);
+void test_device_interface_cb(zb_cb_param_t param);
+void button_press_handler(zb_cb_param_t param);
 
 /**
  * Declaring attributes for each cluster
@@ -87,6 +89,8 @@ void button_press_handler(zb_uint8_t param);
 /* On/Off cluster attributes */
 zb_uint8_t g_attr_on_off = ZB_ZCL_ON_OFF_ON_OFF_DEFAULT_VALUE;
 zb_uint8_t g_manuf_attr = 0;
+zb_uint8_t g_manuf_attr2 = 5;
+zb_uint8_t g_manuf2_attr = 15;
 
 ZB_ZCL_START_DECLARE_ATTRIB_LIST(on_off_attr_list)
 ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_ON_OFF_ON_OFF_ID, &g_attr_on_off)
@@ -95,6 +99,16 @@ ZB_ZCL_SET_MANUF_SPEC_ATTR_DESC(MANUF_CLST_ON_OFF_ATTR,
                                 ZB_ZCL_ATTR_ACCESS_REPORTING | ZB_ZCL_ATTR_ACCESS_READ_WRITE,
                                 MANUF_CODE,
                                 (void*) &g_manuf_attr)
+ZB_ZCL_SET_MANUF_SPEC_ATTR_DESC(MANUF_CLST_ON_OFF_ATTR2,
+                                ZB_ZCL_ATTR_TYPE_U8,
+                                ZB_ZCL_ATTR_ACCESS_REPORTING | ZB_ZCL_ATTR_ACCESS_READ_WRITE,
+                                MANUF_CODE,
+                                (void*) &g_manuf_attr2)
+ZB_ZCL_SET_MANUF_SPEC_ATTR_DESC(MANUF2_CLST_ON_OFF_ATTR,
+                                ZB_ZCL_ATTR_TYPE_U8,
+                                ZB_ZCL_ATTR_ACCESS_REPORTING | ZB_ZCL_ATTR_ACCESS_READ_WRITE,
+                                MANUF_CODE2,
+                                (void*) &g_manuf_attr2)
 ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST;
 
 /* Basic cluster attributes */
@@ -128,13 +142,21 @@ ZB_ZCL_DECLARE_SCENES_ATTRIB_LIST(scenes_attr_list, &g_attr_scenes_scene_count,
 zb_zcl_attr_t scenes_attr_list[] = { ZB_ZCL_NULL_ID, 0, 0, NULL };
 #endif
 
+/* Keep alive cluster attributes */
+ZB_ZCL_DECLARE_KEEP_ALIVE_ATTRS_AND_LIST(g_attrs_keep_alive, keep_alive_attr_list);
+
+/* Poll control cluster attributes */
+ZB_ZCL_DECLARE_POLL_CONTROL_ATTRIB_LIST_CLIENT(poll_control_attr_list);
+
 /* Declare cluster list for the device */
-ZB_HA_DECLARE_ON_OFF_OUTPUT_CLUSTER_LIST(on_off_output_clusters,
-                                         on_off_attr_list,
-                                         basic_attr_list,
-                                         identify_attr_list,
-                                         groups_attr_list,
-                                         scenes_attr_list);
+ZB_HA_DECLARE_ON_OFF_OUTPUT_CLUSTER_LIST_ZC_BDB(on_off_output_clusters,
+                                                on_off_attr_list,
+                                                basic_attr_list,
+                                                keep_alive_attr_list,
+                                                identify_attr_list,
+                                                groups_attr_list,
+                                                scenes_attr_list,
+                                                poll_control_attr_list);
 
 /* Declare endpoint */
 ZB_HA_DECLARE_ON_OFF_OUTPUT_EP_MANUF_TEST(on_off_output_ep, ZB_OUTPUT_ENDPOINT, on_off_output_clusters);
@@ -228,46 +250,8 @@ MAIN()
   MAIN_RETURN(0);
 }
 
-static void bind_on_off_cluster_cb(zb_uint8_t param)
-{
-  zb_ret_t status = zb_buf_get_status(param);
-
-  TRACE_MSG(TRACE_APP1, ">> bind_on_off_cluster_cb(), param %hd, ret %ld", (FMT__H_L, param, status));
-  zb_buf_free(param);
-  TRACE_MSG(TRACE_APP1, "<< bind_on_off_cluster_cb()", (FMT__0));
-}
-
-static void bind_on_off_cluster(zb_uint8_t param)
-{
-  zb_apsme_binding_req_t *req;
-
-  TRACE_MSG(TRACE_APP1, ">> bind_on_off_cluster(), param %hd", (FMT__H, param));
-
-  /* Bind On/Off cluster */
-  req = ZB_BUF_GET_PARAM(param, zb_apsme_binding_req_t);
-
-  ZB_IEEE_ADDR_COPY(req->src_addr, g_zc_addr);
-  ZB_IEEE_ADDR_COPY(req->dst_addr.addr_long, g_ed_addr);
-
-  req->src_endpoint = ZB_OUTPUT_ENDPOINT;
-  req->clusterid = ZB_ZCL_CLUSTER_ID_ON_OFF;
-  req->addr_mode = ZB_APS_ADDR_MODE_64_ENDP_PRESENT;
-  req->dst_endpoint = ZB_SWITCH_ENDPOINT;
-  req->confirm_cb = bind_on_off_cluster_cb;
-
-  ZB_SCHEDULE_APP_CALLBACK(zb_apsme_bind_request, param);
-
-  TRACE_MSG(TRACE_APP1, "<< bind_on_off_cluster()", (FMT__0));
-}
-
-static void bind_on_off_cluster_delayed(zb_uint8_t param)
-{
-  ZVUNUSED(param);
-  zb_buf_get_out_delayed(bind_on_off_cluster);
-}
-
 /* [zcl_register_device_cb_example_cb] */
-void test_device_interface_cb(zb_uint8_t param)
+void test_device_interface_cb(zb_cb_param_t param)
 {
   zb_zcl_device_callback_param_t *device_cb_param =
     ZB_BUF_GET_PARAM(param, zb_zcl_device_callback_param_t);
@@ -310,7 +294,7 @@ void test_device_interface_cb(zb_uint8_t param)
 /* [zcl_register_device_cb_example_cb] */
 
 /* [zb_zdo_get_diag_data_async_example] */
-static void handle_diag_data_resp(zb_bufid_t buf)
+static void handle_diag_data_resp(zb_cb_param_t buf)
 {
   zb_zdo_get_diag_data_resp_params_t *resp_params;
 
@@ -415,7 +399,7 @@ zb_uint8_t handle_manuf_cmd(zb_uint8_t param)
   return handled;
 }
 
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_uint8_t res = ZB_FALSE;
   zb_zcl_parsed_hdr_t cmd_info;
@@ -510,14 +494,14 @@ static zb_uint8_t disc_manuf_cmd_cb(
   return cmd_num;
 }
 
-void button_press_handler(zb_uint8_t param)
+void button_press_handler(zb_cb_param_t param)
 {
   ZVUNUSED(param);
   TRACE_MSG(TRACE_APP1, "button is pressed, do nothing", (FMT__0));
 }
 
 /* Callback to handle the stack events */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_type_t sig = zb_get_app_signal(param, &sg_p);
@@ -537,6 +521,8 @@ void zboss_signal_handler(zb_uint8_t param)
       case ZB_ZDO_SIGNAL_SKIP_STARTUP:
 #ifdef TEST_USE_INSTALLCODE
         zb_secur_ic_str_add(g_ed_addr, g_installcode, NULL);
+#else
+        zb_secur_ic_add(g_ed_addr, ZB_IC_TYPE_PASSCODE, g_passcode, NULL);
 #endif
         zboss_start_continue();
         break;
@@ -551,18 +537,13 @@ void zboss_signal_handler(zb_uint8_t param)
 #endif /* ZB_MACSPLIT_HOST */
 
       case ZB_BDB_SIGNAL_DEVICE_FIRST_START:
-      case ZB_BDB_SIGNAL_DEVICE_REBOOT:
-      {
-        /* [zb_get_device_type_example] */
-        zb_nwk_device_type_t device_type = ZB_NWK_DEVICE_TYPE_NONE;
-        device_type = zb_get_device_type();
-        TRACE_MSG(TRACE_APP1, "Device (%d) STARTED OK", (FMT__D, device_type));
-        /* [zb_get_device_type_example] */
-
+        TRACE_MSG(TRACE_APP1, "Device STARTED OK", (FMT__0));
         bdb_start_top_level_commissioning(ZB_BDB_NETWORK_STEERING);
-        ZB_SCHEDULE_APP_ALARM(bind_on_off_cluster_delayed, 0, 12.5 * ZB_TIME_ONE_SECOND);
         break;
-      }
+
+      case ZB_BDB_SIGNAL_DEVICE_REBOOT:
+        TRACE_MSG(TRACE_APP1, "Device STARTED OK", (FMT__0));
+        break;
 
 /* [zb_bdb_finding_binding_target_usage] */
       case ZB_BDB_SIGNAL_STEERING:
@@ -570,6 +551,14 @@ void zboss_signal_handler(zb_uint8_t param)
         zb_bdb_finding_binding_target(ZB_OUTPUT_ENDPOINT);
         break;
 /* [zb_bdb_finding_binding_target_usage] */
+
+#ifdef ZB_ZBOSS_DEINIT
+      case ZB_SIGNAL_READY_TO_SHUT:
+        TRACE_MSG(TRACE_APP1, "Got ZB_SIGNAL_READY_TO_SHUT", (FMT__0));
+        zboss_complete_shut();
+        break;
+#endif
+
       default:
         TRACE_MSG(TRACE_APP1, "Unknown signal %d", (FMT__D, (zb_uint16_t)sig));
     }

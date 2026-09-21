@@ -109,12 +109,12 @@ var group__zdo__bind =
     [ "zb_zdo_raw_resp_param_t", "group__zdo__bind.html#gae37dba93c9f75660eb9c2c184b503c29", null ],
     [ "zb_zdo_raw_resp_t", "group__zdo__bind.html#ga295275a67a0e975039e50e6615019030", null ],
     [ "zb_zdo_set_configuration_resp_t", "group__zdo__bind.html#gadc3d68bc365cddbfefb0472fb726f39d", null ],
-    [ "zb_end_device_bind_req", "group__zdo__bind.html#ga4a4a142c1a03b19f61cf0598b1d480db", null ],
-    [ "zb_zdo_bind_req", "group__zdo__bind.html#ga403cbc689175cec5196544d784d5b067", null ],
+    [ "zb_end_device_bind_req", "group__zdo__bind.html#ga0ef12a8b51ab2aa021bacf8d18704044", null ],
+    [ "zb_zdo_bind_req", "group__zdo__bind.html#ga57924245b4c44e00e19fe658ef286ca7", null ],
     [ "zb_zdo_check_binding_request", "group__zdo__bind.html#ga8893dfef194769fa5217c49bfbf99ce7", null ],
-    [ "zb_zdo_clear_all_bind_req", "group__zdo__bind.html#ga9e4bbd2d32d95ae90ee550044f5ee50b", null ],
-    [ "zb_zdo_mgmt_bind_req", "group__zdo__bind.html#ga732559445340acf1bc71a8dc1affcd5f", null ],
-    [ "zb_zdo_unbind_all_local", "group__zdo__bind.html#ga644828d0714dd7dca8691883d04a51a7", null ],
-    [ "zb_zdo_unbind_req", "group__zdo__bind.html#ga5fd2991d6c03bbafbaef54d61e2f320b", null ],
-    [ "zdo_mgmt_bind_resp", "group__zdo__bind.html#gab3332e0abcc465ff7d8f7fd5e9f72084", null ]
+    [ "zb_zdo_clear_all_bind_req", "group__zdo__bind.html#gac3aed6187a92204546f8baab7b013e5a", null ],
+    [ "zb_zdo_mgmt_bind_req", "group__zdo__bind.html#ga894af13a2e8788f44a87d8723d22b700", null ],
+    [ "zb_zdo_unbind_all_local", "group__zdo__bind.html#ga156c26b8ca7638c29b9b5e755be4fce7", null ],
+    [ "zb_zdo_unbind_req", "group__zdo__bind.html#gaa6d6d5626da8ed1022ca9bd292772292", null ],
+    [ "zdo_mgmt_bind_resp", "group__zdo__bind.html#ga59e8728ccdeb03c60c6d68d665843523", null ]
 ];

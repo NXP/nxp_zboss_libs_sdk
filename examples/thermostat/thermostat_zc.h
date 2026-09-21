@@ -35,8 +35,8 @@
 #define DISABLE_DEFAULT_RESPONSE_FLAG 0
 
 /* Handler for specific ZCL commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
-void start_fb_initiator(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
+void start_fb_initiator(zb_cb_param_t param);
 zb_bool_t finding_binding_cb(zb_int16_t status,
                              zb_ieee_addr_t addr,
                              zb_uint8_t ep,
@@ -52,21 +52,25 @@ zb_bool_t finding_binding_cb(zb_int16_t status,
   ZB_RANDOM_VALUE(ZB_ZCL_THERMOSTAT_LOCAL_TEMPERATURE_MIN_VALUE) \
   + THERMOSTAT_LOCAL_TEMPERATURE_RANGE
 
-#define ZB_THERMOSTAT_IN_CLUSTER_NUM 2
-#define ZB_THERMOSTAT_OUT_CLUSTER_NUM 2
+#define ZB_THERMOSTAT_IN_CLUSTER_NUM 3
+#define ZB_THERMOSTAT_OUT_CLUSTER_NUM 3
 
 
 /*!
   @brief Declare cluster list for Thermostat device
   @param cluster_list_name - cluster list variable name
   @param basic_attr_list - attribute list for Basic cluster
+  @param keep_alive_attr_list - attribute list for Keep-Alive cluster
   @param identify_attr_list - attribute list for Identify cluster
   @param thermostat_attr_list - attribute list for Thermostat cluster
+  @param poll_ctrl_attr_list - attribute list for Poll Control cluster
  */
 #define ZB_DECLARE_THERMOSTAT_CLUSTER_LIST(                             \
   cluster_list_name,                                                    \
   basic_attr_list,                                                      \
-  identify_attr_list)                                                   \
+  keep_alive_attr_list,                                                 \
+  identify_attr_list,                                                   \
+  poll_ctrl_attr_list)                                                  \
   zb_zcl_cluster_desc_t cluster_list_name[] =                           \
   {                                                                     \
     ZB_ZCL_CLUSTER_DESC(                                                \
@@ -84,6 +88,13 @@ zb_bool_t finding_binding_cb(zb_int16_t status,
       ZB_ZCL_MANUF_CODE_INVALID                                         \
     ),                                                                  \
     ZB_ZCL_CLUSTER_DESC(                                                \
+      ZB_ZCL_CLUSTER_ID_KEEP_ALIVE,                                     \
+      ZB_ZCL_ARRAY_SIZE(keep_alive_attr_list, zb_zcl_attr_t),           \
+      (keep_alive_attr_list),                                           \
+      ZB_ZCL_CLUSTER_SERVER_ROLE,                                       \
+      ZB_ZCL_MANUF_CODE_INVALID                                         \
+    ),                                                                  \
+    ZB_ZCL_CLUSTER_DESC(                                                \
       ZB_ZCL_CLUSTER_ID_THERMOSTAT,                                     \
       0,                                                                \
       NULL,                                                             \
@@ -94,6 +105,13 @@ zb_bool_t finding_binding_cb(zb_int16_t status,
       ZB_ZCL_CLUSTER_ID_IDENTIFY,                                       \
       0,                                                                \
       NULL,                                                             \
+      ZB_ZCL_CLUSTER_CLIENT_ROLE,                                       \
+      ZB_ZCL_MANUF_CODE_INVALID                                         \
+    ),                                                                  \
+    ZB_ZCL_CLUSTER_DESC(                                                \
+      ZB_ZCL_CLUSTER_ID_POLL_CONTROL,                                   \
+      ZB_ZCL_ARRAY_SIZE(poll_ctrl_attr_list, zb_zcl_attr_t),            \
+      (poll_ctrl_attr_list),                                            \
       ZB_ZCL_CLUSTER_CLIENT_ROLE,                                       \
       ZB_ZCL_MANUF_CODE_INVALID                                         \
     )                                                                   \
@@ -120,6 +138,7 @@ zb_bool_t finding_binding_cb(zb_int16_t status,
     {                                                                                      \
       ZB_ZCL_CLUSTER_ID_IDENTIFY,                                                          \
       ZB_ZCL_CLUSTER_ID_BASIC,                                                             \
+      ZB_ZCL_CLUSTER_ID_KEEP_ALIVE,                                                        \
       ZB_ZCL_CLUSTER_ID_THERMOSTAT,                                                        \
       ZB_ZCL_CLUSTER_ID_IDENTIFY,                                                          \
     }                                                                                      \
@@ -146,8 +165,8 @@ zb_bool_t finding_binding_cb(zb_int16_t status,
 
 
 /* Devices management routines */
-void send_thermostat_cmd(zb_uint8_t param);
-void send_thermostat_cmd_cb(zb_uint8_t param);
+void send_thermostat_cmd(zb_cb_param_t param);
+void send_thermostat_cmd_cb(zb_cb_param_t param);
 
 void send_setpoint_raise_lower_cmd(
   zb_zcl_thermostat_setpoint_raise_lower_req_t *setpoint_raise_lower_data);

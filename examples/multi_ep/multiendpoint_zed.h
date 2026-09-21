@@ -36,7 +36,7 @@
 #define HA_DIMMABLE_LIGHT_ENDPOINT 10
 
 /* Handler for specific ZCL commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 
 /* Light Bulb initialization */
 void multi_ep_zed_device_app_init(zb_uint8_t param);
@@ -45,7 +45,7 @@ void multi_ep_zed_app_ctx_init();
 /* Initialization of HA attributes */
 void multi_ep_zed_clusters_attr_init(zb_uint8_t param);
 /* Device user application callback */
-void test_device_cb(zb_uint8_t param);
+void test_device_cb(zb_cb_param_t param);
 
 
 /* Cluster Definition Macros */

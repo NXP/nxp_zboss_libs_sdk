@@ -87,89 +87,583 @@ $(document).ready(function(){initNavTree('group___z_b___n_w_k___a_d_d_r.html',''
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ga37b88c866933a2d2dd74855f98904041"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga37b88c866933a2d2dd74855f98904041">ZB_ADDRESS_IEEE_REF_NONE</a>&#160;&#160;&#160;(<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a>)(-1)</td></tr>
+<tr class="memitem:gaf35945ddbf904845423672674be4a13a"><td class="memItemLeft" align="right" valign="top"><a id="gaf35945ddbf904845423672674be4a13a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ZB_ADDRESS_PAN_ID_REF_NONE</b>&#160;&#160;&#160;((<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gad01ddbd56d3a56cb0f54bf9360a8233d">zb_address_pan_id_ref_t</a>)(-1))</td></tr>
+<tr class="separator:gaf35945ddbf904845423672674be4a13a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga37b88c866933a2d2dd74855f98904041"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga37b88c866933a2d2dd74855f98904041">ZB_ADDRESS_IEEE_REF_NONE</a>&#160;&#160;&#160;((<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a>)(-1))</td></tr>
 <tr class="separator:ga37b88c866933a2d2dd74855f98904041"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa685c84783b1246901c40ba16f372286"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gaa685c84783b1246901c40ba16f372286">ZB_ADDRESS_IEEE_REF_FIRST</a>&#160;&#160;&#160;(<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a>)(0)</td></tr>
+<tr class="memitem:gaa685c84783b1246901c40ba16f372286"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gaa685c84783b1246901c40ba16f372286">ZB_ADDRESS_IEEE_REF_FIRST</a>&#160;&#160;&#160;((<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a>)(0U))</td></tr>
 <tr class="separator:gaa685c84783b1246901c40ba16f372286"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8281b722309d53171879661761029d38"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga8281b722309d53171879661761029d38">zb_address_lock</a>(ref)&#160;&#160;&#160;zb_address_lock_func(TRACE_ADDR_CALL ref)</td></tr>
+<tr class="memitem:ga48b8c489c279aca379deaec34f9b4e3e"><td class="memItemLeft" align="right" valign="top"><a id="ga48b8c489c279aca379deaec34f9b4e3e"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ZB_ADDRESS_SORTED_IDX_NONE</b>&#160;&#160;&#160;((zb_sorted_address_idx_t)(-1))</td></tr>
+<tr class="separator:ga48b8c489c279aca379deaec34f9b4e3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae81f47db6a3b6c2b0c54b0cf351ec721"><td class="memItemLeft" align="right" valign="top"><a id="gae81f47db6a3b6c2b0c54b0cf351ec721"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ZB_NWK_NEIGHBOR_REF_NONE</b>&#160;&#160;&#160;((<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>)-1)</td></tr>
+<tr class="separator:gae81f47db6a3b6c2b0c54b0cf351ec721"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafcdfd478b1d54cf3ddff42534340bcb0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gafcdfd478b1d54cf3ddff42534340bcb0">zb_address_update</a>(ieee_address,  short_address,  lock,  ref_p)&#160;&#160;&#160;zb_address_update_func(TRACE_ADDR_CALL (ieee_address), (short_address), (lock), (ref_p))</td></tr>
+<tr class="separator:gafcdfd478b1d54cf3ddff42534340bcb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0bf86f871c76f19ee74aa8f227adddbe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga0bf86f871c76f19ee74aa8f227adddbe">zb_address_update_if_absent</a>(ieee_address,  short_address)&#160;&#160;&#160;zb_address_update_if_absent_func(TRACE_ADDR_CALL (ieee_address), (short_address))</td></tr>
+<tr class="separator:ga0bf86f871c76f19ee74aa8f227adddbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4d61e429f661c02058aafd0eddae6da0"><td class="memItemLeft" align="right" valign="top"><a id="ga4d61e429f661c02058aafd0eddae6da0"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>zb_long_address_update_by_ref</b>(ieee_address,  ref)&#160;&#160;&#160;zb_long_address_update_by_ref_func(TRACE_ADDR_CALL (ieee_address), (ref))</td></tr>
+<tr class="separator:ga4d61e429f661c02058aafd0eddae6da0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6df1cdf6f4205e3d7aa4083b3eb1f087"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga6df1cdf6f4205e3d7aa4083b3eb1f087">zb_address_by_ref</a>(ieee_address,  short_address_p,  ref)&#160;&#160;&#160;zb_address_by_ref_func(TRACE_ADDR_CALL (ieee_address), (short_address_p), (ref))</td></tr>
+<tr class="separator:ga6df1cdf6f4205e3d7aa4083b3eb1f087"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa222a88ef2bf4abcbba4d59f68a0ac8a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gaa222a88ef2bf4abcbba4d59f68a0ac8a">zb_address_ieee_by_ref</a>(ieee_address,  ref)&#160;&#160;&#160;zb_address_ieee_by_ref_func(TRACE_ADDR_CALL (ieee_address), (ref))</td></tr>
+<tr class="separator:gaa222a88ef2bf4abcbba4d59f68a0ac8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafbbf63d9ca0ad6f9727e07995cb89ed0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gafbbf63d9ca0ad6f9727e07995cb89ed0">zb_address_short_by_ref</a>(short_address_p,  ref)&#160;&#160;&#160;zb_address_short_by_ref_func(TRACE_ADDR_CALL (short_address_p), (ref))</td></tr>
+<tr class="separator:gafbbf63d9ca0ad6f9727e07995cb89ed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga19897d1ce418280f93c703c1697834a8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga19897d1ce418280f93c703c1697834a8">zb_address_by_ieee</a>(ieee,  create,  lock,  ref_p)&#160;&#160;&#160;zb_address_by_ieee_func(TRACE_ADDR_CALL (ieee), (create), (lock), (ref_p))</td></tr>
+<tr class="separator:ga19897d1ce418280f93c703c1697834a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf8bd318661d0fc33595321b9a484cb86"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gaf8bd318661d0fc33595321b9a484cb86">zb_address_get_by_ieee</a>(ieee,  ref_p)&#160;&#160;&#160;zb_address_get_by_ieee_func(TRACE_ADDR_CALL (ieee), (ref_p))</td></tr>
+<tr class="separator:gaf8bd318661d0fc33595321b9a484cb86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad8c3346391602676466034cf0d7589d7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gad8c3346391602676466034cf0d7589d7">zb_address_get_by_ieee_lk</a>(ieee,  ref_p)&#160;&#160;&#160;zb_address_get_by_ieee_lk_func(TRACE_ADDR_CALL (ieee), (ref_p))</td></tr>
+<tr class="separator:gad8c3346391602676466034cf0d7589d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacb6459921443986ef79f85a3a6fdccbb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gacb6459921443986ef79f85a3a6fdccbb">zb_address_short_by_ieee</a>(ieee_address)&#160;&#160;&#160;zb_address_short_by_ieee_func(TRACE_ADDR_CALL (ieee_address))</td></tr>
+<tr class="separator:gacb6459921443986ef79f85a3a6fdccbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf2feba7e7565e1af010efa445b413d15"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gaf2feba7e7565e1af010efa445b413d15">zb_address_ieee_by_short</a>(short_addr,  ieee_address)&#160;&#160;&#160;zb_address_ieee_by_short_func(TRACE_ADDR_CALL (short_addr), (ieee_address))</td></tr>
+<tr class="separator:gaf2feba7e7565e1af010efa445b413d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2fdcbafffdcea0bef9ba4afeb5b83a36"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2fdcbafffdcea0bef9ba4afeb5b83a36">zb_address_by_short</a>(short_address,  create,  lock,  ref_p)&#160;&#160;&#160;zb_address_by_short_func(TRACE_ADDR_CALL (short_address), (create), (lock), (ref_p))</td></tr>
+<tr class="separator:ga2fdcbafffdcea0bef9ba4afeb5b83a36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab99254baba4fc89b12b49fd7f16bff9b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gab99254baba4fc89b12b49fd7f16bff9b">zb_address_get_by_short</a>(short_address,  ref_p)&#160;&#160;&#160;zb_address_get_by_short_func(TRACE_ADDR_CALL (short_address), (ref_p))</td></tr>
+<tr class="separator:gab99254baba4fc89b12b49fd7f16bff9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7a908888d05bd4f6c95ca3c7212af3a6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga7a908888d05bd4f6c95ca3c7212af3a6">zb_address_get_by_short_lk</a>(short_address,  ref_p)&#160;&#160;&#160;zb_address_get_by_short_lk_func(TRACE_ADDR_CALL (short_address), (ref_p))</td></tr>
+<tr class="separator:ga7a908888d05bd4f6c95ca3c7212af3a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga64f1c86770e5c1cd307b8b88ebe9602c"><td class="memItemLeft" align="right" valign="top"><a id="ga64f1c86770e5c1cd307b8b88ebe9602c"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_get_primary_entry</b>(addr_ref)&#160;&#160;&#160;zb_address_get_primary_entry_func(TRACE_ADDR_CALL (addr_ref))</td></tr>
+<tr class="separator:ga64f1c86770e5c1cd307b8b88ebe9602c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8281b722309d53171879661761029d38"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga8281b722309d53171879661761029d38">zb_address_lock</a>(ref)&#160;&#160;&#160;zb_address_lock_func(TRACE_ADDR_CALL (ref))</td></tr>
 <tr class="separator:ga8281b722309d53171879661761029d38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga02e1c8c2291d9d305e48e168ccaf353f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga02e1c8c2291d9d305e48e168ccaf353f">zb_address_unlock</a>(ref)&#160;&#160;&#160;zb_address_unlock_func(TRACE_ADDR_CALL ref)</td></tr>
+<tr class="memitem:ga02e1c8c2291d9d305e48e168ccaf353f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga02e1c8c2291d9d305e48e168ccaf353f">zb_address_unlock</a>(ref)&#160;&#160;&#160;zb_address_unlock_func(TRACE_ADDR_CALL (ref))</td></tr>
 <tr class="separator:ga02e1c8c2291d9d305e48e168ccaf353f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8473accd45367dc2ea029d0141caad3f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga8473accd45367dc2ea029d0141caad3f">zb_address_delete</a>(ref)&#160;&#160;&#160;zb_address_delete_func(TRACE_ADDR_CALL (ref))</td></tr>
+<tr class="separator:ga8473accd45367dc2ea029d0141caad3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:gad01ddbd56d3a56cb0f54bf9360a8233d"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gad01ddbd56d3a56cb0f54bf9360a8233d">zb_address_pan_id_ref_t</a></td></tr>
 <tr class="separator:gad01ddbd56d3a56cb0f54bf9360a8233d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2e5c125720ee343e95470acbd9c4ca33"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a></td></tr>
-<tr class="separator:ga2e5c125720ee343e95470acbd9c4ca33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga933041804380344872ebb060b7fc71d8"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a></td></tr>
+<tr class="separator:ga933041804380344872ebb060b7fc71d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6633b2325c66b7201b47fdcedec89954"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga6633b2325c66b7201b47fdcedec89954">zb_nwk_neighbor_ref_t</a></td></tr>
+<tr class="separator:ga6633b2325c66b7201b47fdcedec89954"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga40265d377798fe52d99fbaa0bb65c31a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga40265d377798fe52d99fbaa0bb65c31a">zb_address_get_pan_id_ref</a> (<a class="el" href="group__base__types.html#ga8b3e05b0f0061a265d713d2063fef8a6">zb_ext_pan_id_t</a> pan_id, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gad01ddbd56d3a56cb0f54bf9360a8233d">zb_address_pan_id_ref_t</a> *ref)</td></tr>
-<tr class="separator:ga40265d377798fe52d99fbaa0bb65c31a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6618a823f93db48aae68d2c8b0e09976"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga6618a823f93db48aae68d2c8b0e09976">zb_address_get_pan_id_ref</a> (const <a class="el" href="group__base__types.html#ga8b3e05b0f0061a265d713d2063fef8a6">zb_ext_pan_id_t</a> pan_id, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gad01ddbd56d3a56cb0f54bf9360a8233d">zb_address_pan_id_ref_t</a> *ref)</td></tr>
+<tr class="separator:ga6618a823f93db48aae68d2c8b0e09976"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga983fa31b86b2c4275bd0cd8a52987644"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga983fa31b86b2c4275bd0cd8a52987644">zb_address_get_short_pan_id</a> (<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gad01ddbd56d3a56cb0f54bf9360a8233d">zb_address_pan_id_ref_t</a> pan_id_ref, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> *pan_id_p)</td></tr>
 <tr class="separator:ga983fa31b86b2c4275bd0cd8a52987644"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga557b23e3a140e4bfd87c7efdfc016375"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga557b23e3a140e4bfd87c7efdfc016375">zb_address_get_diag_data</a> (<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gad01ddbd56d3a56cb0f54bf9360a8233d">zb_address_pan_id_ref_t</a> pan_id_ref, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> *lqi, <a class="el" href="group__base__types.html#gaaa82b9bd6028336d7b677254ee7fc160">zb_int8_t</a> *rssi)</td></tr>
 <tr class="separator:ga557b23e3a140e4bfd87c7efdfc016375"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3533d31b75933788e875c630583ea6ed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga3533d31b75933788e875c630583ea6ed">zb_address_cmp_pan_id_by_ref</a> (<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gad01ddbd56d3a56cb0f54bf9360a8233d">zb_address_pan_id_ref_t</a> pan_id_ref, <a class="el" href="group__base__types.html#ga8b3e05b0f0061a265d713d2063fef8a6">zb_ext_pan_id_t</a> pan_id)</td></tr>
-<tr class="separator:ga3533d31b75933788e875c630583ea6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga23c3f951f9521f1b303ed9636b66c236"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga23c3f951f9521f1b303ed9636b66c236">zb_address_update</a> (<a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_address, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> short_address, <a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> lock, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> *ref_p)</td></tr>
-<tr class="separator:ga23c3f951f9521f1b303ed9636b66c236"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga19b76f615d3863858d59c37a210aaba4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga19b76f615d3863858d59c37a210aaba4">zb_address_update_if_absent</a> (<a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_address, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> short_address)</td></tr>
-<tr class="separator:ga19b76f615d3863858d59c37a210aaba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga56c87ee8de0739e753def69ddaf6b46d"><td class="memItemLeft" align="right" valign="top"><a id="ga56c87ee8de0739e753def69ddaf6b46d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_long_address_update_by_ref</b> (<a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_address, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> ref)</td></tr>
-<tr class="separator:ga56c87ee8de0739e753def69ddaf6b46d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf8d75e1b4352b6623db7b3a90ccd7c47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gaf8d75e1b4352b6623db7b3a90ccd7c47">zb_address_by_ref</a> (<a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_address, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> *short_address_p, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> ref)</td></tr>
-<tr class="separator:gaf8d75e1b4352b6623db7b3a90ccd7c47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa4a0ca70ba7466199e3424f13dfbca33"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gaa4a0ca70ba7466199e3424f13dfbca33">zb_address_ieee_by_ref</a> (<a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_address, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> ref)</td></tr>
-<tr class="separator:gaa4a0ca70ba7466199e3424f13dfbca33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga23068b769a98f84b05c06ffe073fe8d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga23068b769a98f84b05c06ffe073fe8d1">zb_address_short_by_ref</a> (<a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> *short_address_p, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> ref)</td></tr>
-<tr class="separator:ga23068b769a98f84b05c06ffe073fe8d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac911f75d6a4594a87b1c70e2c88389f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gac911f75d6a4594a87b1c70e2c88389f9">zb_address_by_ieee</a> (const <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee, <a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> create, <a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> lock, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> *ref_p)</td></tr>
-<tr class="separator:gac911f75d6a4594a87b1c70e2c88389f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8be56510d69884867ae43a3a840cf0fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga8be56510d69884867ae43a3a840cf0fb">zb_address_get_by_ieee</a> (const <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> *ref_p)</td></tr>
-<tr class="separator:ga8be56510d69884867ae43a3a840cf0fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga18ff5f837a7639d987ff6e7aea0e3cd6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga18ff5f837a7639d987ff6e7aea0e3cd6">zb_address_get_by_ieee_lk</a> (const <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> *ref_p)</td></tr>
-<tr class="separator:ga18ff5f837a7639d987ff6e7aea0e3cd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab321151ea3a4f2c4e684fbeca9a07ede"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gab321151ea3a4f2c4e684fbeca9a07ede">zb_address_short_by_ieee</a> (const <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_address)</td></tr>
-<tr class="separator:gab321151ea3a4f2c4e684fbeca9a07ede"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2386cee89d4a775d2eae4cc9262cedfd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2386cee89d4a775d2eae4cc9262cedfd">zb_address_ieee_by_short</a> (<a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> short_addr, <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_address)</td></tr>
-<tr class="separator:ga2386cee89d4a775d2eae4cc9262cedfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaab34d107e5b674ec243462ddeaa13e2c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gaab34d107e5b674ec243462ddeaa13e2c">zb_address_by_short</a> (<a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> short_address, <a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> create, <a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> lock, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> *ref_p)</td></tr>
-<tr class="separator:gaab34d107e5b674ec243462ddeaa13e2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1c095d31dda8f13785fd63542dc3c627"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga1c095d31dda8f13785fd63542dc3c627">zb_address_get_by_short</a> (<a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> short_address, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> *ref_p)</td></tr>
-<tr class="separator:ga1c095d31dda8f13785fd63542dc3c627"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga679e0d9a931151fe2c738170dd4d758e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga679e0d9a931151fe2c738170dd4d758e">zb_address_get_by_short_lk</a> (<a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> short_address, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> *ref_p)</td></tr>
-<tr class="separator:ga679e0d9a931151fe2c738170dd4d758e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf40eaff9d30483f8c7f5b2d9ce77a4dc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gaf40eaff9d30483f8c7f5b2d9ce77a4dc">zb_address_is_locked</a> (<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> ref)</td></tr>
+<tr class="memitem:gaf0b31dc4d620f4ce8ea91b8de1d8f6bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gaf0b31dc4d620f4ce8ea91b8de1d8f6bb">zb_address_cmp_pan_id_by_ref</a> (<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gad01ddbd56d3a56cb0f54bf9360a8233d">zb_address_pan_id_ref_t</a> pan_id_ref, const <a class="el" href="group__base__types.html#ga8b3e05b0f0061a265d713d2063fef8a6">zb_ext_pan_id_t</a> pan_id)</td></tr>
+<tr class="separator:gaf0b31dc4d620f4ce8ea91b8de1d8f6bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab42ff39dcd5ceee1ab8f2fe302f96d67"><td class="memItemLeft" align="right" valign="top"><a id="gab42ff39dcd5ceee1ab8f2fe302f96d67"></a>
+<a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_update_func</b> (TRACE_ADDR_PROTO const <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_address, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> short_address, <a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> lock, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> *ref_p)</td></tr>
+<tr class="separator:gab42ff39dcd5ceee1ab8f2fe302f96d67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga94f4756974c1617769cc60009e86176c"><td class="memItemLeft" align="right" valign="top"><a id="ga94f4756974c1617769cc60009e86176c"></a>
+<a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_update_if_absent_func</b> (TRACE_ADDR_PROTO const <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_address, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> short_address)</td></tr>
+<tr class="separator:ga94f4756974c1617769cc60009e86176c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga57d39f08638262a81d11d7bc1e99807e"><td class="memItemLeft" align="right" valign="top"><a id="ga57d39f08638262a81d11d7bc1e99807e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_long_address_update_by_ref_func</b> (TRACE_ADDR_PROTO const <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_address, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> ref)</td></tr>
+<tr class="separator:ga57d39f08638262a81d11d7bc1e99807e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac6959b829f03e53d2c7a4bd51978d9b7"><td class="memItemLeft" align="right" valign="top"><a id="gac6959b829f03e53d2c7a4bd51978d9b7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_by_ref_func</b> (TRACE_ADDR_PROTO <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_address, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> *short_address_p, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> ref)</td></tr>
+<tr class="separator:gac6959b829f03e53d2c7a4bd51978d9b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga66b89a70788157d440f925d0c00be1a0"><td class="memItemLeft" align="right" valign="top"><a id="ga66b89a70788157d440f925d0c00be1a0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_ieee_by_ref_func</b> (TRACE_ADDR_PROTO <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_address, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> ref)</td></tr>
+<tr class="separator:ga66b89a70788157d440f925d0c00be1a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7521ba795069025191f6f1d9d998584a"><td class="memItemLeft" align="right" valign="top"><a id="ga7521ba795069025191f6f1d9d998584a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_short_by_ref_func</b> (TRACE_ADDR_PROTO <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> *short_address_p, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> ref)</td></tr>
+<tr class="separator:ga7521ba795069025191f6f1d9d998584a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga37ba6f178551feded0791b929280353b"><td class="memItemLeft" align="right" valign="top"><a id="ga37ba6f178551feded0791b929280353b"></a>
+<a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_by_ieee_func</b> (TRACE_ADDR_PROTO const <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee, <a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> create, <a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> lock, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> *ref_p)</td></tr>
+<tr class="separator:ga37ba6f178551feded0791b929280353b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gace6e35ad7037a546641662e6aefd3cc2"><td class="memItemLeft" align="right" valign="top"><a id="gace6e35ad7037a546641662e6aefd3cc2"></a>
+<a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_get_by_ieee_func</b> (TRACE_ADDR_PROTO const <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> *ref_p)</td></tr>
+<tr class="separator:gace6e35ad7037a546641662e6aefd3cc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga974e0cbb31390c343c95d5e4c8b24aca"><td class="memItemLeft" align="right" valign="top"><a id="ga974e0cbb31390c343c95d5e4c8b24aca"></a>
+<a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_get_by_ieee_lk_func</b> (TRACE_ADDR_PROTO const <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> *ref_p)</td></tr>
+<tr class="separator:ga974e0cbb31390c343c95d5e4c8b24aca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2c8a7edeaf5252294aab6ac3aaef75a3"><td class="memItemLeft" align="right" valign="top"><a id="ga2c8a7edeaf5252294aab6ac3aaef75a3"></a>
+<a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_short_by_ieee_func</b> (TRACE_ADDR_PROTO const <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_address)</td></tr>
+<tr class="separator:ga2c8a7edeaf5252294aab6ac3aaef75a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7860995a450bfd864263dd54d591167f"><td class="memItemLeft" align="right" valign="top"><a id="ga7860995a450bfd864263dd54d591167f"></a>
+<a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_ieee_by_short_func</b> (TRACE_ADDR_PROTO <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> short_addr, <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_address)</td></tr>
+<tr class="separator:ga7860995a450bfd864263dd54d591167f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9d084ff18de800eeb67036715b48098a"><td class="memItemLeft" align="right" valign="top"><a id="ga9d084ff18de800eeb67036715b48098a"></a>
+<a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_by_short_func</b> (TRACE_ADDR_PROTO <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> short_address, <a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> create, <a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> lock, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> *ref_p)</td></tr>
+<tr class="separator:ga9d084ff18de800eeb67036715b48098a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8cb7efd05e53c5dc899a997085ba6c40"><td class="memItemLeft" align="right" valign="top"><a id="ga8cb7efd05e53c5dc899a997085ba6c40"></a>
+<a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_get_by_short_func</b> (TRACE_ADDR_PROTO <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> short_address, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> *ref_p)</td></tr>
+<tr class="separator:ga8cb7efd05e53c5dc899a997085ba6c40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga89bd6dbc7aafd4f8b013c670eb63123d"><td class="memItemLeft" align="right" valign="top"><a id="ga89bd6dbc7aafd4f8b013c670eb63123d"></a>
+<a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_get_by_short_lk_func</b> (TRACE_ADDR_PROTO <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> short_address, <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> *ref_p)</td></tr>
+<tr class="separator:ga89bd6dbc7aafd4f8b013c670eb63123d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf40eaff9d30483f8c7f5b2d9ce77a4dc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gaf40eaff9d30483f8c7f5b2d9ce77a4dc">zb_address_is_locked</a> (<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> ref)</td></tr>
 <tr class="separator:gaf40eaff9d30483f8c7f5b2d9ce77a4dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1d1d6d53f56ac1093a8fbfc6595fd438"><td class="memItemLeft" align="right" valign="top"><a id="ga1d1d6d53f56ac1093a8fbfc6595fd438"></a>
+zb_address_map_t *&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_get_primary_entry_func</b> (TRACE_ADDR_PROTO <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> addr_ref)</td></tr>
+<tr class="separator:ga1d1d6d53f56ac1093a8fbfc6595fd438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2c8f3f673c1426d08122a3ac7d28dcb0"><td class="memItemLeft" align="right" valign="top"><a id="ga2c8f3f673c1426d08122a3ac7d28dcb0"></a>
-<a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_lock_func</b> (TRACE_ADDR_PROTO <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> ref)</td></tr>
+<a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_lock_func</b> (TRACE_ADDR_PROTO <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> ref)</td></tr>
 <tr class="separator:ga2c8f3f673c1426d08122a3ac7d28dcb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga184a605c2859cefe2a26c85252113d18"><td class="memItemLeft" align="right" valign="top"><a id="ga184a605c2859cefe2a26c85252113d18"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_unlock_func</b> (TRACE_ADDR_PROTO <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> ref)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_unlock_func</b> (TRACE_ADDR_PROTO <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> ref)</td></tr>
 <tr class="separator:ga184a605c2859cefe2a26c85252113d18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga21c1c19acaa8230e93b51d15782afeab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga21c1c19acaa8230e93b51d15782afeab">zb_address_delete</a> (<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> ref)</td></tr>
-<tr class="separator:ga21c1c19acaa8230e93b51d15782afeab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf8c326d2141aa357a4515f73ec60069b"><td class="memItemLeft" align="right" valign="top"><a id="gaf8c326d2141aa357a4515f73ec60069b"></a>
-<a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_setup_ieee_disc</b> (<a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> short_addr)</td></tr>
-<tr class="separator:gaf8c326d2141aa357a4515f73ec60069b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabd2bc35f4127a7f1a6417b7ee90b03ff"><td class="memItemLeft" align="right" valign="top"><a id="gabd2bc35f4127a7f1a6417b7ee90b03ff"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_done_ieee_disc</b> (<a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> short_addr)</td></tr>
-<tr class="separator:gabd2bc35f4127a7f1a6417b7ee90b03ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga08e8e472018f07f779b787c44135d6f9"><td class="memItemLeft" align="right" valign="top"><a id="ga08e8e472018f07f779b787c44135d6f9"></a>
-<a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_setup_short_disc</b> (<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> ref)</td></tr>
-<tr class="separator:ga08e8e472018f07f779b787c44135d6f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7a5ec2685929d7ba1b9bf309bdb2c855"><td class="memItemLeft" align="right" valign="top"><a id="ga7a5ec2685929d7ba1b9bf309bdb2c855"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_done_short_disc</b> (<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> ref)</td></tr>
-<tr class="separator:ga7a5ec2685929d7ba1b9bf309bdb2c855"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaca8bca257e9d5744ed7319df1b06c6b2"><td class="memItemLeft" align="right" valign="top"><a id="gaca8bca257e9d5744ed7319df1b06c6b2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redirs</b> (void)</td></tr>
-<tr class="separator:gaca8bca257e9d5744ed7319df1b06c6b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa55678a3db8a03473b285a3f50acaed6"><td class="memItemLeft" align="right" valign="top"><a id="gaa55678a3db8a03473b285a3f50acaed6"></a>
+<a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_delete_func</b> (TRACE_ADDR_PROTO <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> ref)</td></tr>
+<tr class="separator:gaa55678a3db8a03473b285a3f50acaed6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ga19897d1ce418280f93c703c1697834a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga19897d1ce418280f93c703c1697834a8">&#9670;&nbsp;</a></span>zb_address_by_ieee</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define zb_address_by_ieee</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ieee, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">create, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">lock, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ref_p&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;zb_address_by_ieee_func(TRACE_ADDR_CALL (ieee), (create), (lock), (ref_p))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get address ref by long address, optionally create if not exist, optionally lock. Update address alive time if not locked. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ieee</td><td>- IEEE device address </td></tr>
+    <tr><td class="paramname">create</td><td>- if TRUE, create address entry if it does not exist </td></tr>
+    <tr><td class="paramname">lock</td><td>- if TRUE, lock address entry </td></tr>
+    <tr><td class="paramname">ref_p</td><td>- (out) address reference</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>: never call <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga19897d1ce418280f93c703c1697834a8">zb_address_by_ieee()</a> with empty (zero) ieee_address</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>RET_OK or error code</dd></dl>
+<p><b>Example</b> </p><div class="fragment"><div class="line"><span class="keywordtype">void</span> test_get_short_addr(<a class="code" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param)</div>
+<div class="line">{</div>
+<div class="line">  <a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> ref_p;</div>
+<div class="line">  <a class="code" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> buf = ZB_BUF_FROM_REF(param);</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordflow">if</span> (<a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga19897d1ce418280f93c703c1697834a8">zb_address_by_ieee</a>(g_ieee_addr_r2, <a class="code" href="group__base__types.html#ga31ddce10b950c4f30d546945beabdcbc">ZB_TRUE</a>, <a class="code" href="group__base__types.html#gae0f2d2d69ee138eedec4460449f84431">ZB_FALSE</a>, &amp;ref_p) == <a class="code" href="group__error__codes.html#ga76117585e8ddc62f21ca0e3061b7830e">RET_OK</a>)</div>
+<div class="line">  {</div>
+<div class="line">    ...</div>
+<div class="line">  }</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="ga6df1cdf6f4205e3d7aa4083b3eb1f087"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6df1cdf6f4205e3d7aa4083b3eb1f087">&#9670;&nbsp;</a></span>zb_address_by_ref</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define zb_address_by_ref</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ieee_address, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">short_address_p, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ref&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;zb_address_by_ref_func(TRACE_ADDR_CALL (ieee_address), (short_address_p), (ref))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get address with address reference.</p>
+<p>Get existing IEEE (long) and short addresses with address reference. Update address alive time if it not locked.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ieee_address</td><td>- (out) long address </td></tr>
+    <tr><td class="paramname">short_address_p</td><td>- (out) short address </td></tr>
+    <tr><td class="paramname">ref</td><td>- address reference</td></tr>
+  </table>
+  </dd>
+</dl>
+<p><b>Example</b> </p><div class="fragment"><div class="line"><a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> addr_ref;</div>
+<div class="line">zb_nlme_join_indication_t *resp = <a class="code" href="group__buf.html#gaf7e0718a3bb63059a2626ac98b54d65d">ZB_BUF_GET_PARAM</a>((<a class="code" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> )ZB_BUF_FROM_REF(param), zb_nlme_join_indication_t);</div>
+<div class="line"><a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga6df1cdf6f4205e3d7aa4083b3eb1f087">zb_address_by_ref</a>(resp-&gt;extended_address, &amp;resp-&gt;network_address, addr_ref);</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="ga2fdcbafffdcea0bef9ba4afeb5b83a36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2fdcbafffdcea0bef9ba4afeb5b83a36">&#9670;&nbsp;</a></span>zb_address_by_short</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define zb_address_by_short</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">short_address, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">create, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">lock, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ref_p&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;zb_address_by_short_func(TRACE_ADDR_CALL (short_address), (create), (lock), (ref_p))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get address reference by short address. Create the reference if it does not exist. Optionally, lock the address. Update address alive time if not locked. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">short_address</td><td>- 16bit device address </td></tr>
+    <tr><td class="paramname">create</td><td>- if TRUE, create address entry if it does not exist </td></tr>
+    <tr><td class="paramname">lock</td><td>- if TRUE, lock address entry </td></tr>
+    <tr><td class="paramname">ref_p</td><td>- (out) address reference</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Never call <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2fdcbafffdcea0bef9ba4afeb5b83a36">zb_address_by_short()</a> with empty (-1) short_address</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>RET_OK or error code</dd></dl>
+<p><b>Example</b> </p><div class="fragment"><div class="line"><span class="keywordtype">void</span> simple_gw_send_leave_req(<a class="code" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param, <a class="code" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> short_addr, <a class="code" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> rejoin_flag)</div>
+<div class="line">{</div>
+<div class="line">    <a class="code" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> buf = param;</div>
+<div class="line">    <a class="code" href="structzb__zdo__mgmt__leave__param__s.html">zb_zdo_mgmt_leave_param_t</a> *req_param;</div>
+<div class="line">    <a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> addr_ref;</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">if</span> (<a class="code" href="group___z_b___n_w_k___a_d_d_r.html#gab99254baba4fc89b12b49fd7f16bff9b">zb_address_get_by_short</a>(short_addr, &amp;addr_ref) == <a class="code" href="group__error__codes.html#ga76117585e8ddc62f21ca0e3061b7830e">RET_OK</a>)</div>
+<div class="line">    {</div>
+<div class="line">      req_param = <a class="code" href="group__buf.html#gaf7e0718a3bb63059a2626ac98b54d65d">ZB_BUF_GET_PARAM</a>(buf, <a class="code" href="structzb__zdo__mgmt__leave__param__s.html">zb_zdo_mgmt_leave_param_t</a>);</div>
+<div class="line">      ZB_BZERO(req_param, <span class="keyword">sizeof</span>(<a class="code" href="structzb__zdo__mgmt__leave__param__s.html">zb_zdo_mgmt_leave_param_t</a>));</div>
+<div class="line"> </div>
+<div class="line">      req_param-&gt;<a class="code" href="structzb__zdo__mgmt__leave__param__s.html#a46e49192f971fef93ca6476c9ecb5f4f">dst_addr</a> = short_addr;</div>
+<div class="line">     req_param-&gt;<a class="code" href="structzb__zdo__mgmt__leave__param__s.html#a3f09a9ba79e110caae0d22280fe78b7a">rejoin</a> = (rejoin_flag ? 1 : 0);</div>
+<div class="line">      <a class="code" href="group__zdo__mgmt.html#gadf8d0b7fcce457ff953f5cac5799af41">zdo_mgmt_leave_req</a>(param, NULL);</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">else</span></div>
+<div class="line">    {</div>
+<div class="line">      <a class="code" href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a>(TRACE_APP1, <span class="stringliteral">&quot;tried to remove 0x%xd, but device is already left&quot;</span>, (FMT__D, short_addr));</div>
+<div class="line">      <a class="code" href="group__buf.html#ga788a473df6d535c19f5da0d142d4fa01">zb_buf_free</a>(buf);</div>
+<div class="line">    }</div>
+<div class="line">  }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ga8473accd45367dc2ea029d0141caad3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8473accd45367dc2ea029d0141caad3f">&#9670;&nbsp;</a></span>zb_address_delete</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define zb_address_delete</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ref</td><td>)</td>
+          <td>&#160;&#160;&#160;zb_address_delete_func(TRACE_ADDR_CALL (ref))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Delete address.</p>
+<dl class="section return"><dt>Returns</dt><dd>RET_OK or RET_ERROR</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ref</td><td>- IEEE/network address pair reference </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gaf8bd318661d0fc33595321b9a484cb86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf8bd318661d0fc33595321b9a484cb86">&#9670;&nbsp;</a></span>zb_address_get_by_ieee</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define zb_address_get_by_ieee</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ieee, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ref_p&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;zb_address_get_by_ieee_func(TRACE_ADDR_CALL (ieee), (ref_p))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get address ref by long address, do not lock.</p>
+<p>This is a read-only version of <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga19897d1ce418280f93c703c1697834a8">zb_address_by_ieee()</a>. Always use it if address not need to be created. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ieee</td><td>- IEEE device address </td></tr>
+    <tr><td class="paramname">ref_p</td><td>- (out) address reference</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>: never call <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga19897d1ce418280f93c703c1697834a8">zb_address_by_ieee()</a> with empty (zero) ieee_address</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>RET_OK or RET_NOT_FOUND </dd></dl>
+
+</div>
+</div>
+<a id="gad8c3346391602676466034cf0d7589d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad8c3346391602676466034cf0d7589d7">&#9670;&nbsp;</a></span>zb_address_get_by_ieee_lk</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define zb_address_get_by_ieee_lk</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ieee, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ref_p&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;zb_address_get_by_ieee_lk_func(TRACE_ADDR_CALL (ieee), (ref_p))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get address ref by long address, lock the address</p>
+<p>This is a read-only version of <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga19897d1ce418280f93c703c1697834a8">zb_address_by_ieee()</a>. Always use it if address not need to be created. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ieee</td><td>- IEEE device address </td></tr>
+    <tr><td class="paramname">ref_p</td><td>- (out) address reference</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>: never call <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga19897d1ce418280f93c703c1697834a8">zb_address_by_ieee()</a> with empty (zero) ieee_address</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>RET_OK or RET_NOT_FOUND </dd></dl>
+
+</div>
+</div>
+<a id="gab99254baba4fc89b12b49fd7f16bff9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab99254baba4fc89b12b49fd7f16bff9b">&#9670;&nbsp;</a></span>zb_address_get_by_short</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define zb_address_get_by_short</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">short_address, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ref_p&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;zb_address_get_by_short_func(TRACE_ADDR_CALL (short_address), (ref_p))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get address reference by short address, do not lock.</p>
+<p>This is a read-only version of <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2fdcbafffdcea0bef9ba4afeb5b83a36">zb_address_by_short()</a>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">short_address</td><td>- 16bit device address </td></tr>
+    <tr><td class="paramname">ref_p</td><td>- (out) address reference</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Never call <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2fdcbafffdcea0bef9ba4afeb5b83a36">zb_address_by_short()</a> with empty (-1) short_address</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>RET_OK or RET_NOT_FOUND </dd></dl>
+
+</div>
+</div>
+<a id="ga7a908888d05bd4f6c95ca3c7212af3a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7a908888d05bd4f6c95ca3c7212af3a6">&#9670;&nbsp;</a></span>zb_address_get_by_short_lk</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define zb_address_get_by_short_lk</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">short_address, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ref_p&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;zb_address_get_by_short_lk_func(TRACE_ADDR_CALL (short_address), (ref_p))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get address reference by short address, lock address</p>
+<p>This is a read-only version of <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2fdcbafffdcea0bef9ba4afeb5b83a36">zb_address_by_short()</a> adding an address lock. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">short_address</td><td>- 16bit device address </td></tr>
+    <tr><td class="paramname">ref_p</td><td>- (out) address reference</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Never call <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2fdcbafffdcea0bef9ba4afeb5b83a36">zb_address_by_short()</a> with empty (-1) short_address</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>RET_OK or RET_NOT_FOUND </dd></dl>
+
+</div>
+</div>
+<a id="gaa222a88ef2bf4abcbba4d59f68a0ac8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa222a88ef2bf4abcbba4d59f68a0ac8a">&#9670;&nbsp;</a></span>zb_address_ieee_by_ref</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define zb_address_ieee_by_ref</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ieee_address, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ref&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;zb_address_ieee_by_ref_func(TRACE_ADDR_CALL (ieee_address), (ref))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get IEEE address with address reference.</p>
+<p>Get existing IEEE address(long address) with address reference. Update address alive time if it not locked.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ieee_address</td><td>- (out) long address </td></tr>
+    <tr><td class="paramname">ref</td><td>- address reference</td></tr>
+  </table>
+  </dd>
+</dl>
+<p><b>Example</b> </p><div class="fragment"><div class="line"><span class="keywordtype">void</span> func(zb_neighbor_tbl_ent_t *nbt)</div>
+<div class="line">{</div>
+<div class="line">  <a class="code" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_addr;</div>
+<div class="line">  <a class="code" href="group___z_b___n_w_k___a_d_d_r.html#gaa222a88ef2bf4abcbba4d59f68a0ac8a">zb_address_ieee_by_ref</a>(ieee_addr, nbt-&gt;addr_ref);</div>
+<div class="line">  ...</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="gaf2feba7e7565e1af010efa445b413d15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf2feba7e7565e1af010efa445b413d15">&#9670;&nbsp;</a></span>zb_address_ieee_by_short</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define zb_address_ieee_by_short</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">short_addr, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ieee_address&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;zb_address_ieee_by_short_func(TRACE_ADDR_CALL (short_addr), (ieee_address))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get IEEE address (long) with short address.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">short_addr</td><td>- short address </td></tr>
+    <tr><td class="paramname">ieee_address</td><td>- (out)long address</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>RET_OK or RET_NOT_FOUND</dd></dl>
+<p><b>Example</b> </p><div class="fragment"><div class="line">    <a class="code" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> i;</div>
+<div class="line">    <a class="code" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_addr;</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">if</span> (<a class="code" href="group___z_b___n_w_k___a_d_d_r.html#gaf2feba7e7565e1af010efa445b413d15">zb_address_ieee_by_short</a>(dev_annce_params-&gt;<a class="code" href="structzb__zdo__signal__device__annce__params__s.html#a66bc2c9188ea5c3668c265377cae4614">device_short_addr</a>, ieee_addr) != <a class="code" href="group__error__codes.html#ga76117585e8ddc62f21ca0e3061b7830e">RET_OK</a>)</div>
+<div class="line">    {</div>
+<div class="line">      <a class="code" href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a>(<a class="code" href="group___t_r_a_c_e___g_e_n_e_r_a_l___m_e_s_s_a_g_e_s.html#ga7c12181b2e8dc912219651ff42d22e42">TRACE_ERROR</a>, <span class="stringliteral">&quot;get ieee address by short failed&quot;</span>, (FMT__0));</div>
+<div class="line">      <a class="code" href="group__buf.html#ga788a473df6d535c19f5da0d142d4fa01">zb_buf_free</a>(buf_ref);</div>
+<div class="line">      <span class="keywordflow">return</span>;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="gaa685c84783b1246901c40ba16f372286"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaa685c84783b1246901c40ba16f372286">&#9670;&nbsp;</a></span>ZB_ADDRESS_IEEE_REF_FIRST</h2>
 
@@ -177,7 +671,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redir
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ZB_ADDRESS_IEEE_REF_FIRST&#160;&#160;&#160;(<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a>)(0)</td>
+          <td class="memname">#define ZB_ADDRESS_IEEE_REF_FIRST&#160;&#160;&#160;((<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a>)(0U))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -192,7 +686,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redir
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ZB_ADDRESS_IEEE_REF_NONE&#160;&#160;&#160;(<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a>)(-1)</td>
+          <td class="memname">#define ZB_ADDRESS_IEEE_REF_NONE&#160;&#160;&#160;((<a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a>)(-1))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -211,7 +705,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redir
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">ref</td><td>)</td>
-          <td>&#160;&#160;&#160;zb_address_lock_func(TRACE_ADDR_CALL ref)</td>
+          <td>&#160;&#160;&#160;zb_address_lock_func(TRACE_ADDR_CALL (ref))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -226,6 +720,87 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redir
 
 </div>
 </div>
+<a id="gacb6459921443986ef79f85a3a6fdccbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gacb6459921443986ef79f85a3a6fdccbb">&#9670;&nbsp;</a></span>zb_address_short_by_ieee</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define zb_address_short_by_ieee</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ieee_address</td><td>)</td>
+          <td>&#160;&#160;&#160;zb_address_short_by_ieee_func(TRACE_ADDR_CALL (ieee_address))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get short address by IEEE address (long).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ieee_address</td><td>- long address</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>short address if ok, -1 otherwise.</dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><a class="code" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> thermostat_client_short_addr = 0xFFFF;</div>
+</div><!-- fragment --><div class="fragment"><div class="line">  <span class="keywordflow">if</span> (<a class="code" href="group__zboss__bdb__comm__fb.html#ggaadcb0f0f5b3e019cef314015570f0e18a2c76ef49e9749dea076f4d5ebe87eda5">ZB_BDB_COMM_BIND_SUCCESS</a> == status</div>
+<div class="line">      &amp;&amp; <a class="code" href="group__zb__zcl__common__types.html#ga1795f187f98b115312d13dadeebfd9c2">ZB_ZCL_CLUSTER_ID_THERMOSTAT</a> == cluster)</div>
+<div class="line">  {</div>
+<div class="line">    dst_endpoint = ep;</div>
+<div class="line">    thermostat_client_short_addr = <a class="code" href="group___z_b___n_w_k___a_d_d_r.html#gacb6459921443986ef79f85a3a6fdccbb">zb_address_short_by_ieee</a>(addr);</div>
+<div class="line"> </div>
+<div class="line">    <a class="code" href="group__sched.html#ga27e890246162c45f4d8ad45350e2c912">ZB_SCHEDULE_APP_CALLBACK</a>(send_thermostat_cmd, thermostat_cmd_type);</div>
+<div class="line">  }</div>
+</div><!-- fragment --></dd></dl>
+<dl class="section user"><dt></dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="gafbbf63d9ca0ad6f9727e07995cb89ed0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafbbf63d9ca0ad6f9727e07995cb89ed0">&#9670;&nbsp;</a></span>zb_address_short_by_ref</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define zb_address_short_by_ref</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">short_address_p, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ref&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;zb_address_short_by_ref_func(TRACE_ADDR_CALL (short_address_p), (ref))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get short address by address reference.</p>
+<p>Get existing short address with address reference. Update address alive time if it not locked.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">short_address_p</td><td>- (out) short address </td></tr>
+    <tr><td class="paramname">ref</td><td>- address reference</td></tr>
+  </table>
+  </dd>
+</dl>
+<p><b>Example</b> </p><div class="fragment"><div class="line">zb_neighbor_tbl_ent_t *nbt;</div>
+<div class="line"><span class="keywordflow">if</span>(zb_nwk_neighbor_with_address_conflict(&amp;nbt)==<a class="code" href="group__error__codes.html#ga76117585e8ddc62f21ca0e3061b7830e">RET_OK</a>)</div>
+<div class="line">{</div>
+<div class="line">    <a class="code" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> addr;</div>
+<div class="line">    <a class="code" href="group___z_b___n_w_k___a_d_d_r.html#gafbbf63d9ca0ad6f9727e07995cb89ed0">zb_address_short_by_ref</a>(&amp;addr, nbt-&gt;addr_ref);</div>
+<div class="line">    func(addr);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
+</div>
+</div>
 <a id="ga02e1c8c2291d9d305e48e168ccaf353f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga02e1c8c2291d9d305e48e168ccaf353f">&#9670;&nbsp;</a></span>zb_address_unlock</h2>
 
@@ -237,7 +812,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redir
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">ref</td><td>)</td>
-          <td>&#160;&#160;&#160;zb_address_unlock_func(TRACE_ADDR_CALL ref)</td>
+          <td>&#160;&#160;&#160;zb_address_unlock_func(TRACE_ADDR_CALL (ref))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -251,20 +826,117 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redir
 
 </div>
 </div>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="ga2e5c125720ee343e95470acbd9c4ca33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga2e5c125720ee343e95470acbd9c4ca33">&#9670;&nbsp;</a></span>zb_address_ieee_ref_t</h2>
+<a id="gafcdfd478b1d54cf3ddff42534340bcb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafcdfd478b1d54cf3ddff42534340bcb0">&#9670;&nbsp;</a></span>zb_address_update</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a></td>
+          <td class="memname">#define zb_address_update</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ieee_address, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">short_address, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">lock, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ref_p&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;zb_address_update_func(TRACE_ADDR_CALL (ieee_address), (short_address), (lock), (ref_p))</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>IEEE address reference</p>
-<p>Should be used inside protocol tables instead of 64/16-bit IEEE. </p>
+<p>Update long/short address pair. Create the pair if not exist. Optionally, lock. Reaction on device announce etc. Long and short addresses are present. Must synchronize the address translation table with this information.</p>
+<dl class="section note"><dt>Note</dt><dd>Never call <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gafcdfd478b1d54cf3ddff42534340bcb0">zb_address_update()</a> with empty (zero) ieee_address or empty (-1) short_address.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ieee_address</td><td>- long address </td></tr>
+    <tr><td class="paramname">short_address</td><td>- short address </td></tr>
+    <tr><td class="paramname">lock</td><td>- if TRUE, lock address entry </td></tr>
+    <tr><td class="paramname">ref_p</td><td>- (out) address reference</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>RET_OK or error code</dd></dl>
+<p><b>Example</b> </p><div class="fragment"><div class="line"><a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a> addr_ref;</div>
+<div class="line"><a class="code" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> nwk_addr;</div>
+<div class="line"><a class="code" href="structzb__zdo__nwk__addr__resp__head__s.html">zb_zdo_nwk_addr_resp_head_t</a> *resp = (<a class="code" href="structzb__zdo__nwk__addr__resp__head__s.html">zb_zdo_nwk_addr_resp_head_t</a>*)<a class="code" href="group__buf.html#ga97fe9fcc0124718cc25c3710b752b8fd">zb_buf_begin</a>(buf);</div>
+<div class="line"><span class="keywordflow">if</span> (resp-&gt;<a class="code" href="structzb__zdo__nwk__addr__resp__head__s.html#a61f04c3926d93814e50f468e18b7bb9d">status</a> == <a class="code" href="group__zb__comm__signals.html#gabf46294ba93b253417f4d350f768234a">ZB_ZDP_STATUS_SUCCESS</a>)</div>
+<div class="line">{</div>
+<div class="line">  ZB_LETOH64(ieee_addr, resp-&gt;<a class="code" href="structzb__zdo__nwk__addr__resp__head__s.html#adc68388ddb48640dd8283c421e0b8afe">ieee_addr</a>);</div>
+<div class="line">  <a class="code" href="group__base__types.html#ga9c120e2a2cbb1676ac16de871ac3506e">ZB_LETOH16</a>(&amp;nwk_addr, &amp;resp-&gt;<a class="code" href="structzb__zdo__nwk__addr__resp__head__s.html#a83d925b6bcfe826d5fdf7e648eea7eee">nwk_addr</a>);</div>
+<div class="line">  <a class="code" href="group___z_b___n_w_k___a_d_d_r.html#gafcdfd478b1d54cf3ddff42534340bcb0">zb_address_update</a>(ieee_addr, nwk_addr, <a class="code" href="group__base__types.html#ga31ddce10b950c4f30d546945beabdcbc">ZB_TRUE</a>, &amp;addr_ref);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="ga0bf86f871c76f19ee74aa8f227adddbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0bf86f871c76f19ee74aa8f227adddbe">&#9670;&nbsp;</a></span>zb_address_update_if_absent</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define zb_address_update_if_absent</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ieee_address, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">short_address&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;zb_address_update_if_absent_func(TRACE_ADDR_CALL (ieee_address), (short_address))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Update address pair if one or oth of its component were unknown.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ieee_address</td><td>- long address </td></tr>
+    <tr><td class="paramname">short_address</td><td>- short address </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>RET_OK or error code </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="ga933041804380344872ebb060b7fc71d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga933041804380344872ebb060b7fc71d8">&#9670;&nbsp;</a></span>zb_address_ieee_ref_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>IEEE address reference Should be used inside protocol tables instead of 64/16-bit IEEE. </p>
 
 </div>
 </div>
@@ -284,189 +956,24 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redir
 
 </div>
 </div>
+<a id="ga6633b2325c66b7201b47fdcedec89954"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6633b2325c66b7201b47fdcedec89954">&#9670;&nbsp;</a></span>zb_nwk_neighbor_ref_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga6633b2325c66b7201b47fdcedec89954">zb_nwk_neighbor_ref_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Neighbor reference (index in neighbor table) </p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="gac911f75d6a4594a87b1c70e2c88389f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac911f75d6a4594a87b1c70e2c88389f9">&#9670;&nbsp;</a></span>zb_address_by_ieee()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zb_address_by_ieee </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a>&#160;</td>
-          <td class="paramname"><em>ieee</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a>&#160;</td>
-          <td class="paramname"><em>create</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a>&#160;</td>
-          <td class="paramname"><em>lock</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> *&#160;</td>
-          <td class="paramname"><em>ref_p</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Get address ref by long address, optionally create if not exist, optionally lock. Update address alive time if not locked. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ieee</td><td>- IEEE device address </td></tr>
-    <tr><td class="paramname">create</td><td>- if TRUE, create address entry if it does not exist </td></tr>
-    <tr><td class="paramname">lock</td><td>- if TRUE, lock address entry </td></tr>
-    <tr><td class="paramname">ref_p</td><td>- (out) address reference</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>: never call <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gac911f75d6a4594a87b1c70e2c88389f9">zb_address_by_ieee()</a> with empty (zero) ieee_address</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>RET_OK or error code</dd></dl>
-<p><b>Example</b> </p><div class="fragment"><div class="line"><span class="keywordtype">void</span> test_get_short_addr(<a class="code" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param)</div>
-<div class="line">{</div>
-<div class="line">  <a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> ref_p;</div>
-<div class="line">  <a class="code" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> buf = ZB_BUF_FROM_REF(param);</div>
-<div class="line"> </div>
-<div class="line">  <span class="keywordflow">if</span> (<a class="code" href="group___z_b___n_w_k___a_d_d_r.html#gac911f75d6a4594a87b1c70e2c88389f9">zb_address_by_ieee</a>(g_ieee_addr_r2, <a class="code" href="group__base__types.html#ga31ddce10b950c4f30d546945beabdcbc">ZB_TRUE</a>, <a class="code" href="group__base__types.html#gae0f2d2d69ee138eedec4460449f84431">ZB_FALSE</a>, &amp;ref_p) == <a class="code" href="group__error__codes.html#ga76117585e8ddc62f21ca0e3061b7830e">RET_OK</a>)</div>
-<div class="line">  {</div>
-<div class="line">    ...</div>
-<div class="line">  }</div>
-<div class="line">}</div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a id="gaf8d75e1b4352b6623db7b3a90ccd7c47"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaf8d75e1b4352b6623db7b3a90ccd7c47">&#9670;&nbsp;</a></span>zb_address_by_ref()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void zb_address_by_ref </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a>&#160;</td>
-          <td class="paramname"><em>ieee_address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> *&#160;</td>
-          <td class="paramname"><em>short_address_p</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a>&#160;</td>
-          <td class="paramname"><em>ref</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Get address with address reference.</p>
-<p>Get existing IEEE (long) and short addresses with address reference. Update address alive time if it not locked.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ieee_address</td><td>- (out) long address </td></tr>
-    <tr><td class="paramname">short_address_p</td><td>- (out) short address </td></tr>
-    <tr><td class="paramname">ref</td><td>- address reference</td></tr>
-  </table>
-  </dd>
-</dl>
-<p><b>Example</b> </p><div class="fragment"><div class="line"><a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> addr_ref;</div>
-<div class="line">zb_nlme_join_indication_t *resp = <a class="code" href="group__buf.html#gaf7e0718a3bb63059a2626ac98b54d65d">ZB_BUF_GET_PARAM</a>((<a class="code" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> )ZB_BUF_FROM_REF(param), zb_nlme_join_indication_t);</div>
-<div class="line"><a class="code" href="group___z_b___n_w_k___a_d_d_r.html#gaf8d75e1b4352b6623db7b3a90ccd7c47">zb_address_by_ref</a>(resp-&gt;extended_address, &amp;resp-&gt;network_address, addr_ref);</div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a id="gaab34d107e5b674ec243462ddeaa13e2c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaab34d107e5b674ec243462ddeaa13e2c">&#9670;&nbsp;</a></span>zb_address_by_short()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zb_address_by_short </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>&#160;</td>
-          <td class="paramname"><em>short_address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a>&#160;</td>
-          <td class="paramname"><em>create</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a>&#160;</td>
-          <td class="paramname"><em>lock</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> *&#160;</td>
-          <td class="paramname"><em>ref_p</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Get address reference by short address. Create the reference if it does not exist. Optionally, lock the address. Update address alive time if not locked. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">short_address</td><td>- 16bit device address </td></tr>
-    <tr><td class="paramname">create</td><td>- if TRUE, create address entry if it does not exist </td></tr>
-    <tr><td class="paramname">lock</td><td>- if TRUE, lock address entry </td></tr>
-    <tr><td class="paramname">ref_p</td><td>- (out) address reference</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>Never call <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gaab34d107e5b674ec243462ddeaa13e2c">zb_address_by_short()</a> with empty (-1) short_address</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>RET_OK or error code</dd></dl>
-<p><b>Example</b> </p><div class="fragment"><div class="line"><span class="keywordtype">void</span> simple_gw_send_leave_req(<a class="code" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param, <a class="code" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> short_addr, <a class="code" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> rejoin_flag)</div>
-<div class="line">{</div>
-<div class="line">    <a class="code" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> buf = param;</div>
-<div class="line">    <a class="code" href="structzb__zdo__mgmt__leave__param__s.html">zb_zdo_mgmt_leave_param_t</a> *req_param;</div>
-<div class="line">    <a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> addr_ref;</div>
-<div class="line"> </div>
-<div class="line">    <span class="keywordflow">if</span> (<a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga1c095d31dda8f13785fd63542dc3c627">zb_address_get_by_short</a>(short_addr, &amp;addr_ref) == <a class="code" href="group__error__codes.html#ga76117585e8ddc62f21ca0e3061b7830e">RET_OK</a>)</div>
-<div class="line">    {</div>
-<div class="line">      req_param = <a class="code" href="group__buf.html#gaf7e0718a3bb63059a2626ac98b54d65d">ZB_BUF_GET_PARAM</a>(buf, <a class="code" href="structzb__zdo__mgmt__leave__param__s.html">zb_zdo_mgmt_leave_param_t</a>);</div>
-<div class="line">      ZB_BZERO(req_param, <span class="keyword">sizeof</span>(<a class="code" href="structzb__zdo__mgmt__leave__param__s.html">zb_zdo_mgmt_leave_param_t</a>));</div>
-<div class="line"> </div>
-<div class="line">      req_param-&gt;<a class="code" href="structzb__zdo__mgmt__leave__param__s.html#a46e49192f971fef93ca6476c9ecb5f4f">dst_addr</a> = short_addr;</div>
-<div class="line">     req_param-&gt;<a class="code" href="structzb__zdo__mgmt__leave__param__s.html#a3f09a9ba79e110caae0d22280fe78b7a">rejoin</a> = (rejoin_flag ? 1 : 0);</div>
-<div class="line">      <a class="code" href="group__zdo__mgmt.html#ga070ef34e8924ae2bb71fe69a1a297c83">zdo_mgmt_leave_req</a>(param, NULL);</div>
-<div class="line">    }</div>
-<div class="line">    <span class="keywordflow">else</span></div>
-<div class="line">    {</div>
-<div class="line">      <a class="code" href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a>(TRACE_APP1, <span class="stringliteral">&quot;tried to remove 0x%xd, but device is already left&quot;</span>, (FMT__D, short_addr));</div>
-<div class="line">      <a class="code" href="group__buf.html#ga788a473df6d535c19f5da0d142d4fa01">zb_buf_free</a>(buf);</div>
-<div class="line">    }</div>
-<div class="line">  }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ga3533d31b75933788e875c630583ea6ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga3533d31b75933788e875c630583ea6ed">&#9670;&nbsp;</a></span>zb_address_cmp_pan_id_by_ref()</h2>
+<a id="gaf0b31dc4d620f4ce8ea91b8de1d8f6bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf0b31dc4d620f4ce8ea91b8de1d8f6bb">&#9670;&nbsp;</a></span>zb_address_cmp_pan_id_by_ref()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -480,7 +987,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redir
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#ga8b3e05b0f0061a265d713d2063fef8a6">zb_ext_pan_id_t</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="group__base__types.html#ga8b3e05b0f0061a265d713d2063fef8a6">zb_ext_pan_id_t</a>&#160;</td>
           <td class="paramname"><em>pan_id</em>&#160;</td>
         </tr>
         <tr>
@@ -502,191 +1009,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redir
 <p><b>Example</b> </p><div class="fragment"><div class="line"><span class="keywordflow">for</span> (i = 0 ; i &lt; ZG-&gt;nwk.neighbor.ext_neighbor_used ; ++i)</div>
 <div class="line"> {</div>
 <div class="line">     <span class="keywordflow">for</span> (j = 0 ; j &lt; n_nwk_dsc &amp;&amp;</div>
-<div class="line">                !<a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga3533d31b75933788e875c630583ea6ed">zb_address_cmp_pan_id_by_ref</a>(ZG-&gt;nwk.neighbor.ext_neighbor[i].panid_ref, network_descriptor[j].extended_pan_id) ;</div>
+<div class="line">                !<a class="code" href="group___z_b___n_w_k___a_d_d_r.html#gaf0b31dc4d620f4ce8ea91b8de1d8f6bb">zb_address_cmp_pan_id_by_ref</a>(ZG-&gt;nwk.neighbor.ext_neighbor[i].panid_ref, network_descriptor[j].extended_pan_id) ;</div>
 <div class="line">              ++j)</div>
 <div class="line">     {</div>
 <div class="line">         ...</div>
 <div class="line">     }</div>
 <div class="line"> }</div>
 </div><!-- fragment --> 
-</div>
-</div>
-<a id="ga21c1c19acaa8230e93b51d15782afeab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga21c1c19acaa8230e93b51d15782afeab">&#9670;&nbsp;</a></span>zb_address_delete()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zb_address_delete </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a>&#160;</td>
-          <td class="paramname"><em>ref</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Delete address.</p>
-<dl class="section return"><dt>Returns</dt><dd>RET_OK or RET_ERROR</dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ref</td><td>- IEEE/network address pair reference </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ga8be56510d69884867ae43a3a840cf0fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8be56510d69884867ae43a3a840cf0fb">&#9670;&nbsp;</a></span>zb_address_get_by_ieee()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zb_address_get_by_ieee </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a>&#160;</td>
-          <td class="paramname"><em>ieee</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> *&#160;</td>
-          <td class="paramname"><em>ref_p</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Get address ref by long address, do not lock.</p>
-<p>This is a read-only version of <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gac911f75d6a4594a87b1c70e2c88389f9">zb_address_by_ieee()</a>. Always use it if address not need to be created. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ieee</td><td>- IEEE device address </td></tr>
-    <tr><td class="paramname">ref_p</td><td>- (out) address reference</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>: never call <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gac911f75d6a4594a87b1c70e2c88389f9">zb_address_by_ieee()</a> with empty (zero) ieee_address</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>RET_OK or RET_NOT_FOUND </dd></dl>
-
-</div>
-</div>
-<a id="ga18ff5f837a7639d987ff6e7aea0e3cd6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga18ff5f837a7639d987ff6e7aea0e3cd6">&#9670;&nbsp;</a></span>zb_address_get_by_ieee_lk()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zb_address_get_by_ieee_lk </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a>&#160;</td>
-          <td class="paramname"><em>ieee</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> *&#160;</td>
-          <td class="paramname"><em>ref_p</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Get address ref by long address, lock the address</p>
-<p>This is a read-only version of <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gac911f75d6a4594a87b1c70e2c88389f9">zb_address_by_ieee()</a>. Always use it if address not need to be created. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ieee</td><td>- IEEE device address </td></tr>
-    <tr><td class="paramname">ref_p</td><td>- (out) address reference</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>: never call <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gac911f75d6a4594a87b1c70e2c88389f9">zb_address_by_ieee()</a> with empty (zero) ieee_address</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>RET_OK or RET_NOT_FOUND </dd></dl>
-
-</div>
-</div>
-<a id="ga1c095d31dda8f13785fd63542dc3c627"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga1c095d31dda8f13785fd63542dc3c627">&#9670;&nbsp;</a></span>zb_address_get_by_short()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zb_address_get_by_short </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>&#160;</td>
-          <td class="paramname"><em>short_address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> *&#160;</td>
-          <td class="paramname"><em>ref_p</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Get address reference by short address, do not lock.</p>
-<p>This is a read-only version of <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gaab34d107e5b674ec243462ddeaa13e2c">zb_address_by_short()</a>. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">short_address</td><td>- 16bit device address </td></tr>
-    <tr><td class="paramname">ref_p</td><td>- (out) address reference</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>Never call <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gaab34d107e5b674ec243462ddeaa13e2c">zb_address_by_short()</a> with empty (-1) short_address</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>RET_OK or RET_NOT_FOUND </dd></dl>
-
-</div>
-</div>
-<a id="ga679e0d9a931151fe2c738170dd4d758e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga679e0d9a931151fe2c738170dd4d758e">&#9670;&nbsp;</a></span>zb_address_get_by_short_lk()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zb_address_get_by_short_lk </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>&#160;</td>
-          <td class="paramname"><em>short_address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> *&#160;</td>
-          <td class="paramname"><em>ref_p</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Get address reference by short address, lock address</p>
-<p>This is a read-only version of <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gaab34d107e5b674ec243462ddeaa13e2c">zb_address_by_short()</a> adding an address lock. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">short_address</td><td>- 16bit device address </td></tr>
-    <tr><td class="paramname">ref_p</td><td>- (out) address reference</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>Never call <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#gaab34d107e5b674ec243462ddeaa13e2c">zb_address_by_short()</a> with empty (-1) short_address</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>RET_OK or RET_NOT_FOUND </dd></dl>
-
 </div>
 </div>
 <a id="ga557b23e3a140e4bfd87c7efdfc016375"></a>
@@ -732,8 +1061,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redir
 
 </div>
 </div>
-<a id="ga40265d377798fe52d99fbaa0bb65c31a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga40265d377798fe52d99fbaa0bb65c31a">&#9670;&nbsp;</a></span>zb_address_get_pan_id_ref()</h2>
+<a id="ga6618a823f93db48aae68d2c8b0e09976"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6618a823f93db48aae68d2c8b0e09976">&#9670;&nbsp;</a></span>zb_address_get_pan_id_ref()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -741,7 +1070,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redir
         <tr>
           <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zb_address_get_pan_id_ref </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#ga8b3e05b0f0061a265d713d2063fef8a6">zb_ext_pan_id_t</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="group__base__types.html#ga8b3e05b0f0061a265d713d2063fef8a6">zb_ext_pan_id_t</a>&#160;</td>
           <td class="paramname"><em>pan_id</em>, </td>
         </tr>
         <tr>
@@ -767,7 +1096,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redir
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>RET_OK - when success, error code otherwise.</dd></dl>
 <p><b>Example</b> </p><div class="fragment"><div class="line"><a class="code" href="group___z_b___n_w_k___a_d_d_r.html#gad01ddbd56d3a56cb0f54bf9360a8233d">zb_address_pan_id_ref_t</a> my_panid_ref;</div>
-<div class="line"><span class="keywordflow">if</span> ( <a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga40265d377798fe52d99fbaa0bb65c31a">zb_address_get_pan_id_ref</a>(ZB_NIB_EXT_PAN_ID(), &amp;my_panid_ref) != <a class="code" href="group__error__codes.html#ga76117585e8ddc62f21ca0e3061b7830e">RET_OK</a> )</div>
+<div class="line"><span class="keywordflow">if</span> ( <a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga6618a823f93db48aae68d2c8b0e09976">zb_address_get_pan_id_ref</a>(ZB_NIB_EXT_PAN_ID(), &amp;my_panid_ref) != <a class="code" href="group__error__codes.html#ga76117585e8ddc62f21ca0e3061b7830e">RET_OK</a> )</div>
 <div class="line">{</div>
 <div class="line">  <a class="code" href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a>(TRACE_NWK1, <span class="stringliteral">&quot;Pan ID &quot;</span> <a class="code" href="group___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l.html#ga644597cfd6260eee20d4d1f20aa44cd3">TRACE_FORMAT_64</a> <span class="stringliteral">&quot; not in Pan ID arr - ?&quot;</span>, (FMT__A,</div>
 <div class="line">            <a class="code" href="group___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l.html#ga9959e8078d8ae0099deb41f237c0a409">TRACE_ARG_64</a>(ZB_NIB_EXT_PAN_ID())));</div>
@@ -818,95 +1147,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redir
 </div><!-- fragment --> 
 </div>
 </div>
-<a id="gaa4a0ca70ba7466199e3424f13dfbca33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaa4a0ca70ba7466199e3424f13dfbca33">&#9670;&nbsp;</a></span>zb_address_ieee_by_ref()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void zb_address_ieee_by_ref </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a>&#160;</td>
-          <td class="paramname"><em>ieee_address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a>&#160;</td>
-          <td class="paramname"><em>ref</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Get IEEE address with address reference.</p>
-<p>Get existing IEEE address(long address) with address reference. Update address alive time if it not locked.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ieee_address</td><td>- (out) long address </td></tr>
-    <tr><td class="paramname">ref</td><td>- address reference</td></tr>
-  </table>
-  </dd>
-</dl>
-<p><b>Example</b> </p><div class="fragment"><div class="line"><span class="keywordtype">void</span> func(zb_neighbor_tbl_ent_t *nbt)</div>
-<div class="line">{</div>
-<div class="line">  <a class="code" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_addr;</div>
-<div class="line">  <a class="code" href="group___z_b___n_w_k___a_d_d_r.html#gaa4a0ca70ba7466199e3424f13dfbca33">zb_address_ieee_by_ref</a>(ieee_addr, nbt-&gt;addr_ref);</div>
-<div class="line">  ...</div>
-<div class="line">}</div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a id="ga2386cee89d4a775d2eae4cc9262cedfd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga2386cee89d4a775d2eae4cc9262cedfd">&#9670;&nbsp;</a></span>zb_address_ieee_by_short()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zb_address_ieee_by_short </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>&#160;</td>
-          <td class="paramname"><em>short_addr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a>&#160;</td>
-          <td class="paramname"><em>ieee_address</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Get IEEE address (long) with short address.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">short_addr</td><td>- short address </td></tr>
-    <tr><td class="paramname">ieee_address</td><td>- (out)long address</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>RET_OK or RET_NOT_FOUND</dd></dl>
-<p><b>Example</b> </p><div class="fragment"><div class="line">    <a class="code" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> i;</div>
-<div class="line">    <a class="code" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a> ieee_addr;</div>
-<div class="line"> </div>
-<div class="line">    <span class="keywordflow">if</span> (<a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga2386cee89d4a775d2eae4cc9262cedfd">zb_address_ieee_by_short</a>(dev_annce_params-&gt;<a class="code" href="structzb__zdo__signal__device__annce__params__s.html#a66bc2c9188ea5c3668c265377cae4614">device_short_addr</a>, ieee_addr) != <a class="code" href="group__error__codes.html#ga76117585e8ddc62f21ca0e3061b7830e">RET_OK</a>)</div>
-<div class="line">    {</div>
-<div class="line">      <a class="code" href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a>(<a class="code" href="group___t_r_a_c_e___g_e_n_e_r_a_l___m_e_s_s_a_g_e_s.html#ga7c12181b2e8dc912219651ff42d22e42">TRACE_ERROR</a>, <span class="stringliteral">&quot;get ieee address by short failed&quot;</span>, (FMT__0));</div>
-<div class="line">      <a class="code" href="group__buf.html#ga788a473df6d535c19f5da0d142d4fa01">zb_buf_free</a>(buf_ref);</div>
-<div class="line">      <span class="keywordflow">return</span>;</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-</div>
-</div>
 <a id="gaf40eaff9d30483f8c7f5b2d9ce77a4dc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaf40eaff9d30483f8c7f5b2d9ce77a4dc">&#9670;&nbsp;</a></span>zb_address_is_locked()</h2>
 
@@ -916,7 +1156,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redir
         <tr>
           <td class="memname"><a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> zb_address_is_locked </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a>&#160;</td>
           <td class="paramname"><em>ref</em></td><td>)</td>
           <td></td>
         </tr>
@@ -933,229 +1173,50 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redir
 
 </div>
 </div>
-<a id="gab321151ea3a4f2c4e684fbeca9a07ede"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab321151ea3a4f2c4e684fbeca9a07ede">&#9670;&nbsp;</a></span>zb_address_short_by_ieee()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> zb_address_short_by_ieee </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a>&#160;</td>
-          <td class="paramname"><em>ieee_address</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Get short address by IEEE address (long).</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ieee_address</td><td>- long address</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>short address if ok, -1 otherwise.</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><a class="code" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> thermostat_client_short_addr = 0xFFFF;</div>
-</div><!-- fragment --><div class="fragment"><div class="line">  <span class="keywordflow">if</span> (<a class="code" href="group__zboss__bdb__comm__fb.html#ggaadcb0f0f5b3e019cef314015570f0e18a2c76ef49e9749dea076f4d5ebe87eda5">ZB_BDB_COMM_BIND_SUCCESS</a> == status</div>
-<div class="line">      &amp;&amp; <a class="code" href="group__zb__zcl__common__types.html#ga1795f187f98b115312d13dadeebfd9c2">ZB_ZCL_CLUSTER_ID_THERMOSTAT</a> == cluster)</div>
-<div class="line">  {</div>
-<div class="line">    dst_endpoint = ep;</div>
-<div class="line">    thermostat_client_short_addr = <a class="code" href="group___z_b___n_w_k___a_d_d_r.html#gab321151ea3a4f2c4e684fbeca9a07ede">zb_address_short_by_ieee</a>(addr);</div>
-<div class="line"> </div>
-<div class="line">    <a class="code" href="group__sched.html#ga27e890246162c45f4d8ad45350e2c912">ZB_SCHEDULE_APP_CALLBACK</a>(send_thermostat_cmd, thermostat_cmd_type);</div>
-<div class="line">  }</div>
-</div><!-- fragment --></dd></dl>
-<dl class="section user"><dt></dt><dd></dd></dl>
-
-</div>
-</div>
-<a id="ga23068b769a98f84b05c06ffe073fe8d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga23068b769a98f84b05c06ffe073fe8d1">&#9670;&nbsp;</a></span>zb_address_short_by_ref()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void zb_address_short_by_ref </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> *&#160;</td>
-          <td class="paramname"><em>short_address_p</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a>&#160;</td>
-          <td class="paramname"><em>ref</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Get short address by address reference.</p>
-<p>Get existing short address with address reference. Update address alive time if it not locked.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">short_address_p</td><td>- (out) short address </td></tr>
-    <tr><td class="paramname">ref</td><td>- address reference</td></tr>
-  </table>
-  </dd>
-</dl>
-<p><b>Example</b> </p><div class="fragment"><div class="line">zb_neighbor_tbl_ent_t *nbt;</div>
-<div class="line"><span class="keywordflow">if</span>(zb_nwk_neighbor_with_address_conflict(&amp;nbt)==<a class="code" href="group__error__codes.html#ga76117585e8ddc62f21ca0e3061b7830e">RET_OK</a>)</div>
-<div class="line">{</div>
-<div class="line">    <a class="code" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> addr;</div>
-<div class="line">    <a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga23068b769a98f84b05c06ffe073fe8d1">zb_address_short_by_ref</a>(&amp;addr, nbt-&gt;addr_ref);</div>
-<div class="line">    func(addr);</div>
-<div class="line">}</div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a id="ga23c3f951f9521f1b303ed9636b66c236"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga23c3f951f9521f1b303ed9636b66c236">&#9670;&nbsp;</a></span>zb_address_update()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zb_address_update </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a>&#160;</td>
-          <td class="paramname"><em>ieee_address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>&#160;</td>
-          <td class="paramname"><em>short_address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a>&#160;</td>
-          <td class="paramname"><em>lock</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> *&#160;</td>
-          <td class="paramname"><em>ref_p</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Update long/short address pair. Create the pair if not exist. Optionally, lock. Reaction on device announce etc. Long and short addresses are present. Must synchronize the address translation table with this information.</p>
-<dl class="section note"><dt>Note</dt><dd>Never call <a class="el" href="group___z_b___n_w_k___a_d_d_r.html#ga23c3f951f9521f1b303ed9636b66c236">zb_address_update()</a> with empty (zero) ieee_address or empty (-1) short_address.</dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ieee_address</td><td>- long address </td></tr>
-    <tr><td class="paramname">short_address</td><td>- short address </td></tr>
-    <tr><td class="paramname">lock</td><td>- if TRUE, lock address entry </td></tr>
-    <tr><td class="paramname">ref_p</td><td>- (out) address reference</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>RET_OK or error code</dd></dl>
-<p><b>Example</b> </p><div class="fragment"><div class="line"><a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a> addr_ref;</div>
-<div class="line"><a class="code" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> nwk_addr;</div>
-<div class="line"><a class="code" href="structzb__zdo__nwk__addr__resp__head__s.html">zb_zdo_nwk_addr_resp_head_t</a> *resp = (<a class="code" href="structzb__zdo__nwk__addr__resp__head__s.html">zb_zdo_nwk_addr_resp_head_t</a>*)<a class="code" href="group__buf.html#ga97fe9fcc0124718cc25c3710b752b8fd">zb_buf_begin</a>(buf);</div>
-<div class="line"><span class="keywordflow">if</span> (resp-&gt;<a class="code" href="structzb__zdo__nwk__addr__resp__head__s.html#a61f04c3926d93814e50f468e18b7bb9d">status</a> == <a class="code" href="group__zb__comm__signals.html#gabf46294ba93b253417f4d350f768234a">ZB_ZDP_STATUS_SUCCESS</a>)</div>
-<div class="line">{</div>
-<div class="line">  ZB_LETOH64(ieee_addr, resp-&gt;<a class="code" href="structzb__zdo__nwk__addr__resp__head__s.html#adc68388ddb48640dd8283c421e0b8afe">ieee_addr</a>);</div>
-<div class="line">  <a class="code" href="group__base__types.html#ga9c120e2a2cbb1676ac16de871ac3506e">ZB_LETOH16</a>(&amp;nwk_addr, &amp;resp-&gt;<a class="code" href="structzb__zdo__nwk__addr__resp__head__s.html#a83d925b6bcfe826d5fdf7e648eea7eee">nwk_addr</a>);</div>
-<div class="line">  <a class="code" href="group___z_b___n_w_k___a_d_d_r.html#ga23c3f951f9521f1b303ed9636b66c236">zb_address_update</a>(ieee_addr, nwk_addr, <a class="code" href="group__base__types.html#ga31ddce10b950c4f30d546945beabdcbc">ZB_TRUE</a>, &amp;addr_ref);</div>
-<div class="line">}</div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a id="ga19b76f615d3863858d59c37a210aaba4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga19b76f615d3863858d59c37a210aaba4">&#9670;&nbsp;</a></span>zb_address_update_if_absent()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zb_address_update_if_absent </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a>&#160;</td>
-          <td class="paramname"><em>ieee_address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>&#160;</td>
-          <td class="paramname"><em>short_address</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Update address pair if one or oth of its component were unknown.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ieee_address</td><td>- long address </td></tr>
-    <tr><td class="paramname">short_address</td><td>- short address </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>RET_OK or error code </dd></dl>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructzb__zdo__nwk__addr__resp__head__s_html"><div class="ttname"><a href="structzb__zdo__nwk__addr__resp__head__s.html">zb_zdo_nwk_addr_resp_head_s</a></div><div class="ttdoc">NWK_addr_req response frame.</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:1662</div></div>
-<div class="ttc" id="astructzb__zdo__mgmt__leave__param__s_html_a46e49192f971fef93ca6476c9ecb5f4f"><div class="ttname"><a href="structzb__zdo__mgmt__leave__param__s.html#a46e49192f971fef93ca6476c9ecb5f4f">zb_zdo_mgmt_leave_param_s::dst_addr</a></div><div class="ttdeci">zb_uint16_t dst_addr</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:3043</div></div>
+<div class="ttc" id="astructzb__zdo__nwk__addr__resp__head__s_html"><div class="ttname"><a href="structzb__zdo__nwk__addr__resp__head__s.html">zb_zdo_nwk_addr_resp_head_s</a></div><div class="ttdoc">NWK_addr_req response frame.</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:1755</div></div>
+<div class="ttc" id="astructzb__zdo__mgmt__leave__param__s_html_a46e49192f971fef93ca6476c9ecb5f4f"><div class="ttname"><a href="structzb__zdo__mgmt__leave__param__s.html#a46e49192f971fef93ca6476c9ecb5f4f">zb_zdo_mgmt_leave_param_s::dst_addr</a></div><div class="ttdeci">zb_uint16_t dst_addr</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:3124</div></div>
 <div class="ttc" id="agroup__base__types_html_gaa82a9657ef11a3947586065cf8066256"><div class="ttname"><a href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a></div><div class="ttdeci">unsigned char zb_uint8_t</div><div class="ttdoc">Project-local 1-byte unsigned int type.</div><div class="ttdef"><b>Definition:</b> zb_types.h:159</div></div>
-<div class="ttc" id="agroup___z_b___t_r_a_c_e_html_gac857eacf1a904b021246dd0e8dda8a76"><div class="ttname"><a href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a></div><div class="ttdeci">#define TRACE_MSG(lm, fmts, args)</div><div class="ttdoc">Put trace output.</div><div class="ttdef"><b>Definition:</b> zb_trace.h:465</div></div>
-<div class="ttc" id="agroup___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l_html_ga644597cfd6260eee20d4d1f20aa44cd3"><div class="ttname"><a href="group___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l.html#ga644597cfd6260eee20d4d1f20aa44cd3">TRACE_FORMAT_64</a></div><div class="ttdeci">#define TRACE_FORMAT_64</div><div class="ttdef"><b>Definition:</b> zb_trace.h:592</div></div>
-<div class="ttc" id="agroup___t_r_a_c_e___g_e_n_e_r_a_l___m_e_s_s_a_g_e_s_html_ga7c12181b2e8dc912219651ff42d22e42"><div class="ttname"><a href="group___t_r_a_c_e___g_e_n_e_r_a_l___m_e_s_s_a_g_e_s.html#ga7c12181b2e8dc912219651ff42d22e42">TRACE_ERROR</a></div><div class="ttdeci">#define TRACE_ERROR</div><div class="ttdoc">Error message.</div><div class="ttdef"><b>Definition:</b> zb_trace.h:653</div></div>
-<div class="ttc" id="astructzb__zdo__nwk__addr__resp__head__s_html_a83d925b6bcfe826d5fdf7e648eea7eee"><div class="ttname"><a href="structzb__zdo__nwk__addr__resp__head__s.html#a83d925b6bcfe826d5fdf7e648eea7eee">zb_zdo_nwk_addr_resp_head_s::nwk_addr</a></div><div class="ttdeci">zb_uint16_t nwk_addr</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:1667</div></div>
-<div class="ttc" id="agroup___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l_html_ga9959e8078d8ae0099deb41f237c0a409"><div class="ttname"><a href="group___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l.html#ga9959e8078d8ae0099deb41f237c0a409">TRACE_ARG_64</a></div><div class="ttdeci">#define TRACE_ARG_64(a)</div><div class="ttdef"><b>Definition:</b> zb_trace.h:607</div></div>
-<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_ga40265d377798fe52d99fbaa0bb65c31a"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#ga40265d377798fe52d99fbaa0bb65c31a">zb_address_get_pan_id_ref</a></div><div class="ttdeci">zb_ret_t zb_address_get_pan_id_ref(zb_ext_pan_id_t pan_id, zb_address_pan_id_ref_t *ref)</div></div>
-<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_ga23068b769a98f84b05c06ffe073fe8d1"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#ga23068b769a98f84b05c06ffe073fe8d1">zb_address_short_by_ref</a></div><div class="ttdeci">void zb_address_short_by_ref(zb_uint16_t *short_address_p, zb_address_ieee_ref_t ref)</div></div>
+<div class="ttc" id="agroup___z_b___t_r_a_c_e_html_gac857eacf1a904b021246dd0e8dda8a76"><div class="ttname"><a href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a></div><div class="ttdeci">#define TRACE_MSG(lm, fmts, args)</div><div class="ttdoc">Put trace output.</div><div class="ttdef"><b>Definition:</b> zb_trace.h:474</div></div>
+<div class="ttc" id="agroup___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l_html_ga644597cfd6260eee20d4d1f20aa44cd3"><div class="ttname"><a href="group___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l.html#ga644597cfd6260eee20d4d1f20aa44cd3">TRACE_FORMAT_64</a></div><div class="ttdeci">#define TRACE_FORMAT_64</div><div class="ttdef"><b>Definition:</b> zb_trace.h:607</div></div>
+<div class="ttc" id="agroup__zdo__mgmt_html_gadf8d0b7fcce457ff953f5cac5799af41"><div class="ttname"><a href="group__zdo__mgmt.html#gadf8d0b7fcce457ff953f5cac5799af41">zdo_mgmt_leave_req</a></div><div class="ttdeci">zb_uint8_t zdo_mgmt_leave_req(zb_bufid_t param, zb_callback_t cb)</div><div class="ttdoc">Sends Mgmt_Leave_req.</div></div>
+<div class="ttc" id="agroup___t_r_a_c_e___g_e_n_e_r_a_l___m_e_s_s_a_g_e_s_html_ga7c12181b2e8dc912219651ff42d22e42"><div class="ttname"><a href="group___t_r_a_c_e___g_e_n_e_r_a_l___m_e_s_s_a_g_e_s.html#ga7c12181b2e8dc912219651ff42d22e42">TRACE_ERROR</a></div><div class="ttdeci">#define TRACE_ERROR</div><div class="ttdoc">Error message.</div><div class="ttdef"><b>Definition:</b> zb_trace.h:673</div></div>
+<div class="ttc" id="astructzb__zdo__nwk__addr__resp__head__s_html_a83d925b6bcfe826d5fdf7e648eea7eee"><div class="ttname"><a href="structzb__zdo__nwk__addr__resp__head__s.html#a83d925b6bcfe826d5fdf7e648eea7eee">zb_zdo_nwk_addr_resp_head_s::nwk_addr</a></div><div class="ttdeci">zb_uint16_t nwk_addr</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:1760</div></div>
+<div class="ttc" id="agroup___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l_html_ga9959e8078d8ae0099deb41f237c0a409"><div class="ttname"><a href="group___t_r_a_c_e___d_a_t_a___f_o_r_m_a_t___a_d_d_i_t_i_o_n_a_l.html#ga9959e8078d8ae0099deb41f237c0a409">TRACE_ARG_64</a></div><div class="ttdeci">#define TRACE_ARG_64(a)</div><div class="ttdef"><b>Definition:</b> zb_trace.h:627</div></div>
+<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_ga6618a823f93db48aae68d2c8b0e09976"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#ga6618a823f93db48aae68d2c8b0e09976">zb_address_get_pan_id_ref</a></div><div class="ttdeci">zb_ret_t zb_address_get_pan_id_ref(const zb_ext_pan_id_t pan_id, zb_address_pan_id_ref_t *ref)</div></div>
 <div class="ttc" id="agroup__base__types_html_gac0098c2e9d8011bdc1ae2cd1d81c4598"><div class="ttname"><a href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a></div><div class="ttdeci">zb_uint8_t zb_bool_t</div><div class="ttdoc">General purpose boolean type. For C90, 'zb_bool_t' is an alias of 'zb_uint8_t'. For C99,...</div><div class="ttdef"><b>Definition:</b> zb_types.h:358</div></div>
-<div class="ttc" id="agroup__sched_html_ga27e890246162c45f4d8ad45350e2c912"><div class="ttname"><a href="group__sched.html#ga27e890246162c45f4d8ad45350e2c912">ZB_SCHEDULE_APP_CALLBACK</a></div><div class="ttdeci">#define ZB_SCHEDULE_APP_CALLBACK(func, param)</div><div class="ttdef"><b>Definition:</b> zboss_api_core.h:344</div></div>
-<div class="ttc" id="agroup__base__types_html_ga9c120e2a2cbb1676ac16de871ac3506e"><div class="ttname"><a href="group__base__types.html#ga9c120e2a2cbb1676ac16de871ac3506e">ZB_LETOH16</a></div><div class="ttdeci">#define ZB_LETOH16</div><div class="ttdef"><b>Definition:</b> zb_types.h:807</div></div>
-<div class="ttc" id="agroup__zdo__mgmt_html_ga070ef34e8924ae2bb71fe69a1a297c83"><div class="ttname"><a href="group__zdo__mgmt.html#ga070ef34e8924ae2bb71fe69a1a297c83">zdo_mgmt_leave_req</a></div><div class="ttdeci">zb_uint8_t zdo_mgmt_leave_req(zb_uint8_t param, zb_callback_t cb)</div><div class="ttdoc">Sends Mgmt_Leave_req.</div></div>
-<div class="ttc" id="agroup__buf_html_gaf7e0718a3bb63059a2626ac98b54d65d"><div class="ttname"><a href="group__buf.html#gaf7e0718a3bb63059a2626ac98b54d65d">ZB_BUF_GET_PARAM</a></div><div class="ttdeci">#define ZB_BUF_GET_PARAM(buf, type)</div><div class="ttdef"><b>Definition:</b> zboss_api_buf.h:457</div></div>
+<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_gacb6459921443986ef79f85a3a6fdccbb"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#gacb6459921443986ef79f85a3a6fdccbb">zb_address_short_by_ieee</a></div><div class="ttdeci">#define zb_address_short_by_ieee(ieee_address)</div><div class="ttdef"><b>Definition:</b> zb_address.h:582</div></div>
+<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_ga933041804380344872ebb060b7fc71d8"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#ga933041804380344872ebb060b7fc71d8">zb_address_ieee_ref_t</a></div><div class="ttdeci">zb_uint16_t zb_address_ieee_ref_t</div><div class="ttdef"><b>Definition:</b> zb_address.h:71</div></div>
+<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_gafbbf63d9ca0ad6f9727e07995cb89ed0"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#gafbbf63d9ca0ad6f9727e07995cb89ed0">zb_address_short_by_ref</a></div><div class="ttdeci">#define zb_address_short_by_ref(short_address_p, ref)</div><div class="ttdef"><b>Definition:</b> zb_address.h:490</div></div>
+<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_ga19897d1ce418280f93c703c1697834a8"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#ga19897d1ce418280f93c703c1697834a8">zb_address_by_ieee</a></div><div class="ttdeci">#define zb_address_by_ieee(ieee, create, lock, ref_p)</div><div class="ttdef"><b>Definition:</b> zb_address.h:522</div></div>
+<div class="ttc" id="agroup__sched_html_ga27e890246162c45f4d8ad45350e2c912"><div class="ttname"><a href="group__sched.html#ga27e890246162c45f4d8ad45350e2c912">ZB_SCHEDULE_APP_CALLBACK</a></div><div class="ttdeci">#define ZB_SCHEDULE_APP_CALLBACK(func, param)</div><div class="ttdef"><b>Definition:</b> zboss_api_core.h:381</div></div>
+<div class="ttc" id="agroup__base__types_html_ga9c120e2a2cbb1676ac16de871ac3506e"><div class="ttname"><a href="group__base__types.html#ga9c120e2a2cbb1676ac16de871ac3506e">ZB_LETOH16</a></div><div class="ttdeci">#define ZB_LETOH16</div><div class="ttdef"><b>Definition:</b> zb_types.h:813</div></div>
+<div class="ttc" id="agroup__buf_html_gaf7e0718a3bb63059a2626ac98b54d65d"><div class="ttname"><a href="group__buf.html#gaf7e0718a3bb63059a2626ac98b54d65d">ZB_BUF_GET_PARAM</a></div><div class="ttdeci">#define ZB_BUF_GET_PARAM(buf, type)</div><div class="ttdef"><b>Definition:</b> zboss_api_buf.h:450</div></div>
 <div class="ttc" id="agroup__base__types_html_ga31ddce10b950c4f30d546945beabdcbc"><div class="ttname"><a href="group__base__types.html#ga31ddce10b950c4f30d546945beabdcbc">ZB_TRUE</a></div><div class="ttdeci">#define ZB_TRUE</div><div class="ttdef"><b>Definition:</b> zb_types.h:362</div></div>
-<div class="ttc" id="agroup__zboss__bdb__comm__fb_html_ggaadcb0f0f5b3e019cef314015570f0e18a2c76ef49e9749dea076f4d5ebe87eda5"><div class="ttname"><a href="group__zboss__bdb__comm__fb.html#ggaadcb0f0f5b3e019cef314015570f0e18a2c76ef49e9749dea076f4d5ebe87eda5">ZB_BDB_COMM_BIND_SUCCESS</a></div><div class="ttdeci">@ ZB_BDB_COMM_BIND_SUCCESS</div><div class="ttdef"><b>Definition:</b> zboss_api_zcl.h:2374</div></div>
-<div class="ttc" id="astructzb__zdo__mgmt__leave__param__s_html_a3f09a9ba79e110caae0d22280fe78b7a"><div class="ttname"><a href="structzb__zdo__mgmt__leave__param__s.html#a3f09a9ba79e110caae0d22280fe78b7a">zb_zdo_mgmt_leave_param_s::rejoin</a></div><div class="ttdeci">zb_bitfield_t rejoin</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:3047</div></div>
-<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_ga1c095d31dda8f13785fd63542dc3c627"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#ga1c095d31dda8f13785fd63542dc3c627">zb_address_get_by_short</a></div><div class="ttdeci">zb_ret_t zb_address_get_by_short(zb_uint16_t short_address, zb_address_ieee_ref_t *ref_p)</div></div>
-<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_ga2386cee89d4a775d2eae4cc9262cedfd"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#ga2386cee89d4a775d2eae4cc9262cedfd">zb_address_ieee_by_short</a></div><div class="ttdeci">zb_ret_t zb_address_ieee_by_short(zb_uint16_t short_addr, zb_ieee_addr_t ieee_address)</div></div>
-<div class="ttc" id="agroup__zb__comm__signals_html_gabf46294ba93b253417f4d350f768234a"><div class="ttname"><a href="group__zb__comm__signals.html#gabf46294ba93b253417f4d350f768234a">ZB_ZDP_STATUS_SUCCESS</a></div><div class="ttdeci">#define ZB_ZDP_STATUS_SUCCESS</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:43</div></div>
-<div class="ttc" id="agroup__buf_html_ga97fe9fcc0124718cc25c3710b752b8fd"><div class="ttname"><a href="group__buf.html#ga97fe9fcc0124718cc25c3710b752b8fd">zb_buf_begin</a></div><div class="ttdeci">#define zb_buf_begin(buf)</div><div class="ttdef"><b>Definition:</b> zboss_api_buf.h:354</div></div>
-<div class="ttc" id="agroup__base__types_html_ga18a7e5c477a2c48d021be71d173cf2b8"><div class="ttname"><a href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a></div><div class="ttdeci">zb_64bit_addr_t zb_ieee_addr_t</div><div class="ttdoc">Long (64-bit) device address.</div><div class="ttdef"><b>Definition:</b> zb_types.h:551</div></div>
+<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_gaf0b31dc4d620f4ce8ea91b8de1d8f6bb"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#gaf0b31dc4d620f4ce8ea91b8de1d8f6bb">zb_address_cmp_pan_id_by_ref</a></div><div class="ttdeci">zb_bool_t zb_address_cmp_pan_id_by_ref(zb_address_pan_id_ref_t pan_id_ref, const zb_ext_pan_id_t pan_id)</div></div>
+<div class="ttc" id="agroup__zboss__bdb__comm__fb_html_ggaadcb0f0f5b3e019cef314015570f0e18a2c76ef49e9749dea076f4d5ebe87eda5"><div class="ttname"><a href="group__zboss__bdb__comm__fb.html#ggaadcb0f0f5b3e019cef314015570f0e18a2c76ef49e9749dea076f4d5ebe87eda5">ZB_BDB_COMM_BIND_SUCCESS</a></div><div class="ttdeci">@ ZB_BDB_COMM_BIND_SUCCESS</div><div class="ttdef"><b>Definition:</b> zboss_api_bdb.h:342</div></div>
+<div class="ttc" id="astructzb__zdo__mgmt__leave__param__s_html_a3f09a9ba79e110caae0d22280fe78b7a"><div class="ttname"><a href="structzb__zdo__mgmt__leave__param__s.html#a3f09a9ba79e110caae0d22280fe78b7a">zb_zdo_mgmt_leave_param_s::rejoin</a></div><div class="ttdeci">zb_bitfield_t rejoin</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:3128</div></div>
+<div class="ttc" id="agroup__zb__comm__signals_html_gabf46294ba93b253417f4d350f768234a"><div class="ttname"><a href="group__zb__comm__signals.html#gabf46294ba93b253417f4d350f768234a">ZB_ZDP_STATUS_SUCCESS</a></div><div class="ttdeci">#define ZB_ZDP_STATUS_SUCCESS</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:41</div></div>
+<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_ga6df1cdf6f4205e3d7aa4083b3eb1f087"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#ga6df1cdf6f4205e3d7aa4083b3eb1f087">zb_address_by_ref</a></div><div class="ttdeci">#define zb_address_by_ref(ieee_address, short_address_p, ref)</div><div class="ttdef"><b>Definition:</b> zb_address.h:437</div></div>
+<div class="ttc" id="agroup__buf_html_ga97fe9fcc0124718cc25c3710b752b8fd"><div class="ttname"><a href="group__buf.html#ga97fe9fcc0124718cc25c3710b752b8fd">zb_buf_begin</a></div><div class="ttdeci">#define zb_buf_begin(buf)</div><div class="ttdef"><b>Definition:</b> zboss_api_buf.h:347</div></div>
+<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_gaa222a88ef2bf4abcbba4d59f68a0ac8a"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#gaa222a88ef2bf4abcbba4d59f68a0ac8a">zb_address_ieee_by_ref</a></div><div class="ttdeci">#define zb_address_ieee_by_ref(ieee_address, ref)</div><div class="ttdef"><b>Definition:</b> zb_address.h:464</div></div>
+<div class="ttc" id="agroup__base__types_html_ga18a7e5c477a2c48d021be71d173cf2b8"><div class="ttname"><a href="group__base__types.html#ga18a7e5c477a2c48d021be71d173cf2b8">zb_ieee_addr_t</a></div><div class="ttdeci">zb_64bit_addr_t zb_ieee_addr_t</div><div class="ttdoc">Long (64-bit) device address.</div><div class="ttdef"><b>Definition:</b> zb_types.h:555</div></div>
 <div class="ttc" id="agroup__error__codes_html_ga76117585e8ddc62f21ca0e3061b7830e"><div class="ttname"><a href="group__error__codes.html#ga76117585e8ddc62f21ca0e3061b7830e">RET_OK</a></div><div class="ttdeci">#define RET_OK</div><div class="ttdoc">Error codes for non-void stack functions. In general, function can return OK, BLOCKED or some error....</div><div class="ttdef"><b>Definition:</b> zb_errors.h:81</div></div>
-<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_gab321151ea3a4f2c4e684fbeca9a07ede"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#gab321151ea3a4f2c4e684fbeca9a07ede">zb_address_short_by_ieee</a></div><div class="ttdeci">zb_uint16_t zb_address_short_by_ieee(const zb_ieee_addr_t ieee_address)</div></div>
-<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_ga2e5c125720ee343e95470acbd9c4ca33"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#ga2e5c125720ee343e95470acbd9c4ca33">zb_address_ieee_ref_t</a></div><div class="ttdeci">zb_uint8_t zb_address_ieee_ref_t</div><div class="ttdef"><b>Definition:</b> zb_address.h:82</div></div>
-<div class="ttc" id="astructzb__zdo__nwk__addr__resp__head__s_html_adc68388ddb48640dd8283c421e0b8afe"><div class="ttname"><a href="structzb__zdo__nwk__addr__resp__head__s.html#adc68388ddb48640dd8283c421e0b8afe">zb_zdo_nwk_addr_resp_head_s::ieee_addr</a></div><div class="ttdeci">zb_ieee_addr_t ieee_addr</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:1666</div></div>
-<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_gad01ddbd56d3a56cb0f54bf9360a8233d"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#gad01ddbd56d3a56cb0f54bf9360a8233d">zb_address_pan_id_ref_t</a></div><div class="ttdeci">zb_uint8_t zb_address_pan_id_ref_t</div><div class="ttdef"><b>Definition:</b> zb_address.h:74</div></div>
-<div class="ttc" id="astructzb__zdo__signal__device__annce__params__s_html_a66bc2c9188ea5c3668c265377cae4614"><div class="ttname"><a href="structzb__zdo__signal__device__annce__params__s.html#a66bc2c9188ea5c3668c265377cae4614">zb_zdo_signal_device_annce_params_s::device_short_addr</a></div><div class="ttdeci">zb_uint16_t device_short_addr</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:1248</div></div>
+<div class="ttc" id="astructzb__zdo__nwk__addr__resp__head__s_html_adc68388ddb48640dd8283c421e0b8afe"><div class="ttname"><a href="structzb__zdo__nwk__addr__resp__head__s.html#adc68388ddb48640dd8283c421e0b8afe">zb_zdo_nwk_addr_resp_head_s::ieee_addr</a></div><div class="ttdeci">zb_ieee_addr_t ieee_addr</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:1759</div></div>
+<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_gad01ddbd56d3a56cb0f54bf9360a8233d"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#gad01ddbd56d3a56cb0f54bf9360a8233d">zb_address_pan_id_ref_t</a></div><div class="ttdeci">zb_uint8_t zb_address_pan_id_ref_t</div><div class="ttdef"><b>Definition:</b> zb_address.h:62</div></div>
+<div class="ttc" id="astructzb__zdo__signal__device__annce__params__s_html_a66bc2c9188ea5c3668c265377cae4614"><div class="ttname"><a href="structzb__zdo__signal__device__annce__params__s.html#a66bc2c9188ea5c3668c265377cae4614">zb_zdo_signal_device_annce_params_s::device_short_addr</a></div><div class="ttdeci">zb_uint16_t device_short_addr</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:1346</div></div>
 <div class="ttc" id="agroup__base__types_html_ga83793366ad4d54e8b65840d82a751498"><div class="ttname"><a href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a></div><div class="ttdeci">unsigned short zb_uint16_t</div><div class="ttdoc">Project-local 2-byte unsigned int type.</div><div class="ttdef"><b>Definition:</b> zb_types.h:163</div></div>
-<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_ga3533d31b75933788e875c630583ea6ed"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#ga3533d31b75933788e875c630583ea6ed">zb_address_cmp_pan_id_by_ref</a></div><div class="ttdeci">zb_bool_t zb_address_cmp_pan_id_by_ref(zb_address_pan_id_ref_t pan_id_ref, zb_ext_pan_id_t pan_id)</div></div>
+<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_gafcdfd478b1d54cf3ddff42534340bcb0"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#gafcdfd478b1d54cf3ddff42534340bcb0">zb_address_update</a></div><div class="ttdeci">#define zb_address_update(ieee_address, short_address, lock, ref_p)</div><div class="ttdef"><b>Definition:</b> zb_address.h:392</div></div>
+<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_gaf2feba7e7565e1af010efa445b413d15"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#gaf2feba7e7565e1af010efa445b413d15">zb_address_ieee_by_short</a></div><div class="ttdeci">#define zb_address_ieee_by_short(short_addr, ieee_address)</div><div class="ttdef"><b>Definition:</b> zb_address.h:600</div></div>
 <div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_ga983fa31b86b2c4275bd0cd8a52987644"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#ga983fa31b86b2c4275bd0cd8a52987644">zb_address_get_short_pan_id</a></div><div class="ttdeci">void zb_address_get_short_pan_id(zb_address_pan_id_ref_t pan_id_ref, zb_uint16_t *pan_id_p)</div></div>
-<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_gac911f75d6a4594a87b1c70e2c88389f9"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#gac911f75d6a4594a87b1c70e2c88389f9">zb_address_by_ieee</a></div><div class="ttdeci">zb_ret_t zb_address_by_ieee(const zb_ieee_addr_t ieee, zb_bool_t create, zb_bool_t lock, zb_address_ieee_ref_t *ref_p)</div></div>
-<div class="ttc" id="astructzb__zdo__mgmt__leave__param__s_html"><div class="ttname"><a href="structzb__zdo__mgmt__leave__param__s.html">zb_zdo_mgmt_leave_param_s</a></div><div class="ttdoc">Request for Mgmt_Leave_req.</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:3040</div></div>
-<div class="ttc" id="agroup__buf_html_ga788a473df6d535c19f5da0d142d4fa01"><div class="ttname"><a href="group__buf.html#ga788a473df6d535c19f5da0d142d4fa01">zb_buf_free</a></div><div class="ttdeci">#define zb_buf_free(buf)</div><div class="ttdoc">Free packet buffer and put it into free list.</div><div class="ttdef"><b>Definition:</b> zboss_api_buf.h:344</div></div>
+<div class="ttc" id="astructzb__zdo__mgmt__leave__param__s_html"><div class="ttname"><a href="structzb__zdo__mgmt__leave__param__s.html">zb_zdo_mgmt_leave_param_s</a></div><div class="ttdoc">Request for Mgmt_Leave_req.</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:3121</div></div>
+<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_gab99254baba4fc89b12b49fd7f16bff9b"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#gab99254baba4fc89b12b49fd7f16bff9b">zb_address_get_by_short</a></div><div class="ttdeci">#define zb_address_get_by_short(short_address, ref_p)</div><div class="ttdef"><b>Definition:</b> zb_address.h:645</div></div>
+<div class="ttc" id="agroup__buf_html_ga788a473df6d535c19f5da0d142d4fa01"><div class="ttname"><a href="group__buf.html#ga788a473df6d535c19f5da0d142d4fa01">zb_buf_free</a></div><div class="ttdeci">#define zb_buf_free(buf)</div><div class="ttdoc">Free packet buffer and put it into free list.</div><div class="ttdef"><b>Definition:</b> zboss_api_buf.h:337</div></div>
 <div class="ttc" id="agroup__base__types_html_gae0f2d2d69ee138eedec4460449f84431"><div class="ttname"><a href="group__base__types.html#gae0f2d2d69ee138eedec4460449f84431">ZB_FALSE</a></div><div class="ttdeci">#define ZB_FALSE</div><div class="ttdef"><b>Definition:</b> zb_types.h:361</div></div>
-<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_ga23c3f951f9521f1b303ed9636b66c236"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#ga23c3f951f9521f1b303ed9636b66c236">zb_address_update</a></div><div class="ttdeci">zb_ret_t zb_address_update(zb_ieee_addr_t ieee_address, zb_uint16_t short_address, zb_bool_t lock, zb_address_ieee_ref_t *ref_p)</div></div>
-<div class="ttc" id="astructzb__zdo__nwk__addr__resp__head__s_html_a61f04c3926d93814e50f468e18b7bb9d"><div class="ttname"><a href="structzb__zdo__nwk__addr__resp__head__s.html#a61f04c3926d93814e50f468e18b7bb9d">zb_zdo_nwk_addr_resp_head_s::status</a></div><div class="ttdeci">zb_uint8_t status</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:1665</div></div>
-<div class="ttc" id="agroup__buf_html_ga72fb48e56b8e7f4b0cf12d12bd491b3b"><div class="ttname"><a href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a></div><div class="ttdeci">zb_uint8_t zb_bufid_t</div><div class="ttdef"><b>Definition:</b> zboss_api_buf.h:178</div></div>
-<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_gaf8d75e1b4352b6623db7b3a90ccd7c47"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#gaf8d75e1b4352b6623db7b3a90ccd7c47">zb_address_by_ref</a></div><div class="ttdeci">void zb_address_by_ref(zb_ieee_addr_t ieee_address, zb_uint16_t *short_address_p, zb_address_ieee_ref_t ref)</div></div>
-<div class="ttc" id="agroup___z_b___n_w_k___a_d_d_r_html_gaa4a0ca70ba7466199e3424f13dfbca33"><div class="ttname"><a href="group___z_b___n_w_k___a_d_d_r.html#gaa4a0ca70ba7466199e3424f13dfbca33">zb_address_ieee_by_ref</a></div><div class="ttdeci">void zb_address_ieee_by_ref(zb_ieee_addr_t ieee_address, zb_address_ieee_ref_t ref)</div></div>
-<div class="ttc" id="agroup__zb__zcl__common__types_html_ga1795f187f98b115312d13dadeebfd9c2"><div class="ttname"><a href="group__zb__zcl__common__types.html#ga1795f187f98b115312d13dadeebfd9c2">ZB_ZCL_CLUSTER_ID_THERMOSTAT</a></div><div class="ttdeci">#define ZB_ZCL_CLUSTER_ID_THERMOSTAT</div><div class="ttdef"><b>Definition:</b> zb_zcl_common.h:246</div></div>
+<div class="ttc" id="astructzb__zdo__nwk__addr__resp__head__s_html_a61f04c3926d93814e50f468e18b7bb9d"><div class="ttname"><a href="structzb__zdo__nwk__addr__resp__head__s.html#a61f04c3926d93814e50f468e18b7bb9d">zb_zdo_nwk_addr_resp_head_s::status</a></div><div class="ttdeci">zb_uint8_t status</div><div class="ttdef"><b>Definition:</b> zboss_api_zdo.h:1758</div></div>
+<div class="ttc" id="agroup__buf_html_ga72fb48e56b8e7f4b0cf12d12bd491b3b"><div class="ttname"><a href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a></div><div class="ttdeci">zb_uint8_t zb_bufid_t</div><div class="ttdef"><b>Definition:</b> zboss_api_core.h:49</div></div>
+<div class="ttc" id="agroup__zb__zcl__common__types_html_ga1795f187f98b115312d13dadeebfd9c2"><div class="ttname"><a href="group__zb__zcl__common__types.html#ga1795f187f98b115312d13dadeebfd9c2">ZB_ZCL_CLUSTER_ID_THERMOSTAT</a></div><div class="ttdeci">#define ZB_ZCL_CLUSTER_ID_THERMOSTAT</div><div class="ttdef"><b>Definition:</b> zb_zcl_common.h:240</div></div>
 <hr class="footer"/><address class="footer"><small>
 <div style="float: left; text-align: left;">
   <div>Copyright (c) 2012-2022 DSR Corporation, Golden CO, USA.
@@ -1163,6 +1224,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>zb_address_dump_redir
     <a href="http://www.dsr-corporation.com">http://www.dsr-corporation.com</a>
   </div>
 </div>
-<div>ZBOSS documentation. Wed May 27 2026.</div>
+<div>ZBOSS documentation. Mon Sep 21 2026.</div>
 </body>
 </html>

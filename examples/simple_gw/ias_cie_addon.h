@@ -24,10 +24,10 @@
 #ifndef IAS_CIE_ADDON_H
 #define IAS_CIE_ADDON_H 1
 
-void find_ias_zone_device_tmo(zb_uint8_t dev_idx);
-void find_ias_zone_device_delayed(zb_uint8_t idx);
-void find_ias_zone_device(zb_uint8_t param, zb_uint16_t short_addr);
-void find_ias_zone_device_cb(zb_uint8_t param);
-void write_cie_addr(zb_uint8_t param, zb_uint16_t dev_idx);
+void find_ias_zone_device_tmo(zb_cb_param_t dev_idx);
+void find_ias_zone_device_delayed(zb_cb_param_t idx);
+void find_ias_zone_device(zb_cb_param_t cb_param);
+void find_ias_zone_device_cb(zb_cb_param_t param);
+void write_cie_addr(zb_cb_param_t cb_param);
 
 #endif /* IAS_CIE_ADDON_H */

@@ -74,7 +74,6 @@ constants etc.
 #define MAC_DUMP_FROM_INTR
 #define ZB_DSR_MAC
 #define ZB_MANUAL_ACK           /* means, MAC LL implements ACK rx and parse, main logic ertransmits */
-#define ZB_SEND_BEACON_IMMEDIATELY
 #define ZB_MAC_RX_QUEUE_CAP 5
 #define ZB_MAC_SOFTWARE_PB_MATCHING
 
@@ -108,7 +107,27 @@ constants etc.
 
 #define ZB_MANUAL_ADDR_FILTER
 
+/* Define ZB_NSNG_CI only for NSNG configuration.
+   It used to be defined in zb_cfg_cert.h for all platforms. */
+#ifdef DISABLE_AUTO_REBOOT_FOR_CI
+#define ZB_NSNG_CI
+#endif /* DISABLE_AUTO_REBOOT_FOR_CI */
+
 #endif  /* ZB_CONFIG_LINUX_NSNG */
+
+#ifdef ZB_CONFIG_LINUX_DSIM
+
+#define NS_KEY "NS"
+#define NS_KEY_DEFAULT "844"
+#define DSIM_MAX_JOINED_DEVS        1024U
+
+/* TODO: remove when updating charon. (ZBS-2118)
+   The following defines are needed to compile ns_dump file without any changes
+    and include it into charon. */
+#define NS_MAX_PKT_SIZE 127U
+#define NS_MAX_N_DEV (DSIM_MAX_JOINED_DEVS)
+
+#endif /* ZB_CONFIG_LINUX_DSIM */
 
 #ifdef ZB_CONFIG_LINUX_MACSPLIT_HOST
   #define ZB_MACSPLIT

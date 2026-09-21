@@ -264,5 +264,5 @@ var group___z_b___z_c_l___t_o_u_c_h_l_i_n_k___c_o_m_m_i_s_s_i_o_n_i_n_g =
     [ "zb_zll_info_e", "group___z_b___z_c_l___t_o_u_c_h_l_i_n_k___c_o_m_m_i_s_s_i_o_n_i_n_g.html#ga12cd4949b0a93c9fb451181b6f86253c", null ],
     [ "zb_zll_commissioning_send_scan_req", "group___z_b___z_c_l___t_o_u_c_h_l_i_n_k___c_o_m_m_i_s_s_i_o_n_i_n_g.html#ga3ed2251bf82bfcb0cacb6e17aae8d761", null ],
     [ "zb_zll_get_info_current_value", "group___z_b___z_c_l___t_o_u_c_h_l_i_n_k___c_o_m_m_i_s_s_i_o_n_i_n_g.html#ga5e17d153f1d37d76c1c61960f9e785b2", null ],
-    [ "zb_zll_identify", "group___z_b___z_c_l___t_o_u_c_h_l_i_n_k___c_o_m_m_i_s_s_i_o_n_i_n_g.html#ga2a1fd082bbcf1d4fc6afd3d62dfae7e6", null ]
+    [ "zb_zll_identify", "group___z_b___z_c_l___t_o_u_c_h_l_i_n_k___c_o_m_m_i_s_s_i_o_n_i_n_g.html#ga0652a98860ed361fdc9bc60eebfb5186", null ]
 ];

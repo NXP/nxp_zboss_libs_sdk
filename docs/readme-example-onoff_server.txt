@@ -63,12 +63,13 @@ Zigbee End Device includes following ZCL clusters:
  - Basic (s)
  - Identify (s/c)
  - OnOff Switch Config (s)
+ - Poll Control (s)
  - OnOff (c)
  - Scenes (c)
  - Groups (c)
 
 This application also includes an example of the user defined ZBOSS main loop.
-
+This application utilizes Poll Control cluster server to ensure that TC is accessible.
 
 Applications behavior
 ---------------------
@@ -85,3 +86,4 @@ Applications behavior
   - Active Endpoint request
   - System Server Discovery request
 - Zigbee End Device (On/Off switch) sends ZCL On/Off Toggle command to the Zigbee Coordinator (On/Off output) via BDB binding every 7 sec. If application runs on hardware, Toggle command can be triggered by pressing button.
+- Zigbee End Device (On/Off switch) sends ZCL Poll Control Check-in command to the Zigbee Coordinator via binding every 60 sec.

@@ -9,8 +9,8 @@ var group__zboss__bdb__comm__params =
       [ "ZB_BDB_COMM_FINDING_AND_BINDING_TARGET", "group__zboss__bdb__comm__params.html#ggac44e270f90c7bb7948dc68b6c0e70fe1a28294eeecf7afe79f4ec26de77e3439b", null ]
     ] ],
     [ "zb_bdb_set_legacy_device_support", "group__zboss__bdb__comm__params.html#ga8bf3b3beef192c00bcdca17ad1240921", null ],
-    [ "zb_get_bdb_primary_channel_set", "group__zboss__bdb__comm__params.html#gab56e8c2d9813a338cd4162896fdc7e66", null ],
-    [ "zb_get_bdb_secondary_channel_set", "group__zboss__bdb__comm__params.html#ga5b29ce5f194bffed5a1114d218a1fe0a", null ],
-    [ "zb_set_bdb_primary_channel_set", "group__zboss__bdb__comm__params.html#gaf97c13692fc1afce7e357f1b30726513", null ],
-    [ "zb_set_bdb_secondary_channel_set", "group__zboss__bdb__comm__params.html#gab8dda16debfbafe21b6326256770f39a", null ]
+    [ "zb_get_bdb_primary_channel_list", "group__zboss__bdb__comm__params.html#gaed2576aaf60e45be0016501eb6f0a323", null ],
+    [ "zb_get_bdb_secondary_channel_list", "group__zboss__bdb__comm__params.html#ga32807fc03f82cf30031b4e81530c3bda", null ],
+    [ "zb_set_bdb_primary_channel_list", "group__zboss__bdb__comm__params.html#ga2be9d8c4eff61964b65684f2f4d62143", null ],
+    [ "zb_set_bdb_secondary_channel_list", "group__zboss__bdb__comm__params.html#ga6ad11a093ccb5fe5d142765b558d1bce", null ]
 ];

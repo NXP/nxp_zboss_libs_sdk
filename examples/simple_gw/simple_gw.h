@@ -30,6 +30,10 @@
 #include "zboss_api.h"
 #include "zb_led_button.h"
 
+/*Enable this definition to compile DUT ZC for GPPB certification testing using ZUTH.
+  Also need to add the ZB_NRF_INTERNAL define to the vendor file to enable HW reset of the NRF52 device. */
+/*#define ZB_GPPB_CERTIFICATION_DUT*/
+
 /* CONFIG SECTION */
 #define IAS_CIE_ENABLED 1
 
@@ -40,7 +44,10 @@
 /* Used endpoint number */
 #define SIMPLE_GW_ENDPOINT 1
 
+#if defined ZB_GPPB_CERTIFICATION_DUT && defined ZB_PLATFORM_NRF52
 #undef ZB_USE_BUTTONS
+#endif /* ZB_GPPB_CERTIFICATION_DUT && ZB_PLATFORM_NRF52 */
+
 /* IAS zone IEEE address */
 #define SIMPLE_GW_IEEE_ADDR {0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa}
 /* Default channel */
@@ -98,29 +105,29 @@ void simple_gw_dev_annce_cb(zb_uint16_t short_addr);
 void simple_gw_leave_indication(zb_ieee_addr_t dev_addr);
 
 /* Devices discovery routines */
-void find_onoff_device(zb_uint8_t param, zb_uint16_t dev_idx);
-void find_onoff_device_delayed(zb_uint8_t param);
-void find_onoff_device_cb(zb_uint8_t param);
-void find_onoff_device_tmo(zb_uint8_t param);
+void find_onoff_device(zb_cb_param_t cb_param);
+void find_onoff_device_delayed(zb_cb_param_t param);
+void find_onoff_device_cb(zb_cb_param_t param);
+void find_onoff_device_tmo(zb_cb_param_t param);
 
-void device_ieee_addr_req(zb_uint8_t param, zb_uint16_t dev_idx);
-void device_ieee_addr_req_cb(zb_uint8_t param);
+void device_ieee_addr_req(zb_cb_param_t cb_param);
+void device_ieee_addr_req_cb(zb_cb_param_t param);
 
-void bind_device(zb_uint8_t param, zb_uint16_t dev_idx);
-void bind_device_cb(zb_uint8_t param);
+void bind_device(zb_cb_param_t cb_param);
+void bind_device_cb(zb_cb_param_t param);
 
-void configure_reporting(zb_uint8_t param, zb_uint16_t dev_idx);
-void configure_reporting_cb(zb_uint8_t param);
+void configure_reporting(zb_cb_param_t cb_param);
+void configure_reporting_cb(zb_cb_param_t param);
 
 /* Devices management routines */
 zb_uint8_t simple_gw_get_dev_index_by_state(zb_uint8_t dev_state);
 zb_uint8_t simple_gw_get_dev_index_by_short_addr(zb_uint16_t short_addr);
 zb_uint8_t simple_gw_get_dev_index_by_ieee_addr(zb_ieee_addr_t ieee_addr);
 
-void send_toggle_req(zb_uint8_t param, zb_uint16_t dev_idx);
-void send_toggle_req_delayed(zb_uint8_t dev_idx);
-void simple_gw_remove_and_rejoin_device_delayed(zb_uint8_t idx);
-void simple_gw_remove_device_delayed(zb_uint8_t idx);
+void send_toggle_req(zb_cb_param_t cb_param);
+void send_toggle_req_delayed(zb_cb_param_t dev_idx);
+void simple_gw_remove_and_rejoin_device_delayed(zb_cb_param_t idx);
+void simple_gw_remove_device_delayed(zb_cb_param_t idx);
 
 /* Persisting data into NVRAM routines */
 zb_uint16_t simple_gw_get_nvram_data_size();
@@ -128,6 +135,6 @@ void simple_gw_nvram_read_app_data(zb_uint8_t page, zb_uint32_t pos, zb_uint16_t
 zb_ret_t simple_gw_nvram_write_app_data(zb_uint8_t page, zb_uint32_t pos);
 
 /* Handler for specific zcl commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 
 #endif /* SIMPLE_GW_H */

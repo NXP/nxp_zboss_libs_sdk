@@ -68,10 +68,10 @@ static zb_uint8_t g_nwk_key[16] = ZB_REG_TEST_DEFAULT_NWK_KEY;
 #define ZB_OUTPUT_MAX_CMD_PAYLOAD_SIZE 2
 
 /* Handler for specific ZCL commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 
-void test_device_interface_cb(zb_uint8_t param);
-void button_press_handler(zb_uint8_t param);
+void test_device_interface_cb(zb_cb_param_t param);
+void button_press_handler(zb_cb_param_t param);
 
 /**
  * Declaring attributes for each cluster
@@ -158,7 +158,7 @@ MAIN()
 
   zb_set_network_router_role(1l<<21);
 
-  zb_bdb_enable_distributed_formation(ZB_TRUE);
+  zb_bdb_enable_distributed_network_formation();
 
   zb_set_nvram_erase_at_start(ZB_FALSE);
   zb_secur_setup_nwk_key(g_nwk_key, 0);
@@ -247,7 +247,7 @@ static zb_bool_t error_ind_handler(zb_uint8_t severity,
 }
 
 
-void test_device_interface_cb(zb_uint8_t param)
+void test_device_interface_cb(zb_cb_param_t param)
 {
   zb_zcl_device_callback_param_t *device_cb_param =
     ZB_BUF_GET_PARAM(param, zb_zcl_device_callback_param_t);
@@ -302,7 +302,7 @@ void test_device_interface_cb(zb_uint8_t param)
 }
 
 
-static void handle_diag_data_resp(zb_bufid_t buf)
+static void handle_diag_data_resp(zb_cb_param_t buf)
 {
   zb_zdo_get_diag_data_resp_params_t *resp_params;
 
@@ -338,7 +338,7 @@ static void send_diag_data_req(zb_uint16_t short_address)
 }
 
 
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_zcl_parsed_hdr_t cmd_info;
 
@@ -367,14 +367,14 @@ zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
   return ZB_FALSE;
 }
 
-void button_press_handler(zb_uint8_t param)
+void button_press_handler(zb_cb_param_t param)
 {
   ZVUNUSED(param);
   TRACE_MSG(TRACE_APP1, "button is pressed, do nothing", (FMT__0));
 }
 
 /* Callback to handle the stack events */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_type_t sig = zb_get_app_signal(param, &sg_p);

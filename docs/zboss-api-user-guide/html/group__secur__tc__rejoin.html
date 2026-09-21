@@ -89,11 +89,43 @@ Functions</h2></td></tr>
 <tr class="separator:gadd836976ab948ed2e7dc97825b06a033"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga25483c919b1d77c495ce03ca3c94519a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__secur__tc__rejoin.html#ga25483c919b1d77c495ce03ca3c94519a">zb_secur_set_ignore_tc_rejoin</a> (<a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> enable)</td></tr>
 <tr class="separator:ga25483c919b1d77c495ce03ca3c94519a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga24ee34fcee7379640a3ed9a6a0459c9e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__secur__tc__rejoin.html#ga24ee34fcee7379640a3ed9a6a0459c9e">zb_secur_set_allow_remote_policy_change</a> (<a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> enable)</td></tr>
+<tr class="separator:ga24ee34fcee7379640a3ed9a6a0459c9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5e3d4511bf9ca429b1b945c0e5421785"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__secur__tc__rejoin.html#ga5e3d4511bf9ca429b1b945c0e5421785">zb_secur_set_unsecure_tc_rejoin_enabled</a> (<a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> enable)</td></tr>
 <tr class="separator:ga5e3d4511bf9ca429b1b945c0e5421785"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="ga24ee34fcee7379640a3ed9a6a0459c9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga24ee34fcee7379640a3ed9a6a0459c9e">&#9670;&nbsp;</a></span>zb_secur_set_allow_remote_policy_change()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zb_secur_set_allow_remote_policy_change </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a>&#160;</td>
+          <td class="paramname"><em>enable</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Specifies whether remote policy changes are allowed.</p>
+<p>If set to ZB_FALSE, remote requests that attempt to change Trust Center policy (such as MgmtPermitJoin requests) will be rejected.</p>
+<p>'allow_remote_policy_change' is TRUE by default, see BDB 3.1 specification, document 22-65816-030, Table 9 – Trust Center policy values.</p>
+<p>BDB 3.0.1 doesn't have such a policy, but its behavior corresponds to the TRUE value.</p>
+<p>It's NOT RECOMMENDED to change this value to FALSE to avoid compatibility issues with other ZigBee devices!</p>
+<dl class="section note"><dt>Note</dt><dd>According to SE specification, this policy must be set to FALSE and should NOT be changed</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enable</td><td>- whether to enable or disable remote policy changes. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ga25483c919b1d77c495ce03ca3c94519a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga25483c919b1d77c495ce03ca3c94519a">&#9670;&nbsp;</a></span>zb_secur_set_ignore_tc_rejoin()</h2>
 
@@ -181,6 +213,6 @@ Functions</h2></td></tr>
     <a href="http://www.dsr-corporation.com">http://www.dsr-corporation.com</a>
   </div>
 </div>
-<div>ZBOSS documentation. Wed May 27 2026.</div>
+<div>ZBOSS documentation. Mon Sep 21 2026.</div>
 </body>
 </html>

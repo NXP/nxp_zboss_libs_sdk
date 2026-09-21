@@ -18,7 +18,7 @@
  * Agreement provided with the Software or, alternatively, in accordance
  * with the terms contained in a written agreement between you and
  * DSR.
- */
+ // */
 /* PURPOSE: Scenes cluster definitions
 */
 
@@ -211,8 +211,8 @@ typedef ZB_PACKED_PRE struct zb_zcl_scenes_fieldset_common_s
     @param param - buffer to get data from.
     @param group_id - group identifier for which all scenes must be removed.
 */
-void zb_zcl_scenes_remove_all_scenes_in_all_endpoints_by_group_id(zb_uint8_t param, zb_uint16_t group_id);
-void zb_zcl_scenes_remove_all_scenes_in_all_endpoints(zb_uint8_t param);
+void zb_zcl_scenes_remove_all_scenes_in_all_endpoints_by_group_id(zb_cb_param_t cb_param);
+void zb_zcl_scenes_remove_all_scenes_in_all_endpoints(zb_cb_param_t param);
 /*! @}
  *  @endcond */ /* internals_doc */
 
@@ -2207,11 +2207,11 @@ typedef ZB_PACKED_PRE struct zb_zcl_scenes_get_scene_membership_res_s
 
 /** @cond internals_doc */
 
-zb_uint8_t zb_zcl_scenes_process_store_scene(zb_uint8_t param, zb_zcl_scenes_store_scene_req_t* req, const zb_zcl_parsed_hdr_t *cmd_info);
+zb_uint8_t zb_zcl_scenes_process_store_scene(zb_bufid_t param, zb_zcl_scenes_store_scene_req_t* req, const zb_zcl_parsed_hdr_t *cmd_info);
 
-zb_uint8_t zb_zcl_scenes_process_recall_scene(zb_uint8_t param, zb_zcl_scenes_recall_scene_req_t* req, const zb_zcl_parsed_hdr_t *cmd_info);
+zb_uint8_t zb_zcl_scenes_process_recall_scene(zb_bufid_t param, zb_zcl_scenes_recall_scene_req_t* req, const zb_zcl_parsed_hdr_t *cmd_info);
 
-zb_uint8_t zb_zcl_scenes_process_remove_all_scenes(zb_uint8_t param, zb_zcl_scenes_remove_all_scenes_req_t* req, const zb_zcl_parsed_hdr_t *cmd_info);
+zb_uint8_t zb_zcl_scenes_process_remove_all_scenes(zb_bufid_t param, zb_zcl_scenes_remove_all_scenes_req_t* req, const zb_zcl_parsed_hdr_t *cmd_info);
 
 /** @endcond */
 

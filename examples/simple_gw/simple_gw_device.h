@@ -27,8 +27,8 @@
 #define ZB_HA_DEVICE_VER_SIMPLE_GW 0  /*!< Simple GW device version */
 #define ZB_HA_SIMPLE_GW_DEVICE_ID 0
 
-#define ZB_HA_SIMPLE_GW_IN_CLUSTER_NUM 3  /*!< @internal Simple GW IN clusters number */
-#define ZB_HA_SIMPLE_GW_OUT_CLUSTER_NUM 5 /*!< @internal Simple GW OUT clusters number */
+#define ZB_HA_SIMPLE_GW_IN_CLUSTER_NUM 4  /*!< @internal Simple GW IN clusters number */
+#define ZB_HA_SIMPLE_GW_OUT_CLUSTER_NUM 6 /*!< @internal Simple GW OUT clusters number */
 
 #define ZB_HA_SIMPLE_GW_CLUSTER_NUM                                      \
   (ZB_HA_SIMPLE_GW_IN_CLUSTER_NUM + ZB_HA_SIMPLE_GW_OUT_CLUSTER_NUM)
@@ -40,20 +40,31 @@
 /** @brief Declare cluster list for Simple GW device
     @param cluster_list_name - cluster list variable name
     @param on_off_switch_config_attr_list - attribute list for On/off switch configuration cluster
+    @param keep_alive_attr_list - attribute list for Keep-Alive cluster
     @param basic_attr_list - attribute list for Basic cluster
     @param identify_attr_list - attribute list for Identify cluster
+    @param poll_control_attr_list - attribute list for Poll Control cluster
  */
-#define ZB_HA_DECLARE_SIMPLE_GW_CLUSTER_LIST(                           \
+#define ZB_HA_DECLARE_SIMPLE_GW_CLUSTER_LIST(                               \
       cluster_list_name,                                                    \
       on_off_switch_config_attr_list,                                       \
+      keep_alive_attr_list,                                                 \
       basic_attr_list,                                                      \
-      identify_attr_list)                                                   \
+      identify_attr_list,                                                   \
+      poll_control_attr_list)                                               \
       zb_zcl_cluster_desc_t cluster_list_name[] =                           \
       {                                                                     \
         ZB_ZCL_CLUSTER_DESC(                                                \
           ZB_ZCL_CLUSTER_ID_ON_OFF_SWITCH_CONFIG,                           \
           ZB_ZCL_ARRAY_SIZE(on_off_switch_config_attr_list, zb_zcl_attr_t), \
           (on_off_switch_config_attr_list),                                 \
+          ZB_ZCL_CLUSTER_SERVER_ROLE,                                       \
+          ZB_ZCL_MANUF_CODE_INVALID                                         \
+        ),                                                                  \
+        ZB_ZCL_CLUSTER_DESC(                                                \
+          ZB_ZCL_CLUSTER_ID_KEEP_ALIVE,                                     \
+          ZB_ZCL_ARRAY_SIZE(keep_alive_attr_list, zb_zcl_attr_t),           \
+          (keep_alive_attr_list),                                           \
           ZB_ZCL_CLUSTER_SERVER_ROLE,                                       \
           ZB_ZCL_MANUF_CODE_INVALID                                         \
         ),                                                                  \
@@ -92,20 +103,27 @@
           ZB_ZCL_CLUSTER_CLIENT_ROLE,                                       \
           ZB_ZCL_MANUF_CODE_INVALID                                         \
         ),                                                                  \
-        ZB_ZCL_CLUSTER_DESC(                                            \
-          ZB_ZCL_CLUSTER_ID_IAS_ZONE,                                   \
-          0,                                                            \
-          NULL,                                                         \
-          ZB_ZCL_CLUSTER_CLIENT_ROLE,                                   \
-          ZB_ZCL_MANUF_CODE_INVALID                                     \
-          ),                                                            \
-        ZB_ZCL_CLUSTER_DESC(                                            \
-          ZB_ZCL_CLUSTER_ID_IDENTIFY,                                   \
-          0,                                                            \
-          NULL,                                                         \
-          ZB_ZCL_CLUSTER_CLIENT_ROLE,                                   \
-          ZB_ZCL_MANUF_CODE_INVALID                                     \
-        )                                                               \
+        ZB_ZCL_CLUSTER_DESC(                                                \
+          ZB_ZCL_CLUSTER_ID_IAS_ZONE,                                       \
+          0,                                                                \
+          NULL,                                                             \
+          ZB_ZCL_CLUSTER_CLIENT_ROLE,                                       \
+          ZB_ZCL_MANUF_CODE_INVALID                                         \
+          ),                                                                \
+        ZB_ZCL_CLUSTER_DESC(                                                \
+          ZB_ZCL_CLUSTER_ID_IDENTIFY,                                       \
+          0,                                                                \
+          NULL,                                                             \
+          ZB_ZCL_CLUSTER_CLIENT_ROLE,                                       \
+          ZB_ZCL_MANUF_CODE_INVALID                                         \
+        ),                                                                  \
+        ZB_ZCL_CLUSTER_DESC(                                                \
+          ZB_ZCL_CLUSTER_ID_POLL_CONTROL,                                   \
+          ZB_ZCL_ARRAY_SIZE(poll_control_attr_list, zb_zcl_attr_t),         \
+          (poll_control_attr_list),                                         \
+          ZB_ZCL_CLUSTER_CLIENT_ROLE,                                       \
+          ZB_ZCL_MANUF_CODE_INVALID                                         \
+        )                                                                   \
     }
 
 
@@ -123,20 +141,22 @@
   {                                                                                           \
     ep_id,                                                                                    \
     ZB_AF_HA_PROFILE_ID,                                                                      \
-    ZB_HA_SIMPLE_GW_DEVICE_ID,                                                            \
-    ZB_HA_DEVICE_VER_SIMPLE_GW,                                                           \
+    ZB_HA_SIMPLE_GW_DEVICE_ID,                                                                \
+    ZB_HA_DEVICE_VER_SIMPLE_GW,                                                               \
     0,                                                                                        \
     in_clust_num,                                                                             \
     out_clust_num,                                                                            \
     {                                                                                         \
       ZB_ZCL_CLUSTER_ID_BASIC,                                                                \
       ZB_ZCL_CLUSTER_ID_IDENTIFY,                                                             \
+      ZB_ZCL_CLUSTER_ID_KEEP_ALIVE,                                                           \
       ZB_ZCL_CLUSTER_ID_ON_OFF_SWITCH_CONFIG,                                                 \
       ZB_ZCL_CLUSTER_ID_ON_OFF,                                                               \
       ZB_ZCL_CLUSTER_ID_SCENES,                                                               \
-      ZB_ZCL_CLUSTER_ID_GROUPS,                                         \
-      ZB_ZCL_CLUSTER_ID_IAS_ZONE,                                       \
-      ZB_ZCL_CLUSTER_ID_IDENTIFY,                                       \
+      ZB_ZCL_CLUSTER_ID_GROUPS,                                                               \
+      ZB_ZCL_CLUSTER_ID_IAS_ZONE,                                                             \
+      ZB_ZCL_CLUSTER_ID_IDENTIFY,                                                             \
+      ZB_ZCL_CLUSTER_ID_POLL_CONTROL,                                                         \
     }                                                                                         \
   }
 

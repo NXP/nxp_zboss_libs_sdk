@@ -20,6 +20,9 @@
  * with the terms contained in a written agreement between you and
  * DSR.
  */
+/* PURPOSE: this header allows you permanently disable diagnostic library calls
+   from ZBOSS core code for some modules. You may reduce ZBOSS footprint
+   but you will lose ability to use diagnostic functions of these modules */
 
 #ifndef ZB_LITE_H
 #define ZB_LITE_H
@@ -106,6 +109,17 @@
 #define ZB_DIAG_DUT_BEHAVIOUR_INIT()
 
 #endif /* ZB_DIAGNOSTIC_DUT_MODIFIERS_ENABLED */
+/* ---------------------------------------------------------------- */
+
+#if defined(ZB_DIAGNOSTIC_KEY_EXPOSURE_ENABLED)
+
+#define ZB_DIAG_KEY_EXPOSURE_INIT() zb_diag_key_exposure_init()
+
+#else /* ZB_DIAGNOSTIC_KEY_EXPOSURE_ENABLED */
+
+#define ZB_DIAG_KEY_EXPOSURE_INIT()
+
+#endif /* ZB_DIAGNOSTIC_KEY_EXPOSURE_ENABLED */
 /* ---------------------------------------------------------------- */
 
 #endif /* ZB_LITE_H */

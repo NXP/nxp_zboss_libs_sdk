@@ -508,7 +508,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_energy_management_report_event_status_payloa
  * @par Usage
  * @n Handle @ref ZB_ZCL_ENERGY_MANAGEMENT_CLI_CMD_MANAGE_EVENT "ManageEvent" command
  */
-void zb_zcl_energy_management_server_send_report_event_status(zb_uint8_t param,
+void zb_zcl_energy_management_server_send_report_event_status(zb_bufid_t param,
                                                              zb_addr_u *dst_addr,
                                                              zb_aps_addr_mode_t dst_addr_mode,
                                                              zb_uint8_t dst_ep,
@@ -530,7 +530,7 @@ void zb_zcl_energy_management_server_send_report_event_status(zb_uint8_t param,
  * @par Usage
  * @n Example of sending @ref ZB_ZCL_ENERGY_MANAGEMENT_CLI_CMD_MANAGE_EVENT "ManageEvent" command
  */
-void zb_zcl_energy_management_client_send_manage_event(zb_uint8_t param, zb_addr_u *dst_addr,
+void zb_zcl_energy_management_client_send_manage_event(zb_bufid_t param, zb_addr_u *dst_addr,
                                                       zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
                                                       zb_uint8_t src_ep,
                                                       zb_zcl_energy_management_manage_event_payload_t *payload,

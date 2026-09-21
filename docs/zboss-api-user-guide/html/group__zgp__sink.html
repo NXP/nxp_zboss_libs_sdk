@@ -89,6 +89,12 @@ $(document).ready(function(){initNavTree('group__zgp__sink.html',''); initResiza
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structzgp__raw__report__desc__s.html">zgp_raw_report_desc_s</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raw report descriptor received from the GPD.  <a href="structzgp__raw__report__desc__s.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structzgp__approve__comm__params__s.html">zgp_approve_comm_params_s</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">GPD Commissioning params for Application approval.  <a href="structzgp__approve__comm__params__s.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structzgp__to__zb__cmd__mapping__s.html">zgp_to_zb_cmd_mapping_s</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mapping of ZGPD command ID to Zigbee ZCL command ID.  <a href="structzgp__to__zb__cmd__mapping__s.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -113,6 +119,8 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:ga61f14c4655bf145f432b15712a7889d5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#ga61f14c4655bf145f432b15712a7889d5">ZB_ZGP_FILL_GPS_SECURITY_LEVEL</a>(sec_lvl,  with_link_key,  involve_tc)&#160;&#160;&#160;(((sec_lvl) &amp; 3U) | ((!!(with_link_key)) &lt;&lt; 2U) | ((!!(involve_tc)) &lt;&lt; 3U))</td></tr>
+<tr class="separator:ga61f14c4655bf145f432b15712a7889d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga557b9064e8ed5c3cb59ca5a4c8a73e91"><td class="memItemLeft" align="right" valign="top"><a id="ga557b9064e8ed5c3cb59ca5a4c8a73e91"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>ZB_ZGP_ZCL_CMD_ID_UNDEFINED</b>&#160;&#160;&#160;(0xff)</td></tr>
 <tr class="separator:ga557b9064e8ed5c3cb59ca5a4c8a73e91"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -152,17 +160,23 @@ Macros</h2></td></tr>
 <tr class="memitem:gaeef8065a0066bc2b103899fb7d91a725"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gaeef8065a0066bc2b103899fb7d91a725">ZB_ZGP_SET_MAPPING_TABLE</a>(table_ptr,  table_size_ptr)</td></tr>
 <tr class="memdesc:gaeef8065a0066bc2b103899fb7d91a725"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set mapping table information that is used to fill ZGP command - ZCL cluster mapping table.  <a href="group__zgp__sink.html#gaeef8065a0066bc2b103899fb7d91a725">More...</a><br /></td></tr>
 <tr class="separator:gaeef8065a0066bc2b103899fb7d91a725"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gacd47e41eba37f7fc9d09f1599425c3b4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gacd47e41eba37f7fc9d09f1599425c3b4">ZB_ZGP_REGISTER_COMM_REQ_CB</a>(cb)</td></tr>
-<tr class="memdesc:gacd47e41eba37f7fc9d09f1599425c3b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register commissioning request callback.  <a href="group__zgp__sink.html#gacd47e41eba37f7fc9d09f1599425c3b4">More...</a><br /></td></tr>
-<tr class="separator:gacd47e41eba37f7fc9d09f1599425c3b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga85200ccd0cb1254a4df3ada6f51872f1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#ga85200ccd0cb1254a4df3ada6f51872f1">ZB_ZGP_REGISTER_APP_CIC_CB</a>(cb)</td></tr>
-<tr class="memdesc:ga85200ccd0cb1254a4df3ada6f51872f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register application commissioning indication callback.  <a href="group__zgp__sink.html#ga85200ccd0cb1254a4df3ada6f51872f1">More...</a><br /></td></tr>
-<tr class="separator:ga85200ccd0cb1254a4df3ada6f51872f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga61f14c4655bf145f432b15712a7889d5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#ga61f14c4655bf145f432b15712a7889d5">ZB_ZGP_FILL_GPS_SECURITY_LEVEL</a>(sec_lvl,  with_link_key,  involve_tc)&#160;&#160;&#160;(((sec_lvl) &amp; 3U) | ((!!(with_link_key)) &lt;&lt; 2U) | ((!!(involve_tc)) &lt;&lt; 3U))</td></tr>
-<tr class="separator:ga61f14c4655bf145f432b15712a7889d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaac8f4e33d3974585bfaa7c49936ff5c1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gaac8f4e33d3974585bfaa7c49936ff5c1">ZB_ZGP_FILL_PROXY_COMM_MODE_OPTIONS</a>(action,  exit_mode,  ch_present,  communication)&#160;&#160;&#160;((!!(action)) | (((exit_mode) &amp; 7) &lt;&lt; 1) | ((!!(ch_present)) &lt;&lt; 4) | (((communication)&amp;3) &lt;&lt; 5))</td></tr>
+<tr class="memdesc:gaac8f4e33d3974585bfaa7c49936ff5c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup options for <a class="el" href="group__zgp__sink.html#gad8401467fde9fbb000591c078857e2f8" title="Perform Proxy Commissioning mode request.">zgp_sink_proxy_commissioning_mode_cmd()</a>  <a href="group__zgp__sink.html#gaac8f4e33d3974585bfaa7c49936ff5c1">More...</a><br /></td></tr>
+<tr class="separator:gaac8f4e33d3974585bfaa7c49936ff5c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad7f2bbf4b28d6186b68716942e8b2e0d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gad7f2bbf4b28d6186b68716942e8b2e0d">ZB_ZGP_FILL_GP_PAIRING_OPTIONS</a>(app_id,  add_sink,  remove_gpd,  comm_mode,  gpd_fixed,  gpd_mac_sec_num_cap,  sec_lvl,  sec_key_type,  frame_cnt_prsnt,  gpd_sec_key_prsnt,  assigned_alias_prsnt,  frwrd_radius_prsnt)&#160;&#160;&#160;(((app_id) &amp; 7) | ((!!(add_sink)) &lt;&lt; 3) | ((!!(remove_gpd)) &lt;&lt; 4) | (((comm_mode) &amp; 3) &lt;&lt; 5) | (((!!(add_sink)) ? (!!(gpd_fixed)) : 0) &lt;&lt; 7) | (((!!(add_sink)) ? (!!(gpd_mac_sec_num_cap)) : 0) &lt;&lt; 8) | (((!!(add_sink)) ? ((sec_lvl) &amp; 3) : 0) &lt;&lt; 9) | (((!!(add_sink)) ? ((sec_key_type) &amp; 7) : 0) &lt;&lt; 11) | ((!!(frame_cnt_prsnt)) &lt;&lt; 14) | (((!!(add_sink)) ? (!!(gpd_sec_key_prsnt)) : 0) &lt;&lt; 15) | (((!!(add_sink)) ? (!!(assigned_alias_prsnt)) : 0) &lt;&lt; 16) | (((!!(add_sink)) ? (!!(frwrd_radius_prsnt)) : 0) &lt;&lt; 17))</td></tr>
+<tr class="memdesc:gad7f2bbf4b28d6186b68716942e8b2e0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup options for <a class="el" href="group__zgp__sink.html#ga14c97a31c883f3f0a81ce4e78d6d564e" title="Perform GP Pairing request.">zgp_sink_gp_pairing_cmd()</a>  <a href="group__zgp__sink.html#gad7f2bbf4b28d6186b68716942e8b2e0d">More...</a><br /></td></tr>
+<tr class="separator:gad7f2bbf4b28d6186b68716942e8b2e0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:gabc874744acd9ab481d31a093b5dfa9e8"><td class="memItemLeft" align="right" valign="top"><a id="gabc874744acd9ab481d31a093b5dfa9e8"></a>
+typedef struct <a class="el" href="structzgp__raw__report__desc__s.html">zgp_raw_report_desc_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gabc874744acd9ab481d31a093b5dfa9e8">zgp_raw_report_desc_t</a></td></tr>
+<tr class="memdesc:gabc874744acd9ab481d31a093b5dfa9e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raw report descriptor received from the GPD. <br /></td></tr>
+<tr class="separator:gabc874744acd9ab481d31a093b5dfa9e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaff9dadf5da65bff6e1c84612811afe6e"><td class="memItemLeft" align="right" valign="top"><a id="gaff9dadf5da65bff6e1c84612811afe6e"></a>
+typedef struct <a class="el" href="structzgp__approve__comm__params__s.html">zgp_approve_comm_params_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gaff9dadf5da65bff6e1c84612811afe6e">zgp_approve_comm_params_t</a></td></tr>
+<tr class="memdesc:gaff9dadf5da65bff6e1c84612811afe6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">GPD Commissioning params for Application approval. <br /></td></tr>
+<tr class="separator:gaff9dadf5da65bff6e1c84612811afe6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3549448ad4f35eaedf2453784df6c368"><td class="memItemLeft" align="right" valign="top"><a id="ga3549448ad4f35eaedf2453784df6c368"></a>
 typedef struct <a class="el" href="structzgp__to__zb__cmd__mapping__s.html">zgp_to_zb_cmd_mapping_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#ga3549448ad4f35eaedf2453784df6c368">zgp_to_zb_cmd_mapping_t</a></td></tr>
 <tr class="memdesc:ga3549448ad4f35eaedf2453784df6c368"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mapping of ZGPD command ID to Zigbee ZCL command ID. <br /></td></tr>
@@ -191,9 +205,6 @@ typedef struct <a class="el" href="structzb__zgps__mapping__entry__additional__i
 typedef struct <a class="el" href="structzb__zgps__mapping__entry__s.html">zb_zgps_mapping_entry_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gafce02a75f5da6d10155e012a3a8add36">zb_zgps_mapping_entry_t</a></td></tr>
 <tr class="memdesc:gafce02a75f5da6d10155e012a3a8add36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mapping table entry structure. <br /></td></tr>
 <tr class="separator:gafce02a75f5da6d10155e012a3a8add36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac2015a02c7b5fa12e52a149f7b572a97"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gac2015a02c7b5fa12e52a149f7b572a97">zb_zgp_app_comm_ind_cb_t</a>) (<a class="el" href="group__zgp__common.html#ga83d0d3881a6eee3c3bc61c1bd66d5a51">zb_zgpd_id_t</a> *zgpd_id, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param)</td></tr>
-<tr class="memdesc:gac2015a02c7b5fa12e52a149f7b572a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Application callback, indication of the attempted commissioning in GPS operational mode.  <a href="group__zgp__sink.html#gac2015a02c7b5fa12e52a149f7b572a97">More...</a><br /></td></tr>
-<tr class="separator:gac2015a02c7b5fa12e52a149f7b572a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -208,6 +219,18 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:gaee0f632b6b4d57ab625a9898083261e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gaee0f632b6b4d57ab625a9898083261e6">zb_zgps_set_security_level</a> (<a class="el" href="group__base__types.html#gaa0617d5f95ca24aef1c8ebf176eea245">zb_uint_t</a> level)</td></tr>
+<tr class="memdesc:gaee0f632b6b4d57ab625a9898083261e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets <b>gpsSecurityLevel</b> GP cluster attribute of GPCB.  <a href="group__zgp__sink.html#gaee0f632b6b4d57ab625a9898083261e6">More...</a><br /></td></tr>
+<tr class="separator:gaee0f632b6b4d57ab625a9898083261e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaddc847725e14ca637869f6fdd76a4469"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gaddc847725e14ca637869f6fdd76a4469">zb_zgps_get_security_level</a> (void)</td></tr>
+<tr class="memdesc:gaddc847725e14ca637869f6fdd76a4469"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets <b>gpsSecurityLevel</b> GP cluster attribute of the GPCB.  <a href="group__zgp__sink.html#gaddc847725e14ca637869f6fdd76a4469">More...</a><br /></td></tr>
+<tr class="separator:gaddc847725e14ca637869f6fdd76a4469"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafedc8399235be05c20919c738baa9420"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gafedc8399235be05c20919c738baa9420">zb_zgps_set_commissioning_exit_mode</a> (<a class="el" href="group__base__types.html#gaa0617d5f95ca24aef1c8ebf176eea245">zb_uint_t</a> cem)</td></tr>
+<tr class="memdesc:gafedc8399235be05c20919c738baa9420"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets <b>gpsCommissioningExitMode</b> GP cluster attribute.  <a href="group__zgp__sink.html#gafedc8399235be05c20919c738baa9420">More...</a><br /></td></tr>
+<tr class="separator:gafedc8399235be05c20919c738baa9420"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadce17ce6ab11af41179e9085254f60c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gadce17ce6ab11af41179e9085254f60c4">zb_zgps_set_communication_mode</a> (<a class="el" href="group__zgp__common.html#ga5a9ed118c2e8146378eb4b9fae594a1a">zgp_communication_mode_t</a> mode)</td></tr>
+<tr class="memdesc:gadce17ce6ab11af41179e9085254f60c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets <b>gpsCommunicationMode</b> GP cluster attribute of the GPCB.  <a href="group__zgp__sink.html#gadce17ce6ab11af41179e9085254f60c4">More...</a><br /></td></tr>
+<tr class="separator:gadce17ce6ab11af41179e9085254f60c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa0ffa2237ee2dc5ead0a923cc46b187d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gaa0ffa2237ee2dc5ead0a923cc46b187d">zb_zgps_start_commissioning</a> (<a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a> timeout)</td></tr>
 <tr class="memdesc:gaa0ffa2237ee2dc5ead0a923cc46b187d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Puts ZGPS into the commissioning mode.  <a href="group__zgp__sink.html#gaa0ffa2237ee2dc5ead0a923cc46b187d">More...</a><br /></td></tr>
 <tr class="separator:gaa0ffa2237ee2dc5ead0a923cc46b187d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -220,51 +243,168 @@ Functions</h2></td></tr>
 <tr class="memitem:ga547c02fc2e064f4a92d59b5569245d3e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#ga547c02fc2e064f4a92d59b5569245d3e">zb_zgps_accept_commissioning</a> (<a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> accept)</td></tr>
 <tr class="memdesc:ga547c02fc2e064f4a92d59b5569245d3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accepts/rejects ZGPD commissioning attempt.  <a href="group__zgp__sink.html#ga547c02fc2e064f4a92d59b5569245d3e">More...</a><br /></td></tr>
 <tr class="separator:ga547c02fc2e064f4a92d59b5569245d3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga59bda9cd512c8ed58ae5b97a9564e7d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#ga59bda9cd512c8ed58ae5b97a9564e7d9">zb_zgps_delete_zgpd</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> buf_ref, <a class="el" href="group__zgp__common.html#ga83d0d3881a6eee3c3bc61c1bd66d5a51">zb_zgpd_id_t</a> *zgpd_id)</td></tr>
-<tr class="memdesc:ga59bda9cd512c8ed58ae5b97a9564e7d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all information about ZGPD from the stack.  <a href="group__zgp__sink.html#ga59bda9cd512c8ed58ae5b97a9564e7d9">More...</a><br /></td></tr>
-<tr class="separator:ga59bda9cd512c8ed58ae5b97a9564e7d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae55f9c22ab8bd962bb505429d46437db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gae55f9c22ab8bd962bb505429d46437db">zb_zgps_delete_zgpd</a> (<a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> buf_ref, <a class="el" href="group__zgp__common.html#ga83d0d3881a6eee3c3bc61c1bd66d5a51">zb_zgpd_id_t</a> *zgpd_id)</td></tr>
+<tr class="memdesc:gae55f9c22ab8bd962bb505429d46437db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all information about ZGPD from the stack.  <a href="group__zgp__sink.html#gae55f9c22ab8bd962bb505429d46437db">More...</a><br /></td></tr>
+<tr class="separator:gae55f9c22ab8bd962bb505429d46437db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga59797b0925fcee561b4584ee9e99d468"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#ga59797b0925fcee561b4584ee9e99d468">zb_zgps_delete_all_zgpd</a> (void)</td></tr>
 <tr class="memdesc:ga59797b0925fcee561b4584ee9e99d468"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all information about all ZGPDs from the stack.  <a href="group__zgp__sink.html#ga59797b0925fcee561b4584ee9e99d468">More...</a><br /></td></tr>
 <tr class="separator:ga59797b0925fcee561b4584ee9e99d468"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga25b218c25cacaee98472a9e010187fb8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#ga25b218c25cacaee98472a9e010187fb8">zb_zgps_get_diag_data</a> (<a class="el" href="group__zgp__common.html#ga83d0d3881a6eee3c3bc61c1bd66d5a51">zb_zgpd_id_t</a> *zgpd_id, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> *lqi, <a class="el" href="group__base__types.html#gaaa82b9bd6028336d7b677254ee7fc160">zb_int8_t</a> *rssi)</td></tr>
 <tr class="memdesc:ga25b218c25cacaee98472a9e010187fb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves LQI and RSSI last received from the ZGPD.  <a href="group__zgp__sink.html#ga25b218c25cacaee98472a9e010187fb8">More...</a><br /></td></tr>
 <tr class="separator:ga25b218c25cacaee98472a9e010187fb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaee0f632b6b4d57ab625a9898083261e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gaee0f632b6b4d57ab625a9898083261e6">zb_zgps_set_security_level</a> (<a class="el" href="group__base__types.html#gaa0617d5f95ca24aef1c8ebf176eea245">zb_uint_t</a> level)</td></tr>
-<tr class="memdesc:gaee0f632b6b4d57ab625a9898083261e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets <b>gpsSecurityLevel</b> GP cluster attribute of GPCB.  <a href="group__zgp__sink.html#gaee0f632b6b4d57ab625a9898083261e6">More...</a><br /></td></tr>
-<tr class="separator:gaee0f632b6b4d57ab625a9898083261e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaddc847725e14ca637869f6fdd76a4469"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gaddc847725e14ca637869f6fdd76a4469">zb_zgps_get_security_level</a> (void)</td></tr>
-<tr class="memdesc:gaddc847725e14ca637869f6fdd76a4469"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets <b>gpsSecurityLevel</b> GP cluster attribute of the GPCB.  <a href="group__zgp__sink.html#gaddc847725e14ca637869f6fdd76a4469">More...</a><br /></td></tr>
-<tr class="separator:gaddc847725e14ca637869f6fdd76a4469"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gafdfb6d0679c3f6973efaabd2a7d68466"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gafdfb6d0679c3f6973efaabd2a7d68466">zb_zgp_set_shared_security_key_type</a> (<a class="el" href="group__base__types.html#gaa0617d5f95ca24aef1c8ebf176eea245">zb_uint_t</a> key_type)</td></tr>
-<tr class="memdesc:gafdfb6d0679c3f6973efaabd2a7d68466"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets <b>gpSharedSecurityKeyType</b> GP cluster attribute.  <a href="group__zgp__sink.html#gafdfb6d0679c3f6973efaabd2a7d68466">More...</a><br /></td></tr>
-<tr class="separator:gafdfb6d0679c3f6973efaabd2a7d68466"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabe7f0ab976e394233dfcf97b8b743f0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gabe7f0ab976e394233dfcf97b8b743f0b">zb_zgp_set_shared_security_key</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> *key)</td></tr>
-<tr class="memdesc:gabe7f0ab976e394233dfcf97b8b743f0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets <b>gpSharedSecurityKey</b> GP cluster attribute.  <a href="group__zgp__sink.html#gabe7f0ab976e394233dfcf97b8b743f0b">More...</a><br /></td></tr>
-<tr class="separator:gabe7f0ab976e394233dfcf97b8b743f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gafedc8399235be05c20919c738baa9420"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gafedc8399235be05c20919c738baa9420">zb_zgps_set_commissioning_exit_mode</a> (<a class="el" href="group__base__types.html#gaa0617d5f95ca24aef1c8ebf176eea245">zb_uint_t</a> cem)</td></tr>
-<tr class="memdesc:gafedc8399235be05c20919c738baa9420"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets <b>gpsCommissioningExitMode</b> GP cluster attribute.  <a href="group__zgp__sink.html#gafedc8399235be05c20919c738baa9420">More...</a><br /></td></tr>
-<tr class="separator:gafedc8399235be05c20919c738baa9420"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadce17ce6ab11af41179e9085254f60c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gadce17ce6ab11af41179e9085254f60c4">zb_zgps_set_communication_mode</a> (<a class="el" href="group__zgp__common.html#ga5a9ed118c2e8146378eb4b9fae594a1a">zgp_communication_mode_t</a> mode)</td></tr>
-<tr class="memdesc:gadce17ce6ab11af41179e9085254f60c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets <b>gpsCommunicationMode</b> GP cluster attribute of the GPCB.  <a href="group__zgp__sink.html#gadce17ce6ab11af41179e9085254f60c4">More...</a><br /></td></tr>
-<tr class="separator:gadce17ce6ab11af41179e9085254f60c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga87ad3e7a6609cce8d97e96f019e8483d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#ga87ad3e7a6609cce8d97e96f019e8483d">zb_zgp_convert_8bit_vector</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> vector_8bit_cmd_id, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> switch_type, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> num_of_contacts, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> contact_status, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> *zgp_cmd_out)</td></tr>
-<tr class="memdesc:ga87ad3e7a6609cce8d97e96f019e8483d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The function may be overridden by the application to implement custom translation of 8-bit vector command (generic switch).  <a href="group__zgp__sink.html#ga87ad3e7a6609cce8d97e96f019e8483d">More...</a><br /></td></tr>
-<tr class="separator:ga87ad3e7a6609cce8d97e96f019e8483d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5e19e6ec79ab0f99dde1453db554da61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#ga5e19e6ec79ab0f99dde1453db554da61">zb_zgp_gpdf_raw_indication</a> (<a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> buf_ref)</td></tr>
 <tr class="memdesc:ga5e19e6ec79ab0f99dde1453db554da61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees the incoming raw GPDF packet (buffer). This function can be overridden by the application to implement custom handling of the buffer.  <a href="group__zgp__sink.html#ga5e19e6ec79ab0f99dde1453db554da61">More...</a><br /></td></tr>
 <tr class="separator:ga5e19e6ec79ab0f99dde1453db554da61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga06bed8d11a60c4f40df9a43a2cd65cdd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#ga06bed8d11a60c4f40df9a43a2cd65cdd">zb_zgp_set_skip_gpdf</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> skip)</td></tr>
-<tr class="memdesc:ga06bed8d11a60c4f40df9a43a2cd65cdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets ZBOSS to skip all incoming GPDFs.  <a href="group__zgp__sink.html#ga06bed8d11a60c4f40df9a43a2cd65cdd">More...</a><br /></td></tr>
-<tr class="separator:ga06bed8d11a60c4f40df9a43a2cd65cdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga00e2029008575ac3909e6e6813b9d49f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#ga00e2029008575ac3909e6e6813b9d49f">zb_zgp_get_skip_gpdf</a> (void)</td></tr>
-<tr class="memdesc:ga00e2029008575ac3909e6e6813b9d49f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if ZBOSS skips all incoming GPDFs.  <a href="group__zgp__sink.html#ga00e2029008575ac3909e6e6813b9d49f">More...</a><br /></td></tr>
-<tr class="separator:ga00e2029008575ac3909e6e6813b9d49f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga65ab59711287ea48ad09147e253c5241"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#ga65ab59711287ea48ad09147e253c5241">zb_zgp_sync_pib</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param)</td></tr>
-<tr class="memdesc:ga65ab59711287ea48ad09147e253c5241"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <b>MLME-SET.request</b> to sync <b>SKIP_ALL_GPF</b> attribute.  <a href="group__zgp__sink.html#ga65ab59711287ea48ad09147e253c5241">More...</a><br /></td></tr>
-<tr class="separator:ga65ab59711287ea48ad09147e253c5241"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7c79f3d393aa3f2d53973d45c5fe7ccc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#ga7c79f3d393aa3f2d53973d45c5fe7ccc">zgp_sink_gp_response_cmd</a> (<a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> param, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> dst_addr, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> dst_addr_mode, <a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a> cb)</td></tr>
+<tr class="memdesc:ga7c79f3d393aa3f2d53973d45c5fe7ccc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform GP Response request.  <a href="group__zgp__sink.html#ga7c79f3d393aa3f2d53973d45c5fe7ccc">More...</a><br /></td></tr>
+<tr class="separator:ga7c79f3d393aa3f2d53973d45c5fe7ccc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad8401467fde9fbb000591c078857e2f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gad8401467fde9fbb000591c078857e2f8">zgp_sink_proxy_commissioning_mode_cmd</a> (<a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> param, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> options, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> comm_wind, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> channel, <a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a> cb)</td></tr>
+<tr class="memdesc:gad8401467fde9fbb000591c078857e2f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform Proxy Commissioning mode request.  <a href="group__zgp__sink.html#gad8401467fde9fbb000591c078857e2f8">More...</a><br /></td></tr>
+<tr class="separator:gad8401467fde9fbb000591c078857e2f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac3d2577170cb148542e472b81e8dcd4b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gac3d2577170cb148542e472b81e8dcd4b">zgp_sink_proxy_commissioning_mode_enter_cmd</a> (<a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> param, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> exit_mode, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> comm_window, <a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a> cb)</td></tr>
+<tr class="memdesc:gac3d2577170cb148542e472b81e8dcd4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform Proxy Commissioning mode enter request.  <a href="group__zgp__sink.html#gac3d2577170cb148542e472b81e8dcd4b">More...</a><br /></td></tr>
+<tr class="separator:gac3d2577170cb148542e472b81e8dcd4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad2793dbed927f413e2bf64e9117f5888"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#gad2793dbed927f413e2bf64e9117f5888">zgp_sink_proxy_commissioning_mode_leave_cmd</a> (<a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> param, <a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a> cb)</td></tr>
+<tr class="memdesc:gad2793dbed927f413e2bf64e9117f5888"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform Proxy Commissioning mode leave request.  <a href="group__zgp__sink.html#gad2793dbed927f413e2bf64e9117f5888">More...</a><br /></td></tr>
+<tr class="separator:gad2793dbed927f413e2bf64e9117f5888"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga14c97a31c883f3f0a81ce4e78d6d564e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zgp__sink.html#ga14c97a31c883f3f0a81ce4e78d6d564e">zgp_sink_gp_pairing_cmd</a> (<a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> param, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> dst_addr, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> dst_addr_mode, <a class="el" href="group__base__types.html#ga964947a10fa0ad0bd6df7bd91ecfac9c">zb_uint32_t</a> options, <a class="el" href="group__zgp__common.html#gabdfffdf156f32d3a1593806d6cb05ad3">zb_zgpd_addr_t</a> gpd_id, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> endpoint, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> dev_id, <a class="el" href="group__base__types.html#ga964947a10fa0ad0bd6df7bd91ecfac9c">zb_uint32_t</a> sec_frame_counter, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> *key, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> assigned_alias, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> frwd_radius, <a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a> group_id, <a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a> cb)</td></tr>
+<tr class="memdesc:ga14c97a31c883f3f0a81ce4e78d6d564e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform GP Pairing request.  <a href="group__zgp__sink.html#ga14c97a31c883f3f0a81ce4e78d6d564e">More...</a><br /></td></tr>
+<tr class="separator:ga14c97a31c883f3f0a81ce4e78d6d564e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="gad7f2bbf4b28d6186b68716942e8b2e0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad7f2bbf4b28d6186b68716942e8b2e0d">&#9670;&nbsp;</a></span>ZB_ZGP_FILL_GP_PAIRING_OPTIONS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ZB_ZGP_FILL_GP_PAIRING_OPTIONS</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">app_id, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">add_sink, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">remove_gpd, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">comm_mode, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">gpd_fixed, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">gpd_mac_sec_num_cap, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">sec_lvl, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">sec_key_type, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">frame_cnt_prsnt, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">gpd_sec_key_prsnt, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">assigned_alias_prsnt, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">frwrd_radius_prsnt&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;(((app_id) &amp; 7) | ((!!(add_sink)) &lt;&lt; 3) | ((!!(remove_gpd)) &lt;&lt; 4) | (((comm_mode) &amp; 3) &lt;&lt; 5) | (((!!(add_sink)) ? (!!(gpd_fixed)) : 0) &lt;&lt; 7) | (((!!(add_sink)) ? (!!(gpd_mac_sec_num_cap)) : 0) &lt;&lt; 8) | (((!!(add_sink)) ? ((sec_lvl) &amp; 3) : 0) &lt;&lt; 9) | (((!!(add_sink)) ? ((sec_key_type) &amp; 7) : 0) &lt;&lt; 11) | ((!!(frame_cnt_prsnt)) &lt;&lt; 14) | (((!!(add_sink)) ? (!!(gpd_sec_key_prsnt)) : 0) &lt;&lt; 15) | (((!!(add_sink)) ? (!!(assigned_alias_prsnt)) : 0) &lt;&lt; 16) | (((!!(add_sink)) ? (!!(frwrd_radius_prsnt)) : 0) &lt;&lt; 17))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Setup options for <a class="el" href="group__zgp__sink.html#ga14c97a31c883f3f0a81ce4e78d6d564e" title="Perform GP Pairing request.">zgp_sink_gp_pairing_cmd()</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">app_id</td><td>[in] ZGPD application id (</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__zgp__common.html#gad1255cd22e78a1b76091120ce380143d" title="ZGPD application ID.">zb_zgp_app_id_t</a>) </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">add_sink</td><td>[in] Add sink flag </td></tr>
+    <tr><td class="paramname">remove_gpd</td><td>[in] Remove GPD flag </td></tr>
+    <tr><td class="paramname">comm_mode</td><td>[in] Communication mode (</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__zgp__common.html#ga5a9ed118c2e8146378eb4b9fae594a1a">zgp_communication_mode_t</a>) </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">gpd_fixed</td><td>[in] ZGPD is fixed </td></tr>
+    <tr><td class="paramname">gpd_mac_sec_num_cap</td><td>[in] MAC sequence number capability </td></tr>
+    <tr><td class="paramname">sec_lvl</td><td>[in] SecurityLevel (</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__zgp__common.html#gac144421baa8a73beec71489facf73b95" title="ZGP security level type.">zb_zgp_security_level_e</a>) </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sec_key_type</td><td>[in] SecurityKeyType (</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__zgp__common.html#ga3fadeed60888b84121875be7972efddf">zb_zgp_security_key_type_e</a>) </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frame_cnt_prsnt</td><td>[in] GPDSecurityFrameCounterPresent </td></tr>
+    <tr><td class="paramname">gpd_sec_key_prsnt</td><td>[in] Is key presented </td></tr>
+    <tr><td class="paramname">assigned_alias_prsnt</td><td>[in] Is assigned alias presented </td></tr>
+    <tr><td class="paramname">frwrd_radius_prsnt</td><td>[in] Is radius in the groupcast forwarding presented</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd>ZGP spec, A.3.3.5.2 </dd></dl>
+
+</div>
+</div>
 <a id="ga61f14c4655bf145f432b15712a7889d5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga61f14c4655bf145f432b15712a7889d5">&#9670;&nbsp;</a></span>ZB_ZGP_FILL_GPS_SECURITY_LEVEL</h2>
 
@@ -315,58 +455,51 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ga85200ccd0cb1254a4df3ada6f51872f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga85200ccd0cb1254a4df3ada6f51872f1">&#9670;&nbsp;</a></span>ZB_ZGP_REGISTER_APP_CIC_CB</h2>
+<a id="gaac8f4e33d3974585bfaa7c49936ff5c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaac8f4e33d3974585bfaa7c49936ff5c1">&#9670;&nbsp;</a></span>ZB_ZGP_FILL_PROXY_COMM_MODE_OPTIONS</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ZB_ZGP_REGISTER_APP_CIC_CB</td>
+          <td class="memname">#define ZB_ZGP_FILL_PROXY_COMM_MODE_OPTIONS</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname">cb</td><td>)</td>
-          <td></td>
+          <td class="paramname">action, </td>
         </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">{ \</div>
-<div class="line">  zb_zgps_register_app_cic_cb((cb)); \</div>
-<div class="line">}</div>
-</div><!-- fragment -->
-<p>Register application commissioning indication callback. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">cb</td><td>[in] Application commissioning indication callback (<a class="el" href="group__zgp__sink.html#gac2015a02c7b5fa12e52a149f7b572a97">zb_zgp_app_comm_ind_cb_t</a>) </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="gacd47e41eba37f7fc9d09f1599425c3b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gacd47e41eba37f7fc9d09f1599425c3b4">&#9670;&nbsp;</a></span>ZB_ZGP_REGISTER_COMM_REQ_CB</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
         <tr>
-          <td class="memname">#define ZB_ZGP_REGISTER_COMM_REQ_CB</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">cb</td><td>)</td>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">exit_mode, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ch_present, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">communication&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;((!!(action)) | (((exit_mode) &amp; 7) &lt;&lt; 1) | ((!!(ch_present)) &lt;&lt; 4) | (((communication)&amp;3) &lt;&lt; 5))</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">{ \</div>
-<div class="line">  zb_zgps_register_comm_req_cb((cb)); \</div>
-<div class="line">}</div>
-</div><!-- fragment -->
-<p>Register commissioning request callback. </p>
+
+<p>Setup options for <a class="el" href="group__zgp__sink.html#gad8401467fde9fbb000591c078857e2f8" title="Perform Proxy Commissioning mode request.">zgp_sink_proxy_commissioning_mode_cmd()</a> </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">cb</td><td>[in] Commissioning request callback (<a class="el" href="group__zgp__common.html#gac65960a8e5c1bd66f1e40ed7ec54dba4">zb_zgp_comm_req_cb_t</a>) </td></tr>
+    <tr><td class="paramname">action</td><td>[in] enter/exit (see <a class="el" href="group__zgp__common.html#gab09b03fb6d09879f5672f76f61103c82">zgp_proxy_comm_mode_action_t</a>) </td></tr>
+    <tr><td class="paramname">exit_mode</td><td>[in] exit mode (see <a class="el" href="group__zgp__common.html#ga36ececff744df879f3a88f022357a497">zgp_commissioning_exit_mode_t</a>) </td></tr>
+    <tr><td class="paramname">ch_present</td><td>[in] is channel present (see <a class="el" href="group__zgp__common.html#gaa86b302879b12c335233f3f8900cb9f1">zgp_proxy_comm_mode_ch_present_t</a>) </td></tr>
+    <tr><td class="paramname">communication</td><td>[in] communication type (see <a class="el" href="group__zgp__common.html#ga34aa8fdec6b023158062fc66024e394c">zgp_proxy_comm_mode_communication_t</a>) </td></tr>
   </table>
   </dd>
 </dl>
@@ -413,191 +546,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="gac2015a02c7b5fa12e52a149f7b572a97"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac2015a02c7b5fa12e52a149f7b572a97">&#9670;&nbsp;</a></span>zb_zgp_app_comm_ind_cb_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef void( * zb_zgp_app_comm_ind_cb_t) (<a class="el" href="group__zgp__common.html#ga83d0d3881a6eee3c3bc61c1bd66d5a51">zb_zgpd_id_t</a> *zgpd_id, <a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Application callback, indication of the attempted commissioning in GPS operational mode. </p>
-<p>Application commissioning indication callback notifies application about commissioning attempt from ZGPD. Callback is called when commissioning frame or notification is received from ZGPD. Callback provides to zgpd_id and full incoming packet's data. Based on these parameters user application should decide further actions.</p>
-<p>Application commissioning indication callback should be set during ZGP initialization using <a class="el" href="group__zgp__sink.html#ga85200ccd0cb1254a4df3ada6f51872f1">ZB_ZGP_REGISTER_APP_CIC_CB</a> macro.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">zgpd_id</td><td>ZGPD ID </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">param</td><td>buffer index, containing GPDF </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga87ad3e7a6609cce8d97e96f019e8483d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga87ad3e7a6609cce8d97e96f019e8483d">&#9670;&nbsp;</a></span>zb_zgp_convert_8bit_vector()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zb_zgp_convert_8bit_vector </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
-          <td class="paramname"><em>vector_8bit_cmd_id</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
-          <td class="paramname"><em>switch_type</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
-          <td class="paramname"><em>num_of_contacts</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
-          <td class="paramname"><em>contact_status</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> *&#160;</td>
-          <td class="paramname"><em>zgp_cmd_out</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The function may be overridden by the application to implement custom translation of 8-bit vector command (generic switch). </p>
-<dl class="section user"><dt>Details</dt><dd></dd></dl>
-<p>If this function is not implemented in the application, then ZBOSS performs a default translation as recommended by ZGP spec (see <b> Green Power Basic specification v1.1.1, tables 51, 52</b>). If no default translation is found, the received command will be dropped.</p>
-<p>If this function is implemented in the application, then the application is fully responsible for a translation of GPD 8-bit vector commands. For any return code but <code>RET_OK</code>, ZBOSS will stop command processing and drop it.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">vector_8bit_cmd_id</td><td>- incoming command ID: press (0x69) or release (0x6a) </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">switch_type</td><td>- switch type of the command's originator (see <b>ZGP spec. A.4.2.1.1.10</b>) </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">num_of_contacts</td><td>- number of contacts, which command's originator provides </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">contact_status</td><td>- contact status from the payload of the received command </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">zgp_cmd_out</td><td>- GPDF command ID, to which incoming command should be translated</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">RET_OK</td><td>- on successful translation </td></tr>
-    <tr><td class="paramname">RET_ERROR</td><td>- on failure</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>The translation is applied to the GPDF command ID, not to the ZCL command ID.</dd></dl>
-<dl class="section user"><dt>Example</dt><dd>Sample application implementation of 8-bit vector command translation: <div class="fragment"><div class="line"><span class="comment">/* &quot;Contact status&quot; possible values for GPD 8-bit vector incoming command.</span></div>
-<div class="line"><span class="comment"> * Every bit in contact_status is purposed for a specific contact:</span></div>
-<div class="line"><span class="comment"> * - 0b1 indicates a closed contact</span></div>
-<div class="line"><span class="comment"> * - 0b0 indicates an open contact</span></div>
-<div class="line"><span class="comment"> * This sample supports a button switch, which works like a rocker switch. Only</span></div>
-<div class="line"><span class="comment"> * one contact can be closed, the first contact means &quot;Off&quot;, the second contact</span></div>
-<div class="line"><span class="comment"> * means &quot;On&quot;.</span></div>
-<div class="line"><span class="comment"> */</span></div>
-<div class="line"><span class="preprocessor">#define CONTACT_STATUS_SWITCH_OFF 0x01 </span><span class="comment">/* 0b01 */</span><span class="preprocessor"></span></div>
-<div class="line"><span class="preprocessor">#define CONTACT_STATUS_SWITCH_ON  0x02 </span><span class="comment">/* 0b10 */</span><span class="preprocessor"></span></div>
-<div class="line"><span class="preprocessor">#ifdef ZB_ZGP_SINK_SUPPORT_LEGACY_8BIT_VECTOR_HANDLING</span></div>
-<div class="line"><a class="code" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> <a class="code" href="group__zgp__sink.html#ga87ad3e7a6609cce8d97e96f019e8483d">zb_zgp_convert_8bit_vector</a>(<a class="code" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> vector_8bit_cmd_id,      <span class="comment">/* press or release cmd */</span></div>
-<div class="line">                                    <a class="code" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> switch_type,             <span class="comment">/* see zb_zgpd_switch_type_e */</span></div>
-<div class="line">                                    <a class="code" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> num_of_contacts,</div>
-<div class="line">                                    <a class="code" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> contact_status,</div>
-<div class="line">                                    <a class="code" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> *zgp_cmd_out)</div>
-<div class="line">{</div>
-<div class="line">  <a class="code" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> ret = RET_ERROR;</div>
-<div class="line"> </div>
-<div class="line">  <a class="code" href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a>(TRACE_APP1, <span class="stringliteral">&quot;&gt;&gt; zb_zgp_convert_8bit_vector&quot;</span>, (FMT__0));</div>
-<div class="line"> </div>
-<div class="line">  <span class="keywordflow">if</span> ((vector_8bit_cmd_id == ZB_GPDF_CMD_8BIT_VECTOR_PRESS) &amp;&amp;</div>
-<div class="line">      (num_of_contacts == 2) &amp;&amp;</div>
-<div class="line">      (switch_type == ZB_GPD_SWITCH_TYPE_BUTTON))</div>
-<div class="line">  {</div>
-<div class="line">    <span class="keywordflow">if</span> (contact_status == CONTACT_STATUS_SWITCH_ON)</div>
-<div class="line">    {</div>
-<div class="line">      *zgp_cmd_out = ZB_GPDF_CMD_ON;</div>
-<div class="line">      ret = <a class="code" href="group__error__codes.html#ga76117585e8ddc62f21ca0e3061b7830e">RET_OK</a>;</div>
-<div class="line">    }</div>
-<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (contact_status == CONTACT_STATUS_SWITCH_OFF)</div>
-<div class="line">    {</div>
-<div class="line">      *zgp_cmd_out = ZB_GPDF_CMD_OFF;</div>
-<div class="line">      ret = <a class="code" href="group__error__codes.html#ga76117585e8ddc62f21ca0e3061b7830e">RET_OK</a>;</div>
-<div class="line">    }</div>
-<div class="line">    <span class="comment">/* Switch could be a blinds controller with separate &quot;Up&quot; and &quot;Down&quot;</span></div>
-<div class="line"><span class="comment">     * contacts which can&#39;t be closed together. The deactivated code is left</span></div>
-<div class="line"><span class="comment">     * for demonstration purposes.</span></div>
-<div class="line"><span class="comment">     */</span></div>
-<div class="line"><span class="preprocessor">#if 0</span></div>
-<div class="line">    <span class="keywordflow">if</span> (contact_status == 0x02)</div>
-<div class="line">    {</div>
-<div class="line">      *zgp_cmd_out = ZB_GPDF_CMD_MOVE_UP;</div>
-<div class="line">      ret = <a class="code" href="group__error__codes.html#ga76117585e8ddc62f21ca0e3061b7830e">RET_OK</a>;</div>
-<div class="line">    }</div>
-<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (contact_status == 0x01)</div>
-<div class="line">    {</div>
-<div class="line">      *zgp_cmd_out = ZB_GPDF_CMD_MOVE_DOWN;</div>
-<div class="line">      ret = <a class="code" href="group__error__codes.html#ga76117585e8ddc62f21ca0e3061b7830e">RET_OK</a>;</div>
-<div class="line">    }</div>
-<div class="line"><span class="preprocessor">#endif</span></div>
-<div class="line">  }</div>
-<div class="line"> </div>
-<div class="line">  <a class="code" href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a>(TRACE_APP1, <span class="stringliteral">&quot;&lt;&lt; zb_zgp_convert_8bit_vector, ret %hd&quot;</span>, (FMT__H, ret));</div>
-<div class="line"> </div>
-<div class="line">  <span class="keywordflow">return</span> ret;</div>
-<div class="line">}</div>
-<div class="line"><span class="preprocessor">#endif  </span><span class="comment">/* ZB_ZGP_SINK_SUPPORT_LEGACY_8BIT_VECTOR_HANDLING */</span><span class="preprocessor"></span></div>
-</div><!-- fragment --> </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><b> Green Power Basic specification v1.1.1, chapters A.3.6.2.2.2, A.4.2.2.1</b> </dd></dl>
-
-</div>
-</div>
-<a id="ga00e2029008575ac3909e6e6813b9d49f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga00e2029008575ac3909e6e6813b9d49f">&#9670;&nbsp;</a></span>zb_zgp_get_skip_gpdf()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> zb_zgp_get_skip_gpdf </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Checks if ZBOSS skips all incoming GPDFs. </p>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">ZB_TRUE</td><td>- direct GPDF reception is ignored: device works always through the proxy </td></tr>
-    <tr><td class="paramname">ZB_FALSE</td><td>- GPDF is processed: device works as a combo (default)</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section attention"><dt>Attention</dt><dd>To be used for testing only.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__zgp__sink.html#ga06bed8d11a60c4f40df9a43a2cd65cdd" title="Sets ZBOSS to skip all incoming GPDFs.">zb_zgp_set_skip_gpdf()</a> </dd></dl>
-
-</div>
-</div>
 <a id="ga5e19e6ec79ab0f99dde1453db554da61"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga5e19e6ec79ab0f99dde1453db554da61">&#9670;&nbsp;</a></span>zb_zgp_gpdf_raw_indication()</h2>
 
@@ -626,121 +575,6 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gabe7f0ab976e394233dfcf97b8b743f0b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gabe7f0ab976e394233dfcf97b8b743f0b">&#9670;&nbsp;</a></span>zb_zgp_set_shared_security_key()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void zb_zgp_set_shared_security_key </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> *&#160;</td>
-          <td class="paramname"><em>key</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Sets <b>gpSharedSecurityKey</b> GP cluster attribute. </p>
-<p>Details are described in A.3.3.3.1 <b>gpSharedSecurityKey</b> attribute.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- security key to set </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="gafdfb6d0679c3f6973efaabd2a7d68466"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gafdfb6d0679c3f6973efaabd2a7d68466">&#9670;&nbsp;</a></span>zb_zgp_set_shared_security_key_type()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void zb_zgp_set_shared_security_key_type </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa0617d5f95ca24aef1c8ebf176eea245">zb_uint_t</a>&#160;</td>
-          <td class="paramname"><em>key_type</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Sets <b>gpSharedSecurityKeyType</b> GP cluster attribute. </p>
-<p>Details are described in A.3.3.3.1 <b>gpSharedSecurityKeyType</b> attribute.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">key_type</td><td>- security key type to set (see <a class="el" href="group__zgp__common.html#ga3fadeed60888b84121875be7972efddf">zb_zgp_security_key_type_e()</a>) </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ga06bed8d11a60c4f40df9a43a2cd65cdd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga06bed8d11a60c4f40df9a43a2cd65cdd">&#9670;&nbsp;</a></span>zb_zgp_set_skip_gpdf()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void zb_zgp_set_skip_gpdf </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
-          <td class="paramname"><em>skip</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Sets ZBOSS to skip all incoming GPDFs. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">skip</td><td><ul>
-<li><b>ZB_TRUE</b> - to ignore direct GPDF reception: always work through the proxy </li>
-<li><b>ZB_FALSE</b> - to process GPDF: work as a combo (default) </li>
-</ul>
-</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section attention"><dt>Attention</dt><dd>To be used for testing only. This function should be used with the <code>ZB_TRUE</code> parameter to prevent Combo device from receiving GPDFs, thus always working through the Proxy device. </dd></dl>
-
-</div>
-</div>
-<a id="ga65ab59711287ea48ad09147e253c5241"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga65ab59711287ea48ad09147e253c5241">&#9670;&nbsp;</a></span>zb_zgp_sync_pib()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void zb_zgp_sync_pib </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
-          <td class="paramname"><em>param</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Calls <b>MLME-SET.request</b> to sync <b>SKIP_ALL_GPF</b> attribute. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">param</td><td>- reference to the free buffer</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section attention"><dt>Attention</dt><dd>To be used for testing only.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__zgp__sink.html#ga06bed8d11a60c4f40df9a43a2cd65cdd" title="Sets ZBOSS to skip all incoming GPDFs.">zb_zgp_set_skip_gpdf</a> </dd>
-<dd>
-<a class="el" href="group__zgp__sink.html#ga00e2029008575ac3909e6e6813b9d49f" title="Checks if ZBOSS skips all incoming GPDFs.">zb_zgp_get_skip_gpdf</a> </dd></dl>
-
-</div>
-</div>
 <a id="ga547c02fc2e064f4a92d59b5569245d3e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga547c02fc2e064f4a92d59b5569245d3e">&#9670;&nbsp;</a></span>zb_zgps_accept_commissioning()</h2>
 
@@ -758,8 +592,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Accepts/rejects ZGPD commissioning attempt. </p>
-<p>This function should be called as an answer to commissioning request made by stack via <a class="el" href="group__tc__swap.html#ga4edc1ff2ef3cdce51ba3e9c881f29c77">ZB_ZGP_SIGNAL_APPROVE_COMMISSIONING</a> signal or <a class="el" href="group__zgp__common.html#gac65960a8e5c1bd66f1e40ed7ec54dba4">zb_zgp_comm_req_cb_t()</a> callback.</p>
-<p>Also, it can be called from <a class="el" href="group__zgp__common.html#gac65960a8e5c1bd66f1e40ed7ec54dba4">zb_zgp_comm_req_cb_t()</a> callback as well as outside it. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>This function should be called as an answer to commissioning request made by stack via <a class="el" href="group__tc__swap.html#ga4edc1ff2ef3cdce51ba3e9c881f29c77">ZB_ZGP_SIGNAL_APPROVE_COMMISSIONING</a> signal. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">accept</td><td><ul>
 <li><b>ZB_TRUE</b> - stack will continue ongoing commissioning process with ZGPD </li>
@@ -793,8 +626,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ga59bda9cd512c8ed58ae5b97a9564e7d9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga59bda9cd512c8ed58ae5b97a9564e7d9">&#9670;&nbsp;</a></span>zb_zgps_delete_zgpd()</h2>
+<a id="gae55f9c22ab8bd962bb505429d46437db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae55f9c22ab8bd962bb505429d46437db">&#9670;&nbsp;</a></span>zb_zgps_delete_zgpd()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -802,7 +635,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void zb_zgps_delete_zgpd </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a>&#160;</td>
           <td class="paramname"><em>buf_ref</em>, </td>
         </tr>
         <tr>
@@ -1026,7 +859,7 @@ Functions</h2></td></tr>
 </dd>
 <dd>
 It is safe to call this function when device is already in the commissioning mode. In this case function does nothing.</dd></dl>
-<dl class="section user"><dt>Example</dt><dd>Starting commissioning for 60 seconds: <div class="fragment"><div class="line"><span class="keywordtype">void</span> start_comm(<a class="code" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param)</div>
+<dl class="section user"><dt>Example</dt><dd>Starting commissioning for 60 seconds: <div class="fragment"><div class="line"><span class="keywordtype">void</span> start_comm(<a class="code" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a> param)</div>
 <div class="line">{</div>
 <div class="line">  ZVUNUSED(param);</div>
 <div class="line">  <a class="code" href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a>(TRACE_APP1, <span class="stringliteral">&quot;start commissioning&quot;</span>, (FMT__0));</div>
@@ -1096,7 +929,7 @@ It is safe to call this function when device is already in the commissioning mod
 </div><div class="memdoc">
 
 <p>Switches ZGPS back to the operational mode from the commissioning mode. </p>
-<dl class="section user"><dt>Example</dt><dd>Stopping commissioning: <div class="fragment"><div class="line"><span class="keywordtype">void</span> stop_comm(<a class="code" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param)</div>
+<dl class="section user"><dt>Example</dt><dd>Stopping commissioning: <div class="fragment"><div class="line"><span class="keywordtype">void</span> stop_comm(<a class="code" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a> param)</div>
 <div class="line">{</div>
 <div class="line">  ZVUNUSED(param);</div>
 <div class="line">  <a class="code" href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a>(TRACE_APP1, <span class="stringliteral">&quot;stop commissioning&quot;</span>, (FMT__0));</div>
@@ -1106,20 +939,333 @@ It is safe to call this function when device is already in the commissioning mod
 
 </div>
 </div>
+<a id="ga14c97a31c883f3f0a81ce4e78d6d564e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga14c97a31c883f3f0a81ce4e78d6d564e">&#9670;&nbsp;</a></span>zgp_sink_gp_pairing_cmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zgp_sink_gp_pairing_cmd </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a>&#160;</td>
+          <td class="paramname"><em>param</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>&#160;</td>
+          <td class="paramname"><em>dst_addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramname"><em>dst_addr_mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#ga964947a10fa0ad0bd6df7bd91ecfac9c">zb_uint32_t</a>&#160;</td>
+          <td class="paramname"><em>options</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__zgp__common.html#gabdfffdf156f32d3a1593806d6cb05ad3">zb_zgpd_addr_t</a>&#160;</td>
+          <td class="paramname"><em>gpd_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramname"><em>endpoint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramname"><em>dev_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#ga964947a10fa0ad0bd6df7bd91ecfac9c">zb_uint32_t</a>&#160;</td>
+          <td class="paramname"><em>sec_frame_counter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> *&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>&#160;</td>
+          <td class="paramname"><em>assigned_alias</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramname"><em>frwd_radius</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>&#160;</td>
+          <td class="paramname"><em>group_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a>&#160;</td>
+          <td class="paramname"><em>cb</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Perform GP Pairing request. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">param</td><td>[in] Buffer reference </td></tr>
+    <tr><td class="paramname">dst_addr</td><td>[in] Destination address </td></tr>
+    <tr><td class="paramname">dst_addr_mode</td><td>[in] Destination address mode </td></tr>
+    <tr><td class="paramname">options</td><td>[in] Request options </td></tr>
+    <tr><td class="paramname">gpd_id</td><td>[in] ZGPD ID </td></tr>
+    <tr><td class="paramname">endpoint</td><td>[in] Endpoint of ZGPD if APP_ID eq 0010 </td></tr>
+    <tr><td class="paramname">dev_id</td><td>[in] Device ID </td></tr>
+    <tr><td class="paramname">sec_frame_counter</td><td>[in] Security frame counter of ZGPD </td></tr>
+    <tr><td class="paramname">key</td><td>[in] Pointer to the security key </td></tr>
+    <tr><td class="paramname">assigned_alias</td><td>[in] Assigned alias in the groupcast forwarding of the GPDF packet </td></tr>
+    <tr><td class="paramname">frwd_radius</td><td>[in] Radius in the groupcast forwarding of the GPDF packet </td></tr>
+    <tr><td class="paramname">group_id</td><td>[in] Group ID </td></tr>
+    <tr><td class="paramname">cb</td><td>[in] Callback call if needed after send request</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd>ZGP spec, A.3.3.5.2 </dd></dl>
+
+</div>
+</div>
+<a id="ga7c79f3d393aa3f2d53973d45c5fe7ccc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7c79f3d393aa3f2d53973d45c5fe7ccc">&#9670;&nbsp;</a></span>zgp_sink_gp_response_cmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zgp_sink_gp_response_cmd </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a>&#160;</td>
+          <td class="paramname"><em>param</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>&#160;</td>
+          <td class="paramname"><em>dst_addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramname"><em>dst_addr_mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a>&#160;</td>
+          <td class="paramname"><em>cb</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Perform GP Response request. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">param</td><td>[in] Buffer reference </td></tr>
+    <tr><td class="paramname">dst_addr</td><td>[in] Destination address </td></tr>
+    <tr><td class="paramname">dst_addr_mode</td><td>[in] Destination address mode </td></tr>
+    <tr><td class="paramname">cb</td><td>[in] Callback call if needed after send request</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd>ZGP spec, A.3.3.5.4 </dd></dl>
+
+</div>
+</div>
+<a id="gad8401467fde9fbb000591c078857e2f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad8401467fde9fbb000591c078857e2f8">&#9670;&nbsp;</a></span>zgp_sink_proxy_commissioning_mode_cmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zgp_sink_proxy_commissioning_mode_cmd </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a>&#160;</td>
+          <td class="paramname"><em>param</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramname"><em>options</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>&#160;</td>
+          <td class="paramname"><em>comm_wind</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramname"><em>channel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a>&#160;</td>
+          <td class="paramname"><em>cb</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Perform Proxy Commissioning mode request. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">param</td><td>[in] Buffer reference </td></tr>
+    <tr><td class="paramname">options</td><td>[in] Request options (see <a class="el" href="group__zgp__sink.html#gaac8f4e33d3974585bfaa7c49936ff5c1">ZB_ZGP_FILL_PROXY_COMM_MODE_OPTIONS</a>) </td></tr>
+    <tr><td class="paramname">comm_wind</td><td>[in] Commissioning window </td></tr>
+    <tr><td class="paramname">channel</td><td>[in] Channel where perform commissioning (0x0b for channel 11) </td></tr>
+    <tr><td class="paramname">cb</td><td>[in] Callback call if needed after send request</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd>ZGP spec, A.3.3.5.3 </dd></dl>
+
+</div>
+</div>
+<a id="gac3d2577170cb148542e472b81e8dcd4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac3d2577170cb148542e472b81e8dcd4b">&#9670;&nbsp;</a></span>zgp_sink_proxy_commissioning_mode_enter_cmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zgp_sink_proxy_commissioning_mode_enter_cmd </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a>&#160;</td>
+          <td class="paramname"><em>param</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramname"><em>exit_mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a>&#160;</td>
+          <td class="paramname"><em>comm_window</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a>&#160;</td>
+          <td class="paramname"><em>cb</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Perform Proxy Commissioning mode enter request. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">param</td><td>[in] Buffer reference </td></tr>
+    <tr><td class="paramname">exit_mode</td><td>[in] exit mode (see <a class="el" href="group__zgp__common.html#ga36ececff744df879f3a88f022357a497">zgp_commissioning_exit_mode_t</a>) </td></tr>
+    <tr><td class="paramname">comm_window</td><td>[in] Commissioning window </td></tr>
+    <tr><td class="paramname">cb</td><td>[in] Callback call if needed after send request</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd>ZGP spec, A.3.3.5.3 </dd></dl>
+
+</div>
+</div>
+<a id="gad2793dbed927f413e2bf64e9117f5888"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad2793dbed927f413e2bf64e9117f5888">&#9670;&nbsp;</a></span>zgp_sink_proxy_commissioning_mode_leave_cmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a> zgp_sink_proxy_commissioning_mode_leave_cmd </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a>&#160;</td>
+          <td class="paramname"><em>param</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a>&#160;</td>
+          <td class="paramname"><em>cb</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Perform Proxy Commissioning mode leave request. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">param</td><td>[in] Buffer reference </td></tr>
+    <tr><td class="paramname">cb</td><td>[in] Callback call if needed after send request</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd>ZGP spec, A.3.3.5.3 </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="agroup__base__types_html_gaa82a9657ef11a3947586065cf8066256"><div class="ttname"><a href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a></div><div class="ttdeci">unsigned char zb_uint8_t</div><div class="ttdoc">Project-local 1-byte unsigned int type.</div><div class="ttdef"><b>Definition:</b> zb_types.h:159</div></div>
-<div class="ttc" id="agroup___z_b___t_r_a_c_e_html_gac857eacf1a904b021246dd0e8dda8a76"><div class="ttname"><a href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a></div><div class="ttdeci">#define TRACE_MSG(lm, fmts, args)</div><div class="ttdoc">Put trace output.</div><div class="ttdef"><b>Definition:</b> zb_trace.h:465</div></div>
-<div class="ttc" id="agroup__zgp__common_html_ggac144421baa8a73beec71489facf73b95ab3f14218788df60e6290de9e85f71ff1"><div class="ttname"><a href="group__zgp__common.html#ggac144421baa8a73beec71489facf73b95ab3f14218788df60e6290de9e85f71ff1">ZB_ZGP_SEC_LEVEL_NO_SECURITY</a></div><div class="ttdeci">@ ZB_ZGP_SEC_LEVEL_NO_SECURITY</div><div class="ttdef"><b>Definition:</b> zboss_api_zgp.h:230</div></div>
+<div class="ttc" id="agroup___z_b___t_r_a_c_e_html_gac857eacf1a904b021246dd0e8dda8a76"><div class="ttname"><a href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a></div><div class="ttdeci">#define TRACE_MSG(lm, fmts, args)</div><div class="ttdoc">Put trace output.</div><div class="ttdef"><b>Definition:</b> zb_trace.h:474</div></div>
+<div class="ttc" id="agroup__zgp__common_html_ggac144421baa8a73beec71489facf73b95ab3f14218788df60e6290de9e85f71ff1"><div class="ttname"><a href="group__zgp__common.html#ggac144421baa8a73beec71489facf73b95ab3f14218788df60e6290de9e85f71ff1">ZB_ZGP_SEC_LEVEL_NO_SECURITY</a></div><div class="ttdeci">@ ZB_ZGP_SEC_LEVEL_NO_SECURITY</div><div class="ttdef"><b>Definition:</b> zboss_api_zgp.h:164</div></div>
 <div class="ttc" id="agroup__zgp__sink_html_gaf9ef655972eaee945837db642da1eb6c"><div class="ttname"><a href="group__zgp__sink.html#gaf9ef655972eaee945837db642da1eb6c">zb_zgps_stop_commissioning</a></div><div class="ttdeci">void zb_zgps_stop_commissioning(void)</div><div class="ttdoc">Switches ZGPS back to the operational mode from the commissioning mode.</div></div>
-<div class="ttc" id="agroup__zgp__sink_html_ga87ad3e7a6609cce8d97e96f019e8483d"><div class="ttname"><a href="group__zgp__sink.html#ga87ad3e7a6609cce8d97e96f019e8483d">zb_zgp_convert_8bit_vector</a></div><div class="ttdeci">zb_ret_t zb_zgp_convert_8bit_vector(zb_uint8_t vector_8bit_cmd_id, zb_uint8_t switch_type, zb_uint8_t num_of_contacts, zb_uint8_t contact_status, zb_uint8_t *zgp_cmd_out)</div><div class="ttdoc">The function may be overridden by the application to implement custom translation of 8-bit vector com...</div></div>
-<div class="ttc" id="agroup__base__types_html_ga7bdda62719777b9e47b1d7204669f897"><div class="ttname"><a href="group__base__types.html#ga7bdda62719777b9e47b1d7204669f897">zb_ret_t</a></div><div class="ttdeci">zb_int32_t zb_ret_t</div><div class="ttdoc">Return type for ZB functions returning execution status.</div><div class="ttdef"><b>Definition:</b> zb_errors.h:35</div></div>
+<div class="ttc" id="agroup__sched_html_ga2b1f4d2e3765ef86b5467d42059f8c3d"><div class="ttname"><a href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a></div><div class="ttdeci">zb_uint32_t zb_cb_param_t</div><div class="ttdef"><b>Definition:</b> zboss_api_core.h:62</div></div>
 <div class="ttc" id="agroup__zgp__sink_html_gadce17ce6ab11af41179e9085254f60c4"><div class="ttname"><a href="group__zgp__sink.html#gadce17ce6ab11af41179e9085254f60c4">zb_zgps_set_communication_mode</a></div><div class="ttdeci">void zb_zgps_set_communication_mode(zgp_communication_mode_t mode)</div><div class="ttdoc">Sets gpsCommunicationMode GP cluster attribute of the GPCB.</div></div>
-<div class="ttc" id="agroup__error__codes_html_ga76117585e8ddc62f21ca0e3061b7830e"><div class="ttname"><a href="group__error__codes.html#ga76117585e8ddc62f21ca0e3061b7830e">RET_OK</a></div><div class="ttdeci">#define RET_OK</div><div class="ttdoc">Error codes for non-void stack functions. In general, function can return OK, BLOCKED or some error....</div><div class="ttdef"><b>Definition:</b> zb_errors.h:81</div></div>
-<div class="ttc" id="agroup__time_html_ga0b55ee2d596a314bb6e985149c17cdad"><div class="ttname"><a href="group__time.html#ga0b55ee2d596a314bb6e985149c17cdad">ZB_TIME_ONE_SECOND</a></div><div class="ttdeci">#define ZB_TIME_ONE_SECOND</div><div class="ttdef"><b>Definition:</b> zboss_api_core.h:180</div></div>
+<div class="ttc" id="agroup__time_html_ga0b55ee2d596a314bb6e985149c17cdad"><div class="ttname"><a href="group__time.html#ga0b55ee2d596a314bb6e985149c17cdad">ZB_TIME_ONE_SECOND</a></div><div class="ttdeci">#define ZB_TIME_ONE_SECOND</div><div class="ttdef"><b>Definition:</b> zboss_api_core.h:217</div></div>
 <div class="ttc" id="agroup__zgp__sink_html_gaee0f632b6b4d57ab625a9898083261e6"><div class="ttname"><a href="group__zgp__sink.html#gaee0f632b6b4d57ab625a9898083261e6">zb_zgps_set_security_level</a></div><div class="ttdeci">void zb_zgps_set_security_level(zb_uint_t level)</div><div class="ttdoc">Sets gpsSecurityLevel GP cluster attribute of GPCB.</div></div>
 <div class="ttc" id="agroup__zgp__sink_html_gaa0ffa2237ee2dc5ead0a923cc46b187d"><div class="ttname"><a href="group__zgp__sink.html#gaa0ffa2237ee2dc5ead0a923cc46b187d">zb_zgps_start_commissioning</a></div><div class="ttdeci">void zb_zgps_start_commissioning(zb_time_t timeout)</div><div class="ttdoc">Puts ZGPS into the commissioning mode.</div></div>
-<div class="ttc" id="agroup__zgp__sink_html_ga61f14c4655bf145f432b15712a7889d5"><div class="ttname"><a href="group__zgp__sink.html#ga61f14c4655bf145f432b15712a7889d5">ZB_ZGP_FILL_GPS_SECURITY_LEVEL</a></div><div class="ttdeci">#define ZB_ZGP_FILL_GPS_SECURITY_LEVEL(sec_lvl, with_link_key, involve_tc)</div><div class="ttdef"><b>Definition:</b> zboss_api_zgp.h:1976</div></div>
+<div class="ttc" id="agroup__zgp__sink_html_ga61f14c4655bf145f432b15712a7889d5"><div class="ttname"><a href="group__zgp__sink.html#ga61f14c4655bf145f432b15712a7889d5">ZB_ZGP_FILL_GPS_SECURITY_LEVEL</a></div><div class="ttdeci">#define ZB_ZGP_FILL_GPS_SECURITY_LEVEL(sec_lvl, with_link_key, involve_tc)</div><div class="ttdef"><b>Definition:</b> zboss_api_zgp.h:1749</div></div>
 <hr class="footer"/><address class="footer"><small>
 <div style="float: left; text-align: left;">
   <div>Copyright (c) 2012-2022 DSR Corporation, Golden CO, USA.
@@ -1127,6 +1273,6 @@ It is safe to call this function when device is already in the commissioning mod
     <a href="http://www.dsr-corporation.com">http://www.dsr-corporation.com</a>
   </div>
 </div>
-<div>ZBOSS documentation. Wed May 27 2026.</div>
+<div>ZBOSS documentation. Mon Sep 21 2026.</div>
 </body>
 </html>

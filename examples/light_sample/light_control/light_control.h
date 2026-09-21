@@ -5,8 +5,6 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2024 NXP
- *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
  * publication of such source code.
@@ -35,7 +33,7 @@
 /* Light control IEEE endpoint */
 #define LIGHT_CONTROL_ENDPOINT 1
 /* Light control IEEE address */
-#define LIGHT_CONTROL_IEEE_ADDR {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
+#define LIGHT_CONTROL_IEEE_ADDR {0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 /* Light control used channel */
 #define LIGHT_CONTROL_CHANNEL_MASK (1l<<21)
 
@@ -86,7 +84,7 @@ typedef struct light_control_button_s
 #define BULB_ON_OFF_TIMEOUT ZB_TIME_ONE_SECOND * 15
 #define BULB_ON_OFF_FAILURE_CNT 10
 
-void light_control_send_on_off_alarm_delayed(zb_uint8_t param);
+void light_control_send_on_off_alarm_delayed(zb_cb_param_t param);
 
 /* Global device context */
 typedef struct light_control_ctx_s
@@ -108,23 +106,23 @@ typedef ZB_PACKED_PRE struct light_control_device_nvram_dataset_s
 light_control_device_nvram_dataset_t;
 
 /* Handler for specific zcl commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 /* Initialization of global device context */
 void light_control_app_ctx_init(void);
 /* Send match descriptor request to search the bulb */
-void find_light_bulb(zb_uint8_t param);
+void find_light_bulb(zb_cb_param_t param);
 /* Calls find_light_bulb if no bulb was found */
-void find_light_bulb_alarm(zb_uint8_t param);
+void find_light_bulb_alarm(zb_cb_param_t param);
 /* Match descriptor callback to handle the results */
-void find_light_bulb_cb(zb_uint8_t param);
+void find_light_bulb_cb(zb_cb_param_t param);
 /* Send IEEE address request command */
-void bulb_ieee_addr_req(zb_uint8_t param);
+void bulb_ieee_addr_req(zb_cb_param_t param);
 /* IEEE address request command callback */
-void bulb_ieee_addr_req_cb(zb_uint8_t param);
+void bulb_ieee_addr_req_cb(zb_cb_param_t param);
 /* Send APSME bind request command */
-void light_control_bind_bulb(zb_uint8_t param);
+void light_control_bind_bulb(zb_cb_param_t param);
 /* Perform internal leave */
-void light_control_leave_and_join(zb_uint8_t param);
+void light_control_leave_and_join(zb_cb_param_t param);
 /* Start BDB top level commissioning */
 void light_control_retry_join(zb_uint8_t param);
 
@@ -136,11 +134,11 @@ void light_control_nvram_read_app_data(zb_uint8_t page, zb_uint32_t pos, zb_uint
 zb_ret_t light_control_nvram_write_app_data(zb_uint8_t page, zb_uint32_t pos);
 
 /* Handler for specific zcl commands */
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param);
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param);
 
 #ifdef ZB_USE_BUTTONS
 /* Handler for button */
-void light_control_button_handler(zb_uint8_t button_no);
+void light_control_button_handler(zb_cb_param_t button_no);
 /* Updates button contexts for different button states */
 void light_control_button_pressed(zb_uint8_t button_no);
 #endif

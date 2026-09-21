@@ -112,7 +112,7 @@
 
 
 #ifdef NXP_DUALPAN_SENSE_PAN_CHANNEL
-void zb_get_pan_channel(zb_bufid_t param);
+void zb_get_pan_channel(zb_cb_param_t param);
 #endif /* NXP_DUALPAN_SENSE_PAN_CHANNEL */
 
 #endif /* ZB_DUALPAN_DEVICE_H */

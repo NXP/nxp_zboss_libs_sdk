@@ -89,7 +89,7 @@ $(document).ready(function(){initNavTree('group___z_b___z_c_l___i_n_i_t_i_a_l_i_
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structzb__zcl__device__callback__param__s.html">zb_zcl_device_callback_param_s</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data for Device user application callback. This structure has receive to User application callback (see <a class="el" href="group__sched.html#gac77cf2f969243abf27172c7ddb0f376d">zb_callback_t</a>).  <a href="structzb__zcl__device__callback__param__s.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data for Device user application callback. This structure has receive to User application callback (see <a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a>).  <a href="structzb__zcl__device__callback__param__s.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structzcl__cluster__handlers__s.html">zcl_cluster_handlers_s</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -160,7 +160,7 @@ Typedefs</h2></td></tr>
 <tr class="separator:gad27454b213ce8a00540ebc75288966ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0dfcc989252b93252f8bb1d27d2639fa"><td class="memItemLeft" align="right" valign="top"><a id="ga0dfcc989252b93252f8bb1d27d2639fa"></a>
 typedef struct <a class="el" href="structzb__zcl__device__callback__param__s.html">zb_zcl_device_callback_param_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#ga0dfcc989252b93252f8bb1d27d2639fa">zb_zcl_device_callback_param_t</a></td></tr>
-<tr class="memdesc:ga0dfcc989252b93252f8bb1d27d2639fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data for Device user application callback. This structure has receive to User application callback (see <a class="el" href="group__sched.html#gac77cf2f969243abf27172c7ddb0f376d">zb_callback_t</a>). <br /></td></tr>
+<tr class="memdesc:ga0dfcc989252b93252f8bb1d27d2639fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data for Device user application callback. This structure has receive to User application callback (see <a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a>). <br /></td></tr>
 <tr class="separator:ga0dfcc989252b93252f8bb1d27d2639fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7450f437de979395c6278217448b0426"><td class="memItemLeft" align="right" valign="top"><a id="ga7450f437de979395c6278217448b0426"></a>
 typedef struct <a class="el" href="structzcl__cluster__handlers__s.html">zcl_cluster_handlers_s</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zcl_cluster_handlers_t</b></td></tr>
@@ -177,6 +177,9 @@ typedef <a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d8
 <tr class="memitem:ga4b95bc0818bf9835d06d4dd173f99eda"><td class="memItemLeft" align="right" valign="top"><a id="ga4b95bc0818bf9835d06d4dd173f99eda"></a>
 typedef <a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>zb_zcl_read_attr_resp_handler_t</b>) (<a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a>)</td></tr>
 <tr class="separator:ga4b95bc0818bf9835d06d4dd173f99eda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaec4f8a697cd0f126c24411df8a2ec6f8"><td class="memItemLeft" align="right" valign="top"><a id="gaec4f8a697cd0f126c24411df8a2ec6f8"></a>
+typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>zc_zcl_poll_control_checkin_handler_t</b>) (<a class="el" href="group__zb__zcl__common__types.html#ga336a95f44b283dba38a47f605382be05">zb_zcl_status_t</a>)</td></tr>
+<tr class="separator:gaec4f8a697cd0f126c24411df8a2ec6f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -683,7 +686,7 @@ Enumerations</h2></td></tr>
 <p>Set user callback to notify an application a broadcast EP command received. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">func_ptr</td><td>- callback to set (of type <a class="el" href="group__af__management__service.html#ga4d58cf3d0e6c159c9c63bc2e9d88887c">zb_device_handler_t</a>). </td></tr>
+    <tr><td class="paramname">func_ptr</td><td>- callback to set (of type <a class="el" href="group__af__management__service.html#ga9157103e490d4fe22a32202afce07003">zb_device_handler_t</a>). </td></tr>
   </table>
   </dd>
 </dl>
@@ -844,23 +847,89 @@ Enumerations</h2></td></tr>
 </div><div class="memdoc">
 <p>Types of device user application callbacks </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#ga0dfcc989252b93252f8bb1d27d2639fa" title="Data for Device user application callback. This structure has receive to User application callback (s...">zb_zcl_device_callback_param_t</a> </dd></dl>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266accd01565be931bb352d99ae47a324aca"></a>ZB_ZCL_SET_ATTR_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about attribute value modification </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266accd01565be931bb352d99ae47a324aca"></a>ZB_ZCL_SET_ATTR_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about attribute value modification</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">set_attr_value_param</td><td><a class="el" href="group___z_b___z_c_l___c_o_m_m_o_n.html#ga0fe76b9dc5253fc8e8284ac6169da2d1">zb_zcl_set_attr_value_param_t</a> <br  />
+ <a class="el" href="structzb__zcl__device__callback__param__s.html#a70c28f2fd1f498e9d7b0b79ba4801589">zb_zcl_device_callback_param_s::cb_param</a></td></tr>
+  </table>
+  </dd>
+</dl>
+<p>One of the following statuses must be returned: </p><dl class="section return"><dt>Returns</dt><dd>RET_OK - successfully handle command. </dd>
+<dd>
+RET_NOT_IMPLEMENTED - command is not implemented. </dd></dl>
 </td></tr>
-<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a56774d84d04249c2f07d3ed92052ac00"></a>ZB_ZCL_ON_OFF_WITH_EFFECT_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about change On/Off effect </p><dl class="section see"><dt>See also</dt><dd>ZCL spec 6.6.1.4.4.2 </dd></dl>
+<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a56774d84d04249c2f07d3ed92052ac00"></a>ZB_ZCL_ON_OFF_WITH_EFFECT_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about change On/Off effect </p><dl class="section see"><dt>See also</dt><dd>ZCL spec 6.6.1.4.4.2</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">on_off_set_effect_value_param</td><td><a class="el" href="group___z_b___z_c_l___o_n___o_f_f.html#gaee5de2bf75b63c6537915e8582f28875">zb_zcl_on_off_set_effect_value_param_t</a> <br  />
+ <a class="el" href="structzb__zcl__device__callback__param__s.html#a70c28f2fd1f498e9d7b0b79ba4801589">zb_zcl_device_callback_param_s::cb_param</a> </td></tr>
+  </table>
+  </dd>
+</dl>
 </td></tr>
-<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a7e084feec6bd333001de9ecebb9cfa1e"></a>ZB_ZCL_SHADE_SET_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about ZCL Shade cluster shade position value modification </p>
+<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a7e084feec6bd333001de9ecebb9cfa1e"></a>ZB_ZCL_SHADE_SET_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about ZCL Shade cluster shade position value modification</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">shade_set_value_param</td><td><a class="el" href="group___z_b___z_c_l___s_h_a_d_e___c_o_n_f_i_g.html#gad40892fb5d6ed7b9e4782994dd21cd60">zb_zcl_shade_set_value_param_t</a> <br  />
+ <a class="el" href="structzb__zcl__device__callback__param__s.html#a70c28f2fd1f498e9d7b0b79ba4801589">zb_zcl_device_callback_param_s::cb_param</a> </td></tr>
+  </table>
+  </dd>
+</dl>
 </td></tr>
-<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a62a6e0ec4246935657594fedf0f8cee3"></a>ZB_ZCL_SHADE_GET_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user that shade_get_value_param of ZCL Shade custer could be changed </p>
+<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a62a6e0ec4246935657594fedf0f8cee3"></a>ZB_ZCL_SHADE_GET_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user that shade_get_value_param of ZCL Shade custer could be changed</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">shade_get_value_param</td><td><a class="el" href="group___z_b___z_c_l___s_h_a_d_e___c_o_n_f_i_g.html#ga62ce6b938be2a22f7161646bd4a6b718">zb_zcl_shade_get_value_param_t</a> <br  />
+ <a class="el" href="structzb__zcl__device__callback__param__s.html#a70c28f2fd1f498e9d7b0b79ba4801589">zb_zcl_device_callback_param_s::cb_param</a> </td></tr>
+  </table>
+  </dd>
+</dl>
 </td></tr>
-<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a4603c4302c3d36d0e640af8a99082745"></a>ZB_ZCL_IDENTIFY_EFFECT_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about call identify effect command </p><dl class="section see"><dt>See also</dt><dd>ZCL spec 6.3.1.2.1 </dd></dl>
+<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a4603c4302c3d36d0e640af8a99082745"></a>ZB_ZCL_IDENTIFY_EFFECT_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about call identify effect command </p><dl class="section see"><dt>See also</dt><dd>ZCL spec 6.3.1.2.1</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">identify_effect_value_param</td><td><a class="el" href="group___z_b___z_c_l___i_d_e_n_t_i_f_y.html#gad9971cbde1d12d5b012ae6f195782c6f">zb_zcl_identify_effect_value_param_t</a> <br  />
+ <a class="el" href="structzb__zcl__device__callback__param__s.html#a70c28f2fd1f498e9d7b0b79ba4801589">zb_zcl_device_callback_param_s::cb_param</a> </td></tr>
+  </table>
+  </dd>
+</dl>
 </td></tr>
-<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a9a47e5f178ccee288c0ec99967af8617"></a>ZB_ZCL_LEVEL_CONTROL_SET_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about ZCL Level Control cluster attributes value modification </p>
+<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a9a47e5f178ccee288c0ec99967af8617"></a>ZB_ZCL_LEVEL_CONTROL_SET_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about ZCL Level Control cluster attributes value modification</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">level_control_set_value_param</td><td><a class="el" href="group___z_b___z_c_l___l_e_v_e_l___c_o_n_t_r_o_l.html#ga6d0ddc84ce34883ddc01762d823b7099">zb_zcl_level_control_set_value_param_t</a> <br  />
+ <a class="el" href="structzb__zcl__device__callback__param__s.html#a70c28f2fd1f498e9d7b0b79ba4801589">zb_zcl_device_callback_param_s::cb_param</a> </td></tr>
+  </table>
+  </dd>
+</dl>
 </td></tr>
-<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a711e0bc6da96a205ae8a6091bec6eb59"></a>ZB_ZCL_IAS_ZONE_ENROLL_RESPONSE_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about enroll result command </p><dl class="section see"><dt>See also</dt><dd>ZCL spec 8.2.2.3.1 </dd></dl>
+<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a711e0bc6da96a205ae8a6091bec6eb59"></a>ZB_ZCL_IAS_ZONE_ENROLL_RESPONSE_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about enroll result command </p><dl class="section see"><dt>See also</dt><dd>ZCL spec 8.2.2.3.1</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">enroll_response_value_param</td><td><a class="el" href="group___z_b___z_c_l___i_a_s___z_o_n_e.html#gac1bdd3dbc2721a3136db9f73096d9d84">zb_zcl_ias_zone_enroll_response_value_param_t</a> <br  />
+ <a class="el" href="structzb__zcl__device__callback__param__s.html#a70c28f2fd1f498e9d7b0b79ba4801589">zb_zcl_device_callback_param_s::cb_param</a> </td></tr>
+  </table>
+  </dd>
+</dl>
 </td></tr>
-<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266ae251b9d7ac698d396bdef483b502f29d"></a>ZB_ZCL_IAS_WD_START_WARNING_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about call Start warning command </p><dl class="section see"><dt>See also</dt><dd>ZCL spec 8.4.2.3.1 </dd></dl>
+<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266ae251b9d7ac698d396bdef483b502f29d"></a>ZB_ZCL_IAS_WD_START_WARNING_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about call Start warning command </p><dl class="section see"><dt>See also</dt><dd>ZCL spec 8.4.2.3.1</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">start_warning_value_param</td><td><a class="el" href="structzb__zcl__ias__wd__start__warning__value__param__s.html">zb_zcl_ias_wd_start_warning_value_param_s</a> <br  />
+ <a class="el" href="structzb__zcl__device__callback__param__s.html#a70c28f2fd1f498e9d7b0b79ba4801589">zb_zcl_device_callback_param_s::cb_param</a> </td></tr>
+  </table>
+  </dd>
+</dl>
 </td></tr>
-<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266ae6ab1d6a3492a1ad019360bb87afa922"></a>ZB_ZCL_IAS_WD_SQUAWK_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about call Squawk command </p><dl class="section see"><dt>See also</dt><dd>ZCL spec 8.4.2.3.2 </dd></dl>
+<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266ae6ab1d6a3492a1ad019360bb87afa922"></a>ZB_ZCL_IAS_WD_SQUAWK_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about call Squawk command </p><dl class="section see"><dt>See also</dt><dd>ZCL spec 8.4.2.3.2</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">squawk_value_param</td><td><a class="el" href="structzb__zcl__ias__wd__squawk__value__param__s.html">zb_zcl_ias_wd_squawk_value_param_s</a> <br  />
+ <a class="el" href="structzb__zcl__device__callback__param__s.html#a70c28f2fd1f498e9d7b0b79ba4801589">zb_zcl_device_callback_param_s::cb_param</a> </td></tr>
+  </table>
+  </dd>
+</dl>
 </td></tr>
 <tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a1d163d63b62a5d719ab38c97e562504f"></a>ZB_ZCL_IAS_ACE_ARM_CB_ID&#160;</td><td class="fielddoc"><p><b>Server</b>. Inform user about IAS ACE Arm command.</p>
 <p>User's application callback is initialized by RET_OK status of device callback parameters. </p><dl class="params"><dt>Parameters</dt><dd>
@@ -1037,20 +1106,48 @@ RET_ERROR - command is handled with errors. </dd></dl>
 <dd>
 RET_ERROR - command is handled with errors. </dd></dl>
 </td></tr>
-<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a8a87688c465e80b46ad821741a60fe84"></a>ZB_ZCL_OTA_UPGRADE_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about OTA Upgrade commands <br  />
- </p>
+<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a8a87688c465e80b46ad821741a60fe84"></a>ZB_ZCL_OTA_UPGRADE_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about OTA Upgrade commands</p>
+<p>Callback param (<a class="el" href="structzb__zcl__device__callback__param__s.html#a70c28f2fd1f498e9d7b0b79ba4801589">zb_zcl_device_callback_param_s::cb_param</a>) is filled differently depending on the OTA upgrade status:</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ota_value_param</td><td><br  />
+<ul>
+<li>ZB_ZCL_OTA_UPGRADE_STATUS_START: <a class="el" href="structzb__zcl__ota__upgrade__value__param__s.html#a3e3a1c0fc63283f6d661daba0be0f2f7">zb_zcl_ota_upgrade_value_param_s::start</a> <br  />
+</li>
+<li>ZB_ZCL_OTA_UPGRADE_STATUS_RECEIVE: <a class="el" href="structzb__zcl__ota__upgrade__value__param__s.html#a2a34140ed8001ebf8662078b782a9486">zb_zcl_ota_upgrade_value_param_s::receive</a> <br  />
+</li>
+<li>For other Status: <a class="el" href="structzb__zcl__ota__upgrade__value__param__s.html">zb_zcl_ota_upgrade_value_param_s</a> - only upgrade_status is set </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
 </td></tr>
 <tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a918c694a3e7d3b6f6078995556f44bfb"></a>ZB_ZCL_BASIC_RESET_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about Basic Reset to Factory Defaults commands <br  />
  </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a5a896ee92926c6c8e53f2cc87df91deb"></a>ZB_ZCL_THERMOSTAT_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about call Thermostat command </p><dl class="section see"><dt>See also</dt><dd>HA spec 10.1.3.3 </dd></dl>
+<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a5a896ee92926c6c8e53f2cc87df91deb"></a>ZB_ZCL_THERMOSTAT_VALUE_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about call Thermostat command </p><dl class="section see"><dt>See also</dt><dd>HA spec 10.1.3.3</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">thermostat_value_param</td><td><a class="el" href="structzb__zcl__thermostat__value__param__s.html">zb_zcl_thermostat_value_param_s</a> <br  />
+ <a class="el" href="structzb__zcl__device__callback__param__s.html#a70c28f2fd1f498e9d7b0b79ba4801589">zb_zcl_device_callback_param_s::cb_param</a> </td></tr>
+  </table>
+  </dd>
+</dl>
 </td></tr>
-<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a0642f957dd4a587bf1dcf2d8f5b32b8f"></a>ZB_ZCL_POLL_CONTROL_CHECK_IN_CLI_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about Check-In command from polled device </p>
+<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a0642f957dd4a587bf1dcf2d8f5b32b8f"></a>ZB_ZCL_POLL_CONTROL_CHECK_IN_CLI_CB_ID&#160;</td><td class="fielddoc"><p>Inform user about Check-In command from polled device</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">checkin_cli_param</td><td><a class="el" href="group___z_b___z_c_l___p_o_l_l___c_o_n_t_r_o_l.html#ga4e9c4e0dceb740c18b229f39cbc873cc">zb_zcl_poll_control_check_in_cli_param_t</a> <br  />
+ <a class="el" href="structzb__zcl__device__callback__param__s.html#a70c28f2fd1f498e9d7b0b79ba4801589">zb_zcl_device_callback_param_s::cb_param</a> </td></tr>
+  </table>
+  </dd>
+</dl>
 </td></tr>
 <tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a4c6edafc762fff14797d26e3041c08bf"></a>ZB_ZCL_EN50523_APPL_EV_AND_ALERTS_GET_ALERTS_CB_ID&#160;</td><td class="fielddoc"><p><b>Server</b>. Inform user about EN50523 Appliance Events and Alerts Get Alerts command.</p>
 <p>User's application callback is initialized by RET_OK status of device callback parameters. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">param_out</td><td>zb_zcl_en50523_appl_ev_and_alerts_get_alerts_resp_t</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">param_out</td><td><a class="el" href="group___z_b___z_c_l___e_n50523___a_p_p___e_v_e_n_t_s___a_l_e_r_t_s.html#gac387af684371bc6e28d182df86f45523">zb_zcl_en50523_appl_ev_and_alerts_get_alerts_resp_t</a></td></tr>
   </table>
   </dd>
 </dl>
@@ -1061,18 +1158,18 @@ RET_ERROR - command is handled with errors. </dd></dl>
 <tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a1db96f2e1ac6d8fa00f3a3b93799ec1a"></a>ZB_ZCL_EN50523_APPL_EV_AND_ALERTS_GET_ALERTS_RESP_CB_ID&#160;</td><td class="fielddoc"><p><b>Client</b>. Inform user about EN50523 Appliance Events and Alerts Get Alerts Response command.</p>
 <p>User's application callback is initialized by RET_OK status of device callback parameters. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">param_in</td><td>zb_zcl_en50523_appl_ev_and_alerts_get_alerts_resp_t One of the following statuses must be returned: </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">param_in</td><td><a class="el" href="group___z_b___z_c_l___e_n50523___a_p_p___e_v_e_n_t_s___a_l_e_r_t_s.html#gac387af684371bc6e28d182df86f45523">zb_zcl_en50523_appl_ev_and_alerts_get_alerts_resp_t</a></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>RET_OK - successfully handle command. Default Response will be send if requested. </dd>
+<p>One of the following statuses must be returned: </p><dl class="section return"><dt>Returns</dt><dd>RET_OK - successfully handle command. Default Response will be send if requested. </dd>
 <dd>
 RET_ERROR - command is handled with errors. </dd></dl>
 </td></tr>
 <tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a8e484673354de2b7fb8dbdb26579ff5f"></a>ZB_ZCL_EN50523_APPL_EV_AND_ALERTS_ALERTS_NOTIFICATION_CB_ID&#160;</td><td class="fielddoc"><p><b>Client</b>. Inform user about EN50523 Appliance Events and Alerts Alerts Notification command.</p>
 <p>User's application callback is initialized by RET_OK status of device callback parameters. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">param_in</td><td>zb_zcl_en50523_appl_ev_and_alerts_alerts_notif_t</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">param_in</td><td><a class="el" href="group___z_b___z_c_l___e_n50523___a_p_p___e_v_e_n_t_s___a_l_e_r_t_s.html#gabdddad8039f4b48d24e554ef203c00fe">zb_zcl_en50523_appl_ev_and_alerts_alerts_notif_t</a></td></tr>
   </table>
   </dd>
 </dl>
@@ -1083,22 +1180,49 @@ RET_ERROR - command is handled with errors. </dd></dl>
 <tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a2d99e355de56611a5061dce04dba8913"></a>ZB_ZCL_EN50523_APPL_EV_AND_ALERTS_EVENT_NOTIFICATION_CB_ID&#160;</td><td class="fielddoc"><p><b>Client</b>. Inform user about EN50523 Appliance Events and Alerts Event Notification command.</p>
 <p>User's application callback is initialized by RET_OK status of device callback parameters. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">param_in</td><td>zb_zcl_en50523_appl_ev_and_alerts_event_notif_t One of the following statuses must be returned: </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">param_in</td><td><a class="el" href="group___z_b___z_c_l___e_n50523___a_p_p___e_v_e_n_t_s___a_l_e_r_t_s.html#ga373f2d283f0784ee161e90479701000a">zb_zcl_en50523_appl_ev_and_alerts_event_notif_t</a></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>RET_OK - successfully handle command. Default Response will be send if requested. </dd>
+<p>One of the following statuses must be returned: </p><dl class="section return"><dt>Returns</dt><dd>RET_OK - successfully handle command. Default Response will be send if requested. </dd>
 <dd>
 RET_ERROR - command is handled with errors. </dd></dl>
 </td></tr>
-<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266ac9bcb7b0e81a37f235cf732236107ff6"></a>ZB_ZCL_OTA_UPGRADE_SRV_QUERY_IMAGE_CB_ID&#160;</td><td class="fielddoc"><p><b>Server</b>. Inform user about Query next image request </p>
+<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266ac9bcb7b0e81a37f235cf732236107ff6"></a>ZB_ZCL_OTA_UPGRADE_SRV_QUERY_IMAGE_CB_ID&#160;</td><td class="fielddoc"><p><b>Server</b>. Inform user about Query next image request</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ota_upgrade_srv_query_img_param</td><td><a class="el" href="structzb__zcl__ota__upgrade__srv__query__img__param__s.html">zb_zcl_ota_upgrade_srv_query_img_param_s</a> <br  />
+ <a class="el" href="structzb__zcl__device__callback__param__s.html#a70c28f2fd1f498e9d7b0b79ba4801589">zb_zcl_device_callback_param_s::cb_param</a> </td></tr>
+  </table>
+  </dd>
+</dl>
 </td></tr>
-<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266aeb446d6a07e2b3c5734e70891add2fb8"></a>ZB_ZCL_OTA_UPGRADE_SRV_UPGRADE_STARTED_CB_ID&#160;</td><td class="fielddoc"><p><b>Server</b>. Inform user about the first Image block request </p>
+<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266aeb446d6a07e2b3c5734e70891add2fb8"></a>ZB_ZCL_OTA_UPGRADE_SRV_UPGRADE_STARTED_CB_ID&#160;</td><td class="fielddoc"><p><b>Server</b>. Inform user about the first Image block request</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ota_upgrade_srv_upgrade_started_param</td><td><a class="el" href="structzb__zcl__ota__upgrade__srv__upgrade__started__param__s.html">zb_zcl_ota_upgrade_srv_upgrade_started_param_s</a> <br  />
+ <a class="el" href="structzb__zcl__device__callback__param__s.html#a70c28f2fd1f498e9d7b0b79ba4801589">zb_zcl_device_callback_param_s::cb_param</a> </td></tr>
+  </table>
+  </dd>
+</dl>
 </td></tr>
-<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a86bbdeccd2c631a3e1a40599928dcc5f"></a>ZB_ZCL_OTA_UPGRADE_SRV_UPGRADE_ABORTED_CB_ID&#160;</td><td class="fielddoc"><p><b>Server</b>. Inform user about the aborted Image block request <br  />
- </p>
+<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266a86bbdeccd2c631a3e1a40599928dcc5f"></a>ZB_ZCL_OTA_UPGRADE_SRV_UPGRADE_ABORTED_CB_ID&#160;</td><td class="fielddoc"><p><b>Server</b>. Inform user about the aborted Image block request</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ota_upgrade_srv_upgrade_aborted_param</td><td><a class="el" href="structzb__zcl__ota__upgrade__srv__upgrade__aborted__param__s.html">zb_zcl_ota_upgrade_srv_upgrade_aborted_param_s</a> <br  />
+ <a class="el" href="structzb__zcl__device__callback__param__s.html#a70c28f2fd1f498e9d7b0b79ba4801589">zb_zcl_device_callback_param_s::cb_param</a> </td></tr>
+  </table>
+  </dd>
+</dl>
 </td></tr>
-<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266ab01261e7f003897540a73fdf611ce511"></a>ZB_ZCL_OTA_UPGRADE_SRV_UPGRADE_END_CB_ID&#160;</td><td class="fielddoc"><p><b>Server</b>. Inform user about finished OTA upgrade </p>
+<tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266ab01261e7f003897540a73fdf611ce511"></a>ZB_ZCL_OTA_UPGRADE_SRV_UPGRADE_END_CB_ID&#160;</td><td class="fielddoc"><p><b>Server</b>. Inform user about finished OTA upgrade</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ota_upgrade_srv_upgrade_end_param</td><td><a class="el" href="structzb__zcl__ota__upgrade__srv__upgrade__end__param__s.html">zb_zcl_ota_upgrade_srv_upgrade_end_param_s</a> <br  />
+ <a class="el" href="structzb__zcl__device__callback__param__s.html#a70c28f2fd1f498e9d7b0b79ba4801589">zb_zcl_device_callback_param_s::cb_param</a> </td></tr>
+  </table>
+  </dd>
+</dl>
 </td></tr>
 <tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266ae3805b9de2f37afa5a70ee7feef36a7e"></a>ZB_ZCL_PRICE_GET_CURRENT_PRICE_CB_ID&#160;</td><td class="fielddoc"><p><b>Server</b>. Ask user about payload for PublishPrice request.</p>
 <p>User's application callback is initialized by RET_NOT_FOUND status of device callback parameters. </p><dl class="params"><dt>Parameters</dt><dd>
@@ -1285,7 +1409,7 @@ RET_ERROR - command is handled with errors. Default Response will be send if req
 <p>User's application callback is initialized by RET_OK status of device callback parameters. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">param_in</td><td><a class="el" href="group___z_b___z_c_l___t_u_n_n_e_l_i_n_g___c_o_m_m_a_n_d_s.html#ga198ca4fcf210c4c9ce85983a3609f9f5">zb_zcl_tunneling_request_tunnel_t</a> </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">param_out</td><td>tunnel_status</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">param_out</td><td><a class="el" href="structzb__zcl__tunnel__request__params__out__s.html">zb_zcl_tunnel_request_params_out_s</a> - tunnel_status</td></tr>
   </table>
   </dd>
 </dl>
@@ -1925,12 +2049,7 @@ RET_ERROR - command is handled with errors </dd></dl>
 RET_ERROR - command is handled with errors. Default Response will be send if requested. </dd></dl>
 </td></tr>
 <tr><td class="fieldname"><a id="gga35caa2e3a9ef37535b1f75e0fe919266aabfd999dee733d55891682fe66db0b43"></a>ZB_ZCL_WWAH_DISABLE_APP_EVENT_RETRY_ALGORITHM_CB_ID&#160;</td><td class="fielddoc"><p><b>Server</b>. Inform user about receiving "Disable WWAH App Event Retry Algorithm" command.</p>
-<p>User's application callback is initialized by RET_NOT_FOUND status of device callback parameters. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">param_in</td><td>zb_zcl_wwah_enable_wwah_app_event_retry_algorithm_t</td></tr>
-  </table>
-  </dd>
-</dl>
+<p>User's application callback is initialized by RET_NOT_FOUND status of device callback parameters.</p>
 <p>One of the following statuses must be returned: </p><dl class="section return"><dt>Returns</dt><dd>RET_OK - successfully handle command. Default Response will be send if requested. </dd>
 <dd>
 RET_ERROR - command is handled with errors. Default Response will be send if requested. </dd></dl>
@@ -1971,12 +2090,12 @@ RET_ERROR - command is handled with errors. In this case application sets cluste
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="agroup__base__types_html_gaa82a9657ef11a3947586065cf8066256"><div class="ttname"><a href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a></div><div class="ttdeci">unsigned char zb_uint8_t</div><div class="ttdoc">Project-local 1-byte unsigned int type.</div><div class="ttdef"><b>Definition:</b> zb_types.h:159</div></div>
-<div class="ttc" id="agroup___z_b___t_r_a_c_e_html_gac857eacf1a904b021246dd0e8dda8a76"><div class="ttname"><a href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a></div><div class="ttdeci">#define TRACE_MSG(lm, fmts, args)</div><div class="ttdoc">Put trace output.</div><div class="ttdef"><b>Definition:</b> zb_trace.h:465</div></div>
-<div class="ttc" id="agroup___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n_html_ga06b79a911e5dc73da88352b3d4b498e3"><div class="ttname"><a href="group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#ga06b79a911e5dc73da88352b3d4b498e3">ZB_ZCL_SET_REPORT_ATTR_CB</a></div><div class="ttdeci">#define ZB_ZCL_SET_REPORT_ATTR_CB(func_ptr)</div><div class="ttdoc">Set report attribute callback. The macro sets a callback being called on receive attribute report....</div><div class="ttdef"><b>Definition:</b> zboss_api_zcl.h:312</div></div>
-<div class="ttc" id="agroup___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n_html_ga3057083b8a0c7fbab7c64a47a6c67e09"><div class="ttname"><a href="group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#ga3057083b8a0c7fbab7c64a47a6c67e09">ZB_ZCL_SET_NO_REPORTING_CB</a></div><div class="ttdeci">#define ZB_ZCL_SET_NO_REPORTING_CB(func_ptr)</div><div class="ttdoc">Set no reporting callback. The macro sets a callback being called on remote attribute reporting timeo...</div><div class="ttdef"><b>Definition:</b> zboss_api_zcl.h:321</div></div>
-<div class="ttc" id="astructzb__zcl__addr__s_html"><div class="ttname"><a href="structzb__zcl__addr__s.html">zb_zcl_addr_s</a></div><div class="ttdoc">Type to represent source address of ZCL message.</div><div class="ttdef"><b>Definition:</b> zb_zcl_common.h:1148</div></div>
+<div class="ttc" id="agroup___z_b___t_r_a_c_e_html_gac857eacf1a904b021246dd0e8dda8a76"><div class="ttname"><a href="group___z_b___t_r_a_c_e.html#gac857eacf1a904b021246dd0e8dda8a76">TRACE_MSG</a></div><div class="ttdeci">#define TRACE_MSG(lm, fmts, args)</div><div class="ttdoc">Put trace output.</div><div class="ttdef"><b>Definition:</b> zb_trace.h:474</div></div>
+<div class="ttc" id="agroup___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n_html_ga06b79a911e5dc73da88352b3d4b498e3"><div class="ttname"><a href="group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#ga06b79a911e5dc73da88352b3d4b498e3">ZB_ZCL_SET_REPORT_ATTR_CB</a></div><div class="ttdeci">#define ZB_ZCL_SET_REPORT_ATTR_CB(func_ptr)</div><div class="ttdoc">Set report attribute callback. The macro sets a callback being called on receive attribute report....</div><div class="ttdef"><b>Definition:</b> zboss_api_zcl.h:313</div></div>
+<div class="ttc" id="agroup___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n_html_ga3057083b8a0c7fbab7c64a47a6c67e09"><div class="ttname"><a href="group___z_b___z_c_l___i_n_i_t_i_a_l_i_z_a_t_i_o_n.html#ga3057083b8a0c7fbab7c64a47a6c67e09">ZB_ZCL_SET_NO_REPORTING_CB</a></div><div class="ttdeci">#define ZB_ZCL_SET_NO_REPORTING_CB(func_ptr)</div><div class="ttdoc">Set no reporting callback. The macro sets a callback being called on remote attribute reporting timeo...</div><div class="ttdef"><b>Definition:</b> zboss_api_zcl.h:322</div></div>
+<div class="ttc" id="astructzb__zcl__addr__s_html"><div class="ttname"><a href="structzb__zcl__addr__s.html">zb_zcl_addr_s</a></div><div class="ttdoc">Type to represent source address of ZCL message.</div><div class="ttdef"><b>Definition:</b> zb_zcl_common.h:1142</div></div>
 <div class="ttc" id="agroup__base__types_html_ga83793366ad4d54e8b65840d82a751498"><div class="ttname"><a href="group__base__types.html#ga83793366ad4d54e8b65840d82a751498">zb_uint16_t</a></div><div class="ttdeci">unsigned short zb_uint16_t</div><div class="ttdoc">Project-local 2-byte unsigned int type.</div><div class="ttdef"><b>Definition:</b> zb_types.h:163</div></div>
-<div class="ttc" id="aunionzb__zcl__addr__s_1_1zb__zcl__addr__u_html_a795dda5bc8d34edf94f2dabd5708e590"><div class="ttname"><a href="unionzb__zcl__addr__s_1_1zb__zcl__addr__u.html#a795dda5bc8d34edf94f2dabd5708e590">zb_zcl_addr_s::zb_zcl_addr_u::short_addr</a></div><div class="ttdeci">zb_uint16_t short_addr</div><div class="ttdef"><b>Definition:</b> zb_zcl_common.h:1153</div></div>
+<div class="ttc" id="aunionzb__zcl__addr__s_1_1zb__zcl__addr__u_html_a795dda5bc8d34edf94f2dabd5708e590"><div class="ttname"><a href="unionzb__zcl__addr__s_1_1zb__zcl__addr__u.html#a795dda5bc8d34edf94f2dabd5708e590">zb_zcl_addr_s::zb_zcl_addr_u::short_addr</a></div><div class="ttdeci">zb_uint16_t short_addr</div><div class="ttdef"><b>Definition:</b> zb_zcl_common.h:1147</div></div>
 <hr class="footer"/><address class="footer"><small>
 <div style="float: left; text-align: left;">
   <div>Copyright (c) 2012-2022 DSR Corporation, Golden CO, USA.
@@ -1984,6 +2103,6 @@ RET_ERROR - command is handled with errors. In this case application sets cluste
     <a href="http://www.dsr-corporation.com">http://www.dsr-corporation.com</a>
   </div>
 </div>
-<div>ZBOSS documentation. Wed May 27 2026.</div>
+<div>ZBOSS documentation. Mon Sep 21 2026.</div>
 </body>
 </html>

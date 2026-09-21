@@ -51,16 +51,17 @@ void assert_indication_cb(zb_uint16_t file_id, zb_int_t line_number);
 #define ZCL_ONOFF_ENABLE_OPTIONAL_ATTRIBUTES 0
 
 #ifndef ZB_EXAMPLE_REOPEN_ZIGBEE_NETWORK
-static void open_network(zb_uint8_t param);
-static void close_network(zb_uint8_t param);
+static void open_network(zb_cb_param_t param);
+static void close_network(zb_cb_param_t param);
 #endif
-static void permit_joining(zb_uint8_t param, zb_uint8_t permit_duration);
-static void permit_joining_cb(zb_uint8_t param);
+static void permit_joining(zb_cb_param_t param, zb_uint8_t permit_duration);
+static void permit_joining_cb(zb_cb_param_t param);
 
 void report_attribute_cb(zb_zcl_addr_t *addr, zb_uint8_t ep, zb_uint16_t cluster_id,
                               zb_uint16_t attr_id, zb_uint8_t attr_type, zb_uint8_t *value);
 
 zb_ieee_addr_t g_zr_addr = BULB_IEEE_ADDRESS; /* IEEE address of the device */
+zb_uint8_t g_passcode[] = {'0', '0', '0', '0'};
 
 /**
  * Declaration of Zigbee device data structures
@@ -193,7 +194,7 @@ ZB_HA_DECLARE_LIGHT_CTX(
 #endif /* DIMMABLE_LIGHT_ENABLE_ZDD */
 
 #ifdef ZB_MAC_CONFIGURABLE_TX_POWER /* Test API zb_set_tx_power */
-static void tx_power_cb(zb_bufid_t param)
+static void tx_power_cb(zb_cb_param_t param)
 {
 #ifdef ZB_NXP_WCS_TRACE
   zb_tx_power_params_t *power_params = zb_buf_begin(param);
@@ -234,7 +235,7 @@ MAIN()
 /* [trace_64_example_variable] */
   zb_ieee_addr_t addr;        /* Local variable for IEEE address */
 /* [trace_64_example_variable] */
-  const zb_char_t *version;   /* Local variable for ZBOSS version */
+  zb_uint32_t version;        /* Local variable for stack version */
   zb_uint8_t rx_on_when_idle; /* Local flag for rx on when idle state */
 #ifdef DIMMABLE_LIGHT_ENABLE_ZDD
   zb_ret_t zdd_init_ret; /* Local flag with ZDD initialization status */
@@ -254,12 +255,37 @@ MAIN()
   ZB_INIT("bulb");
 /* [zboss_main_loop_init] */
 
+#if defined ZB_FORCE_R22_MODE
+  /* Work as R22 ZB 3.0 device */
+  zboss_use_r22_behavior();
+#endif
+
 /* HAL initialisation for hardware */
 #ifdef ZB_USE_BUTTONS
   bulb_hal_init();
 #endif
 
   /* Set up defaults for the commissioning */
+
+#ifdef DIMMABLE_LIGHT_ENABLE_ZDD
+  {
+    zb_uint8_t ble_address[6];
+    zb_ret_t err_code;
+    /* Retrieve BLE device address */
+    err_code = zbd_proxy_ble_addr_get(ble_address);
+    ZB_ASSERT(err_code == RET_OK);
+
+    TRACE_MSG(TRACE_APP1, "Main: Adapter address is %x:%x:%x:%x:%x:%x",
+      (FMT__D_D_D_D_D_D, ble_address[0], ble_address[1], ble_address[2], ble_address[3], ble_address[4], ble_address[5]));
+
+    /* Generate device IEEE Address from BLE device address */
+    err_code = zbd_generate_eui64_from_mac_address(ble_address, g_zr_addr);
+    ZB_ASSERT(err_code == RET_OK);
+
+    TRACE_MSG(TRACE_APP3, "Main: Generated IEEE address: " TRACE_FORMAT_64, (FMT__B, TRACE_ARG_64(g_zr_addr)));
+  }
+#endif
+
   zb_set_long_address(g_zr_addr);
 
   /* In case of enabled ZDD role start device in unprovisioned
@@ -298,12 +324,12 @@ MAIN()
   bulb_device_app_init(0);
 
   /* Test get functions */
-  version = zb_get_version(STACK_VERSION);
+  version = zboss_version_get();
 
   /* Unused without trace. */
   ZVUNUSED(version);
 
-  TRACE_MSG(TRACE_APP1, "ZB version is %s", (FMT__P, version));
+  TRACE_MSG(TRACE_APP1, "ZB version is %d.%d.%d", (FMT__D_D_D, version >> 24, ((version >> 16) & 0xff), version & 0xffff));
 
   zb_get_long_address(addr);
 /* [trace_64_example] */
@@ -320,9 +346,11 @@ MAIN()
             (FMT__H, rx_on_when_idle));
 
 #ifdef DIMMABLE_LIGHT_ENABLE_ZDD
-  zdd_init_ret = zbd_proxy_init(BULB_INIT_BASIC_MANUF_NAME, ZB_BULB_ZDD_ENDPOINT);
+  zdd_init_ret = zbd_proxy_init(BULB_INIT_BASIC_MANUF_NAME, HA_DIMMABLE_LIGHT_ENDPOINT);
   TRACE_MSG(TRACE_APP1, "ZDD started, status %d", (FMT__D, zdd_init_ret));
 #endif /* DIMMABLE_LIGHT_ENABLE_ZDD */
+
+  zb_secur_ic_set(ZB_IC_TYPE_PASSCODE, g_passcode);
 
 /* [zboss_main_loop] */
   if (
@@ -460,7 +488,7 @@ void bulb_app_ctx_init(void)
   TRACE_MSG(TRACE_APP1, "<< bulb_app_ctx_init", (FMT__0));
 }
 
-zb_uint8_t zcl_specific_cluster_cmd_handler(zb_uint8_t param)
+zb_uint8_t zcl_specific_cluster_cmd_handler(zb_cb_param_t param)
 {
   zb_bufid_t zcl_cmd_buf = param;
   zb_zcl_parsed_hdr_t *cmd_info = ZB_BUF_GET_PARAM(zcl_cmd_buf, zb_zcl_parsed_hdr_t);
@@ -499,7 +527,7 @@ static void open_network(zb_uint8_t param)
   TRACE_MSG(TRACE_APP1, "<< open_network", (FMT__0));
 }
 
-static void close_network(zb_uint8_t param)
+static void close_network(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, ">> close_network, param %hd", (FMT__H, param));
 
@@ -516,7 +544,7 @@ static void close_network(zb_uint8_t param)
 }
 #endif
 
-static void permit_joining(zb_uint8_t param, zb_uint8_t permit_duration)
+static void permit_joining(zb_cb_param_t param, zb_uint8_t permit_duration)
 {
   zb_zdo_mgmt_permit_joining_req_param_t *req_param;
 
@@ -532,14 +560,14 @@ static void permit_joining(zb_uint8_t param, zb_uint8_t permit_duration)
   TRACE_MSG(TRACE_APP1, "<< permit_joining", (FMT__0));
 }
 
-static void permit_joining_cb(zb_uint8_t param)
+static void permit_joining_cb(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_ERROR, "permit joining done", (FMT__0));
   zb_buf_free(param);
 }
 
 /* Callback to handle the stack events */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   /* Get application signal from the buffer */
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
@@ -692,7 +720,7 @@ void report_attribute_cb(zb_zcl_addr_t *addr, zb_uint8_t ep, zb_uint16_t cluster
 }
 /* [zb_zcl_set_report_attr_cb_example] */
 
-void test_device_cb(zb_uint8_t param)
+void test_device_cb(zb_cb_param_t param)
 {
   zb_bufid_t buffer = param;
   zb_zcl_device_callback_param_t *device_cb_param =
@@ -814,7 +842,7 @@ void test_device_cb(zb_uint8_t param)
   TRACE_MSG(TRACE_APP1, "<< test_device_cb %hd", (FMT__H, device_cb_param->status));
 }
 
-void bulb_identify_led(zb_uint8_t led_state)
+void bulb_identify_led(zb_cb_param_t led_state)
 {
   TRACE_MSG(TRACE_APP1, "bulb_identify_led %hd", (FMT__H, led_state));
 #ifdef ZB_USE_BUTTONS
@@ -827,7 +855,7 @@ void bulb_identify_led(zb_uint8_t led_state)
   ZB_SCHEDULE_APP_ALARM(bulb_identify_led, !led_state, ZB_TIME_ONE_SECOND / 2);
 }
 
-void bulb_do_identify(zb_uint8_t param)
+void bulb_do_identify(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, ">> bulb_do_identify %hd", (FMT__H, param));
 

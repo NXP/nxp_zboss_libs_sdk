@@ -52,6 +52,7 @@ Zigbee Coordinator includes following ZCL clusters:
 
  - Basic (s)
  - Identify (s)
+ - Keep-alive (s) Mandatory for ZC according to BDB 3.1 spec.
  - OnOff (s)
  - Scenes (s)
  - Groups (s)

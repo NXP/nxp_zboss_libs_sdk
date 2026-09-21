@@ -32,6 +32,7 @@ Simple Gateway application includes following ZCL clusters:
   - On/Off Switch Config (s)
   - Identify (s/c)
   - Basic (s)
+  - Keep-Alive (s) - Mandatory for ZC according to BDB 3.1 spec
   - On/Off (c)
   - Scenes (c)
   - Groups (c)

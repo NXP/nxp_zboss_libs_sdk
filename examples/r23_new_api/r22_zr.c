@@ -73,6 +73,8 @@ MAIN()
 
   /* [zboss_use_r22_behavior_snippet] */
 
+  zb_nwk_set_max_ed_capacity(0);
+
   /* Set install-code */
   zb_secur_ic_str_set(g_r22_zr_installcode_str);
 
@@ -93,7 +95,7 @@ MAIN()
 }
 
 
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_t sig = zb_get_app_signal(param, &sg_p);

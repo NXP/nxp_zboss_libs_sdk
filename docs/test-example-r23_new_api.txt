@@ -1,5 +1,10 @@
 ## R23 new API sample
 
+### BDB3.1 notes
+  - According to BDB 3.1 spec, joiners should ensure that TC is accessible.
+    In this sample such checks implemented using Node descriptor request method (both ZR and ZED roles).  
+    ZR/ZED sends APS-encrypted Node descriptor requests on periodic basis.  
+
 ### Expected outcome
 
 1. R23 ZC forms a centralized network.

@@ -104,7 +104,7 @@ MAIN()
 }
 
 /* Callback to handle the stack events */
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_type_t sig = zb_get_app_signal(param, NULL);
 

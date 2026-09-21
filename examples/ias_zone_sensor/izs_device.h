@@ -36,7 +36,7 @@
 #define IZS_NOT_ENROLLED_TIMEOUT (2 * ZB_TIME_ONE_SECOND)
 #define IZS_WAIT_MATCH_IAS_ZONE (10 * ZB_TIME_ONE_SECOND)
 
-#ifdef IZS_WWAH
+#ifdef ZB_APP_EXAMPLE_USE_WWAH
 #define IZS_JOIN_RETRY_DELAY(_cnt) (5 * ZB_TIME_ONE_SECOND)
 #else
 #define IZS_JOIN_RETRY_DELAY(_cnt) (ZB_MILLISECONDS_TO_BEACON_INTERVAL((zb_time_t)(5000) * ((_cnt) + 1)))
@@ -109,7 +109,7 @@
           ZB_ZCL_CLUSTER_ID_POWER_CONFIG, \
           ZB_ZCL_CLUSTER_ID_OTA_UPGRADE
 
-#ifdef IZS_WWAH
+#ifdef ZB_APP_EXAMPLE_USE_WWAH
 #define IZS_IN_CLUSTER_COUNT  6
 #define IZS_OUT_CLUSTER_COUNT 1
 #define IZS_CLUSTER_LIST ZB_ZCL_CLUSTER_ID_WWAH, IZS_COMMON_CLUSTER_LIST
@@ -176,7 +176,7 @@
         )                                                                      \
       }
 
-#else /* !IZS_WWAH */
+#else /* !ZB_APP_EXAMPLE_USE_WWAH */
 #define IZS_IN_CLUSTER_COUNT  5
 #define IZS_OUT_CLUSTER_COUNT 1
 #define IZS_CLUSTER_LIST IZS_COMMON_CLUSTER_LIST
@@ -236,7 +236,7 @@
         )                                                                      \
       }
 
-#endif /* IZS_WWAH */
+#endif /* ZB_APP_EXAMPLE_USE_WWAH */
 
 /* Declare simple descriptor for IAS Zone device */
 #define IZS_DECLARE_IAS_ZONE_SIMPLE_DESC(                       \
@@ -462,14 +462,16 @@ typedef struct izs_device_ctx_s
 
   zb_uint16_t current_zone_state;
   zb_uint16_t retry_backoff_cnt; /* Retry backoff counter */
+#ifdef ZB_APP_EXAMPLE_USE_WWAH
   zb_zcl_wwah_enable_wwah_app_event_retry_algorithm_t app_event_retry_params;
+#endif
 
   /* This flag is used on HW detector fails. Resets only on device restart. */
   zb_bool_t detector_trouble;
   zb_bool_t battery_low;
   zb_bool_t enroll_req_generated;
 
-#ifdef IZS_WWAH
+#ifdef ZB_APP_EXAMPLE_USE_WWAH
   zb_zcl_wwah_debug_report_t debug_report_table[DEBUG_REPORT_TABLE_SIZE];
 #endif
 
@@ -511,26 +513,26 @@ void izs_app_ctx_init(void);
 void izs_critical_error(void);
 
 /*** General callbacks ***/
-void izs_identify_notification(zb_uint8_t param);
-void izs_device_interface_cb(zb_uint8_t param);
+void izs_identify_notification(zb_cb_param_t param);
+void izs_device_interface_cb(zb_cb_param_t param);
 
 /*** startup sequence routines ***/
-void izs_joined_cont(zb_uint8_t param);
-void izs_device_hw_init(zb_uint8_t param);
-void izs_start_join(zb_uint8_t param);
+void izs_joined_cont(zb_cb_param_t param);
+void izs_device_hw_init(zb_cb_param_t param);
+void izs_start_join(zb_cb_param_t param);
 void izs_retry_join(void);
-void izs_full_reset_to_defaults(zb_uint8_t param);
-void izs_go_on_guard(zb_uint8_t param);
+void izs_full_reset_to_defaults(zb_cb_param_t param);
+void izs_go_on_guard(zb_cb_param_t param);
 
 /*** Notification send routines ***/
 void izs_send_notification(void);
-void izs_ias_zone_notification_cb(zb_uint8_t param);
-void izs_resend_notification(zb_uint8_t param);
-void izs_send_enroll_req(zb_uint8_t param);
+void izs_ias_zone_notification_cb(zb_cb_param_t param);
+void izs_resend_notification(zb_cb_param_t param);
+void izs_send_enroll_req(zb_cb_param_t param);
 
 /*** IAS Zone Status update routines ***/
 void izs_update_ias_zone_status(zb_uint16_t status_bit, zb_uint8_t status_bit_value);
-void izs_read_sensor_status(zb_uint8_t param);
+void izs_read_sensor_status(zb_cb_param_t param);
 
 /*** Retry backoff ***/
 void izs_retry_backoff(zb_uint8_t param);
@@ -550,12 +552,12 @@ void izs_check_battery_defect(zb_uint16_t avg_loaded, zb_uint16_t avg_unloaded);
 void izs_measure_batteries(void);
 
 /*** Measurement & Reporting API ***/
-void izs_check_in_cb(zb_uint8_t param);
-void izs_configure_power_config_default_reporting(zb_uint8_t param);
+void izs_check_in_cb(zb_cb_param_t param);
+void izs_configure_power_config_default_reporting(zb_cb_param_t param);
 
 /*** ZB network API ***/
-void izs_leave_nwk(zb_uint8_t param);
-void izs_leave_nwk_cb(zb_uint8_t param);
+void izs_leave_nwk(zb_cb_param_t param);
+void izs_leave_nwk_cb(zb_cb_param_t param);
 
 /*** OTA specific API ***/
 #ifdef IZS_OTA
@@ -577,12 +579,12 @@ zb_uint16_t izs_get_current_time_qsec(void);
 zb_uint16_t izs_calc_time_delta_qsec(zb_uint16_t t);
 
 /*** Device user application callback ***/
-void izs_device_interface_cb(zb_uint8_t param);
+void izs_device_interface_cb(zb_cb_param_t param);
 
 /*** Reset button handler ***/
 void izs_start_button_released(void);
 
 /*** Actions that should be performed before commissioning is started ***/
-void izs_device_start(zb_uint8_t param);
+void izs_device_start(zb_cb_param_t param);
 
 #endif  /* IZS_DEVICE_H */

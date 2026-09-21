@@ -64,8 +64,8 @@ MAIN()
 
     /* Act as Sleepy End Device */
     zb_set_ed_timeout(ED_AGING_TIMEOUT_128MIN);
-    zb_set_keepalive_timeout(ZB_MILLISECONDS_TO_BEACON_INTERVAL(1000));
     zb_set_rx_on_when_idle(ZB_FALSE);
+    zb_zdo_pim_set_long_poll_interval(2000U);
 
   zb_set_nvram_erase_at_start(ZB_FALSE);
 
@@ -86,6 +86,11 @@ MAIN()
 
   /* [ic_passcode_set_snippet] */
 
+  /* Set initial backoff time and jitter to ensure that TC is on network.
+     This sample uses Node Descriptor request method because this device doesn't support
+      Poll Control server or Keep-Alive client clusters. */
+  zb_bdb_tc_connectivity_set_initial_backoff_time(120);
+
   /* Initiate the stack start with starting the commissioning */
   if (zboss_start() != RET_OK)
   {
@@ -103,7 +108,7 @@ MAIN()
 }
 
 
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_t sig = zb_get_app_signal(param, &sg_p);

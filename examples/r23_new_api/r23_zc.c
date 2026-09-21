@@ -24,22 +24,52 @@
 /* PURPOSE: R23 new API
 */
 
-#define ZB_TRACE_FILE_ID 40150
+#define ZB_TRACE_FILE_ID 40778
 
 #include "zboss_api.h"
 #include "r23_applications_common.h"
+#include "r23_zc_clusters.h"
+
+/* Endpoint ID */
+#define EP_ID 1
+
+/* Basic cluster attributes */
+static zb_uint8_t g_attr_basic_zcl_version  = ZB_ZCL_VERSION;
+static zb_uint8_t g_attr_basic_power_source = ZB_ZCL_BASIC_POWER_SOURCE_UNKNOWN;
+
+ZB_ZCL_DECLARE_BASIC_ATTRIB_LIST(g_basic_attr_list,
+                                 &g_attr_basic_zcl_version,
+                                 &g_attr_basic_power_source);
+
+/* Keep-Alive cluster attributes */
+ZB_ZCL_DECLARE_KEEP_ALIVE_ATTRS_AND_LIST(g_attrs_keep_alive, g_keep_alive_attr_list);
+
+/* Poll control cluster attributes */
+ZB_ZCL_DECLARE_POLL_CONTROL_ATTRIB_LIST_CLIENT(g_poll_control_attr_list);
+
+R23_ZC_DECLARE_CLUSTER_LIST(g_device_cluster_list,
+                            g_basic_attr_list,
+                            g_keep_alive_attr_list,
+                            g_poll_control_attr_list);
+
+R23_ZC_DECLARE_EP(g_device_ep,
+                  EP_ID,
+                  g_device_cluster_list);
+
+ZBOSS_DECLARE_DEVICE_CTX_1_EP(g_device_ctx, g_device_ep);
+
 
 /**
  * Global functions definitions
 */
 static void app_start_device_interview(zb_uint8_t param, zb_uint16_t short_addr);
-static void app_do_next_test_step(zb_uint8_t param);
-static void app_send_configuration_req(zb_uint8_t param, zb_uint16_t short_addr);
-static void app_send_beacon_survey(zb_uint8_t param, zb_uint16_t short_addr);
-static void app_send_bind_req(zb_uint8_t param, zb_uint16_t short_addr);
-static void app_sec_get_auth_lvl(zb_uint8_t param, zb_ieee_addr_t target_ieee_addr);
-static void app_nwk_mgmt_change_channel(zb_uint8_t param, zb_channel_page_t channel_mask);
-static void app_nwk_mgmt_change_panid(zb_uint8_t param);
+static void app_do_next_test_step(zb_cb_param_t param);
+static void app_send_configuration_req(zb_bufid_t param, zb_uint16_t short_addr);
+static void app_send_beacon_survey(zb_bufid_t param, zb_uint16_t short_addr);
+static void app_send_bind_req(zb_bufid_t param, zb_uint16_t short_addr);
+static void app_sec_get_auth_lvl(zb_bufid_t param, zb_ieee_addr_t target_ieee_addr);
+static void app_nwk_mgmt_change_channel(zb_bufid_t param, zb_channel_page_t channel_mask);
+static void app_nwk_mgmt_change_panid(zb_cb_param_t param);
 
 /**
  * Global variables definitions
@@ -138,6 +168,8 @@ MAIN()
    * the interview by calling zb_tc_auth_device_after_interview() */
   zb_tc_enable_device_interview(ZB_TRUE);
 
+  ZB_AF_REGISTER_DEVICE_CTX(&g_device_ctx);
+
   /* Initiate the stack start with starting the commissioning */
   if (zboss_start_no_autostart() != RET_OK)
   {
@@ -167,7 +199,7 @@ static void on_device_started(zb_ret_t status)
   }
 }
 
-void zboss_signal_handler(zb_uint8_t param)
+void zboss_signal_handler(zb_cb_param_t param)
 {
   zb_zdo_app_signal_hdr_t *sg_p = NULL;
   zb_zdo_app_signal_t sig = zb_get_app_signal(param, &sg_p);
@@ -181,13 +213,14 @@ void zboss_signal_handler(zb_uint8_t param)
     case ZB_ZDO_SIGNAL_SKIP_STARTUP:
       /* Set install-codes and pass-codes for joiners */
       zb_secur_ic_str_add(g_r22_zr_ieee_addr, g_r22_zr_installcode_str, NULL);
+      zb_secur_ic_add(g_r23_zr_ieee_addr, ZB_IC_TYPE_PASSCODE, g_r23_zed_passcode, NULL);
       zb_secur_ic_add(g_r23_zed_ieee_addr, ZB_IC_TYPE_PASSCODE, g_r23_zed_passcode, NULL);
       zboss_start_continue();
     break;
 
     case ZB_BDB_SIGNAL_DEVICE_FIRST_START:
       on_device_started(status);
-        bdb_start_top_level_commissioning(ZB_BDB_NETWORK_STEERING);
+      bdb_start_top_level_commissioning(ZB_BDB_NETWORK_STEERING);
       break;
 
     case ZB_ZDO_SIGNAL_PRODUCTION_CONFIG_READY:
@@ -217,8 +250,8 @@ void zboss_signal_handler(zb_uint8_t param)
 
       if (ZB_IEEE_ADDR_CMP(dev_annce_params->ieee_addr, g_r23_zed_ieee_addr))
       {
-        /* All devices joined, let's do test procedure */
-        app_do_next_test_step(param);
+        /* All devices joined, let's do test procedure after a small timeout */
+        ZB_SCHEDULE_APP_ALARM(app_do_next_test_step, param, ZB_TIME_ONE_SECOND);
         param = ZB_UNDEFINED_BUFFER;
       }
 
@@ -279,7 +312,7 @@ void zboss_signal_handler(zb_uint8_t param)
 
 
 /* Test procedure */
-static void app_do_next_test_step(zb_uint8_t param)
+static void app_do_next_test_step(zb_cb_param_t param)
 {
   if (param == 0u)
   {
@@ -379,7 +412,7 @@ static void app_do_next_test_step(zb_uint8_t param)
 /* [r23_config_req_snippet] */
 
 /* Functions for demonstrate the set configuration request API */
-static void app_send_configuration_req_cb(zb_uint8_t param)
+static void app_send_configuration_req_cb(zb_cb_param_t param)
 {
   zb_zdo_set_configuration_resp_t *resp = (zb_zdo_set_configuration_resp_t*)zb_buf_begin(param);
 
@@ -390,12 +423,12 @@ static void app_send_configuration_req_cb(zb_uint8_t param)
 }
 
 
-static void app_send_configuration_req(zb_uint8_t param, zb_uint16_t short_addr)
+static void app_send_configuration_req(zb_bufid_t param, zb_uint16_t short_addr)
 {
   zb_zdo_configuration_parameters_t *req_param;
 
-  TRACE_MSG(TRACE_APP1, "app_send_configuration_req, param %hd, short_addr 0x%x",
-    (FMT__H_D, param, short_addr));
+  TRACE_MSG(TRACE_APP1, "app_send_configuration_req, param %d, short_addr 0x%x",
+    (FMT__D_D, param, short_addr));
 
   req_param = ZB_BUF_GET_PARAM(param, zb_zdo_configuration_parameters_t);
   req_param->dst_addr = short_addr;
@@ -416,7 +449,7 @@ static void app_send_configuration_req(zb_uint8_t param, zb_uint16_t short_addr)
 /*
  * Functions for demonstrate the device interview
  */
-static void app_zdo_read_node_desc_cb(zb_uint8_t param)
+static void app_zdo_read_node_desc_cb(zb_cb_param_t param)
 {
   zb_zdo_node_desc_resp_t *resp = (zb_zdo_node_desc_resp_t*)zb_buf_begin(param);
 
@@ -448,9 +481,11 @@ static void app_zdo_read_node_desc_cb(zb_uint8_t param)
 }
 
 
-static void app_zdo_read_node_desc_req(zb_uint8_t param, zb_uint16_t short_addr)
+static void app_zdo_read_node_desc_req(zb_cb_param_t cb_param)
 {
   zb_zdo_node_desc_req_t* req;
+  zb_bufid_t param = ZB_UNPACK_BUF_REF(cb_param);
+  zb_uint16_t short_addr = ZB_UNPACK_USER_PARAM(cb_param);
 
   TRACE_MSG(TRACE_APP1, ">> app_zdo_read_node_desc_req, param %hd, short_addr 0x%x",
     (FMT__H_D, param, short_addr));
@@ -484,7 +519,7 @@ static void app_start_device_interview(zb_uint8_t param, zb_uint16_t short_addr)
   TRACE_MSG(TRACE_APP1, ">> app_start_device_interview, param %hd, short_addr 0x%x",
     (FMT__H_D, param, short_addr));
 
-  ZB_SCHEDULE_APP_CALLBACK2(app_zdo_read_node_desc_req, param, short_addr);
+  ZB_SCHEDULE_APP_CALLBACK(app_zdo_read_node_desc_req, ZB_PACK_2_U16_IN_U32(param, short_addr));
 
   TRACE_MSG(TRACE_APP1, "<< app_start_device_interview", (FMT__0));
 }
@@ -494,7 +529,7 @@ static void app_start_device_interview(zb_uint8_t param, zb_uint16_t short_addr)
 /*
  * Functions for demonstrate Beacon Survey
  */
-static void app_beacon_survey_cb(zb_uint8_t param)
+static void app_beacon_survey_cb(zb_cb_param_t param)
 {
   zb_zdo_beacon_survey_resp_params_t *resp = (zb_zdo_beacon_survey_resp_params_t*)zb_buf_begin(param);
   zb_uindex_t i;
@@ -521,21 +556,21 @@ static void app_beacon_survey_cb(zb_uint8_t param)
 }
 
 
-static void app_send_beacon_survey(zb_uint8_t param, zb_uint16_t short_addr)
+static void app_send_beacon_survey(zb_bufid_t param, zb_uint16_t short_addr)
 {
   zb_zdo_mgmt_beacon_survey_param_t *req_param;
   zb_uint8_t idx;
 
-  TRACE_MSG(TRACE_APP1, ">> app_send_beacon_survey_req, param %hd, short_addr 0x%x",
-    (FMT__H_D, param, short_addr));
+  TRACE_MSG(TRACE_APP1, ">> app_send_beacon_survey_req, param %d, short_addr 0x%x",
+    (FMT__D_D, param, short_addr));
 
   req_param = ZB_BUF_GET_PARAM(param, zb_zdo_mgmt_beacon_survey_param_t);
 
-  req_param->channel_page_cnt = ZB_SURVEY_BEACON_MAX_CHANNEL_PAGE_CNT;
+  req_param->channel_page_cnt = 1u;
   req_param->dst_addr  = short_addr;
 
   zb_channel_page_list_get_page_idx(APPLICATION_CHANNEL_PAGE, &idx);
-  ZB_BZERO(req_param->channel_page_list, sizeof(zb_uint32_t) * ZB_SURVEY_BEACON_MAX_CHANNEL_PAGE_CNT);
+  ZB_BZERO(req_param->channel_page_list, sizeof(zb_uint32_t));
 
   ZB_CHANNEL_PAGE_SET_PAGE(req_param->channel_page_list[idx], APPLICATION_CHANNEL_PAGE);
   ZB_CHANNEL_PAGE_SET_MASK(req_param->channel_page_list[idx], APPLICATION_CHANNEL_MASK);
@@ -551,7 +586,7 @@ static void app_send_beacon_survey(zb_uint8_t param, zb_uint16_t short_addr)
 /*
  * Functions for demonstrate decommission API
  */
-static void app_send_mgmt_bind_req2(zb_uint8_t param)
+static void app_send_mgmt_bind_req2(zb_cb_param_t param)
 {
   zb_zdo_mgmt_bind_param_t *req = ZB_BUF_GET_PARAM(param, zb_zdo_mgmt_bind_param_t);
 
@@ -566,7 +601,7 @@ static void app_send_mgmt_bind_req2(zb_uint8_t param)
 
 /* [decommis_snippet] */
 
-static void app_send_decommission_req(zb_uint8_t param)
+static void app_send_decommission_req(zb_cb_param_t param)
 {
   zb_zdo_decommission_req_param_t *req_param;
 
@@ -593,7 +628,7 @@ static void app_send_decommission_req(zb_uint8_t param)
 
 /* [decommis_snippet] */
 
-static void app_send_mgmt_bind_req(zb_uint8_t param)
+static void app_send_mgmt_bind_req(zb_cb_param_t param)
 {
   zb_zdo_mgmt_bind_param_t *req = ZB_BUF_GET_PARAM(param, zb_zdo_mgmt_bind_param_t);
 
@@ -606,12 +641,12 @@ static void app_send_mgmt_bind_req(zb_uint8_t param)
 }
 
 
-static void app_send_bind_req(zb_uint8_t param, zb_uint16_t dest_addr)
+static void app_send_bind_req(zb_bufid_t param, zb_uint16_t dest_addr)
 {
   zb_zdo_bind_req_param_t *bind_param;
   bind_param = ZB_BUF_GET_PARAM(param, zb_zdo_bind_req_param_t);
 
-  TRACE_MSG(TRACE_APP1, "app_send_bind_req, param %hd", (FMT__H, param));
+  TRACE_MSG(TRACE_APP1, "app_send_bind_req, param %d", (FMT__D, param));
 
   ZB_IEEE_ADDR_COPY(bind_param->src_address, g_r23_zr_ieee_addr);
   bind_param->cluster_id = 0x001C;
@@ -630,7 +665,7 @@ static void app_send_bind_req(zb_uint8_t param, zb_uint16_t dest_addr)
 /*
  * Functions for demonstrate how to get authentication level
  */
-static void app_sec_get_auth_lvl_cb (zb_uint8_t param)
+static void app_sec_get_auth_lvl_cb (zb_cb_param_t param)
 {
   zb_zdo_secur_get_auth_level_rsp_t *ptr;
   ptr = (zb_zdo_secur_get_auth_level_rsp_t *) zb_buf_begin(param);
@@ -643,7 +678,7 @@ static void app_sec_get_auth_lvl_cb (zb_uint8_t param)
 }
 
 
-static void app_sec_get_auth_lvl(zb_uint8_t param, zb_ieee_addr_t target_ieee_addr)
+static void app_sec_get_auth_lvl(zb_bufid_t param, zb_ieee_addr_t target_ieee_addr)
 {
   zb_zdo_secur_get_auth_level_req_t *buf_params = ZB_BUF_GET_PARAM(param, zb_zdo_secur_get_auth_level_req_t);
   ZB_IEEE_ADDR_COPY(buf_params->target_ieee, target_ieee_addr);
@@ -656,7 +691,7 @@ static void app_sec_get_auth_lvl(zb_uint8_t param, zb_ieee_addr_t target_ieee_ad
 /*
  * Functions for demonstrate active channel change
  */
-static void app_nwk_mgmt_change_channel_cb(zb_uint8_t param)
+static void app_nwk_mgmt_change_channel_cb(zb_cb_param_t param)
 {
   zb_channel_panid_change_preparation_t *params = ZB_BUF_GET_PARAM(param, zb_channel_panid_change_preparation_t);
   TRACE_MSG(TRACE_APP1, ">> app_nwk_mgmt_change_channel_cb, param, error cnt = %d", (FMT__D, params->error_cnt));
@@ -673,7 +708,7 @@ static void app_nwk_mgmt_change_channel_cb(zb_uint8_t param)
 }
 
 
-static void app_nwk_mgmt_change_channel(zb_uint8_t param, zb_channel_page_t channel_mask)
+static void app_nwk_mgmt_change_channel(zb_bufid_t param, zb_channel_page_t channel_mask)
 {
   zb_channel_change_parameters_t *params = ZB_BUF_GET_PARAM(param, zb_channel_change_parameters_t);
   params->next_channel_change = channel_mask;
@@ -690,7 +725,7 @@ static void app_nwk_mgmt_change_channel(zb_uint8_t param, zb_channel_page_t chan
 /*
  * Functions for demonstrate PAN ID change
  */
-static void app_broadcast_network_key (zb_uint8_t param)
+static void app_broadcast_network_key (zb_cb_param_t param)
 {
   ZVUNUSED(param);
 #ifdef DEBUG
@@ -700,7 +735,7 @@ static void app_broadcast_network_key (zb_uint8_t param)
 
 
 /* [change_panid_snippet] */
-static void app_nwk_mgmt_change_panid_cb(zb_uint8_t param)
+static void app_nwk_mgmt_change_panid_cb(zb_cb_param_t param)
 {
   zb_channel_panid_change_preparation_t *params = (zb_channel_panid_change_preparation_t*) zb_buf_begin(param);
   TRACE_MSG(TRACE_APP1, ">> app_nwk_mgmt_change_panid_cb, param, error cnt = %d", (FMT__D, params->error_cnt));
@@ -718,7 +753,7 @@ static void app_nwk_mgmt_change_panid_cb(zb_uint8_t param)
 }
 
 
-static void app_nwk_mgmt_change_panid(zb_uint8_t param)
+static void app_nwk_mgmt_change_panid(zb_cb_param_t param)
 {
   if (param == 0u)
   {

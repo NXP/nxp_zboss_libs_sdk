@@ -28,7 +28,7 @@
 #include "izs_device.h"
 
 /* Perform local operation - leave network */
-void izs_leave_nwk(zb_uint8_t param)
+void izs_leave_nwk(zb_cb_param_t param)
 {
   zb_bufid_t buf = param;
   zb_zdo_mgmt_leave_param_t *req_param;
@@ -128,7 +128,7 @@ void izs_measure_batteries(void)
 }
 
 
-void izs_check_in_cb(zb_uint8_t param)
+void izs_check_in_cb(zb_cb_param_t param)
 {
   ZVUNUSED(param);
 
@@ -139,7 +139,7 @@ void izs_check_in_cb(zb_uint8_t param)
 }
 
 /* set default reporting configuration for the Power Configuration */
-void izs_configure_power_config_default_reporting(zb_uint8_t param)
+void izs_configure_power_config_default_reporting(zb_cb_param_t param)
 {
   zb_zcl_reporting_info_t rep_info;
   ZB_BZERO(&rep_info, sizeof(rep_info));
@@ -180,7 +180,7 @@ void izs_configure_power_config_default_reporting(zb_uint8_t param)
   TRACE_MSG(TRACE_APP1, "<< izs_configure_power_config_default_reporting", (FMT__0));
 }
 
-void izs_send_enroll_req(zb_uint8_t param)
+void izs_send_enroll_req(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, ">> izs_send_enroll_req %hd, addr %d ep %hd",
             (FMT__H_D_H, param, g_device_ctx.zone_attr.cie_short_addr,
@@ -199,7 +199,7 @@ void izs_send_enroll_req(zb_uint8_t param)
   TRACE_MSG(TRACE_APP1, "<< izs_send_enroll_req", (FMT__0));
 }
 
-void izs_identify_notification(zb_uint8_t param)
+void izs_identify_notification(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, "> izs_identify_notification %hd", (FMT__H, param));
 
@@ -233,7 +233,7 @@ void izs_update_ias_zone_status(zb_uint16_t status_bit, zb_uint8_t status_bit_va
   }
 }
 
-void izs_read_sensor_status(zb_uint8_t param)
+void izs_read_sensor_status(zb_cb_param_t param)
 {
   /* Send query detector request. Response is mapped to / handled in
    * gpIntelligentSensor_cbSensorStatusIndication(). */
@@ -248,7 +248,7 @@ void izs_read_sensor_status(zb_uint8_t param)
 }
 
 #ifdef IZS_OTA
-void izs_device_reset_after_upgrade(zb_uint8_t param)
+void izs_device_reset_after_upgrade(zb_cb_param_t param)
 {
   TRACE_MSG(TRACE_APP1, ">> izs_ota_upgrade_check_fw", (FMT__0));
 
@@ -349,7 +349,7 @@ void izs_process_ota_upgrade_cb(zb_uint8_t param)
 }
 #endif /* IZS_OTA */
 
-#ifdef IZS_WWAH
+#ifdef ZB_APP_EXAMPLE_USE_WWAH
 void izs_enable_event_retry(const zb_zcl_wwah_enable_wwah_app_event_retry_algorithm_t *params)
 {
   izs_ias_zone_queue_init();
@@ -386,7 +386,7 @@ void izs_process_wwah_debug_report_query_cb(zb_uint8_t param)
 /**
  * Callback registered by ZB_ZCL_REGISTER_DEVICE_CB.
  */
-void izs_device_interface_cb(zb_uint8_t param)
+void izs_device_interface_cb(zb_cb_param_t param)
 {
   zb_zcl_device_callback_param_t *device_cb_param =
     ZB_BUF_GET_PARAM(param, zb_zcl_device_callback_param_t);
@@ -403,7 +403,7 @@ void izs_device_interface_cb(zb_uint8_t param)
       izs_process_ota_upgrade_cb(param);
       break;
 #endif
-#ifdef IZS_WWAH
+#ifdef ZB_APP_EXAMPLE_USE_WWAH
     case ZB_ZCL_WWAH_ENABLE_APP_EVENT_RETRY_ALGORITHM_CB_ID:
     {
       const zb_zcl_wwah_enable_wwah_app_event_retry_algorithm_t *pl_in =
@@ -423,11 +423,13 @@ void izs_device_interface_cb(zb_uint8_t param)
       break;
     case ZB_ZCL_IAS_ZONE_ENROLL_RESPONSE_VALUE_CB_ID:
       break;
+#ifdef ZB_APP_EXAMPLE_USE_WWAH
     case ZB_ZCL_WWAH_SET_IAS_ZONE_ENROLLMENT_METHOD_CB_ID:
     {
       const zb_uint8_t *enrollment_method = ZB_ZCL_DEVICE_CMD_PARAM_IN_GET(param, zb_uint8_t);
       g_device_ctx.enrollment_method = *enrollment_method;
     }
+#endif
     break;
 
     default:

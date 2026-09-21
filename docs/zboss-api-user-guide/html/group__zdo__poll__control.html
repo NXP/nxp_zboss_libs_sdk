@@ -91,26 +91,26 @@ Functions</h2></td></tr>
 <tr class="memitem:ga727c165e961be3d002c404fd3ba61329"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zdo__poll__control.html#ga727c165e961be3d002c404fd3ba61329">zb_zdo_pim_toggle_turbo_poll_retry_feature</a> (<a class="el" href="group__base__types.html#gac0098c2e9d8011bdc1ae2cd1d81c4598">zb_bool_t</a> enable)</td></tr>
 <tr class="memdesc:ga727c165e961be3d002c404fd3ba61329"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toggle Turbo Poll retry feature. This feature enables device to retry polling attempt some times in case if device haven't got any data after receiving ack with pending bit set. This feature can be toggled after joining/rejoining any network. It restores its default value upon leave. Default value: disabled.  <a href="group__zdo__poll__control.html#ga727c165e961be3d002c404fd3ba61329">More...</a><br /></td></tr>
 <tr class="separator:ga727c165e961be3d002c404fd3ba61329"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad7ee4f0d6c2797a729a48b5a1ce7b8a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zdo__poll__control.html#gad7ee4f0d6c2797a729a48b5a1ce7b8a5">zb_zdo_pim_start_turbo_poll_packets</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> n_packets)</td></tr>
-<tr class="memdesc:gad7ee4f0d6c2797a729a48b5a1ce7b8a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start Turbo Poll adaptive algorithm for the number of packets. Turbo Poll will be disabled after receiving the specified number of packets or after the poll timeout will rise up to the Long Poll interval.  <a href="group__zdo__poll__control.html#gad7ee4f0d6c2797a729a48b5a1ce7b8a5">More...</a><br /></td></tr>
-<tr class="separator:gad7ee4f0d6c2797a729a48b5a1ce7b8a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga69fae845425b3684d276c1fecf4769f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zdo__poll__control.html#ga69fae845425b3684d276c1fecf4769f2">zb_zdo_pim_start_turbo_poll_packets</a> (<a class="el" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a> n_packets)</td></tr>
+<tr class="memdesc:ga69fae845425b3684d276c1fecf4769f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start Turbo Poll adaptive algorithm for the number of packets. Turbo Poll will be disabled after receiving the specified number of packets or after the poll timeout will rise up to the Long Poll interval.  <a href="group__zdo__poll__control.html#ga69fae845425b3684d276c1fecf4769f2">More...</a><br /></td></tr>
+<tr class="separator:ga69fae845425b3684d276c1fecf4769f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3aae8929b30e71c872f937771b89c768"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zdo__poll__control.html#ga3aae8929b30e71c872f937771b89c768">zb_zdo_pim_set_long_poll_interval</a> (<a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a> ms)</td></tr>
 <tr class="memdesc:ga3aae8929b30e71c872f937771b89c768"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the Long Poll interval.  <a href="group__zdo__poll__control.html#ga3aae8929b30e71c872f937771b89c768">More...</a><br /></td></tr>
 <tr class="separator:ga3aae8929b30e71c872f937771b89c768"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad04f6311aa4b1e73544cb65a9e87e619"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zdo__poll__control.html#gad04f6311aa4b1e73544cb65a9e87e619">zb_zdo_pim_start_turbo_poll_continuous</a> (<a class="el" href="group__time.html#ga7e387d760d40077ec38875a65366b343">zb_time_t</a> turbo_poll_timeout_ms)</td></tr>
 <tr class="memdesc:gad04f6311aa4b1e73544cb65a9e87e619"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the Turbo Poll adaptive algorithm for the specified timeout.  <a href="group__zdo__poll__control.html#gad04f6311aa4b1e73544cb65a9e87e619">More...</a><br /></td></tr>
 <tr class="separator:gad04f6311aa4b1e73544cb65a9e87e619"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad468477974b338e6f3ade81e99cb0875"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zdo__poll__control.html#gad468477974b338e6f3ade81e99cb0875">zb_zdo_pim_turbo_poll_continuous_leave</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param)</td></tr>
-<tr class="memdesc:gad468477974b338e6f3ade81e99cb0875"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop the Turbo Poll adaptive algorithm initiated by <a class="el" href="group__zdo__poll__control.html#gad04f6311aa4b1e73544cb65a9e87e619">zb_zdo_pim_start_turbo_poll_continuous</a> before the timeout expires. Restores the Long Poll interval.  <a href="group__zdo__poll__control.html#gad468477974b338e6f3ade81e99cb0875">More...</a><br /></td></tr>
-<tr class="separator:gad468477974b338e6f3ade81e99cb0875"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf7b800cb7f6b74542a2d4e7104e6e714"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zdo__poll__control.html#gaf7b800cb7f6b74542a2d4e7104e6e714">zb_zdo_pim_get_long_poll_interval_req</a> (<a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a> param, <a class="el" href="group__sched.html#gac77cf2f969243abf27172c7ddb0f376d">zb_callback_t</a> cb)</td></tr>
-<tr class="memdesc:gaf7b800cb7f6b74542a2d4e7104e6e714"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Long Poll Interval.  <a href="group__zdo__poll__control.html#gaf7b800cb7f6b74542a2d4e7104e6e714">More...</a><br /></td></tr>
-<tr class="separator:gaf7b800cb7f6b74542a2d4e7104e6e714"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga423152ac6e54f6809fcc19e8ee213f11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zdo__poll__control.html#ga423152ac6e54f6809fcc19e8ee213f11">zb_zdo_pim_turbo_poll_continuous_leave</a> (<a class="el" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a> param)</td></tr>
+<tr class="memdesc:ga423152ac6e54f6809fcc19e8ee213f11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop the Turbo Poll adaptive algorithm initiated by <a class="el" href="group__zdo__poll__control.html#gad04f6311aa4b1e73544cb65a9e87e619">zb_zdo_pim_start_turbo_poll_continuous</a> before the timeout expires. Restores the Long Poll interval.  <a href="group__zdo__poll__control.html#ga423152ac6e54f6809fcc19e8ee213f11">More...</a><br /></td></tr>
+<tr class="separator:ga423152ac6e54f6809fcc19e8ee213f11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad4cf65022ac0208d4a0096b20edbe4b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__zdo__poll__control.html#gad4cf65022ac0208d4a0096b20edbe4b8">zb_zdo_pim_get_long_poll_interval_req</a> (<a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a> param, <a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a> cb)</td></tr>
+<tr class="memdesc:gad4cf65022ac0208d4a0096b20edbe4b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Long Poll Interval.  <a href="group__zdo__poll__control.html#gad4cf65022ac0208d4a0096b20edbe4b8">More...</a><br /></td></tr>
+<tr class="separator:gad4cf65022ac0208d4a0096b20edbe4b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="gaf7b800cb7f6b74542a2d4e7104e6e714"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaf7b800cb7f6b74542a2d4e7104e6e714">&#9670;&nbsp;</a></span>zb_zdo_pim_get_long_poll_interval_req()</h2>
+<a id="gad4cf65022ac0208d4a0096b20edbe4b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad4cf65022ac0208d4a0096b20edbe4b8">&#9670;&nbsp;</a></span>zb_zdo_pim_get_long_poll_interval_req()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -118,13 +118,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void zb_zdo_pim_get_long_poll_interval_req </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__buf.html#ga72fb48e56b8e7f4b0cf12d12bd491b3b">zb_bufid_t</a>&#160;</td>
           <td class="paramname"><em>param</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__sched.html#gac77cf2f969243abf27172c7ddb0f376d">zb_callback_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sched.html#ga010e4106f4ecc3a476d49e8dcb0e9d3c">zb_callback_t</a>&#160;</td>
           <td class="paramname"><em>cb</em>&#160;</td>
         </tr>
         <tr>
@@ -230,8 +230,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gad7ee4f0d6c2797a729a48b5a1ce7b8a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad7ee4f0d6c2797a729a48b5a1ce7b8a5">&#9670;&nbsp;</a></span>zb_zdo_pim_start_turbo_poll_packets()</h2>
+<a id="ga69fae845425b3684d276c1fecf4769f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga69fae845425b3684d276c1fecf4769f2">&#9670;&nbsp;</a></span>zb_zdo_pim_start_turbo_poll_packets()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -239,7 +239,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void zb_zdo_pim_start_turbo_poll_packets </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a>&#160;</td>
           <td class="paramname"><em>n_packets</em></td><td>)</td>
           <td></td>
         </tr>
@@ -282,8 +282,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gad468477974b338e6f3ade81e99cb0875"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad468477974b338e6f3ade81e99cb0875">&#9670;&nbsp;</a></span>zb_zdo_pim_turbo_poll_continuous_leave()</h2>
+<a id="ga423152ac6e54f6809fcc19e8ee213f11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga423152ac6e54f6809fcc19e8ee213f11">&#9670;&nbsp;</a></span>zb_zdo_pim_turbo_poll_continuous_leave()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -291,7 +291,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void zb_zdo_pim_turbo_poll_continuous_leave </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__base__types.html#gaa82a9657ef11a3947586065cf8066256">zb_uint8_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sched.html#ga2b1f4d2e3765ef86b5467d42059f8c3d">zb_cb_param_t</a>&#160;</td>
           <td class="paramname"><em>param</em></td><td>)</td>
           <td></td>
         </tr>
@@ -317,6 +317,6 @@ Functions</h2></td></tr>
     <a href="http://www.dsr-corporation.com">http://www.dsr-corporation.com</a>
   </div>
 </div>
-<div>ZBOSS documentation. Wed May 27 2026.</div>
+<div>ZBOSS documentation. Mon Sep 21 2026.</div>
 </body>
 </html>

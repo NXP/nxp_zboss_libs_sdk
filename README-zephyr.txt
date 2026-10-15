@@ -19,9 +19,9 @@
 Versioning:
 ===========
 
-Date:    Thu, 20 Aug 2026 14:52:36 +0000
-Version: 019.2603.065
-Sha1:    6b7be4e
+Date:    Thu, 01 Oct 2026 13:57:51 +0000
+Version: 019.2604.018
+Sha1:    ab63826
 Zboss:   zoi_release-4.2.2.0
 
 
@@ -38,7 +38,8 @@ modules/zboss/
 ├── platform
 │   ├── osif
 │   │   ├── zb_osif_nvram.c          => Zboss Operating system Interface for NVRAM (persistant storage)
-│   │   ├── zb_osif_prod_cfg.c       => Zboss Operating system Interface for PRODUCTION_CONFIG (factory settings)
+│   │   ├── zb_osif_prod_cfg_flash.c => Zboss OSIF for PRODUCTION_CONFIG, flash-partition backend
+│   │   ├── zb_osif_prod_cfg_ifr0.c  => Zboss OSIF for PRODUCTION_CONFIG, ifr0-cell backend
 │   │   └── zb_osif_serial.c         => Zboss Operating system Interface for Serial (Zboss logs on second uart)
 │   ├── zb_zephyr_ota_partition.c    => Zephyr OTA upgrade partition access
 │   └── zb_zephyr_power.c            => Zephyr Low Power access
@@ -54,8 +55,7 @@ modules/zboss/
 │   │   └── src
 │   │       └── *.c/*.h
 │   │
-│   ├── cli_nxp_zed                  => Sample of Command Line Interface End Device
-│   ├── cli_nxp_zczr                 => Sample of Command Line Interface Coordinator / Router
+│   ├── cli_nxp                      => Sample of Command Line Interface (build as End Device or Coordinator/Router via -DDEVICE_TYPE=zed|zczr)
 │   ├── on_off_switch_zed            => Sample of OnOff cluster End Device
 │   ├── on_off_output_zc             => Sample of OnOff cluster Coordinator
 │   ├── light_control                => Sample of Light End Device
@@ -199,8 +199,8 @@ sample's scope:
                                +--------+--------+
                                | MCXW72 | RW612  |
     +-------------------+------+--------+--------+
-    | cli_nxp_zczr      | ZCZR |    y   |    y   |
-    | cli_nxp_zed       | xED* |    y   |    y   |
+    | cli_nxp (zczr)    | ZCZR |    y   |    y   |
+    | cli_nxp (zed)     | xED* |    y   |    y   |
     | minimal_zed       | SED  |    y   |    y   |
     | multi_ep_zed      | ZED  |    y   |    y   |
     | on_off_output_zc  | ZC   |        |    y   |
@@ -241,6 +241,12 @@ Configure Zephyr SDK to use:
 Compile sample application:
     west build -b frdm_mcxw72 modules/zboss/samples/<app_name> -d _build/frdm_mcxw72/<app_name> -p
     west build -b frdm_rw612  modules/zboss/samples/<app_name> -d _build/frdm_rw612/<app_name>  -p
+
+The cli_nxp sample can be built either as a Zigbee End Device or a Coordinator/Router
+by passing -DDEVICE_TYPE=zed (default) or -DDEVICE_TYPE=zczr. The resulting binary is
+named cli_nxp_zed or cli_nxp_zczr accordingly (CONFIG_KERNEL_BIN_NAME):
+    west build -b frdm_rw612 modules/zboss/samples/cli_nxp -d _build/frdm_rw612/cli_nxp_zed  -p -- -DDEVICE_TYPE=zed
+    west build -b frdm_rw612 modules/zboss/samples/cli_nxp -d _build/frdm_rw612/cli_nxp_zczr -p -- -DDEVICE_TYPE=zczr
 
 
 Deployment & execution:
@@ -507,7 +513,7 @@ Production config:
 ------------------
 
 Production config is splitted in 3 sections that is read by Zboss stack unsing nvmem APIs,
-refer to structure hw_param in modules/zboss/platform/osif/zb_osif_prod_cfg.c
+refer to structure hw_param in modules/zboss/platform/osif/zb_osif_prod_cfg_nvmem.c
 
 The 3 sections are ieee802154_eui64, zb_settings & zb_secured:
 

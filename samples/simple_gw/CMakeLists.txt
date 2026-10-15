@@ -9,13 +9,3 @@ target_sources(app PRIVATE
 	       src/simple_gw.c
 	       src/ias_cie_addon.c
 	       )
-set(DEVICE_TYPE zc)
-
-# Add zboss library
-include(${CMAKE_CURRENT_SOURCE_DIR}/../../libs/CMakeLists.txt)
-
-target_link_libraries(app PUBLIC
-	       libzboss
-	       libieee.mac
-	       )
-

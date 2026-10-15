@@ -5,6 +5,8 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
+ * Copyright 2026 NXP
+ *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
  * publication of such source code.
@@ -61,6 +63,10 @@
 /* IAS zone IEEE address */
 #define IZS_DEFAULT_EXTENDED_ADDRESS       {0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00}
 /* Default channel */
-#define IZS_DEFAULT_APS_CHANNEL_MASK       (1l<<21) /* ZB_TRANSCEIVER_ALL_CHANNELS_MASK */
+/* default ZIGBEE channel */
+#ifndef CONFIG_ZIGBEE_CHANNEL
+#define CONFIG_ZIGBEE_CHANNEL 21
+#endif
+#define IZS_DEFAULT_APS_CHANNEL_MASK       (1l<<CONFIG_ZIGBEE_CHANNEL) /* ZB_TRANSCEIVER_ALL_CHANNELS_MASK */
 
 #endif  /* IZS_CONFIG_H */

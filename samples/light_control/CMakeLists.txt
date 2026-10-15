@@ -9,13 +9,3 @@ target_sources(app PRIVATE
 	       src/light_control.c
 	       src/light_control_hal.c
 	       )
-set(DEVICE_TYPE zed)
-
-# Add zboss library
-include(${CMAKE_CURRENT_SOURCE_DIR}/../../libs/CMakeLists.txt)
-
-target_link_libraries(app PUBLIC
-	       libzboss
-	       libieee.mac
-	       )
-

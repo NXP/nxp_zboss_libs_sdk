@@ -1,0 +1,4 @@
+name: zboss
+build:
+  cmake: .
+  kconfig: Kconfig

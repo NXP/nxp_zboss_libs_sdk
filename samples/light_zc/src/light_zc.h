@@ -5,6 +5,8 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
+ * Copyright 2026 NXP
+ *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
  * publication of such source code.
@@ -28,7 +30,11 @@
 #include "zboss_api.h"
 
 /* Default channel */
-#define LIGHT_ZC_CHANNEL_MASK (1l<<21)
+/* default ZIGBEE channel */
+#ifndef CONFIG_ZIGBEE_CHANNEL
+#define CONFIG_ZIGBEE_CHANNEL 21
+#endif
+#define LIGHT_ZC_CHANNEL_MASK (1l<<CONFIG_ZIGBEE_CHANNEL)
 /* IEEE address of ZC */
 #define LIGHT_ZC_ADDRESS {0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa}
 

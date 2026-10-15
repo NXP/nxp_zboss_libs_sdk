@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2023-2024 NXP
+ * Copyright 2023-2024, 2026 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -44,7 +44,11 @@
 /* IAS zone IEEE address */
 #define SIMPLE_GW_IEEE_ADDR {0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa}
 /* Default channel */
-#define SIMPLE_GW_CHANNEL_MASK (1l<<21)
+/* default ZIGBEE channel */
+#ifndef CONFIG_ZIGBEE_CHANNEL
+#define CONFIG_ZIGBEE_CHANNEL 21
+#endif
+#define SIMPLE_GW_CHANNEL_MASK (1l<<CONFIG_ZIGBEE_CHANNEL)
 
 /* Device settings definitions */
 #define SIMPLE_GW_INVALID_DEV_INDEX 0xff

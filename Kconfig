@@ -1,0 +1,143 @@
+# Copyright 2026 NXP
+# SPDX-License-Identifier: Apache-2.0
+
+menuconfig ZBOSS
+	bool "ZBOSS Zigbee stack (NXP)"
+	help
+	  Enable the NXP ZBOSS Zigbee stack module. When enabled, the module
+	  links the prebuilt ZBOSS and IEEE 802.15.4 MAC libraries for the
+	  target SoC and builds the ZBOSS platform (OSIF) glue.
+
+if ZBOSS
+
+choice ZBOSS_ROLE
+	prompt "ZBOSS device role"
+	default ZBOSS_ROLE_ZED
+	help
+	  Selects which prebuilt ZBOSS library variant is linked.
+
+config ZBOSS_ROLE_ZC
+	bool "Zigbee Coordinator (zc)"
+
+config ZBOSS_ROLE_ZR
+	bool "Zigbee Router (zr)"
+
+config ZBOSS_ROLE_ZCZR
+	bool "Coordinator or Router (zczr)"
+
+config ZBOSS_ROLE_ZED
+	bool "Zigbee End Device (zed)"
+
+config ZBOSS_ROLE_MINI
+	bool "Minimal (mini)"
+
+endchoice
+
+# ZBOSS platform (OSIF) configuration.
+
+config SUPPORT_ZBOSS
+	int "Support ZigBee ZBOSS over NBU"
+	default 1
+
+config SUPPORT_BLE_15D4
+	int "Support IEEE 802154"
+	default 0
+
+config SUPPORT_BLE
+	int "Support bluetooth low energy"
+	default 0
+
+config SUPPORT_WIFI
+	int "Support WiFi"
+	default 0
+
+config ZBOSS_LOGS_ON_UART
+	bool "Enable zboss logs"
+	default n
+
+config ZIGBEE_CHANNEL
+	int "Zigbee channel number"
+	default 21
+
+# --------------------------------------------------------------------------
+# Hardware-accelerated X25519 scalar multiplication.
+#
+# When ZB_HW_CRYPTO_SCALARMULT is defined in libs/<soc>/zb_vendor.h, ZBOSS
+# routes the Curve25519 (X25519) scalar multiplication used by install-code /
+# key negotiation to the SoC crypto accelerator via PSA/mbedTLS instead of the
+# slow NaCl software path. On RW612 the PSA driver routes X25519 to the ELS
+# (els_pkc) accelerator.
+#
+# Enabling this option makes the zboss module compile
+# platform/zb_zephyr_hw_crypto.c, add the tf-psa-crypto include paths, and
+# auto-select the PSA/mbedTLS Kconfig below so applications need no extra
+# configuration. Defaulted on for RW6XX (the only SoC that sets the define
+# today); other SoCs keep the software path.
+# --------------------------------------------------------------------------
+config ZBOSS_HW_CRYPTO_SCALARMULT
+	bool "Hardware-accelerated X25519 scalar multiplication (PSA/mbedTLS)"
+	default y if SOC_SERIES_RW6XX
+	default n
+	select MBEDTLS
+	select MBEDTLS_PSA_CRYPTO_C
+	select PSA_CRYPTO
+	select PSA_WANT_ALG_ECDH
+	select PSA_WANT_ECC_MONTGOMERY_255
+	select PSA_WANT_KEY_TYPE_ECC_KEY_PAIR_IMPORT
+	help
+	  Build the ZBOSS hardware-crypto backend
+	  (platform/zb_zephyr_hw_crypto_psa.c) and pull in the PSA/mbedTLS crypto
+	  dependencies. Must match the ZB_HW_CRYPTO_SCALARMULT define in the
+	  per-SoC zb_vendor.h.
+
+	  PSA_CRYPTO + PSA_CRYPTO_PROVIDER_MBEDTLS transitively enable
+	  MBEDTLS and MBEDTLS_PSA_CRYPTO_C. PSA_WANT_KEY_TYPE_ECC_KEY_PAIR_BASIC
+	  is auto-derived from PSA_WANT_KEY_TYPE_ECC_KEY_PAIR_IMPORT.
+
+config ZBOSS_HW_CRYPTO_HEAP_SIZE
+	int "mbedTLS heap size for ZBOSS hardware crypto (bytes)"
+	depends on ZBOSS_HW_CRYPTO_SCALARMULT
+	default 16384
+	help
+	  Size of the mbedTLS heap used by the PSA/mbedTLS crypto backend.
+	  Applied to CONFIG_MBEDTLS_HEAP_SIZE.
+
+if ZBOSS_HW_CRYPTO_SCALARMULT
+config MBEDTLS_HEAP_SIZE
+	default ZBOSS_HW_CRYPTO_HEAP_SIZE
+endif
+
+# --------------------------------------------------------------------------
+# Production-config storage backend.
+#
+# The hw_params (IEEE address + zboss settings + secured data) are stored
+# differently depending on the SoC:
+#   - RW612          : in a flash partition, read via the flash_map API
+#   - MCXW71/MCXW72  : in NVMEM cells declared in the devicetree hw_params node
+#
+# The default is derived from the SoC so a new board on a supported SoC needs
+# no change here; a board may still override the choice in its
+# boards/<board>.conf or in prj.conf.
+# --------------------------------------------------------------------------
+choice ZBOSS_PROD_CFG_BACKEND
+	prompt "ZBOSS production-config storage backend"
+	default ZBOSS_PROD_CFG_IFR0 if SOC_SERIES_MCXW7XX
+	default ZBOSS_PROD_CFG_FLASH
+
+config ZBOSS_PROD_CFG_FLASH
+	bool "Flash partition (flash_map)"
+	select FLASH_MAP
+	help
+	  Read the ZBOSS production config from a flash partition
+	  (hw_params_partition) using the Zephyr flash_map API. Used on RW612.
+
+config ZBOSS_PROD_CFG_IFR0
+	bool "IFR0 cells (devicetree)"
+	select IFR0
+	help
+	  Read the ZBOSS production config from IFR0 cells declared in the
+	  devicetree hw_params node. Used on MCXW72.
+
+endchoice
+
+endif # ZBOSS

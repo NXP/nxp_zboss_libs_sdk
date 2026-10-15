@@ -1,0 +1,7 @@
+# Copyright 2024-2025 NXP
+# SPDX-License-Identifier: Apache-2.0
+
+source "Kconfig.zephyr"
+module = ZBOSS_APPLICATION
+module-str = zboss_main
+source "${ZEPHYR_BASE}/subsys/logging/Kconfig.template.log_config"

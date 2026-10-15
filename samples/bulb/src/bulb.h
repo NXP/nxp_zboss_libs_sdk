@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2024 NXP
+ * Copyright 2024, 2026 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -47,7 +47,11 @@
 /* BULB app revision (minor ver) */
 #define BULB_FIRMWARE_MINOR       0
 /* Default channel */
-#define BULB_DEFAULT_APS_CHANNEL_MASK (1l<<21)
+/* default ZIGBEE channel */
+#ifndef CONFIG_ZIGBEE_CHANNEL
+#define CONFIG_ZIGBEE_CHANNEL 21
+#endif
+#define BULB_DEFAULT_APS_CHANNEL_MASK (1l<<CONFIG_ZIGBEE_CHANNEL)
 /* Used endpoint number */
 #define HA_DIMMABLE_LIGHT_ENDPOINT 10
 

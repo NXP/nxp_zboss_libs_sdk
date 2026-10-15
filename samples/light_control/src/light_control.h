@@ -5,7 +5,7 @@
  * www.dsr-corporation.com
  * All rights reserved.
  *
- * Copyright 2024 NXP
+ * Copyright 2024, 2026 NXP
  *
  * This is unpublished proprietary source code of DSR Corporation
  * The copyright notice does not evidence any actual or intended
@@ -37,7 +37,11 @@
 /* Light control IEEE address */
 #define LIGHT_CONTROL_IEEE_ADDR {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 /* Light control used channel */
-#define LIGHT_CONTROL_CHANNEL_MASK (1l<<21)
+/* default ZIGBEE channel */
+#ifndef CONFIG_ZIGBEE_CHANNEL
+#define CONFIG_ZIGBEE_CHANNEL 21
+#endif
+#define LIGHT_CONTROL_CHANNEL_MASK (1l<<CONFIG_ZIGBEE_CHANNEL)
 
 /* Remove that define if you don't need to search the bulb */
 #define LIGHT_CONTROL_START_SEARCH_LIGHT

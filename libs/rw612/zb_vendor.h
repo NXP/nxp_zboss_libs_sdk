@@ -83,6 +83,7 @@
 #define ZB_RANDOM_HARDWARE
 #endif
 
+#define ZB_HW_CRYPTO_SCALARMULT
 
 #include "zb_cfg_macsplit_nxp.h"
 // for the time being, rw612 disable production_config

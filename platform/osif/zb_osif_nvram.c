@@ -117,7 +117,10 @@ static zb_bool_t nvram_inited = ZB_FALSE;
 
 /* Variables for local storage of the current dataset */
 static zb_uint16_t  localNvsId    = 0;
-#define LOCAL_BUF_ALLOC_SIZE 256 /* To consider to increase it for a ZCZR to avoid re-allocating it at runtime */
+#define LOCAL_BUF_SIZE_INIT  1280 /* Initial size of the local buffer to match the biggest dataset */
+#define LOCAL_BUF_ALLOC_SIZE 256  /* reallocation granularity */
+/* Round (len) up to the next multiple of (align), which must be a power of two. */
+#define ZB_NVRAM_ALIGN_UP(len, align) (((size_t)(len) + ((size_t)(align) - 1U)) & ~((size_t)(align) - 1U))
 static zb_uint8_t  *localNvsBuf   = NULL;
 static size_t       localNvsSize  = 0;
 static zb_bool_t    localNvsFlush = ZB_FALSE;
@@ -201,10 +204,18 @@ void zb_osif_nvram_init(const zb_char_t *name)
     zb_error_raise(ZB_ERROR_SEVERITY_FATAL, RET_NO_RESOURCES, &add_info);
   }
 
-  localNvsSize += LOCAL_BUF_ALLOC_SIZE;
+  localNvsSize = LOCAL_BUF_SIZE_INIT;
   localNvsBuf = ZB_MALLOC(localNvsSize);
+  if(localNvsBuf == NULL) {
+    add_info.line_number = __LINE__;
+    zb_error_raise(ZB_ERROR_SEVERITY_FATAL, RET_NO_MEMORY, &add_info);
+  }
 #ifdef ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
   localEncBuf = ZB_MALLOC(localNvsSize + zb_nvram_crypto_overhead());
+  if(localEncBuf == NULL) {
+    add_info.line_number = __LINE__;
+    zb_error_raise(ZB_ERROR_SEVERITY_FATAL, RET_NO_MEMORY, &add_info);
+  }
 #endif
 
   /* Rebuild table mapping between position & nvs_id */
@@ -287,6 +298,11 @@ void zb_osif_nvram_deinit(void)
 
     localNvsSize = 0;
     ZB_FREE(localNvsBuf);
+    localNvsBuf = NULL;
+#ifdef ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
+    ZB_FREE(localEncBuf);
+    localEncBuf = NULL;
+#endif
 
     nvram_inited = ZB_FALSE;
   }
@@ -465,7 +481,7 @@ static int do_localNvs_read(zb_uint16_t nvsId, zb_uint16_t oldLen)
   int ret = 0;
 
   if((localNvsId != nvsId) || (localNvsSize < datasetInfo[nvsId].len)) {
-    zb_uint8_t *readBuf = localNvsBuf;
+    zb_uint8_t *readBuf = NULL;
     zb_uint16_t readLen = (oldLen)?(oldLen):(datasetInfo[nvsId].len);
 
     /* In case we change the dataset before doing the write tail (that trigs the write) */
@@ -473,14 +489,35 @@ static int do_localNvs_read(zb_uint16_t nvsId, zb_uint16_t oldLen)
 
     localNvsId = nvsId;
     if(localNvsSize < datasetInfo[localNvsId].len) {
-      WCS_TRACE_ERROR("Re-allocate localNvsBuf len %d -> %d, current dataset needs %d", localNvsSize, localNvsSize + LOCAL_BUF_ALLOC_SIZE, datasetInfo[localNvsId].len);
-      /* When allocating at runtime (not at init), we faced issue "heap corruption" elsewhere...  */
-      localNvsSize += LOCAL_BUF_ALLOC_SIZE;
-      localNvsBuf = ZB_REALLOC(localNvsBuf, localNvsSize);
+      // grow the buffer to match dataset size
+      size_t      newSize = ZB_NVRAM_ALIGN_UP(datasetInfo[localNvsId].len, LOCAL_BUF_ALLOC_SIZE);
+      zb_uint8_t *newBuf  = ZB_REALLOC(localNvsBuf, newSize);
+
+      WCS_TRACE_ERROR("Re-allocate localNvsBuf len %d -> %d, current dataset needs %d", localNvsSize, (int)newSize, datasetInfo[localNvsId].len);
+
+      if(newBuf == NULL) {
+        WCS_TRACE_ERROR("localNvsBuf ZB_REALLOC(%d) failed", (int)newSize);
+        return 0;
+      }
+      localNvsBuf = newBuf;
+
 #ifdef ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
-      localEncBuf = ZB_REALLOC(localEncBuf, localNvsSize + zb_nvram_crypto_overhead());
+      {
+        zb_uint8_t *newEncBuf = ZB_REALLOC(localEncBuf, newSize + zb_nvram_crypto_overhead());
+
+        if(newEncBuf == NULL) {
+          WCS_TRACE_ERROR("localEncBuf ZB_REALLOC(%d) failed", (int)(newSize + zb_nvram_crypto_overhead()));
+          return 0;
+        }
+        localEncBuf = newEncBuf;
+      }
 #endif
+
+      localNvsSize = newSize;
     }
+
+    // initialise buffer pointer
+    readBuf = localNvsBuf;
 
 #ifdef ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
     if(zb_nvram_dataset_is_encrypted(NVSID_TO_DATASETTYPE(localNvsId))) {
@@ -742,12 +779,34 @@ zb_ret_t zb_osif_nvram_erase_async(zb_uint8_t page)
   memset(&datasetInfo[i], 0, sizeof(datasetInfo[i]));
 
 #ifdef ZB_CRYPTO_NXP_USE_EDGELOCK_SECURE_ENCLAVE
-  /* Refresh the ELE master key on factory reset / erase-at-start. The blob
-   * (NVS id 0x5A00) lives above the datasets, so the loop above skips it.
-   * erase_async() runs once per page; refresh only on the last page, so all
-   * pages are wiped and a valid new key is ready for the datasets re-written next. */
+  /* Rotate the ELE master key only on a genuine full wipe: on the last-page erase,
+   * scan NVS (flash, not the RAM cache) and reset the key only if no encrypted dataset remains. */
   if (page == (ZB_NVRAM_PAGE_COUNT - 1)) {
-    (void)zb_ele_master_key_reset();
+    zb_bool_t enc_data_in_flash = ZB_FALSE;
+    zb_uint16_t scanId;
+    zb_nvram_dataset_hdr_t scanHdr;
+    int rd;
+
+    for (scanId = 0; scanId < ZB_NVRAM_DATASET_NUMBER; scanId++) {
+      /* For a dataset, nvsId == dataset_type (NVSID_TO_DATASETTYPE identity). */
+      if (!zb_nvram_dataset_is_encrypted(scanId)) {
+        continue;
+      }
+      rd = nvs_read(&gc_flash_nvram.fs, scanId, &scanHdr, sizeof(scanHdr));
+      if (rd >= (int)sizeof(scanHdr)) {
+        /* A real encrypted dataset header still lives in flash. */
+        enc_data_in_flash = ZB_TRUE;
+        break;
+      }
+    }
+
+    if (enc_data_in_flash == ZB_FALSE) {
+      /* No encrypted dataset remains anywhere in flash -> genuine full wipe. */
+      (void)zb_ele_master_key_reset();
+    } else {
+      WCS_TRACE_INFO("%s(page=%d): routine page erase, keep ELE master key "
+                     "(encrypted dataset still in flash)", __FUNCTION__, page);
+    }
   }
 #endif
 

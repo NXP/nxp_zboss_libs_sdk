@@ -8,13 +8,3 @@ project(on_off_output_zc)
 target_sources(app PRIVATE
 	       src/on_off_output_zc.c
 	       )
-set(DEVICE_TYPE zc)
-
-# Add zboss library
-include(${CMAKE_CURRENT_SOURCE_DIR}/../../libs/CMakeLists.txt)
-
-target_link_libraries(app PUBLIC
-	       libzboss
-	       libieee.mac
-	       )
-

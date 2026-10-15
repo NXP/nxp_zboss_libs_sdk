@@ -9,13 +9,3 @@ target_sources(app PRIVATE
 	       src/bulb.c
 	       src/bulb_hal.c
 	       )
-set(DEVICE_TYPE zr)
-
-# Add zboss library
-include(${CMAKE_CURRENT_SOURCE_DIR}/../../libs/CMakeLists.txt)
-
-target_link_libraries(app PUBLIC
-	       libzboss
-	       libieee.mac
-	       )
-
